@@ -1,0 +1,306 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>7.11. Starteam CLI Wrapper</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="steam-howto.html" title="7. Starteam Howto">
+<link rel="prev" href="built.html" title="7.10. Nightly Build和测试">
+<link rel="next" href="integration.html" title="7.12. StarTeam 与 常用开发工具整合">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">7.11. Starteam CLI Wrapper</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="built.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">7. Starteam Howto</th>
+<td width="20%" align="right"> <a accesskey="n" href="integration.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="starteam-cli"></a>7.11. Starteam CLI Wrapper</h3></div></div></div>
+<p>
+stcmd 是 starteam 的命令行工具，基于 java。因此运行 stcmd，首先需要建立
+java 环境。对于 OpenBSD 系统，要Enable FreeBSD Compatible，再安装 Jave
+虚拟机。
+</p>
+<p>
+Starteam 的功能远远弱于其图形界面，而且命令行参数复杂，难于使用。我们
+用 SHELL 包装了一层：“st”，采用类似 CVS 的命令行。
+</p>
+<p>
+理解 .starteam.ini
+</p>
+<pre class="screen">
+# .starteam.ini 通过命令 st config 生成
+# StarTeam Configuration: /usr/project/branch2/release/.starteam.ini
+STUSER="releng"
+STPASSWDFILE="/project/.relfw.passwd"
+STSERVER="10.1.1.60"
+STPORT="49201"
+STWORKROOT="/usr/project/branch2/release"
+STPROJECT="project"
+STVIEW="branch_2_0"
+STFOLDER=""
+STCFGD=""
+STCFGL=""
+STCFGP="release"
+</pre>
+<p>
+st 的参数及使用方法
+</p>
+<pre class="screen">
+StarTeam command line emulator, $Revision$, by YZW,JX
+
+Usage: st [st_options] [st_command] [command_options] [command_args]
+    st      
+            The name of the starteam wrapper
+    st_options
+            Some options that affect all sub-command of st.
+    st_command
+            One of several different sub-commands.
+    command_options
+            Options that are specific for the command.
+    command_args
+            Arguments to the commands.
+    
+    Global options
+    =============================================
+    -h      help
+    -V      show version
+    -r      readonly
+    -w      readwrite
+    -v      verbose, show version info. (--nv : no verbose)
+    -z      compress during tranfer. (--nz : not compress)
+    -q      a bit quiet mode. only show difference.
+    -qq     more  quiet mode. more quiet then -q. 
+            (not show status "Not In View" and folder info)
+    -Q      most  quiet mode. output nothing. 
+            (--nq: not quiet is default)
+    --eol    set eol(symbol of end-of-line) to platform specific. 
+            CR on unix, CR/LF on windows. (--neol : leave eol aside)
+    -I      Interactive mode. (    --nI / --batch : Batch mode.)
+    -S / -s    
+            Stop on error./ No Stop.
+    --exitcode
+            On Error return 1, success return 0. 
+            Conflict with -q and -qq
+    
+    Command Options
+    =============================================
+    -f      Force. Force starteam to ci/co a new revision even if you 
+            haven't made any changes to the file. _'
+    -l      Local; run only in current working directory, rather than 
+            recursing through subdirectories.
+    -R      Process directories recursively.
+    -m message
+            Use message as log information, instead of invoking an editor.
+    -D date spec
+            Use the most recent revision no later than date spec. 
+            date spec is a single argument, a date description specifying 
+            a date in the past.
+    --lock / --unlock
+            Lock files./Unlock files.
+    -r tag
+            Use the revision specified by the tag argument instead of the
+            default head revision.
+    
+    Commands
+    =============================================
+    
+    help
+    ----------------------------------------
+    Syntax:    st help
+        Show this screen.
+
+    config
+    ----------------------------------------
+    Syntax:    st config
+        Maybe the first command you run. Configure INI file.
+
+        Truth behind "st config". Only for smart boys/girls:
+            After running this configuration, a config file, .starteam.ini
+            will be created under current directory.
+            There several KeyValue pairs.
+
+                STUSER  :       login name for starteam user
+                STSERVER:       ip address of starteam server
+                STPORT  :       tcp port of starteam server
+                STPROJECT:      project name you want to check in/out
+                STVIEW  :       view    name you want to check in/out
+                STFOLDER:       folder name of the view you want to check
+                STCFGD  :       check out base on Date.
+                                Date format:
+                                        "12/29/97 10:52 AM"
+                                        "29-Dec-97 10:52:00 AM"
+                                        "December 29, 1997 10:52:00 AM PST"
+                                        "Monday, December 29, 1997 10:52:00 
+                                                oclock AM PST"
+                STCFGL  :       check out base on Label
+                STCFGP  :       check out base on Promotion State
+                STWORKROOT:     the root of your working dir
+                
+
+
+    default
+    ----------------------------------------
+    Syntax:    st default
+        Show default params
+
+    add
+    ----------------------------------------
+    Syntax:    st [global_opts] add [--lock|--unlock|--nelock] [-m "message"] 
+                [--vl "label"] [files...]
+        Add files to version control
+
+    import    (add-folder)
+    ----------------------------------------
+    Syntax:    st [global_opts] import [--ex "excludeType"][--exlist "fileMask" |
+                 --exfile "fileName"] [foldername...]
+        Add directory.
+
+    ci    (commit / checkin)
+    ----------------------------------------
+    Syntax:    st [global_opts] ci [--filter ...] [--lock|--unlock] [-m "comment"]
+                [--force] [--necessary] &lt;files...&gt;
+        Check in files from local to server.
+
+    co    (checkout / update / up)
+    ----------------------------------------
+    Syntax:    st [global_opts] co [--lock|--unlock] [-r revision] [--nessary] 
+                [--touch][--merge [--dryrun|--alwaysprompt|--neverprompt|
+                --conflictprompt] &lt;files...&gt;
+        Check out files from server to local.
+
+    checkdir (cd)
+    ----------------------------------------
+    Syntax:    st [global_opts] cd &lt;directory...&gt;
+        Check out the Directory structure, but no files.
+
+    diff
+    ----------------------------------------
+    Syntax:    st [global_opts] diff [-r revision] [--filter ...] &lt;files...&gt;
+        differ.
+
+    list
+    ----------------------------------------
+    Syntax:    st list &lt;files...&gt;
+        List files. Show file size and status.
+
+    log    (history)
+    ----------------------------------------
+    Syntax:    st [global_opts] diff [-r revision] [--filter ...] &lt;files...&gt;
+        Show logs.
+
+    status
+    ----------------------------------------
+    Syntax:    st status
+        Update file status.
+
+    tag    (lable / apply-label)
+    ----------------------------------------
+    Syntax:    st [global_opts] tag [--filter "fileStatus"] 
+                [--vl "labelName"|--vd "asOfDate"|--vn revision]
+                --label "labelName" [files...]
+        Apply a already exist lable to file(s).
+
+    describe (dsc)
+    ----------------------------------------
+    Syntax:    st dsc -m "message" &lt;files&gt;
+        Change the desciption of file(s).
+
+    release    (remove /rm)
+    ----------------------------------------
+    Syntax:    st [global_opts] rm [--filter ...] &lt;files...&gt;
+        Remove Local files.
+
+    remove-repos (rm-repos)
+    ----------------------------------------
+    Syntax:    st [global_opts] rm-repos [--filter ...] &lt;files...&gt;
+        Remove files from version control.
+
+    undelete
+    ----------------------------------------
+    Syntax:    st undelete
+        Only be can be done in GUI mode.
+
+    lock
+    ----------------------------------------
+    Syntax:    st lock 
+        Lock and Unlock files.
+
+    mk-build-label
+    ----------------------------------------
+    Syntax:    st mk-build-label
+        Make a build label.
+
+    mk-revision-label
+    ----------------------------------------
+    Syntax:    st mk-revision-label
+        Make a revision label.
+
+    mk-view-label
+    ----------------------------------------
+    Syntax:    st mk-view-label
+        Make a view label.
+
+    admin
+    ----------------------------------------
+    Syntax:    st admin --server &lt;server&gt; --pwdfile &lt;pwdfile&gt; [lock|unlock]
+        Server admistration command. Lock/Unlock server.
+
+
+    update this script and other scripts:
+        st getst
+        st putst
+
+    Filters:
+        C: Current
+        G: Merge
+        I: Missing
+        M: Modified
+        N: Not in view
+        O: Out Of Date
+        U: Unknown
+"st getst" : Update your st immediately.
+
+</pre>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="built.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="steam-howto.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="integration.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">7.10. Nightly Build和测试 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 7.12. StarTeam 与 常用开发工具整合</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

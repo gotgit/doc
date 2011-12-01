@@ -1,0 +1,252 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>B. Oracle安装经验</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="Website Construction Howto">
+<link rel="up" href="index.html" title="Website Construction Howto">
+<link rel="prev" href="mysql-security.html" title="A.4. Security">
+<link rel="next" href="append-apache.html" title="C. Apache配置">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">B. Oracle安装经验</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="mysql-security.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="append-apache.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="append-oracle"></a>B. Oracle安装经验</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+建立dba组oinstall组及oracle用户                                                                                                                                            
+</p>
+<pre class="screen">
+#groupadd  dba
+#groupadd  oinstall
+#useradd -g oinstall -G dba oracle
+#passwd oracle
+</pre>
+</li>
+<li>
+<p>
+建立oracle 安装点目录
+</p>
+<pre class="screen">
+# mkdir  /db/oracle
+# chown  oracle:oinstall  oracle
+</pre>
+</li>
+<li>
+<p>
+建立oracle用户环境
+</p>
+<pre class="screen">
+#在 .bash_profile 文件中加入：
+ORACLE_HOME=/db/oracle ;export ORACLE_HOME
+LD_LIBRARY_PATH=$ORACLE_HOME/lib ;export LD_LIBRARY_PATH
+PATH=$PATH: $ORACLE_HOME/bin ；export PATH
+ORACLE_BASE=$ORACLE_HOME; export ORACLE_BASE
+ORACLE_SID=ORC1 ;export ORACLE_SID
+NLS_LANG= "FRENCH_FRANCE.WE8ISO8859P1" ;export NLS_LANG
+Umask  022
+</pre>
+</li>
+<li>
+<p>
+安装过程
+</p>
+<pre class="screen">
+以oracle 用户登录运行 
+$startx
+在Xwindows中run  /mnt/cdrom/.runInstaller
+1． WELCOME 页中选  next
+2． FILE  LOCATIONS页中若Destination...  path为/db/oracle  选 next
+3． UNIX GROUP NAME 页中输入UNIX Group Name: oinstall  选 next 
+4． 弹出一个提示窗要求以root run  /db/oracle/orainstRoot.sh 
+打开一个terminal ,#su ,#orainstRoot.sh   此shell 
+create Oracle Inventory pointer file (/etc/oraInst.loc) 
+create groupname of /db/oracle/oraInventory to oinstall
+then  press  retry
+5． Available Products 页中选 Oracle8i Enterprise Edition 8.1.6.1.0选 next
+6． Installation Types  页中选 Typical(540MB)                选 next
+7． Database Identification页中输入 Global Database Name: orc1.est.com.cn 
+SID: orc1  
+选 next
+8. Database File Location 页中通过Browse或input  Directory for Database Files: /db/oracle
+选 next
+9. Summary 页中  选 Install
+10. Install 页  安装过程中弹出Setup Privileges 窗口要求run  /db/oracle/root.sh
+打开一个terminal ,#su ,#root.sh   此shell 
+create /etc/oratab file and set 
+ORACLE_OWNER=oracle
+ORACLE_HOME = /db/oracle
+ORACLE_SID= orc1 
+then    选next 
+11. Configuration Tools  页 完成安装。
+12. Web Server(Apache) support
+修改/www/apache/bin/apachectl脚本,使启动支持中文ORACLE环境:
+在文件中67行("start)")下面加入几行:
+export ORACLE_HOME=/db/oracle
+export ORACLE_BASE=$ORACLE_HOME
+export ORACLE_SID=ORC1
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+;export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data
+;export NLS_LANG="SIMPLIFIED CHINESE_CHINA.ZHS16CGB231280"
+export NLS_LANG="FRENCH_FRANCE.WE8ISO8859P1"
+
+</pre>
+</li>
+<li>
+<p>
+安装完成以后修改 /etc/oratab 中
+</p>
+<pre class="screen">
+orc1：/db/oracle:N  为   orc1:/db/oracle:Y
+修改 /db/oracle/bin/dbstart  中85行
+/PL\/SQL (Release|Version)/{substr($3,1,3) ;
+print substr($3,1,3)}'`
+ 为 /Edition Release/ {substr($5,1,3) ;
+    print substr($5,1,3)}'` 
+     注意：不可插入多余的字符，最好在修改模式下进行，否则可能会造成不能启动。
+</pre>
+</li>
+<li>
+<p>
+启动ORACLE
+</p>
+<pre class="screen">
+以oracle 登录 run
+lsnrctl   start  listener
+dbstart 
+</pre>
+</li>
+<li>
+<p>
+自动启动ORACLE
+</p>
+<pre class="screen">
+建立脚本 /etc/rc.d/init.d/oracle8i  ; chmod +x ;内容如下：
+;*************start  *************
+ORA_HOME=/db/oracle
+ORA_OWNER=oracle
+
+case "$1" in
+
+'start')
+echo -n "Starting Oracle8i Release 2: "
+su - $ORA_OWNER -c $ORA_HOME/bin/dbstart 
+touch /var/lock/subsys/oracle8i
+echo 
+
+;;
+
+'stop')
+
+echo -n "Shutting down Oracle8i Release 2:"
+su - $ORA_OWNER -c $ORA_HOME/bin/dbshut 
+rm -f /var/lock/subsys/oracle8i
+echo
+
+;;
+'restart')
+echo -n "Restarting Oracle8i Release 2:"
+$0 stop
+$0 start
+echo 
+
+;;
+
+*)
+echo "Usage: oracle8i { start | stop | restart }"
+exit 1
+
+esac
+exit 0
+;***************end ****************
+建立链接 ln -s /etc/rc.d/init.d/oracle8i  /etc/rc.d/rc0.d/K10oracle8i    ;Runlevel 0 是 HALT
+建立链接 ln -s /etc/rc.d/init.d/oracle8i  /etc/rc.d/rc6.d/K10oracle8i    ;Runlevel6 是 reboot
+建立链接 ln -s /etc/rc.d/init.d/oracle8i  /etc/rc.d/rc3.d/S99oracle8i    ;Runlevel3 是 缺省运行级别
+
+此时listener 还没运行，需运行 lsnrctl   start  listener  
+或则在dbstart 开始处加入此命令。
+至此以oracle 用户登录就可以发现oracle 和 listener 都已启动。
+
+注意：
+若脚本名字不是oracle8i 则相应的修改下列行中的脚本名
+touch /var/lock/subsys/oracle8i
+rm -f /var/lock/subsys/oracle8i
+</pre>
+</li>
+<li>
+<p>
+其它：修改字符集
+</p>
+<pre class="screen">
+附录：
+ORACLE中修改字符集( 用此方法也可修改全局数据库名)
+Backup your database
+Svrmgrl
+Connect internal
+Update props$ set value$=' WE8ISO8859P1'         ;划线部分必须大写
+Where name='NLS_CHARACTERSET';            ;划线部分必须大写
+Commit
+Shutdown
+Startup
+Exit
+
+常用字符集代码
+SIMPLIFIED CHINESE_CHINA.ZHS16GBK
+
+NLS_LANG = AMERICAN_AMERICA.US7ASCII
+or 
+NLS_LANG = FRENCH_FRANCE.WE8ISO8859P1
+or 
+NLS_LANG = FRENCH_CANADA.WE8DEC
+or 
+NLS_LANG = JAPANESE_JAPAN.JA16EUC
+</pre>
+</li>
+</ol></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="mysql-security.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="append-apache.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">A.4. Security </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> C. Apache配置</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

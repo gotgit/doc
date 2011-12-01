@@ -1,0 +1,606 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Makefile Howto//mm2html.xsl FreemindVersion:0.8.0</title><style>
+                body{
+                font-size:10pt;
+                color:rgb(0,0,0);
+                backgound-color:rgb(255,255,255);
+                font-family:sans-serif;
+                }
+                p.info{
+                font-size:8pt;
+                text-align:right;
+                color:rgb(127,127,127);
+                }
+                </style></head><body><script type="text/javascript" src="/docbook/includes/js/header.js"></script><script type="text/javascript">
+              write_header("/docbook");
+            </script><h1>Makefile Howto</h1><p>
+
+<ul><li><a name="Freemind_Link_1431891543"></a><span style="">Makefile Howto</span>
+<ul><li><a name="Freemind_Link_910196632"></a><span style="">入门</span>
+<ul><li><a name="Freemind_Link_678023707"></a><span style="">Why called Makefile</span>
+<ul><li><a name="Freemind_Link_798852186"></a><span style="">make 命令依次查找如下文件  `GNUmakefile', `makefile' and `Makefile'</span></li></ul>
+<ul><li><a name="Freemind_Link_1108820418"></a><span style="">GNUmakefile 可能不被非 gnu 的 make 识别</span></li></ul>
+<ul><li><a name="Freemind_Link_818796043"></a><span style="">之所以用 Makefile，因为显示文件列表排在最前</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_934019834"></a><span style="">Makefile 规则介绍</span>
+<ul><li><a name="Freemind_Link_1650081473"></a><span style=""> target ... : prerequisites ...
+        command
+        ...</span></li></ul>
+<ul><li><a name="Freemind_Link_638579396"></a><span style="">命令前面是一个 Tab 制表符，而不是空格！</span></li></ul>
+<ul><li><a name="Freemind_Link_581364213"></a><span style="">目标和依赖都可以是多个</span></li></ul>
+<ul><li><a name="Freemind_Link_1310476143"></a><span style="">依赖也可以为空。例如 clean 不需要依赖任何文件</span></li></ul>
+<ul><li><a name="Freemind_Link_1318069725"></a><span style="">依赖可以决定 target 是否 outofdate，命令告诉如何生成 target</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1947240579"></a><span style="">变量</span>
+<ul><li><a name="Freemind_Link_1304048960"></a><span style="">变量定义，如：</span>
+<ul><li><a name="Freemind_Link_421066226"></a><span style="">objects = main.o kbd.o command.o display.o \
+          insert.o search.o files.o utils.o
+
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_808684421"></a><span style="">变量引用，如：$(objects)</span></li></ul>
+<ul><li><a name="Freemind_Link_1781219115"></a><span style="">如果要显示 $ 字符，则可以 $$</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1190546999"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_1429853225"></a><span style=""> objects = main.o kbd.o command.o display.o \
+          insert.o search.o files.o utils.o
+
+edit : $(objects)
+        cc -o edit $(objects)
+
+$(objects) : defs.h
+kbd.o command.o files.o : command.h
+display.o insert.o search.o files.o : buffer.h
+
+ .PHONY : clean
+clean :
+        -rm edit $(objects)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1996671203"></a><span style="">进阶</span>
+<ul><li><a name="Freemind_Link_980301528"></a><span style="">Makefile 的五大要素</span>
+<ul><li><a name="Freemind_Link_1016155821"></a><span style="">显示规则</span></li></ul>
+<ul><li><a name="Freemind_Link_1674255780"></a><span style="">隐含规则</span></li></ul>
+<ul><li><a name="Freemind_Link_1951638169"></a><span style="">变量定义</span></li></ul>
+<ul><li><a name="Freemind_Link_217306196"></a><span style="">指令</span></li></ul>
+<ul><li><a name="Freemind_Link_1249136184"></a><span style="">注视</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1743082410"></a><span style="">5-1. 显示规则</span>
+<ul><li><a name="Freemind_Link_39372801"></a><span style="">指定目标以及该目标的依赖，以及生成目标文件的命令</span></li></ul>
+<ul><li><a name="Freemind_Link_981390483"></a><span style="">格式</span>
+<ul><li><a name="Freemind_Link_101086756"></a><span style="">命令另起一行，首字符是 tab</span>
+<ul><li><a name="Freemind_Link_872936815"></a><span style=""> target ... : prerequisites ...
+        command
+        ...</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_971497395"></a><span style="">命令可以和 依赖处于同一行，分号隔开</span>
+<ul><li><a name="Freemind_Link_518221838"></a><span style="">targets : prerequisites ; command
+        command
+        ...</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1922706868"></a><span style="">依赖</span>
+<ul><li><a name="Freemind_Link_1137583917"></a><span style="">normal prerequisites </span>
+<ul><li><a name="Freemind_Link_762895811"></a><span style="">作用1：指定编译顺序，先执行依赖本身的编译，之后再执行目标的编译</span></li></ul>
+<ul><li><a name="Freemind_Link_911269465"></a><span style="">作用2：确定依赖关系，根据依赖文件于目标文件的时间戳对比，确认是否 outofdate</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_714228224"></a><a style="" href="#Freemind_Link_1150923028">order-only prerequisites</a>
+
+<ul><li><a name="Freemind_Link_1281506018"></a><span style="">格式：targets : normal-prerequisites | order-only-prerequisites
+即用竖线分隔开普通依赖和顺序依赖</span></li></ul>
+<ul><li><a name="Freemind_Link_1236624748"></a><span style="">顺序依赖只起到前述的作用1，而不会影响 target 的 update 状态</span></li></ul>
+<ul><li><a name="Freemind_Link_1955539478"></a><span style="">也不会影响自动变量 $^  等</span>
+<ul><li><a name="Freemind_Link_366020681"></a><span style="">例如 DocBook Makefile</span>
+<ul><li><a name="Freemind_Link_785076123"></a><span style="">autolayout.xml: layout.xml | docbook.test</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1150923028"></a><span style="">测试一下</span>
+<ul><li><a name="Freemind_Link_538227266"></a><span style="">test : 1.xxx 2.xxx | 3.xxx
+	@echo "test depends: $^"
+%.xxx :
+	@echo "now make target: $@"
+
+执行 make -n test 将显示
+
+echo "now make target: 1.xxx"
+echo "now make target: 2.xxx"
+echo "now make target: 3.xxx"
+echo "test depends: 1.xxx 2.xxx"</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1532269422"></a><span style="">5-2. 隐含规则</span>
+<ul><li><a name="Freemind_Link_1956578597"></a><span style="">built-in 隐含规则</span>
+<ul><li><a name="Freemind_Link_93792663"></a><span style="">隐含的 C 规则</span>
+<ul><li><a name="Freemind_Link_1609298549"></a><span style="">*.c 文件生成 *.o 文件，使用命令 $(CC) -c $(CPPFLAGS) $(CFLAGS)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_954637615"></a><span style="">隐含的 C++ 规则</span>
+<ul><li><a name="Freemind_Link_340384372"></a><span style="">*.cc/*.C 文件生成 *.o 文件，使用命令 $(CXX) -c $(CPPFLAGS) $(CXXFLAGS)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1549110961"></a><span style="">隐含的 Pascal 规则</span>
+<ul><li><a name="Freemind_Link_1186746886"></a><span style="">*.p 文件生成 *.o 文件，使用命令 $(PC) -c $(PFLAGS)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1139878027"></a><span style="">链接目标文件规则</span>
+<ul><li><a name="Freemind_Link_720806729"></a><span style="">将目标文件 *.o 链接为可执行文件，命令: $(CC) $(LDFLAGS) *.o $(LOADLIBES) $(LDLIBS)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_264175333"></a><span style="">自定义模式规则（Pattern Rules ）</span>
+<ul><li><a name="Freemind_Link_91182661"></a><span style="">例如</span>
+<ul><li><a name="Freemind_Link_1394821087"></a><span style="">  %.o : %.c
+        $(CC) -c $(CFLAGS) $(CPPFLAGS) $&lt; -o $@</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_29248870"></a><span style="">  % :: RCS/%,v
+        $(CO) $(COFLAGS) $&lt;</span></li></ul>
+<ul><li><a name="Freemind_Link_1676467242"></a><span style="">%.tab.c %.tab.h: %.y
+        bison -d $&lt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_96030000"></a><span style="">自定义的模式规则，可以替代自带的隐含规则</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_583108190"></a><span style="">5-3. 变量定义</span>
+<ul><li><a name="Freemind_Link_90813049"></a><span style="">变量</span>
+<ul><li><a name="Freemind_Link_827990075"></a><span style="">大小写敏感</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1929955754"></a><span style="">变量定义的
+几种风格</span>
+<ul><li><a name="Freemind_Link_1541454135"></a><span style="">风格1: 递归扩展变量
+（recursively expanded variable）</span>
+<ul><li><a name="Freemind_Link_826004040"></a><span style="">变量定义格式是，变量和值之间用等号，即 =</span></li></ul>
+<ul><li><a name="Freemind_Link_1348743050"></a><span style="">例如：</span>
+<ul><li><a name="Freemind_Link_399018714"></a><span style="">
+foo = $(bar)
+bar = $(ugh)
+ugh = Huh?
+all:;echo $(foo)
+
+</span>
+<ul><li><a name="Freemind_Link_37929262"></a><span style="">将显示  Huh?</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1564442216"></a><span style="">再例如:</span>
+<ul><li><a name="Freemind_Link_1604731632"></a><span style="">CFLAGS = $(include_dirs) -O
+include_dirs = -Ifoo -Ibar
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_562636169"></a><span style="">缺点是不能这么定义：CFLAGS = $(CFLAGS) -O  ，将会死循环</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_617211483"></a><span style="">风格2: 简单扩展变量
+（simply expanded variables）</span>
+<ul><li><a name="Freemind_Link_1435293478"></a><span style="">变量定义格式是，变量和值之间用冒号等号，即 :=</span></li></ul>
+<ul><li><a name="Freemind_Link_668388604"></a><span style="">例如</span>
+<ul><li><a name="Freemind_Link_145684666"></a><span style="">x := foo
+y := $(x) bar
+x := later
+
+等价于:
+
+y := foo bar
+x := later</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_333920967"></a><span style="">另外 ?= 含义为：没有定义则赋值</span>
+<ul><li><a name="Freemind_Link_1141688710"></a><span style=""> FOO ?= bar
+
+等价于
+
+ifeq ($(origin FOO), undefined)
+  FOO = bar
+endif</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_467248351"></a><span style="">+= 是为变量后面追加字符</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1654157743"></a><a style="" href="#Freemind_Link_592325206">变量替换</a>
+
+<ul><li><a name="Freemind_Link_600835395"></a><span style="">$(var:a=b)，是将 var 变量中每一个单词后面的 a 替换为 b</span>
+<ul><li><a name="Freemind_Link_140974031"></a><span style="">$(var:suffix=replacement)
+
+等价于
+
+$(patsubst %suffix,%replacement,$(var))</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1963856452"></a><span style="">$(foo:%.o=%.c) ，由于出现了 %， 其功能和 patsubst 等价</span>
+<ul><li><a name="Freemind_Link_1877916484"></a><span style="">$(var:pattern=replacement)
+
+等价于
+
+$(patsubst pattern,replacement,$(var))
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_251846050"></a><span style="">变量计算</span>
+<ul><li><a name="Freemind_Link_1227824980"></a><span style="">$($(var))</span></li></ul>
+<ul><li><a name="Freemind_Link_115219766"></a><span style="">如</span>
+<ul><li><a name="Freemind_Link_147609558"></a><span style="">x = $(y)
+y = z
+z = Hello
+a := $($(x))</span></li></ul>
+<ul><li><a name="Freemind_Link_482082097"></a><span style="">x = y
+y = z
+z = u
+a := $($($(x)))</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_298094380"></a><span style="">通配符变量</span>
+<ul><li><a name="Freemind_Link_389370957"></a><span style="">如果在变量定义中使用通配符，objects = *.o  ，并不能展开通配符，*.o 被当做3个字符的字符串</span></li></ul>
+<ul><li><a name="Freemind_Link_1858450495"></a><span style="">如下格式定义：  objects := $(wildcard *.o)  </span></li></ul>
+<ul><li><a name="Freemind_Link_963311304"></a><span style="">使用函数，将 .c 文件转换为 .o 文件： $(patsubst %.c,%.o,$(wildcard *.c))   </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_851026436"></a><span style="">自动变量</span>
+<ul><li><a name="Freemind_Link_1361751790"></a><span style="">$@</span>
+<ul><li><a name="Freemind_Link_1056836539"></a><span style="">目标文件。当目标文件有多个，$@是触发规则的那个目标文件</span></li></ul>
+<ul><li><a name="Freemind_Link_329128851"></a><span style="">当目标文件是 archive member，$@是 archive file，$% 是member name</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_560279619"></a><span style="">$%</span>
+<ul><li><a name="Freemind_Link_1415817607"></a><span style="">当目标文件是 archive member，$@是 archive file，$% 是member name</span></li></ul>
+<ul><li><a name="Freemind_Link_1930948656"></a><span style="">例如 目标若是 foo.a(bar.o)，则 $%是 bar.o，$@是 foo.a</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_231530995"></a><span style="">$&lt;</span>
+<ul><li><a name="Freemind_Link_1117192211"></a><span style="">第一个依赖文件</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_340770908"></a><span style="">$?</span>
+<ul><li><a name="Freemind_Link_990800466"></a><span style="">比目标文件新的所有依赖文件，文件之间用空格分开</span></li></ul>
+<ul><li><a name="Freemind_Link_1934181871"></a><span style="">当依赖文件是 archive members，$? 是 member name</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1620144742"></a><span style="">$^</span>
+<ul><li><a name="Freemind_Link_1291635677"></a><span style="">所有依赖文件（包括比目标旧的依赖文件），文件之间用空格分开</span></li></ul>
+<ul><li><a name="Freemind_Link_1670430963"></a><span style="">当依赖文件是 archive members，$? 是 member name</span></li></ul>
+<ul><li><a name="Freemind_Link_210958766"></a><span style="">当一个文件在依赖列表中被罗列多次， $^ 只包含一次</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_661531194"></a><span style="">$＋</span>
+<ul><li><a name="Freemind_Link_1838576073"></a><span style="">很 $^ 类似。</span></li></ul>
+<ul><li><a name="Freemind_Link_1844292309"></a><span style="">当一个文件在依赖列表中被罗列多次， $+ 不同于 $^，包含多个</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1681297264"></a><span style="">$*</span>
+<ul><li><a name="Freemind_Link_507584333"></a><span style="">Patterns Match 中和目标文件匹配的部分</span></li></ul>
+<ul><li><a name="Freemind_Link_115505635"></a><span style="">如: 目标为 `dir/a.foo.b' 并且目标表达式为 `a.%.b，则 $* 返回匹配的部分： `dir/foo'</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1460724235"></a><span style="">$(@D), $(@F), $(*D), $(*F), 
+$(%D), $(%F), $(&lt;D), $(&lt;F), 
+$(^D), $(^F), $(+D), $(+F), 
+$(?D), $(?F)</span>
+<ul><li><a name="Freemind_Link_1798627322"></a><span style="">分别标识上述变量中的目录部分(D)，或者文件部分 (F)</span></li></ul>
+<ul><li><a name="Freemind_Link_4604589"></a><span style="">目录部分最后的 /，被删除</span></li></ul>
+<ul><li><a name="Freemind_Link_911600504"></a><span style="">如 `$(@F)' 等价于 `$(notdir $@)'.</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_460218445"></a><span style="">5-4. 指令</span>
+<ul><li><a name="Freemind_Link_1553923301"></a><span style="">include</span>
+<ul><li><a name="Freemind_Link_584049936"></a><span style="">包含其它文件</span></li></ul>
+<ul><li><a name="Freemind_Link_1638325533"></a><span style="">-include 含义为，如果被包含文件不存在，不报错</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_623471748"></a><span style="">条件判断</span>
+<ul><li><a name="Freemind_Link_1095902535"></a><span style="">ifeq(var1, var2) ... else ... endif</span>
+<ul><li><a name="Freemind_Link_167685193"></a><span style="">如果 var1, va2 相等</span></li></ul>
+<ul><li><a name="Freemind_Link_33561439"></a><span style="">ifeq ($(CC),gcc)
+        $(CC) -o foo $(objects) $(libs_for_gcc)
+else
+        $(CC) -o foo $(objects) $(normal_libs)
+endif
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_134808365"></a><span style="">ifneq "var1" "var2" ... else ... endif</span>
+<ul><li><a name="Freemind_Link_1851003943"></a><span style="">如果 var1, var2 不相等</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1573131738"></a><span style="">ifdef var ... else ... endif</span>
+<ul><li><a name="Freemind_Link_1533653849"></a><span style="">如果 var 不为空</span></li></ul>
+<ul><li><a name="Freemind_Link_1917891263"></a><span style="">例如</span>
+<ul><li><a name="Freemind_Link_398424108"></a><span style="">ifdef XML_CATALOG_FILES
+ENSURE_XSL = 
+else
+ENSURE_XSL = if ! test -e "$(TOOLS_DIR)/xsl"; \
+	     then $(TOOLS_DIR)/bin/find-xsl.py; fi
+endif
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_623023984"></a><span style="">ifndef variable-name</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_675282788"></a><span style="">定义包含多行文本的变量</span>
+<ul><li><a name="Freemind_Link_1880407380"></a><span style="">例如下面的指令，定义了包含两条 echo 命令的变量 two-lines</span>
+<ul><li><a name="Freemind_Link_370945549"></a><span style="">define two-lines
+echo foo
+echo $(bar)
+endef</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1943340349"></a><span style="">例如:</span>
+<ul><li><a name="Freemind_Link_660990854"></a><span style="">define run-yacc
+yacc $(firstword $^)
+mv y.tab.c $@
+endef
+
+foo.c : foo.y
+	$(run-yacc)
+
+ 
+</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1194961894"></a><span style="">5-5. 注释</span>
+<ul><li><a name="Freemind_Link_1493698346"></a><span style=""># 注释一行，\# 代表真正的 井号</span></li></ul>
+<ul><li><a name="Freemind_Link_1409032795"></a><span style=""># 注释行最后的 \ 字符，将会使下一行也成为注释</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1928202575"></a><span style="">规则中的命令</span>
+<ul><li><a name="Freemind_Link_709443633"></a><span style="">TAB 字符</span>
+<ul><li><a name="Freemind_Link_1635005626"></a><span style="">除了第一行命令可以于 target-and-prerequisites 同一行，用分号分隔外，都要在行首用 Tab 缩进。</span></li></ul>
+<ul><li><a name="Freemind_Link_690330439"></a><span style="">注释和空行被忽略。但要注意所谓空行，也要有一个 TAB 起始！</span></li></ul>
+<ul><li><a name="Freemind_Link_984112828"></a><span style="">条件指令不需要 有 Tab 起始？</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_999377850"></a><span style="">@ 字符</span>
+<ul><li><a name="Freemind_Link_1175078275"></a><span style="">执行命令，但不显示命令本身。@ 字符脱掉之后，传递给 Shell 执行</span></li></ul>
+<ul><li><a name="Freemind_Link_642093085"></a><span style="">make -s/--silent 可以起到同样效果</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1826979715"></a><span style="">\ 续行符</span>
+<ul><li><a name="Freemind_Link_1208615686"></a><span style="">位于行尾的 \ ，作为续行符</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_633844672"></a><span style="">cd 目录的作用范围</span>
+<ul><li><a name="Freemind_Link_1042983203"></a><span style="">cd命令，改变目录，不会影响后续命令的路径</span></li></ul>
+<ul><li><a name="Freemind_Link_1479860837"></a><span style="">除非和 cd 命令处于同一行，用分号分开</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1444533563"></a><span style="">- 忽略错误</span>
+<ul><li><a name="Freemind_Link_1955757405"></a><span style="">在 TAB 之后的减号 -， 将忽略该命令的错误</span></li></ul>
+<ul><li><a name="Freemind_Link_487648516"></a><span style="">如: </span>
+<ul><li><a name="Freemind_Link_1375149018"></a><span style="">  clean:
+        -rm -f *.o</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1456050159"></a><span style="">特殊目标：all</span>
+<ul><li><a name="Freemind_Link_1853125673"></a><span style="">执行 make 如果不指定目标，将执行第一个目标</span></li></ul>
+<ul><li><a name="Freemind_Link_1898029060"></a><span style="">多目标 Makefile，则可以将第一个目标定为 all，将其它目标作为其依赖，这样就可以执行所有目标编译，并指定编译顺序。</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_513150113"></a><span style="">Phony Targets</span>
+<ul><li><a name="Freemind_Link_1250414817"></a><span style="">clean:
+        rm *.o temp</span>
+<ul><li><a name="Freemind_Link_815187252"></a><span style="">clean 这样的 target 本身没有任何依赖，
+如果目录中存在名为 clean 的文件，则
+不再执行，因为认为 clean 的状态是更新的。</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_158406446"></a><span style="">.PHONY : clean </span>
+<ul><li><a name="Freemind_Link_861226530"></a><span style="">将 clean 加入 .PHONY ，则 clean 的执行不会收到存在同名文件的影响</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_153093299"></a><span style="">.PHONY : all clean</span>
+<ul><li><a name="Freemind_Link_1452277526"></a><span style="">像 all 这样拥有依赖目标的，也可以加入到 phony 中</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_294661125"></a><span style="">.PHONY 的替代方案 "FORCE"</span>
+<ul><li><a name="Freemind_Link_1976864543"></a><span style="">如: </span>
+<ul><li><a name="Freemind_Link_389933549"></a><span style="">clean: FORCE
+        rm $(objects)
+FORCE:</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_556078736"></a><span style="">有的 make 不支持 .PHONY，则可以定义一个不存在的目标，没有任何依赖，也没有任何命令，如 FORCE:</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1178924073"></a><span style="">FORCE 因为不存在，且没有任何依赖，其本身如果被当做依赖，则相应的目标必然执行。起到了 .PHONY 的作用</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="_"></a><span style="">函数</span>
+<ul><li><a name="Freemind_Link_294761510"></a><span style="">格式</span>
+<ul><li><a name="Freemind_Link_1984202538"></a><span style="">$(function arguments)   或者  ${function arguments}     </span></li></ul>
+<ul><li><a name="Freemind_Link_969722718"></a><span style="">function 和 arguments 之间空格分开</span></li></ul>
+<ul><li><a name="Freemind_Link_1138536329"></a><span style="">各个 argument 之间用冒号分开</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1734805802"></a><span style="">字符串函数</span>
+<ul><li><a name="Freemind_Link_59583942"></a><span style="">替换</span>
+<ul><li><a name="Freemind_Link_730005907"></a><span style="">$(subst from,to,text) </span>
+<ul><li><a name="Freemind_Link_1886584189"></a><span style="">子串替换。$(subst from,to,text) ，将 text 中出现的 from 用 to 替换</span></li></ul>
+<ul><li><a name="Freemind_Link_1693939686"></a><span style="">$(subst ee,EE,feet on the street)  </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_592325206"></a><span style="">$(patsubst pattern,replacement,text) </span>
+<ul><li><a name="Freemind_Link_1068821866"></a><span style="">$(patsubst %.c,%.o,x.c.c bar.c)  </span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1379539309"></a><span style="">去掉首尾空格</span>
+<ul><li><a name="Freemind_Link_1268310006"></a><span style="">$(strip string) </span>
+<ul><li><a name="Freemind_Link_194322825"></a><span style="">.PHONY: all
+ifneq   $(strip $(needs_made))  ""
+all: $(needs_made)
+else
+all:;@echo 'Nothing to make!'
+endif</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1539062174"></a><span style="">查找、过滤</span>
+<ul><li><a name="Freemind_Link_99487815"></a><span style="">$(findstring find,in)</span>
+<ul><li><a name="Freemind_Link_1377061704"></a><span style="">找到，则返回 find, 否则返回空串</span></li></ul>
+<ul><li><a name="Freemind_Link_1948816622"></a><span style="">如：</span>
+<ul><li><a name="Freemind_Link_644373541"></a><span style="">
+ $(findstring a,a b c)
+$(findstring a,b c)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1367043180"></a><span style="">$(filter pattern...,text) </span>
+<ul><li><a name="Freemind_Link_1211123542"></a><span style="">在 text 中查找匹配 pattern（可为多个）的单词</span></li></ul>
+<ul><li><a name="Freemind_Link_772962635"></a><span style="">如：</span>
+<ul><li><a name="Freemind_Link_287359314"></a><span style="">sources := foo.c bar.c baz.s ugh.h
+foo: $(sources)
+	cc $(filter %.c %.s,$(sources)) -o foo</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1656809828"></a><span style="">$(filter-out pattern...,text) </span>
+<ul><li><a name="Freemind_Link_1344715301"></a><span style="">和 filter 函数相反，在 text 中查找除了 pattern（可为多个）之外的单词</span></li></ul>
+<ul><li><a name="Freemind_Link_1556672899"></a><span style="">如：</span>
+<ul><li><a name="Freemind_Link_299245748"></a><span style="">objects=main1.o foo.o main2.o bar.o
+mains=main1.o main2.o
+
+$(filter-out $(mains),$(objects))</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1700277573"></a><span style="">排序、次序</span>
+<ul><li><a name="Freemind_Link_1125443152"></a><span style="">$(sort list) </span>
+<ul><li><a name="Freemind_Link_680807085"></a><span style="">如：   $(sort foo bar lose) </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_269129231"></a><span style="">$(words text) </span>
+<ul><li><a name="Freemind_Link_827221980"></a><span style="">返回 text 中单词数量</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1041555472"></a><span style="">$(word n,text) </span>
+<ul><li><a name="Freemind_Link_1690114181"></a><span style="">返回 text 中第几个单词，从1开始</span></li></ul>
+<ul><li><a name="Freemind_Link_1458826302"></a><span style="">$(word 2, foo bar baz)  </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_882168859"></a><span style="">$(wordlist s,e,text) </span>
+<ul><li><a name="Freemind_Link_158306977"></a><span style="">返回 text 中第s个到第e个单词</span></li></ul>
+<ul><li><a name="Freemind_Link_674133342"></a><span style="">$(wordlist 2, 3, foo bar baz)  </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1288657702"></a><span style="">$(firstword names...) </span>
+<ul><li><a name="Freemind_Link_1211013292"></a><span style="">返回第一个单词</span></li></ul>
+<ul><li><a name="Freemind_Link_1646905403"></a><span style="">例如：测试 DocBook XSLT 引擎</span>
+<ul><li><a name="Freemind_Link_431905618"></a><span style=""># XSLT=java \
+    -Djavax.xml.parsers.DocumentBuilderFactory=org.apache.xerces.jaxp.DocumentBuilderFactoryImpl \
+    ...
+XSLT=/usr/bin/xsltproc --nonet --timing
+
+ifeq ($(notdir $(firstword $(XSLT))),xsltproc)
+...
+else
+...
+endif</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1957051421"></a><span style="">联合</span>
+<ul><li><a name="Freemind_Link_1665348531"></a><span style="">$(join list1,list2) </span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1620387223"></a><span style="">文件名函数</span>
+<ul><li><a name="Freemind_Link_1082202467"></a><span style="">$(dir names...) </span>
+<ul><li><a name="Freemind_Link_1019296301"></a><span style="">返回的目录名包括最后的斜杠</span>
+<ul><li><a name="Freemind_Link_351806846"></a><span style="">如： $(dir src/foo.c hacks)  </span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_731952506"></a><a style="" href="#Freemind_Link_731952506">$(notdir names...) </a>
+
+<ul><li><a name="Freemind_Link_817371731"></a><span style="">返回文件名</span>
+<ul><li><a name="Freemind_Link_1329727880"></a><span style="">如：  $(notdir src/foo.c hacks)   </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_187388712"></a><a style="" href="#Freemind_Link_1646905403">例如</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1184660214"></a><span style="">$(suffix names...) </span>
+<ul><li><a name="Freemind_Link_899276150"></a><span style="">返回文件扩展名</span>
+<ul><li><a name="Freemind_Link_28484300"></a><span style="">如：$(suffix src/foo.c src-1.0/bar.c hacks)   返回 .c .c</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1907384195"></a><span style="">$(basename names...) </span>
+<ul><li><a name="Freemind_Link_1582103607"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">注意：此 basename 和 shell 的 basename 不同！返回去掉扩展名之后的文件名包含目录名。</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1658853306"></a><span style=""> $(basename src/foo.c src-1.0/bar hacks) 返回 src/foo src-1.0/bar hacks</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_449536649"></a><span style="">$(addsuffix suffix,names...) </span>
+<ul><li><a name="Freemind_Link_339495661"></a><span style="">为文件增加扩展名</span></li></ul>
+<ul><li><a name="Freemind_Link_388830432"></a><span style="">$(addsuffix .c,foo bar) </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_839802633"></a><span style="">$(addprefix prefix,names...) </span>
+<ul><li><a name="Freemind_Link_406286776"></a><span style="">增加前缀</span></li></ul>
+<ul><li><a name="Freemind_Link_473813292"></a><span style="">$(addprefix src/,foo bar)  </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1456427921"></a><span style="">$(join list1,list2) </span></li></ul>
+<ul><li><a name="Freemind_Link_101891168"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">$(wildcard pattern) </span>
+
+<ul><li><a name="Freemind_Link_1664110605"></a><span style="">展开通配符</span></li></ul>
+<ul><li><a name="Freemind_Link_1541011900"></a><span style="">例如</span>
+<ul><li><a name="Freemind_Link_698769618"></a><span style="">ALL_SOURCE := $(wildcard $(XML_SRCDIR)/*.xml)
+ALL_SOURCE := $(filter-out $(VERSION_SOURCE),$(ALL_SOURCE))
+
+# 如果不用 wildcard， $(ALL_SOURCE) 依然是 *.xml ，仍然包括 version.xml，造成循环依赖
+$(VERSION_SOURCE) : $(ALL_SOURCE)
+	... ...</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1725336706"></a><span style="">foreach</span>
+<ul><li><a name="Freemind_Link_150662886"></a><span style="">find_files = $(wildcard $(dir)/*)
+dirs := a b c d
+files := $(foreach dir,$(dirs),$(find_files))
+
+等价于
+
+files := $(wildcard a/* b/* c/* d/*)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_463985322"></a><span style="">call</span>
+<ul><li><a name="Freemind_Link_1030009919"></a><span style="">如：</span>
+<ul><li><a name="Freemind_Link_129482149"></a><span style="">reverse = $(2) $(1)
+foo = $(call reverse,a,b)</span></li></ul>
+<ul><li><a name="Freemind_Link_477911953"></a><span style="">pathsearch = $(firstword $(wildcard $(addsuffix /$(1),$(subst :, ,$(PATH)))))
+LS := $(call pathsearch,ls)</span></li></ul>
+<ul><li><a name="Freemind_Link_125721421"></a><span style="">map = $(foreach a,$(2),$(call $(1),$(a)))
+o = $(call map,origin,o map MAKE)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1848148367"></a><span style="">origin</span>
+<ul><li><a name="Freemind_Link_1174150831"></a><span style="">$(origin variable)  </span></li></ul>
+<ul><li><a name="Freemind_Link_940846032"></a><span style="">查看变量  variable 的来源，variable 不要带 $。
+返回值：undefined，default，environment，environment override，
+command line，override，automatic</span></li></ul>
+<ul><li><a name="Freemind_Link_1381078834"></a><span style="">如: DocBook Makefile 测试环境变量 XML_CATALOG_FILES</span>
+<ul><li><a name="Freemind_Link_1568983020"></a><span style="">docbook.test:
+ifeq "$(XML_CATALOG_FILES)" ""
+	$(error XML_CATALOG_FILES is blank!)
+endif
+ifeq "$(origin XML_CATALOG_FILES)" "undefined"
+	$(error XML_CATALOG_FILES is $(origin XML_CATALOG_FILES) !)
+endif
+</span>
+
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1121935112"></a><span style="">SHELL 函数</span>
+<ul><li><a name="Freemind_Link_714606345"></a><span style="">如</span>
+<ul><li><a name="Freemind_Link_1638965363"></a><span style="">contents := $(shell cat foo)
+files := $(shell echo *.c)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1075418567"></a><span style="">出错处理函数</span>
+<ul><li><a name="Freemind_Link_1929973967"></a><span style="">$(error text...) </span>
+<ul><li><a name="Freemind_Link_1848284693"></a><span style="">显示异常，并退出</span></li></ul>
+<ul><li><a name="Freemind_Link_1533642396"></a><span style="">如: DocBook Makefile 测试环境变量 XML_CATALOG_FILES</span>
+<ul><li><a name="Freemind_Link_310417428"></a><span style="">docbook.test:
+ifeq "$(XML_CATALOG_FILES)" ""
+	$(error XML_CATALOG_FILES is blank!)
+endif
+ifeq "$(origin XML_CATALOG_FILES)" "undefined"
+	$(error XML_CATALOG_FILES is $(origin XML_CATALOG_FILES) !)
+endif
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_204775136"></a><span style="">$(warning text...) </span>
+<ul><li><a name="Freemind_Link_833441888"></a><span style="">显示警告，不退出</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1262902379"></a><span style="">诊断、调试</span>
+<ul><li><a name="Freemind_Link_1183618005"></a><span style="">make -n</span>
+<ul><li><a name="Freemind_Link_417709776"></a><span style="">不执行命令，只是显示每条命令的执行</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1843934833"></a><span style="">@echo ...</span>
+<ul><li><a name="Freemind_Link_634274853"></a><span style="">打印消息</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1669194261"></a><span style="">$(error text...) </span>
+<ul><li><a name="Freemind_Link_581662703"></a><span style="">显示异常，并退出</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1999701553"></a><span style="">$(warning text...) </span>
+<ul><li><a name="Freemind_Link_1882277530"></a><span style="">显示警告，不退出</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_679529586"></a><span style="">Makefile Samples</span>
+<ul><li><a name="Freemind_Link_1067554209"></a><span style="">WHODO DocBook Makefile(s)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_548693933"></a><span style="">关于本文</span>
+<ul><li><a name="Freemind_Link_182605449"></a><span style="">版本</span>
+<ul><li><a name="Freemind_Link_1909676368"></a><span style="">v0.1 at 2005/08</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_827462667"></a><span style="">作者</span>
+<ul><li><a name="Freemind_Link_306056730"></a><span style="">J</span>
+<ul><li><a name="Freemind_Link_1139513322"></a><span style="">Jiang Xin</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</p><p class="info">Makefile Howto//mm2html.xsl FreemindVersion:0.8.0</p></body></html>

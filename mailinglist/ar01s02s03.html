@@ -1,0 +1,240 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.3. Moderated Majordomo List</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="majordomo.html" title="2. 用 majordomo 构建邮件列表">
+<link rel="prev" href="majordomo-config.html" title="2.2. 邮件列表的配置">
+<link rel="next" href="majordomo-usage.html" title="2.4. 邮件列表的使用">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.3. Moderated Majordomo List</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="majordomo-config.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. 用 majordomo 构建邮件列表</th>
+<td width="20%" align="right"> <a accesskey="n" href="majordomo-usage.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4501504"></a>2.3. Moderated Majordomo List</h3></div></div></div>
+<p>
+Moderated Majordomo List 就是受控的邮件列表，任何人向邮件列表发言前，先要经过审核。只需要在邮件列表的控制文件中如下修改：
+</p>
+<pre class="screen">
+moderate            =   yes
+moderator           =
+</pre>
+<p>
+确省的邮件组审核小组别名为：&lt;list&gt;-approval
+</p>
+<div class="qandaset">
+<dl>
+<dt>问： <a href="ar01s02s03.html#idp4504032">
+How do I approve a message on a moderated Majordomo list?
+[2]
+</a>
+</dt>
+<dt>问： <a href="ar01s02s03.html#idp4509808">
+How can I have more than one moderator/owner for a list?
+[1]
+</a>
+</dt>
+<dt>问： <a href="ar01s02s03.html#idp4513952">
+What steps are required to set up a list where:
+[1]
+</a>
+</dt>
+<dt>问： <a href="ar01s02s03.html#idp4521344">
+What steps are required to set up a list where:
+</a>
+</dt>
+</dl>
+<table border="0" summary="Q and A Set">
+<col align="left" width="1%">
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4504032"></a><a name="faq.mmj.approve"></a><b>问：</b>
+</td>
+<td align="left" valign="top">
+<p>
+How do I approve a message on a moderated Majordomo list?
+<sup>[<a name="fn.mmj.approve" href="#ftn.fn.mmj.approve">2</a>]</sup>
+</p>
+<p>
+I'm the list owner and I received a message that a post has bounced due to the
+list being moderated. What do I do to get it posted to the list?
+</p>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"><b>答：</b></td>
+<td align="left" valign="top">
+<p>
+You'll need to add two lines to the top of the message and resend it to your
+list address. The two lines are:
+</p>
+<p>
+<span><strong class="command">Approved: your-list-password</strong></span>
+</p>
+<p>
+followed by a blank line. It is important that the Approved: line is the first
+line in your new message, and that you have a blank line following the Approved
+line.
+</p>
+<p>
+You can forward the message, or resend it (if your email client has that option)
+You'll want to change the subject of the forwarded message to something other
+than Bounced....etc. If you resend the message it will appear to come from you,
+so you may want to include the actual author's email address in the message.
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4509808"></a><a name="faq.mmj.moremoderator"></a><b>问：</b>
+</td>
+<td align="left" valign="top"><p>
+How can I have more than one moderator/owner for a list?
+<sup>[<a href="#ftn.fn.mj.document">1</a>]</sup>
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"><b>答：</b></td>
+<td align="left" valign="top">
+<p>
+Again majordomo is your friend. Create a mailing list called "&lt;listname&gt;-owner". Again create it nonadvertised and closed. Set up the appropriate aliases for the list: 
+</p>
+<pre class="screen">
+	owner-listname::include:/usr/local/Lists/&lt;listname&gt;-owner
+	listname-owner:owner-listname
+	owner-owner-listname: owner-majordomo
+</pre>
+<p>
+and you are done. 
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4513952"></a><a name="faq.mmj.restsubs"></a><b>问：</b>
+</td>
+<td align="left" valign="top">
+<p>
+What steps are required to set up a list where:
+<sup>[<a href="#ftn.fn.mj.document">1</a>]</sup>
+</p>
+<p>
+* only the owners can subscribe new folks
+</p>
+<p>
+* only the owners can send messages to the list
+</p>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"><b>答：</b></td>
+<td align="left" valign="top">
+<p>
+Create listname.closed in the list directory.  Alias incoming list submissions to 
+go through "resend" with the -A and -a options.
+</p>
+<p>
+Rather than use listname.closed, set 
+</p>
+<p>
+<span><strong class="command">subscribe_policy = closed</strong></span>
+</p>
+<p>
+The -A flag is handed by setting:
+</p>
+<p>
+<span><strong class="command">moderate = yes</strong></span>
+</p>
+<p>
+and the -a &lt;password&gt; flag is handled using the
+</p>
+<p>
+<span><strong class="command">approve_passwd = &lt;some password&gt;</strong></span>
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4521344"></a><a name="idp4521600"></a><b>问：</b>
+</td>
+<td align="left" valign="top">
+<p>
+What steps are required to set up a list where:
+</p>
+<p>
+* only the owners can subscribe new folks
+</p>
+<p>
+* any subscribers can send to the list
+</p>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"><b>答：</b></td>
+<td align="left" valign="top">
+<p>
+Same as above, except leave of the -A and -a options.
+</p>
+<p>
+Simply set <span><strong class="command">moderate = no</strong></span>。
+</p>
+<p>
+The approval password can still be used to approve message bounced
+due to length restrictions or administrivia checks.
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="footnotes">
+<br><hr width="100" align="left">
+<div class="footnote"><p><sup>[<a name="ftn.fn.mmj.approve" href="#fn.mmj.approve">2</a>] </sup>来源：<a href="http://www.swcp.com/swcp-web/kb/kb-view.php?107" target="_top">SWCP Knowledge Base</a></p></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="majordomo-config.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="majordomo.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="majordomo-usage.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2.2. 邮件列表的配置 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2.4. 邮件列表的使用</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

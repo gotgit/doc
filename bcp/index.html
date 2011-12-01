@@ -1,0 +1,130 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>BCP (Basic)</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="BCP 不过是我在 2002 年听到的一个让人好奇的名字而已，本文主要涉及数据备份以及数据恢复等技术。拿出来与大家分享，一方面希望对大家有用，另外一方面看看大家是如何做备份的。 （编译自版本: fd1d52f，最后更新时间: 2011-12-01）">
+<link rel="start" href="index.html" title="BCP (Basic)">
+<link rel="next" href="preface.html" title="1. 前言">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">BCP (Basic)</th></tr>
+<tr>
+<td width="20%" align="left"> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="preface.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>BCP (Basic)</h1></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.2.0</td>
+<td align="left">2006/04/18</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">修改文档结构，补充 unision，版本控制系统等，提交文档到 WHODO。
+</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2002/10/26</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">init version for BCP.
+</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+BCP 不过是我在 2002 年听到的一个让人好奇的名字而已，本文主要涉及数据备份以及数据恢复等技术。拿出来与大家分享，一方面希望对大家有用，另外一方面看看大家是如何做备份的。
+</p>
+<p>
+（编译自版本: fd1d52f，最后更新时间: 2011-12-01）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="preface.html">1. 前言</a></span></dt>
+<dt><span class="sect1"><a href="bcp-basic.html">2. SSH 之 无口令认证</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="ar01s02s01.html">2.1. 无口令认证 SSH 如何实现的呢？</a></span></dt>
+<dt><span class="sect2"><a href="ar01s02s02.html">2.2. 第一步：在客户端创建自己的公钥－私钥对</a></span></dt>
+<dt><span class="sect2"><a href="ar01s02s03.html">2.3. 第二步，新生成的公钥拷贝到远程服务器</a></span></dt>
+<dt><span class="sect2"><a href="ar01s02s04.html">2.4. 第三步，在远程服务器中进行设置</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="mirror.html">3. 镜像，数据同步</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="rsync.html">3.1. sync 命令</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="rsync.html#idp4489216">3.1.1. 介绍</a></span></dt>
+<dt><span class="sect3"><a href="rsync.html#idp4490832">3.1.2. A Simple Example</a></span></dt>
+<dt><span class="sect3"><a href="rsync.html#idp4495328">3.1.3. Rsync over SSH</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="unison.html">3.2. unison 命令</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="unison.html#idp4501472">3.2.1. unison 命令行</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4510416">3.2.2. 常用参数</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4529760">3.2.3. 模式匹配</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4547968">3.2.4. 应用举例</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4559184">3.2.5. unison 配置文件</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4579152">3.2.6. FAQ</a></span></dt>
+</dl></dd>
+</dl></dd>
+<dt><span class="sect1"><a href="batch.html">4. 自动任务</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="crontab.html">4.1. Crontab</a></span></dt>
+<dt><span class="sect2"><a href="ar01s04s02.html">4.2. Windows计划任务</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="cygwin.html">5. 吉祥三宝——Cygwin 版</a></span></dt>
+<dt><span class="sect1"><a href="ar01s06.html">6. 建立个人的版本控制</a></span></dt>
+<dt><span class="sect1"><a href="ar01s07.html">7. 一键恢复：电脑的保护神</a></span></dt>
+</dl>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left"> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="preface.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top"> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right" valign="top"> 1. 前言</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

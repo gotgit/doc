@@ -1,0 +1,1954 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>开发规范参考</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="编程风格分强制和建议两种。 强制风格，意为一定需要遵守，推荐风格，意为希望程序员在编码时按照这样的风格。 （编译自版本: 9cc8997，最后更新时间: 2007-06-19）">
+<link rel="start" href="#index" title="开发规范参考">
+<link rel="next" href="#naming" title="2. 命名规范">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>开发规范参考</h1></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.9.1</td>
+<td align="left">2003/07/16</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">网友 falls huang 对变量命名提出修改意见。</td></tr>
+<tr>
+<td align="left">修订 0.9</td>
+<td align="left">2002/01/11</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">转换到 Docbook 格式</td></tr>
+<tr>
+<td align="left">修订 0.8</td>
+<td align="left">2001/10/24</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">增加编程规范</td></tr>
+<tr>
+<td align="left">修订 0.7</td>
+<td align="left">2001/08/23</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">用indent格式化</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>编程风格分强制和建议两种。
+</p>
+<p>强制风格，意为一定需要遵守，推荐风格，意为希望程序员在编码时按照这样的风格。
+</p>
+<p>
+（编译自版本: 9cc8997，最后更新时间: 2007-06-19）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#motto">1. 箴言</a></span></dt>
+<dt><span class="sect1"><a href="#naming">2. 命名规范</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#naming-version">2.1. 版本号命名</a></span></dt>
+<dt><span class="sect2"><a href="#naming-variable">2.2. 变量命名</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4485808">2.2.1. 规则</a></span></dt>
+<dt><span class="sect3"><a href="#idp4512704">2.2.2. 实例</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#naming-function">2.3. 函数命名</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4515488">2.3.1. 规则</a></span></dt>
+<dt><span class="sect3"><a href="#idp4518608">2.3.2. 实例</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#naming-tag">2.4. 版本控制系统的TAG/Label命名</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#format">3. 格式规范</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#general">3.1. 一般格式原则</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4575040">3.1.1. 规则</a></span></dt>
+<dt><span class="sect3"><a href="#idp4580688">3.1.2. 实例</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp4582240">3.2. 变量</a></span></dt>
+<dt><span class="sect2"><a href="#idp4586768">3.3. 函数</a></span></dt>
+<dt><span class="sect2"><a href="#comment">3.4. 注释</a></span></dt>
+<dt><span class="sect2"><a href="#indent">3.5. 用 indent 进行代码格式化</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4615264">3.5.1. introduce indent</a></span></dt>
+<dt><span class="sect3"><a href="#indent-opt">3.5.2. Indent参数规范</a></span></dt>
+</dl></dd>
+</dl></dd>
+<dt><span class="sect1"><a href="#makefile">4. Makefile</a></span></dt>
+<dt><span class="sect1"><a href="#docbook">5. 用DocBook来写文档</a></span></dt>
+<dt><span class="appendix"><a href="#appendix-indent">A. 不同编程风格参考</a></span></dt>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="motto"></a>1. 箴言</h2></div></div></div>
+<p>箴言警句一起共勉。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>程序设计绝对是一门艺术，而不仅仅是一门技术。
+</p></li>
+<li><p>首先程序设计的出发点是，是给别人看，可读、易理解、好维护，如果你的程序只能自己来维护，到你离开这个程序时，你程序也就与你一起离开了这个世界。
+</p></li>
+<li><p>为了可读、易理解、好维护，你的程序要有好的设计，而不是一接手就进行东抄抄、西抄抄的写代码工作。
+</p></li>
+<li><p>写代码是一个工程，程序设计是一种艺术；如果程序员只注重代码，那就象盖房子时的砌砖匠，只知道照图施工而已。世界那么多令人叹为观止的美丽建筑物，那是设计家的艺术杰作，而不是砌砖匠的艺术杰作。
+</p></li>
+<li><p>Keep It Easy Read and Right (from ibm readbooks)
+</p></li>
+<li>
+<p>Sometimes good style and efficient runtime performance do not mix. 
+Wherever you face a conflict between the two, choose good style. 
+Hard-to-read programs are
+</p>
+<p>
+</p>
+<pre class="screen">
+hard to debug, 
+        hard to maintain,
+                and hard to get right.
+</pre>
+<p>
+</p>
+</li>
+<li>
+<p>Program correctness must always win out over speed.
+</p>
+<p>Make it right before you make it faster.
+</p>
+<p>Keep it right when you make it faster.
+</p>
+<p>Make it clear before you make it faster.
+</p>
+<p>Do not sacrifice clarity for small gains in efficiency.
+</p>
+</li>
+<li>
+<p>Keep It Simle and Stupid
+</p>
+<pre class="screen">
+Knowledge Intergration is Supper Skill
+        What I hear I forget,
+                What I see I remember,
+                        What I do I understand.
+</pre>
+</li>
+<li><p>whatever style you use, please use it consistently, since a mixture of styles within one program tends to look ugly. If you are contributing changes to an existing program, please follow the style of that program. 
+</p></li>
+</ul></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="naming"></a>2. 命名规范</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="naming-version"></a>2.1. 版本号命名</h3></div></div></div>
+<p>
+Linux 下的系统开发，受到 Linux 核心编号的影响，很可能采用 &lt;主版本号&gt;.&lt;次版本号&gt;.&lt;修订号&gt; 来命名自己产品的编号。Linux 核心还有一个约定，就是如果次版本号是偶数（如0、2、4等），代表正式版本，如果次版本号是奇数(如1、3、5等)，代表的是开发过程中的测试版本。修订号则相当于 Build 号，用来标识一些小的改动。
+</p>
+<p>
+Windows 下的开发，则可能受到资源文件中 FILEVERSION，PRODUCTVERSION 定义的启发，采用四位版本号。
+</p>
+<p>
+但无论是类似 Linux 的三位版本号还是类似 Windows 程序的四位版本号，一定要能够从版本号反推出源代码的版本号。这就需要有完备的编译管理，使得版本号最后一位的编译号(build number)随每次编译能够自动加一，在 <a href="http://www.worldhello.net/doc/nightlybuild/" target="_top">《Nightly Build Howto》</a> 中有介绍。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="naming-variable"></a>2.2. 变量命名</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4485808"></a>2.2.1. 规则</h4></div></div></div>
+<p>
+变量（还包括宏）的命名规则，比较系统和彻底的有 Windows 编程中用到的匈牙利命名法。匈牙利命名法通过在变量名前面加上相应的小写字母的符号标识作为前缀，标识出变量的作用域，类型等。这些符号可以多个同时使用，顺序是先m_（成员变量），再指针，再简单数据类型，再其他。例如：m_lpszStr, 表示指向一个以0字符结尾的字符串的长指针成员变量。
+
+</p>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+有关匈牙利命名法的一点有意思的说明是它的名字的由来。这种命名技术是由一位能干的 Microsoft 程序员查尔斯·西蒙尼(Charles Simonyi) 提出的，他出生在匈牙利。在 Microsoft 公司中和他一起工作的人被教会使用这种约定。这对他们来说一切都很正常。但对那些 Simonyi 领导的项目组之外的人来说却感到很奇特，他们认为这是死板的表达方式，甚至说代有这样奇怪的外观是因为它是用匈牙利文写的。从此这种命名方式就被叫做匈牙利命名法。
+</p></td></tr>
+</table></div>
+<p>
+匈牙利命名法关键是：标识符的名字以一个或者多个小写字母开头作为前缀；前缀之后的是首字母大写的一个单词或多个单词组合，该单词要指明变量的用途。
+</p>
+<div class="segmentedlist">
+<div class="title"><strong><span class="title">匈牙利命名法中常用的小写字母的前缀</span></strong></div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>a      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>数组 (Array)                                  </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>b      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>布尔值 (Boolean)                              </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>by     </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>字节 (Byte)                                   </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>c      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>有符号字符 (Char)                             </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>cb     </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>无符号字符 (Char Byte，没有多少人用)          </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>cr     </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>颜色参考值 (ColorRef)                         </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>cx,cy  </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>坐标差（长度 ShortInt）                       </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>dw     </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>Double Word                                   </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>fn     </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>函数                                          </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>h      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>Handle                                        </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>i      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>整型                                          </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>l      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>长整型 (Long Int)                             </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>lp     </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>Long Pointer                                  </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>m_     </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>类的成员                                      </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>n      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>短整型 (Short Int)                            </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>np     </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>Near Pointer                                  </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>p      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>Pointer                                       </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>s      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>字符串型                                      </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>sz     </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>以null做结尾的字符串型 (String with Zero End) </div>
+</div>
+<div class="seglistitem">
+<div class="seg">
+<strong><span class="segtitle">前　　缀: </span></strong>w      </div>
+<div class="seg">
+<strong><span class="segtitle">类　　型: </span></strong>Word                                          </div>
+</div>
+</div>
+<p>
+但是在任何情况下，都硬性规定使用匈牙利命名法是迂腐的。尤其是 Unix 编程，在使用没有变量名、关键字自动补齐功能的编辑器，如 vi 下，去敲入大小写混合的变量名是痛苦的。其实只要注意两个原则：1. 含义清晰，不易混淆； 2. 不和其它模块、系统API的命名空间相冲突即可。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+有意识的为变量名、宏名加上本模块的关键字，就不至于和其它模块、系统API的命名空间相冲突；
+</p>
+<p>
+例如: 宏的名称过短，如："DEBUG" 或 "_DEBUG"，很可能和别的模块，系统模块相冲突；
+</p>
+</li>
+<li><p>
+局部变量尤其是循环变量外，使用约定俗成的 i,j,k ，没有问题；
+</p></li>
+<li><p>
+宏、常量、枚举enum，全部用大写字母；
+</p></li>
+<li>
+<p>
+全局变量加上前缀 "g"，后面跟上首字母大写的单词；
+</p>
+<p>
+全局变量吗，费事一点可以谅解。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4512704"></a>2.2.2. 实例</h4></div></div></div>
+<p>
+略...
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="naming-function"></a>2.3. 函数命名</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4515488"></a>2.3.1. 规则</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+属于某一模块的函数，加上前缀，前缀为模块缩写；
+</p></li>
+<li><p>
+函数名应该表明函数意义，格式为"前缀_名词_动词"；
+</p></li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4518608"></a>2.3.2. 实例</h4></div></div></div>
+<p>
+略...
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="naming-tag"></a>2.4. 版本控制系统的TAG/Label命名</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+CVS 的 TAG 不能包括如 "." 的特殊字符，因此规定使用由大写字母、数字、下划线、减号组成版本控制系统的 TAG/LABEL 名称；
+</p></li>
+<li><p>
+TAG/LABEL 要包含一个模块/工程前缀，如果只是简单的 V1，V2，在合并 Repository 时，造成困惑；
+</p></li>
+<li>
+<p>
+在版本控制系统中建立一个专门记录 TAG/LABEL 的文件，每次打上 TAG 之时，先向该文件追加(append)一行，内容为新的 TAG 名称，CHECKIN，在为代码打上 TAG/LABEL；
+</p>
+<p>
+原因为 CVS 中要查看到 TAG 的创建时间不方便，用此方法便于跟踪；
+</p>
+</li>
+<li><p>
+还可以在 TAG 名称中加入建立 TAG 的日期，如果这个 TAG 是一个 STICKY TAG，日后不会改动；
+</p></li>
+<li><p>
+分支 TAG/LABEL 的名称要和其它 TAG 容易区分，如加上前缀 "B-"。
+</p></li>
+</ol></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="format"></a>3. 格式规范</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="general"></a>3.1. 一般格式原则</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4575040"></a>3.1.1. 规则</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>缩进用tab，不用空格；
+</p></li>
+<li><p>一个tab定义为四个空格，原因见后面表格；
+</p></li>
+<li><p>标点符号的右边留一个空格（左括号除外）；
+</p></li>
+<li><p>赋值、判断、运算符号两边都要加一个空格；
+</p></li>
+<li><p>空行也是注释，适当的空行使逻辑更清楚，函数内部不应该有连续空行，函数之间至少有两个连续空行；
+</p></li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4580688"></a>3.1.2. 实例</h4></div></div></div>
+<p>
+略...
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4582240"></a>3.2. 变量</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>当出现变量和常量比较和判断时，常量放在左边，以防止"= ="错误输入为"="，时可以由编译器检验；（强制）
+</p></li>
+<li><p>变量定义块分两部分，外部定义在前，且加上extern关键字；
+</p></li>
+<li><p>程序的include 块也分两部分；一部分为包含标准头文件，后一部分为本工程内部定义的头文件；
+</p></li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4586768"></a>3.3. 函数</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>所有调用函数在".h"头文件中声名，对于只是在本模块中调用的函数，用static关键字限制；
+</p></li>
+<li><p>main函数，一定有返回值，且为int类型；
+</p></li>
+<li><p>函数之间空两行，以示区分；
+</p></li>
+<li>
+<p>函数的类型和函数名分开两行写，即函数类型和函数名都从1列开始；
+</p>
+<p>
+方便使用命令 <span><strong class="command">grep "^函数名" 文件名</strong></span> 快速查找函数定义，而不会定位到函数调用的代码；
+</p>
+</li>
+<li><p>函数的参数一个一行（推荐）；
+</p></li>
+<li><p>一个函数不长于100行左右，即不超过两屏，如果超过，说明应该考虑进一步模块化；
+</p></li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="comment"></a>3.4. 注释</h3></div></div></div>
+<p>
+应把注释看做和代码一样重要，也要统计到代码量中去。注释除了能够使得代码更易读、清晰外，还能用来生成文档。参见：<a href="http://www.doxygen.org/" target="_top">Doxygen 计划</a>。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>分类</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>按位置分：
+</p>
+<p>1. 位于语句后；2. 变量声明后；3. 予处理后；4. 或单独开始的注释（又有是否从第一行开始的区别）。
+</p>
+</li>
+<li>
+<p>按照形式分：
+</p>
+<p>块注释；单行注释（又有是否独立一行或者在代码后面的区别）。
+</p>
+<p>块注释（boxed comments）：Boxed  comments  are defined as those in which the initial `/*' is followed immediately by the character `*', `=', `_', or `-', or those in which the beginning comment delimiter (`/*') is on a line by itself, and  the following line begins with a `*' in the same column as the star of the opening delimiter.
+</p>
+</li>
+<li><p>以上各个类型的注释可以被indent工具区分和格式化；indent忽略块注释，对齐单行注释等等；
+</p></li>
+</ol></div>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+For larger blocks of code that I want to comment and un-comment regularly (eg, debug code), 
+I like to use comments in this style:
+</p>
+<pre class="screen">
+/* debug code ------------- //
+ echo "This is debug code";
+ ...
+// ---------------------- */
+</pre>
+<p>
+You can easily uncoment the whole block by changing the /* to //, and vice versa.
+</p>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p>书写规范</p>
+<div class="orderedlist"><ol type="1">
+<li><p>可以用c++风格注释"//"，或者用c风格"/*  */"；
+</p></li>
+<li><p>注释最好用英文，英文困难找翻译；
+</p></li>
+<li><p>文件头注释结构：为块注释。参见：<a href="http://www.doxygen.org/" target="_top">Doxygen 的风格</a>。
+</p></li>
+<li><p>函数前注释结构：为块注释。注名功能。如果参数名不能表达意义，还要说明参数意义。
+</p></li>
+<li>
+<p>块注释写法：
+</p>
+<pre class="screen">
+   /*
+    * a space before *
+    */
+</pre>
+<p>或者
+</p>
+<pre class="screen">
+   /* have a space after 
+      three spaces before  */
+</pre>
+</li>
+</ol></div>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="indent"></a>3.5. 用 indent 进行代码格式化</h3></div></div></div>
+<p>
+一个范例，胜过前言万语。用 indent 格式化代码，再从格式化前后的格式变化，
+来学习格式化规范。
+</p>
+<p>
+可以用不同的参数调用 indent，
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4615264"></a>3.5.1. introduce indent</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>What is Indent
+</p>
+<p>The `indent' program can be used to make code easier to read. It can also convert from one style of writing C to another.
+</p>
+</li>
+<li>
+<p>Download
+</p>
+<p>Current Version: GNU indent 2.2.7。
+Download : <a href="ftp://ftp.gnu.org/gnu/indent/indent-2.2.7.tar.gz" target="_top">
+ftp.gnu.org/gnu/indent/indent-2.2.7.tar.gz</a>
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="indent-opt"></a>3.5.2. Indent参数规范</h4></div></div></div>
+<p>我们参照GNU，Kernighan &amp; Ritchie，Berkeley风格，制定了自己风格：
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>indent命令参数：
+</p>
+<p>-bad -bap -bbb -bbo -nbc -bl -bli0 -bls -c33 -cd33 -ncdb -ncdw -nce 
+ -cli0 -cp33 -cs -d0 -nbfda -di2 -nfc1 -nfca -hnl -ip5 -l75 -lp -pcs -nprs 
+ -psl -saf -sai -saw -nsc -nsob -nss -i4 -ts4 -ut
+</p>
+</li>
+<li>
+<p>indent配置文件
+</p>
+<p>如上参数可写入用户目录下的文件：".indent.pro"，作为运行indent的确省参数。
+</p>
+</li>
+<li>
+<p>indent配置说明
+</p>
+<div class="table">
+<a name="idp4628368"></a><p class="title"><b>表 1. Indent代码格式化说明</b></p>
+<div class="table-contents"><table summary="Indent代码格式化说明" border="1">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="center">使用的indent参数</th>
+<th align="center">值</th>
+<th align="center">含义</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">--blank-lines-after-declarations
+</td>
+<td align="left">bad
+</td>
+<td align="left">变量声明后加空行
+</td>
+</tr>
+<tr>
+<td align="left">--blank-lines-after-procedures
+</td>
+<td align="left">bap
+</td>
+<td align="left">函数结束后加空行
+</td>
+</tr>
+<tr>
+<td align="left">--blank-lines-before-block-comments
+</td>
+<td align="left">bbb
+</td>
+<td align="left">块注释前加空行
+</td>
+</tr>
+<tr>
+<td align="left">--break-before-boolean-operator
+</td>
+<td align="left">bbo
+</td>
+<td align="left">较长的行，在逻辑运算符前分行
+</td>
+</tr>
+<tr>
+<td align="left">--blank-lines-after-commas
+</td>
+<td align="left">nbc
+</td>
+<td align="left">变量声明中，逗号分隔的变量不分行
+</td>
+</tr>
+<tr>
+<td align="left">--braces-after-if-line
+</td>
+<td align="left">bl
+</td>
+<td align="left">"if"和"{"分做两行
+</td>
+</tr>
+<tr>
+<td align="left">--brace-indent 0
+</td>
+<td align="left">bli0
+</td>
+<td align="left">"{"不继续缩进
+</td>
+</tr>
+<tr>
+<td align="left">--braces-after-struct-decl-line
+</td>
+<td align="left">bls
+</td>
+<td align="left">定义结构，"struct"和"{"分行
+</td>
+</tr>
+<tr>
+<td align="left">--comment-indentationn
+</td>
+<td align="left">c33
+</td>
+<td align="left">语句后注释开始于行33
+</td>
+</tr>
+<tr>
+<td align="left">--declaration-comment-columnn
+</td>
+<td align="left">cd33
+</td>
+<td align="left">变量声明后注释开始于行33
+</td>
+</tr>
+<tr>
+<td align="left">--comment-delimiters-on-blank-lines
+</td>
+<td align="left">ncdb
+</td>
+<td align="left">不将单行注释变为块注释
+</td>
+</tr>
+<tr>
+<td align="left">--cuddle-do-while
+</td>
+<td align="left">ncdw
+</td>
+<td align="left">"do --- while"的"while"和其前面的"}"另起一行
+</td>
+</tr>
+<tr>
+<td align="left">--cuddle-else
+</td>
+<td align="left">nce
+</td>
+<td align="left">"else"和其前面的"}"另起一行
+</td>
+</tr>
+<tr>
+<td align="left">--case-indentation 0
+</td>
+<td align="left">cli0
+</td>
+<td align="left">switch中的case语句所进0个空格
+</td>
+</tr>
+<tr>
+<td align="left">--else-endif-columnn
+</td>
+<td align="left">cp33
+</td>
+<td align="left">#else, #endif后面的注释开始于行33
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-cast
+</td>
+<td align="left">cs
+</td>
+<td align="left">在类型转换后面加空格
+</td>
+</tr>
+<tr>
+<td align="left">--line-comments-indentation n
+</td>
+<td align="left">d0
+</td>
+<td align="left">单行注释（不从1列开始的），不向左缩进
+</td>
+</tr>
+<tr>
+<td align="left">--break-function-decl-args
+</td>
+<td align="left">nbfda
+</td>
+<td align="left">关闭：函数的参数一个一行
+</td>
+</tr>
+<tr>
+<td align="left">--declaration-indentationn
+</td>
+<td align="left">di2
+</td>
+<td align="left">变量声明，变量开始于2行，即不必对齐
+</td>
+</tr>
+<tr>
+<td align="left">--format-first-column-comments
+</td>
+<td align="left">nfc1
+</td>
+<td align="left">不格式化起于第一行的注释
+</td>
+</tr>
+<tr>
+<td align="left">--format-all-comments
+</td>
+<td align="left">nfca
+</td>
+<td align="left">不开启全部格式化注释的开关
+</td>
+</tr>
+<tr>
+<td align="left">--honour-newlines
+</td>
+<td align="left">hnl
+</td>
+<td align="left">Prefer to break long lines at the position of newlines in the input.
+</td>
+</tr>
+<tr>
+<td align="left">--indent-leveln
+</td>
+<td align="left">i4
+</td>
+<td align="left">设置缩进多少字符，如果为tab的整数倍，用tab来缩进，否则用空格填充。
+</td>
+</tr>
+<tr>
+<td align="left">--parameter-indentationn
+</td>
+<td align="left">ip5
+</td>
+<td align="left">旧风格的函数定义中参数说明缩进5个空格
+</td>
+</tr>
+<tr>
+<td align="left">--line-length 75
+</td>
+<td align="left">l75
+</td>
+<td align="left">非注释行最长75
+</td>
+</tr>
+<tr>
+<td align="left">--continue-at-parentheses
+</td>
+<td align="left">lp
+</td>
+<td align="left">续行从上一行出现的括号开始
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-procedure-calls
+</td>
+<td align="left">pcs
+</td>
+<td align="left">函数和"("之间插入一个空格
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-parentheses
+</td>
+<td align="left">nprs
+</td>
+<td align="left">在"（"后"）"前不插入空格
+</td>
+</tr>
+<tr>
+<td align="left">--procnames-start-lines
+</td>
+<td align="left">psl
+</td>
+<td align="left">将函数名和返回类型放在两行定义
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-for
+</td>
+<td align="left">saf
+</td>
+<td align="left">for后面有空格
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-if
+</td>
+<td align="left">sai
+</td>
+<td align="left">if后面有空格
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-while
+</td>
+<td align="left">saw
+</td>
+<td align="left">while后面有空格
+</td>
+</tr>
+<tr>
+<td align="left">--start-left-side-of-comments
+</td>
+<td align="left">nsc
+</td>
+<td align="left">不在生成的块注释中加*
+</td>
+</tr>
+<tr>
+<td align="left">--swallow-optional-blank-lines
+</td>
+<td align="left">nsob
+</td>
+<td align="left">不去掉可添加的空行
+</td>
+</tr>
+<tr>
+<td align="left">--space-special-semicolon
+</td>
+<td align="left">nss
+</td>
+<td align="left">一行的for或while语句，在";"前不加空。
+</td>
+</tr>
+<tr>
+<td align="left">--tab-size
+</td>
+<td align="left">ts4
+</td>
+<td align="left">一个tab为4个空格（要能整除"-in"）
+</td>
+</tr>
+<tr>
+<td align="left">--use-tabs
+</td>
+<td align="left">ut
+</td>
+<td align="left">使用tab来缩进
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break">
+</li>
+</ol></div>
+<p>
+indent详细参数以及各种编程排版风格见: <a href="#appendix-indent" title="A. 不同编程风格参考">附录</a>。
+</p>
+</div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="makefile"></a>4. Makefile</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>使用autoconf/automake/autoheader工具
+</p>
+<p>用autoconf/automake/autoheader工具来处理各种移植性的问题，用这些工具
+完成系统配置信息的收集，制作makefile文件。然后在打算编译源码时只需要通过
+“configure; make”这样简单的命令就可以得到干净利落的编译。
+</p>
+</li>
+<li>
+<p>GNU Makefile
+</p>
+<p>参见<a href="http://www.gnu.org/prep/standards.html#SEC48" target="_top">
+GNU Makefile和configure</a>
+</p>
+</li>
+<li>
+<p>BSD Makefile
+</p>
+<p>参见<a href="http://www.freebsd.org/doc/en_US.ISO8859-1/books/porters-handbook/" target="_top">
+FreeBSD Porter's Handbook</a>
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="docbook"></a>5. 用DocBook来写文档</h2></div></div></div>
+<p>
+参见：<a href="http://www.worldhello.net/doc/docbook_howto/" target="_top">《Docbook Howto》</a>。
+</p>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="appendix-indent"></a>A. 不同编程风格参考</h2></div></div></div>
+<p>通过indent参数分析，比较自定义风格和GNU，KR，BSD编程风格。
+</p>
+<div class="table">
+<a name="idp4906256"></a><p class="title"><b>表 A.1. 自定义风格和GNU，KR，BSD风格比较</b></p>
+<div class="table-contents"><table summary="自定义风格和GNU，KR，BSD风格比较" border="1">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="center">参数</th>
+<th align="center">含义</th>
+<th align="center">我们的风格</th>
+<th align="center">GNU风格</th>
+<th align="center">KR风格</th>
+<th align="center">BSD风格</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">-bad
+</td>
+<td align="left">--blank-lines-after-declarations
+</td>
+<td align="left">y
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-bap
+</td>
+<td align="left">--blank-lines-after-procedures
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-bbb
+</td>
+<td align="left">--blank-lines-before-block-comments
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-bbo
+</td>
+<td align="left">--break-before-boolean-operator
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-bc
+</td>
+<td align="left">--blank-lines-after-commas
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-bl
+</td>
+<td align="left">--braces-after-if-line
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-blin
+</td>
+<td align="left">--brace-indent n
+</td>
+<td align="left">0
+</td>
+<td align="left">2
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-bls
+</td>
+<td align="left">--braces-after-struct-decl-line
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-br
+</td>
+<td align="left">--braces-on-if-line
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-brs
+</td>
+<td align="left">--braces-on-struct-decl-line
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-bs
+</td>
+<td align="left">--blank-before-sizeof
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-cn
+</td>
+<td align="left">--comment-indentationn
+</td>
+<td align="left">33
+</td>
+<td align="left">
+</td>
+<td align="left">33
+</td>
+<td align="left">33
+</td>
+</tr>
+<tr>
+<td align="left">-cbin
+</td>
+<td align="left">--case-brace-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-cdn
+</td>
+<td align="left">--declaration-comment-columnn
+</td>
+<td align="left">33
+</td>
+<td align="left">
+</td>
+<td align="left">33
+</td>
+<td align="left">33
+</td>
+</tr>
+<tr>
+<td align="left">-cdb
+</td>
+<td align="left">--comment-delimiters-on-blank-lines
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-cdw
+</td>
+<td align="left">--cuddle-do-while
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ce
+</td>
+<td align="left">--cuddle-else
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-cin
+</td>
+<td align="left">--continuation-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">4
+</td>
+<td align="left">4
+</td>
+</tr>
+<tr>
+<td align="left">-clin
+</td>
+<td align="left">--case-indentationn
+</td>
+<td align="left">0
+</td>
+<td align="left">
+</td>
+<td align="left">0
+</td>
+<td align="left">0
+</td>
+</tr>
+<tr>
+<td align="left">-cpn
+</td>
+<td align="left">--else-endif-columnn
+</td>
+<td align="left">33
+</td>
+<td align="left">1
+</td>
+<td align="left">33
+</td>
+<td align="left">33
+</td>
+</tr>
+<tr>
+<td align="left">-cs
+</td>
+<td align="left">--space-after-cast
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-dn
+</td>
+<td align="left">--line-comments-indentationn
+</td>
+<td align="left">0
+</td>
+<td align="left">
+</td>
+<td align="left">0
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ndj
+</td>
+<td align="left">indents declarations the same as code 
+</td>
+<td align="left">
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-bfda
+</td>
+<td align="left">--break-function-decl-args
+</td>
+<td align="left">n
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-din
+</td>
+<td align="left">--declaration-indentationn
+</td>
+<td align="left">2
+</td>
+<td align="left">2
+</td>
+<td align="left">1
+</td>
+<td align="left">16
+</td>
+</tr>
+<tr>
+<td align="left">-fc1
+</td>
+<td align="left">--format-first-column-comments
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-fca
+</td>
+<td align="left">--format-all-comments
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-gnu
+</td>
+<td align="left">--gnu-style
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-hnl
+</td>
+<td align="left">--honour-newlines
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-in
+</td>
+<td align="left">--indent-leveln
+</td>
+<td align="left">4
+</td>
+<td align="left">2
+</td>
+<td align="left">4
+</td>
+<td align="left">4
+</td>
+</tr>
+<tr>
+<td align="left">-ipn
+</td>
+<td align="left">--parameter-indentationn
+</td>
+<td align="left">5
+</td>
+<td align="left">5
+</td>
+<td align="left">0
+</td>
+<td align="left">4
+</td>
+</tr>
+<tr>
+<td align="left">-kr
+</td>
+<td align="left">--k-and-r-style
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ln
+</td>
+<td align="left">--line-lengthn
+</td>
+<td align="left">75
+</td>
+<td align="left">
+</td>
+<td align="left">75
+</td>
+<td align="left">75
+</td>
+</tr>
+<tr>
+<td align="left">-cs
+</td>
+<td align="left">--space-after-cast
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-dn
+</td>
+<td align="left">--line-comments-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-bfda
+</td>
+<td align="left">--break-function-decl-args
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-din
+</td>
+<td align="left">--declaration-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-fc1
+</td>
+<td align="left">--format-first-column-comments
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-fca
+</td>
+<td align="left">--format-all-comments
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-gnu
+</td>
+<td align="left">--gnu-style
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-hnl
+</td>
+<td align="left">--honour-newlines
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-in
+</td>
+<td align="left">--indent-leveln
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ipn
+</td>
+<td align="left">--parameter-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-kr
+</td>
+<td align="left">--k-and-r-style
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ln
+</td>
+<td align="left">--line-lengthn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-lcn
+</td>
+<td align="left">--comment-line-lengthn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-lp
+</td>
+<td align="left">--continue-at-parentheses
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-lps
+</td>
+<td align="left">--leave-preprocessor-space
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-orig
+</td>
+<td align="left">--original
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-npro
+</td>
+<td align="left">--ignore-profile
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-pcs
+</td>
+<td align="left">--space-after-procedure-calls
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-pin
+</td>
+<td align="left">--paren-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-pmt
+</td>
+<td align="left">--preserve-mtime
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-prs
+</td>
+<td align="left">--space-after-parentheses
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-psl
+</td>
+<td align="left">--procnames-start-lines
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-saf
+</td>
+<td align="left">--space-after-for
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-sai
+</td>
+<td align="left">--space-after-if
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-saw
+</td>
+<td align="left">--space-after-while
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-sbin
+</td>
+<td align="left">--struct-brace-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-sc
+</td>
+<td align="left">--start-left-side-of-comments
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-sob
+</td>
+<td align="left">--swallow-optional-blank-lines
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-ss
+</td>
+<td align="left">--space-special-semicolon
+</td>
+<td align="left">n
+</td>
+<td align="left">
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-st
+</td>
+<td align="left">--standard-output
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-T typenames
+</td>
+<td align="left">Tell indent the name of typenames.
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-tsn
+</td>
+<td align="left">--tab-sizen
+</td>
+<td align="left">4
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">8
+</td>
+</tr>
+<tr>
+<td align="left">-ut
+</td>
+<td align="left">--use-tabs
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-v
+</td>
+<td align="left">--verbose
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-version
+</td>
+<td align="left">Output the version number of indent.
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break"><p>$Date$</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

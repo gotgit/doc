@@ -1,0 +1,222 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.4. 数据模型</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="DocBook 助你完成传世之作">
+<link rel="up" href="sgml-primary.html" title="4. SGML/XML入门">
+<link rel="prev" href="ar01s04s03.html" title="4.3. SGML/XML语法基础">
+<link rel="next" href="ar01s04s05.html" title="4.5. 用样式表进行格式化">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.4. 数据模型</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s04s03.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. SGML/XML入门</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s04s05.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5136272"></a>4.4. 数据模型</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5136784">4.4.1. 元素</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5143360">4.4.2. 子元素和属性</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5144384">4.4.3. 元素的定义</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5162768">4.4.4. 外部DTD和内部DTD</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5163792">4.4.5. 其它方式构造数据模型</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5164816">4.4.6. DocBook的数据模型</a></span></dt>
+</dl></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5136784"></a>4.4.1. 元素</h4></div></div></div>
+<p>
+我们已经在前面概要的介绍了元素（Elements）的概念。由一对相匹配的起始标签和结束标签组成的语义片断，就称为元素。例如：HTML中的段落标记“&lt;p&gt;”和“&lt;/p&gt;”和所标记的内容构成了一个段落元素。也有一些元素可以是空标签，没有结束标签和它相匹配，就像HTML中的断行标签“&lt;br&gt;”。
+</p>
+<p>
+标签由左右尖括号封闭起来的文字构成，形如：“&lt;...&gt;”。对于结束标签，则还要在左尖括号后加一个斜线，形如：“&lt;/...&gt;”。SGML允许某些元素已没有结束标签的形式存在，但XML则需要更严格的语法，不允许没有结束标签匹配的空标签，即使对于空标签，也要在结束的右尖括号前，加一个斜线，构成形如“&lt;.../&gt;”的格式，如：“&lt;br/&gt;”。
+</p>
+<p>
+一个文档中只能有一个根元素，就像一个标准的HTML网页，有且只有一个根元素“&lt;html&gt;”。该元素可以包含其他元素，这些元素构成了一个以根元素为根的树状结构。
+</p>
+<p>
+元素之间不能相互重叠，如下面的文字在SGML中就是不合法的。
+</p>
+<pre class="screen">
+
+&lt;B&gt;Welcome to my homepage. There are some &lt;I&gt;DocBook&lt;B&gt; examples.&lt;/I&gt;
+
+</pre>
+<p>
+上面的示例中，&lt;B&gt;&lt;/B&gt;标签和&lt;I&gt;&lt;/I&gt;标签发生了重叠，这是不允许的。
+</p>
+<p>
+在标签中可以定义属性。以下是一个HTML中定义表格的标签，table是元素名，width="100%"和border="1"是其属性。
+&lt;table width="100%" border="1"&gt;
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5143360"></a>4.4.2. 子元素和属性</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5144384"></a>4.4.3. 元素的定义</h4></div></div></div>
+<p>
+元素的定义是在 DTD 中完成的。
+</p>
+<p>
+以下就是在DTD中定义元素的示例：
+</p>
+<pre class="screen">
+
+    &lt;!ELEMENT anthology      - -  (poem+)&gt;
+    &lt;!ELEMENT poem           - -  (title?, stanza+)&gt;
+    &lt;!ELEMENT title          - O  (#PCDATA) &gt;
+    &lt;!ELEMENT stanza         - O  (line+)   &gt;
+    &lt;!ELEMENT line           O O  (#PCDATA) &gt;
+
+</pre>
+<p>
+上面几个元素声明的语法是SGML的DTD定义标准，XML和它稍有区别，我们在后面单辟一章来介绍。
+</p>
+<p>
+元素声明的语法，类似元素本身，也是由尖括号括起来的。在左尖括号之后的第一个字符一定是一个感叹号“!”。在感叹号之后，是一个关键字，指出所要声明的对象类型是什么。ELEMENT是少数关键字之一，指出所要声明的是元素本身。接下来的声明部分，由三部分组成。先是一个或者一组元素名，然后是由字符"-"和"O"组成的缩写规则（minimization rules），它指出起始标签和结束标签是否可有可无。最后是内容模型（content model），即该元素的内容由什么构成？是一些子元素或者字符？
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+缩写规则（Minimization Rules）
+</p>
+<p>
+缩写规则定义了该元素的起始标签和结束标签是否可以省略。第一个字符定义了起始标签的状态，第二个字符定义了结束标签的状态，两个字符之间用空格分隔。字符"-"的含义是必须存在，不可省略，而字符"O"意味着标签可以省略。
+</p>
+</li>
+<li>
+<p>
+内容模型（Content Model）
+</p>
+<p>
+由括号括起来的部分构成了元素定义的内容模型，定义了元素应该包含什么样的内容。内容模型由保留字或者其它子元素名称等构成。保留字中最常见的是“#PCDATA”，代表着可以被解析的字符，即定义的该元素可以包含任何可用字符。
+</p>
+<p>
+内容模型可以借助频度指示字（Occurrence Indicators）、分组连接符（Group Connectors）、例外处理（Exception）等，构成复杂的内容模型表达式，表示复杂的内容模型。
+</p>
+</li>
+<li>
+<p>
+频度指示字（Occurrence Indicators）
+</p>
+<p>
+可以在内容模型中，为保留字或者元素名称上加上频度指示字，如："+"，"?"，"*"。
+</p>
+<p>
+加号"+"，代表包含一个或者一个以上，但不能一个都没有。
+</p>
+<p>
+问号"?"，代表包含最多一个，当然也可以不出现。
+</p>
+<p>
+星号"*"，代表包含任意多个，也可以一个都不出现。
+</p>
+</li>
+<li>
+<p>
+分组连接符（Group Connectors）
+</p>
+<p>
+通过三种连接符，可以连接子元素构成复杂的内容模型表达式。这三种连接符是：","，"|"和"&amp;"符号。
+</p>
+<p>
+逗号连接的子元素，含意为子元素必须都出现，而且以指定的次序出现。
+</p>
+<p>
+"&amp;"连接的子元素，含意为子元素必须都出现，但对出现的次序不做要求。
+</p>
+<p>
+竖线，含意为所连接的子元素只出现一个。
+</p>
+</li>
+<li>
+<p>
+例外处理（Exception）
+</p>
+<p>
+在定义DTD时，有时候会发现有的元素几乎会出现在所有的元素中，如注释就可能出现在文章的各个部分。在规模比较小的DTD中，这个可能不是问题，但是要在一个非常庞大的DTD中，如DocBook的DTD，具有几百个元素，就会非常复杂。就需要利用这里讲例外处理，和后面要提到的参数实体来解决。
+</p>
+<p>
+例外处理，包括两种语法，一种是“包含”：可以在该元素的内容模型中的任何位置包含所指定的元素。另一种是“排除”：在当前内容模型中不能包含所指定的元素。其记法为在内容模型的最后用前置的加号或者减号建立包含或者排除元素列表。
+</p>
+</li>
+</ol></div>
+<p>
+属性
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5162768"></a>4.4.4. 外部DTD和内部DTD</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5163792"></a>4.4.5. 其它方式构造数据模型</h4></div></div></div>
+<p>
+XML SCHEMA
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5164816"></a>4.4.6. DocBook的数据模型</h4></div></div></div>
+<p>
+SGML DTD
+</p>
+<p>
+XML DTD
+</p>
+<p>
+XML SCHEMA
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s04s03.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="sgml-primary.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s04s05.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.3. SGML/XML语法基础 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.5. 用样式表进行格式化</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

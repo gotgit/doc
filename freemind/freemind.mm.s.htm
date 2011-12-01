@@ -1,0 +1,909 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>//mm2html.xsl FreemindVersion:0.9.0_Beta_8</title><style>
+                body{
+                font-size:10pt;
+                color:rgb(0,0,0);
+                backgound-color:rgb(255,255,255);
+                font-family:sans-serif;
+                }
+                p.info{
+                font-size:8pt;
+                text-align:right;
+                color:rgb(127,127,127);
+                }
+                </style></head><body><script type="text/javascript" src="/docbook/includes/js/header.js"></script><script type="text/javascript">
+              write_header("/docbook");
+            </script><h1>
+    
+      FreeMind 点亮智慧的明灯(版本号: 0.5.F-$Rev$ )
+    
+  </h1><p>
+
+
+
+<ul><li><a name="Freemind_Link_1426395329"></a><span style="color:#990000;font-family:sansserif;font-size:12;font-weight:bold;"></span>
+
+  
+    
+  
+  
+    
+      FreeMind 点亮智慧的明灯(版本号: 0.5.F-$Rev$ )
+    
+  
+
+
+
+
+<ul><li><a name="Freemind_Link_757657139"></a><span style="color:#3300cc;font-family:sansserif;font-size:13;font-weight:bold;font-style:italic;">FreeMind 介绍</span>
+
+
+<ul><li><a name="Freemind_Link_1533900658"></a><span style="color:#3300cc;">首先了解 MindMap</span>
+<ul><li><a name="Freemind_Link_677059627"></a><span style="color:#3300cc;">思维导图又叫心智图，英国人托尼·巴赞创造</span></li></ul>
+<ul><li><a name="Freemind_Link_1214676281"></a><span style="color:#3300cc;">是将思路按照树状的结构进行线索的清理的一种整理思路的方法</span></li></ul>
+<ul><li><a name="Freemind_Link_973562043"></a><span style="color:#3300cc;">MindMap 的树状组织结构和人脑力的物质基础——神经元的结构惊人的相似 8-)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1172110265"></a><span style="color:#3300cc;">Freemind 是 Java 开发的开源项目，提供 MindMap 的编辑和显示</span></li></ul>
+<ul><li><a name="Freemind_Link_1336568668"></a><span style="color:#3300cc;">Freemind 的特色</span>
+<ul><li><a name="Freemind_Link_572398162"></a><span style="color:#3300cc;">Write once, Run everywhere （这是 Java 的特色） 8-)</span></li></ul>
+<ul><li><a name="Freemind_Link_414750055"></a><span style="color:#3300cc;">开放的文件存储格式，是 XML 格式</span></li></ul>
+<ul><li><a name="Freemind_Link_836168201"></a><span style="color:#3300cc;">支持 HTML 格式的节点</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1411096877"></a><span style="color:#3300cc;">Freemind 的应用范围</span>
+<ul><li><a name="Freemind_Link_1780543913"></a><span style="color:#3300cc;">读书笔记</span></li></ul>
+<ul><li><a name="Freemind_Link_226468456"></a><span style="color:#3300cc;">会议记录</span></li></ul>
+<ul><li><a name="Freemind_Link_242364145"></a><span style="color:#3300cc;">所有你脑子里的东西 8-)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1142742545"></a><span style="color:#3300cc;">FreeMind 版本</span>
+
+<ul><li><a name="Freemind_Link_468483604"></a><span style="color:#3300cc;">0.9.beta</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_694596374"></a><span style="color:#3300cc;">0.8.0</span>
+
+<ul><li><a name="Freemind_Link_683670273"></a><span style="color:#3300cc;">2005.06.09 发布</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1196429371"></a><span style="color:#3300cc;">0.8.1</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_616035510"></a><a style="color:#3300cc;" href="#Freemind_Link_616035510">参见 FreeMind 手册</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="_"></a><span style="color:#990033;font-family:sansserif;font-size:14;font-weight:bold;font-style:italic;">网址链接</span>
+
+
+
+<ul><li><a name="Freemind_Link_996275953"></a><span style="color:#009999;font-family:sansserif;font-size:12;">网站</span>
+
+
+<ul><li><a name="Freemind_Link_477156866"></a><span style="color:#009999;font-family:sansserif;font-size:12;">FreeMind Wiki &lt;http://freemind.sourceforge.net/wiki/index.php/Main_Page&gt;</span>
+
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1323683082"></a><span style="color:#009999;font-family:sansserif;font-size:12;">FreeMind@SourceForge &lt;http://sourceforge.net/projects/freemind&gt;</span>
+
+
+</li></ul>
+<ul><li><a name="Freemind_Link_715830598"></a><span style="color:#009999;">Java 下载： http://java.sun.com/</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1248343623"></a><span style="color:#009999;font-family:sansserif;font-size:12;">软件下载</span>
+
+
+<ul><li><a name="Freemind_Link_1707225405"></a><span style="color:#009999;">Whodo 增强版</span>
+
+<ul><li><a name="Freemind_Link_649158442"></a><span style="color:#009999;">for Windows</span>
+
+<ul><li><a name="ID_868495952"></a><span style="color:#009999;">update.ossxp.com &gt; Public &gt; Tools &gt; Windows &gt; Freemind</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_423457983"></a><span style="color:#009999;">for Debian Linux</span>
+
+<ul><li><a name="Freemind_Link_142640409"></a><span style="color:#009999;">添加 Debian 源： </span>
+
+<ul><li><a name="Freemind_Link_318343862"></a><span style="color:#009999;">deb http://YourName:YourPasswd@update.ossxp.com/public testing main </span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_672953612"></a><span style="color:#009999;">导入 群英汇-开源速递 软件升级签名公钥
+</span>
+
+<ul><li><a name="Freemind_Link_1461269748"></a><span style="color:#009999;">wget -q http://update.ossxp.com/public.key -O - | sudo apt-key add -
+</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_230607109"></a><span style="color:#009999;">安装 ossxp-freemind 
+</span>
+
+<ul><li><a name="Freemind_Link_33594089"></a><span style="color:#009999;">apt-get update &amp;&amp; apt-get install ossxp-freemind</span>
+
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="ID_315235515"></a><span style="color:#009999;">注意： 可能需要身份认证，请输入在 WorldHello.net 的注册帐号和口令。</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1744493833"></a><span style="color:#009999;">FreeMind 标准版下载</span>
+
+<ul><li><a name="Freemind_Link_53049176"></a><span style="color:#009999;">SourceForge 下载</span>
+
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_568900406"></a><span style="color:#009999;font-family:sansserif;font-size:12;">代码下载</span>
+
+
+<ul><li><a name="Freemind_Link_1763784472"></a><span style="color:#009999;font-family:sansserif;font-size:12;">WHODO 的 FreeMind 代码补丁</span>
+
+
+<ul><li><a name="Freemind_Link_961986248"></a><span style="color:#009999;">From WHODO SVN</span>
+
+<ul><li><a name="Freemind_Link_290121055"></a><span style="color:#009999;">svn  checkout  http://svn.worldhello.net/svn/whodo/trunk/doc/freemind/debian/patches</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1942515934"></a><span style="color:#009999;">From FreeMind Wiki</span>
+
+<ul><li><a name="Freemind_Link_1439937082"></a><span style="color:#009999;">http://freemind.sourceforge.net/wiki/index.php/User:Jiangxin</span>
+
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_366752444"></a><span style="color:#009999;font-family:sansserif;font-size:12;">官方 CVS 版本库</span>
+
+
+<ul><li><a name="Freemind_Link_1183277206"></a><span style="color:#009999;font-family:sansserif;font-size:12;">cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/freemind checkout -r FM-0-8-0 freemind</span>
+
+
+</li></ul>
+<ul><li><a name="Freemind_Link_368642651"></a><span style="color:#009999;font-family:sansserif;font-size:12;">cvs -d :pserver:anonymous@cvs.sourceforge.net:/cvsroot/freemind checkout freemind</span>
+
+
+</li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1484744848"></a><span style="font-family:sansserif;font-size:14;font-weight:bold;font-style:italic;">FreeMind 的 WHODO 修改版</span>
+
+
+
+<ul><li><a name="Freemind_Link_1114038155"></a><span style="">为什么 WHODO 要使用修改过的 Freemind？</span>
+
+<ul><li><a name="Freemind_Link_594191116"></a><span style="">原因正如 Eric Raymond 所形容的那样：被搔到了痒处</span></li></ul>
+<ul><li><a name="Freemind_Link_380177826"></a><span style="">FreeMind 对中文支持不好</span>
+<ul><li><a name="Freemind_Link_1025981765"></a><span style="">0.8.0 版本的 FreeMind 对 Unicode 的支持仍然不好（本文档在 FreeMind 0.8.0 下就出现乱码）</span></li></ul>
+<ul><li><a name="Freemind_Link_164462296"></a><span style="">FreeMind 的输出文件中，中文被编码为形如 “&amp;#xxxx;”样子的格式</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1993081090"></a><span style="">一些易变属性，也保存在文档中（如节点的开、合状态）</span>
+<ul><li><a name="Freemind_Link_1961055140"></a><span style="">即使只是展开 FreeMind 思维导图的节点，而没有做修改文字或者字体、颜色等实质改动，输出文件也变化</span></li></ul>
+<ul><li><a name="Freemind_Link_1502047136"></a><span style="">想到了 VC 6.0 和 VC 7.1 的工程文件的差别。VC 7.0 的工程文件就更适合版本控制，因为一些本地相关设置保存在另外的文件中。</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_775154485"></a><span style="">这些问题，非常不利于 FreeMind 文档的版本控制</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1960298606"></a><span style="">WHODO 所做的修改</span>
+
+
+<ul><li><a name="ID_1754430274"></a><span style="">WorldHello扩展功能设置</span>
+<ul><li><a name="ID_1740567957"></a><span style="">字符编码
+</span>
+<ul><li><a name="ID_1170984594"></a><span style="">将中文字符以 UTF8 编码保存在 filename.mm 文件中，而不是 &amp;#HEX; 格式的编码。</span></li></ul>
+</li></ul>
+<ul><li><a name="ID_782411083"></a><span style="">附加的辅助文件</span>
+<ul><li><a name="ID_943799703"></a><span style="">将不适合版本控制的属性保存在 filename.mm 文件之外的一个辅助文件中，辅助文件名为 .filename.mmx (扩展名为.mmx，文件名前加上一个点，在Unix下是隐藏文件)。</span></li></ul>
+<ul><li><a name="ID_1552859814"></a><span style="">可以选择哪些属性从 filename.mm 文件移动到 .filename.mmx 文件。默认三个属性 'FOLDED', 'CREATED', 'MODIFIED' 都被移动到附加的辅助文件中。 
+</span></li></ul>
+</li></ul>
+<ul><li><a name="ID_280033103"></a><span style="">注：“WorldHello扩展”扩展菜单在 FreeMind 0.9.0.Beta.17+wh-13 版本之后引入</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1768010534"></a><span style="">中文编码补丁</span>
+<ul><li><a name="Freemind_Link_485913597"></a><span style="">为 FreeMind 输出文件添加 XML 文件声明和编码。</span></li></ul>
+<ul><li><a name="Freemind_Link_696714899"></a><span style="">使用 XML DOM 加载 FreeMind 的 .mm 文件。</span></li></ul>
+<ul><li><a name="Freemind_Link_653538319"></a><span style="">修正 FreeMind 版本检查的 Bug（原设计：只读取第一行以获取 mmap 版本）</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1464381902"></a><span style="">易变属性剥离的补丁</span>
+<ul><li><a name="Freemind_Link_689835004"></a><span style="">易变节点设置不再保存在 .mm 文件中，而是单独提取出来，保存在另外的一个文件中（该文件命名为 .mmx ）</span></li></ul>
+<ul><li><a name="Freemind_Link_762445078"></a><span style="">即 FreeMind 保存时，除了建立一个 .mm 文件，还保存另外一个扩展名为 .mmx 的同名文件。（.mmx 文件保存的是附加节点属性）</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_671635528"></a><span style="">FreeMind 加载 .mm 文件时，自动加载 .mmx 文件中的设置</span></li></ul>
+<ul><li><a name="Freemind_Link_44517587"></a><span style="">综上所述，Freemind 的 WHODO 修改版，提供了 Freemind 更好的中文支持和更易于版本控制的文件格式</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_444881047"></a><a style="" href="#Freemind_Link_1707225405">如何安装 FreeMind 的 WHODO 修改版？</a>
+
+
+</li></ul>
+<ul><li><a name="Freemind_Link_293461055"></a><span style="">TODO</span>
+
+<ul><li><a name="Freemind_Link_358648752"></a><span style="">解决加载速度慢的问题 （这个问题已经解决）</span>
+<ul><li><a name="Freemind_Link_516667859"></a><span style="">旧版本中存在的问题</span>
+<ul><li><a name="Freemind_Link_52189103"></a><span style="">1. 加载慢</span>
+<ul><li><a name="Freemind_Link_1505495192"></a><span style="">对于比较大的 .mm 文档，合并存储附加节点属性的 .mmx 文档，速度慢，我测试了一个 200KB 的合并，最长要 4 分钟！</span></li></ul>
+<ul><li><a name="Freemind_Link_718849910"></a><span style=""></span>
+                   $ time xsltproc --stringparam mmx_file subject-forum.mmx freemind_join_mm_mmx.xslt subject-forum.mm &gt; jx.mm  real    4m33.148s user    4m30.093s sys     0m0.015s    
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1690523477"></a><span style="">2. 内存耗尽</span>
+<ul><li><a name="Freemind_Link_45463031"></a><span style="">同样是由于 .mm 和 .mmx 合并造成的</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1760419445"></a><span style="">搔到了谁的痒处？</span>
+<ul><li><a name="Freemind_Link_1576907153"></a><span style="">如上所述，我在匆忙之中做出的修改，在合并附加节点属性中，存在效率问题</span></li></ul>
+<ul><li><a name="Freemind_Link_1758596918"></a><span style="">这一定搔到了部分人的痒处，期待您来完善……</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_648744209"></a><span style="">注：这个问题已经解决。解决方案参见：</span>
+<ul><li><a name="Freemind_Link_562353531"></a><span style="">http://freemind.sourceforge.net/wiki/index.php/User:Jiangxin/Patch_load_mm_file_with_mmx_file#the_XSLT</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1537167583"></a><span style="color:#0033cc;font-family:sansserif;font-size:14;font-weight:bold;font-style:italic;">FreeMind 在网页上的显示</span>
+
+
+<ul><li><a name="Freemind_Link_37644593"></a><span style="">两种方法主要方法</span>
+<ul><li><a name="Freemind_Link_1548450560"></a><span style="">推荐： Flash viewer</span>
+<ul><li><a name="Freemind_Link_278029702"></a><span style="">来自于 http://www.efectokiwano.net/mm 的一款依靠 JavaScript 和 Flash 的 mindmap 解决方案</span></li></ul>
+<ul><li><a name="Freemind_Link_132525865"></a><span style="">优势</span>
+<ul><li><a name="Freemind_Link_922226915"></a><span style="">Flash, Javascript 本身文件小，网络带宽占用小，加载迅速</span></li></ul>
+<ul><li><a name="Freemind_Link_620602809"></a><span style="">格式更加美观</span></li></ul>
+<ul><li><a name="Freemind_Link_1624659317"></a><span style="">提供更多功能。如缩放、预览、查找等功能</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_546384814"></a><span style="">Java Applet</span>
+<ul><li><a name="Freemind_Link_929090092"></a><span style="">FreeMind 项目本身提供的一种浏览 .mm 文件的模式</span></li></ul>
+<ul><li><a name="Freemind_Link_568340142"></a><span style="">优点</span>
+<ul><li><a name="Freemind_Link_636457119"></a><span style="">代码和 FreeMind 师出同门</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1593366839"></a><span style="">缺点</span>
+<ul><li><a name="Freemind_Link_616321612"></a><span style="">该 Java applet 文件本身很大，下载会消耗带宽和时间！</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1997010662"></a><span style="">FreeMind 嵌入到 MediaWiki</span>
+<ul><li><a name="Freemind_Link_941741627"></a><span style="">http://meta.wikimedia.org/wiki/User:Jiangxin/Improved_Freemind_Extension</span></li></ul>
+<ul><li><a name="Freemind_Link_1316460415"></a><span style="">本地下载：addon/mediawiki/freemind.php</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1075506028"></a><span style="">FreeMind 嵌入到 phpBB</span>
+<ul><li><a name="Freemind_Link_695247723"></a><span style="">本地下载：addon/phpbb/mindmap.mod</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1461362819"></a><span style="">转换为 HTML</span>
+<ul><li><a name="Freemind_Link_840603838"></a><span style="">这种方法不是实时的在线显示，而是通过 FreeMind 的导出功能。</span></li></ul>
+<ul><li><a name="Freemind_Link_393163450"></a><span style="">转换为 HTML 的最主要的好处，应该是更方便的打印。</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_876436232"></a><span style="">为什么我的浏览器显示不了网页上的 FreeMind 智图？</span>
+<ul><li><a name="Freemind_Link_661796722"></a><span style="">Flash 插件的版本不能低于 7.0，否则可能不能正确显示；
+</span></li></ul>
+<ul><li><a name="Freemind_Link_324664329"></a><span style="">看看是否由于您的浏览器禁用了 JavaScript；  </span></li></ul>
+<ul><li><a name="Freemind_Link_1894215054"></a><span style="">或者浏览器的广告过滤插件把 Flash 屏蔽掉了；</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="ID_483497482"></a><span style="">疑难解答</span>
+
+<ul><li><a name="ID_201063976"></a><span style="">运行 FreeMind，在显示 Splash 时挂起，不能继续运行</span>
+<ul><li><a name="ID_17445931"></a><span style="">如果是在 Windows 平台使用，运行 freemind.bat。</span></li></ul>
+<ul><li><a name="ID_1426564559"></a><span style="">如果是在 Linux 平台使用，运行 freemind.sh。</span></li></ul>
+<ul><li><a name="ID_89120891"></a><span style="">注意在 DOS窗口/Linux控制台下的错误显示</span></li></ul>
+</li></ul>
+<ul><li><a name="ID_1086132323"></a><span style="">不能保存 FreeMind 文件</span>
+<ul><li><a name="ID_564238224"></a><span style="">查看一下 JRE 版本： java -version</span></li></ul>
+<ul><li><a name="ID_1702056816"></a><span style="">尝试升级到最新的 JRE，再试试。</span></li></ul>
+</li></ul>
+<ul><li><a name="ID_285362381"></a><span style="">在 Windows 平台不能运行，提示找不到 freemind.jar</span>
+<ul><li><a name="ID_1969926223"></a><span style="">看看是不是由于目录名中包含了特殊字符（如＋号），造成查找 FreeMind 目录失败。</span></li></ul>
+<ul><li><a name="ID_1620970519"></a><span style="">从 WordHello.net 下载的软件包名称中可能包含＋号，如果在Windows平台直接展开到目录，就会出现这个问题。
+例如展开到： C:\Bin\FreeMind-0.9.0BETA17+wh-13\ </span></li></ul>
+<ul><li><a name="ID_142934203"></a><span style="">解决办法：修改FreeMind目录名。
+例如：将 C:\Bin\FreeMind-0.9.0BETA17+wh-13\ 修改为 C:\Bin\FreeMind\</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_868000310"></a><span style="color:#990000;font-family:sansserif;font-size:13;font-weight:bold;">Freemind Hacking Howto</span>
+
+<ul><li><a name="Freemind_Link_205437034"></a><span style="">编译 FreeMind</span>
+<ul><li><a name="Freemind_Link_1564928818"></a><span style="">动手修改 Freemind 代码之前，一定要先掌握 Freemind 的编译</span></li></ul>
+<ul><li><a name="Freemind_Link_1524525229"></a><span style="">步骤</span>
+<ul><li><a name="Freemind_Link_1390981631"></a><span style="">FreeMind 代码下载</span></li></ul>
+<ul><li><a name="Freemind_Link_608634967"></a><span style="">安装 WHODO 的 Freemind 补丁</span></li></ul>
+<ul><li><a name="Freemind_Link_1084388283"></a><span style="">安装软件</span>
+<ul><li><a name="Freemind_Link_424909702"></a><span style="">JDK</span></li></ul>
+<ul><li><a name="Freemind_Link_1711543388"></a><span style="">Eclipse</span></li></ul>
+<ul><li><a name="Freemind_Link_558641692"></a><span style="">Ant</span></li></ul>
+<ul><li><a name="Freemind_Link_1068027128"></a><span style="">Java Web Services Developer Pack 2.0</span>
+<ul><li><a name="Freemind_Link_417670950"></a><span style="">http://java.sun.com/xml/downloads/jaxb.html</span></li></ul>
+<ul><li><a name="Freemind_Link_1161740446"></a><span style="">JAXB</span>
+<ul><li><span style="">Java Architecture for XML Binding</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1351480490"></a><span style="">JAXP</span>
+<ul><li><span style="">Java API for XML Processing</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_18146495"></a><span style="">JAXR</span>
+<ul><li><a name="Freemind_Link_1101748905"></a><span style="">Java API for XML Registries (JAXR)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_16968340"></a><span style="">JAXRPC</span>
+<ul><li><span style="">JAX-RPC Version 1.1.3_01 EA (Java API for XML-based RPC)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_925588356"></a><span style="">SAAJ</span>
+<ul><li><span style="">SOAP with Attachments API for Java</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_263976015"></a><span style="">创建 Eclipse 工程</span></li></ul>
+<ul><li><a name="Freemind_Link_515237302"></a><span style="">Ant 编译</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_785380609"></a><span style="">FAQ</span>
+<ul><li><a name="Freemind_Link_720301975"></a><span style="">JaxMe</span>
+<ul><li><a name="Freemind_Link_1162361594"></a><span style="">http://ws.apache.org/jaxme/downloads.cgi</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_464302401"></a><span style="">build.xml 解析</span>
+<ul><li><a name="Freemind_Link_1650978036"></a><a style="" href="#Freemind_Link_905820494">gen</a>
+
+<ul><li><a name="Freemind_Link_1846407407"></a><span style="">xmlbind</span>
+<ul><li><a name="Freemind_Link_632201962"></a><span style="">参数</span>
+<ul><li><span style="">&lt;param name="gen.file" value="actions"/&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_1218423517"></a><span style="">&lt;param name="xsd.file" value="freemind_actions.xsd"/&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1416346551"></a><span style="">创建目录 ${gen.dir}/${gen.file}，即 generated/actions</span></li></ul>
+<ul><li><a name="Freemind_Link_1061352750"></a><span style="">xjc</span>
+<ul><li><a name="Freemind_Link_1675462734"></a><span style="">xjc 定义</span>
+<ul><li><a name="Freemind_Link_312412084"></a><span style="">&lt;taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask" 
+        classpath="${jaxb}" /&gt;
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1078066889"></a><span style="">schema： ${xsd.dir}/freemind_actions.xsd （.//freemind_actions.xsd）</span></li></ul>
+<ul><li><a name="Freemind_Link_1594100363"></a><span style="">目标： ${gen.dir}/actions （generated/actions）</span></li></ul>
+<ul><li><a name="Freemind_Link_914046923"></a><span style="">package="freemind.controller.${gen.file}.generated.instance" /&gt;</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_798672130"></a><span style="">将会由 ${xsd.dir}/${xsd.file} 生成 generated/actions/freemind/controller/actions/generated/instance/jaxb.properties 文件</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_905820494"></a><a style="" href="#Freemind_Link_1623530901">build</a>
+
+
+<ul><li><a name="Freemind_Link_537054088"></a><span style="">创建目录 ${build} （即 ../bin/classes）</span></li></ul>
+<ul><li><a name="Freemind_Link_1187086638"></a><a style="" href="#Freemind_Link_905140915">build-generated</a>
+
+<ul><li><a name="Freemind_Link_1665023518"></a><span style="">调用 -buildgen</span>
+<ul><li><a name="Freemind_Link_1068206652"></a><span style="">参数</span>
+<ul><li><span style="">&lt;param name="gen.file" value="actions"/&gt;</span></li></ul>
+<ul><li><span style="">&lt;param name="xsd.file" value="freemind_actions.xsd"/&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_546998755"></a><span style="">javac 编译</span>
+<ul><li><a name="Freemind_Link_1428712188"></a><span style="">源文件 ${gen.dir}/${gen.file}， （即  generated/actions）</span></li></ul>
+<ul><li><a name="Freemind_Link_936876664"></a><span style="">目标 ${build} （即 ../bin/classes）</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_140032416"></a><span style="">拷贝文件</span>
+<ul><li><a name="Freemind_Link_1969041438"></a><span style="">将  ${gen.dir}/actions/freemind/controller/actions/generated 目录
+中的 **/jaxb.properties， **/*.ser 文件
+拷贝到 ${build}/freemind/controller/actions/generated</span></li></ul>
+<ul><li><a name="Freemind_Link_61829020"></a><span style="">代码</span>
+<ul><li><a name="Freemind_Link_1174161785"></a><span style="">    &lt;copy todir="${build}/freemind/controller/${gen.file}/generated" &gt;
+      &lt;fileset dir="${gen.dir}/${gen.file}/freemind/controller/${gen.file}/generated" &gt;
+        &lt;include name="**/jaxb.properties" /&gt;
+        &lt;include name="**/*.ser" /&gt;
+      &lt;/fileset&gt;
+    &lt;/copy&gt;
+</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_836950883"></a><span style="">javac 编译</span>
+<ul><li><a name="Freemind_Link_1589168029"></a><span style="">源代码 srcdir="${src}"</span>
+<ul><li><a name="Freemind_Link_252296725"></a><span style="">除了 accessories/plugins/**， plugins/**，${gen.dir}/** 的代码</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1390591773"></a><span style="">目标 destdir="${build}"</span></li></ul>
+<ul><li><a name="Freemind_Link_1741528056"></a><span style="">代码</span>
+<ul><li><a name="Freemind_Link_884034275"></a><span style="">		&lt;javac	srcdir="${src}"
+			destdir="${build}"
+			classpath="${classpath}"
+			debug="${debug}"
+    	   source="${java_source_version}"
+	       target="${java_target_version}"
+			&gt; </span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1447133949"></a><span style="font-family:sansserif;font-size:12;">执行 accessories/plugins/build.xml，目标 build</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_88946473"></a><span style="font-family:sansserif;font-size:12;">执行  plugins/build.xml，目标 build</span>
+
+<ul><li><a name="Freemind_Link_1071121455"></a><span style="">plugins/build_help.xml， 目标 build</span></li></ul>
+<ul><li><a name="Freemind_Link_116843391"></a><span style="">plugins/build_svg.xml， 目标 build</span></li></ul>
+<ul><li><a name="Freemind_Link_2395498"></a><span style="">plugins/build_time..xml， 目标 build</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1623530901"></a><span style="">jar</span>
+<ul><li><a name="Freemind_Link_514351639"></a><span style="">创建目录 &lt;mkdir dir="${dist.lib}" /&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_636225971"></a><span style="">创建 ${dist.lib}/freemind.jar，即 freemind 的主要的 jar</span></li></ul>
+<ul><li><a name="Freemind_Link_1391813974"></a><span style="">freemind.jar 中打包文件</span>
+<ul><li><a name="Freemind_Link_14802501"></a><span style="">${build} 目录下</span>
+<ul><li><a name="Freemind_Link_1478237371"></a><span style="">除了 accessories/** 和 plugins/**</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_789813982"></a><span style="">${src} 目录下</span>
+<ul><li><span style="">images/*</span></li></ul>
+<ul><li><span style="">images/icons/*.png</span></li></ul>
+<ul><li><span style="">freemind.properties</span></li></ul>
+<ul><li><span style="">user.properties</span></li></ul>
+<ul><li><span style="">patterns.xml</span></li></ul>
+<ul><li><span style="">Resources*</span></li></ul>
+<ul><li><span style="">mindmap_menus.xml</span></li></ul>
+<ul><li><span style="">**/freemind_version_updater.xslt</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1027118988"></a><span style="">dist</span>
+<ul><li><a name="Freemind_Link_1372300111"></a><span style="">拷贝 ${src} 中的 freemind.bat,freemind.sh,license,patterns.xml 到 ${dist} 目录中</span></li></ul>
+<ul><li><a name="Freemind_Link_191300453"></a><span style="">拷贝 ${src}/user_comment.properties 到  ${dist}/user.properties 中</span></li></ul>
+<ul><li><a name="Freemind_Link_1685430348"></a><span style="">拷贝 ${src}/windows-launcher/Freemind.exe 到 ${dist} 中</span></li></ul>
+<ul><li><a name="Freemind_Link_1437191878"></a><span style="">创建目录 ${dist}/accessories</span>
+<ul><li><a name="Freemind_Link_1989144875"></a><span style="">将 ${src}/accessories 除了 ${src}/accessories/plugins 外拷贝其中</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_215884887"></a><span style="">创建目录 ${dist}/plugins</span></li></ul>
+<ul><li><a name="Freemind_Link_760397887"></a><span style="">创建 ${dist.lib} 目录</span>
+<ul><li><a name="Freemind_Link_1038393695"></a><span style="">拷贝 ${src}/lib 中 **/jaxb-xjc.jar, jarbundler.jar 拷贝其中</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1604777265"></a><span style="font-family:sansserif;font-size:12;">执行 accessories/plugins/build.xml，目标 dist</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_230313064"></a><span style="font-family:sansserif;font-size:12;">执行 plugins/build.xml，目标 dist</span>
+
+<ul><li><a name="Freemind_Link_1506805020"></a><span style="">plugins/build_help.xml， 目标 dist</span></li></ul>
+<ul><li><a name="Freemind_Link_249018809"></a><span style="">plugins/build_svg.xml， 目标 dist</span></li></ul>
+<ul><li><a name="Freemind_Link_1849938503"></a><span style="">plugins/build_time..xml， 目标 dist</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1536361413"></a><span style="">browser</span>
+<ul><li><a name="Freemind_Link_797115131"></a><span style="">创建目录 &lt;mkdir dir="${dist}/browser" /&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_1079362994"></a><span style="">创建 ${dist}/browser/freemindbrowser.jar，即浏览器 applet </span></li></ul>
+<ul><li><a name="Freemind_Link_857065457"></a><span style="">freemindbrowser.jar 包含文件</span>
+<ul><li><a name="Freemind_Link_471382831"></a><span style="">${build} 目录下</span>
+<ul><li><span style="">freemind/extensions/*</span></li></ul>
+<ul><li><span style="">freemind/view/*</span></li></ul>
+<ul><li><span style="">freemind/view/mindmapview/*</span></li></ul>
+<ul><li><span style="">freemind/main/*</span></li></ul>
+<ul><li><span style="">freemind/controller/*</span></li></ul>
+<ul><li><span style="">freemind/modes/*</span></li></ul>
+<ul><li><span style="">freemind/modes/browsemode/*</span></li></ul>
+<ul><li><span style="">accessories/plugins/**</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1168994174"></a><span style="">${src} 目录下</span>
+<ul><li><span style="">images/*</span></li></ul>
+<ul><li><span style="">images/icons/*.png</span></li></ul>
+<ul><li><a name="Freemind_Link_331180460"></a><span style="">*.properties</span></li></ul>
+<ul><li><a name="Freemind_Link_1700886100"></a><span style="">accessories/plugins/**</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1912360046"></a><span style="">拷贝文件</span>
+<ul><li><a name="Freemind_Link_638542544"></a><span style="">${src}/freemind.properties 拷贝到 ${src}/user.properties</span></li></ul>
+<ul><li><a name="Freemind_Link_617378101"></a><span style="">将 ${src}/html/*.*html 拷贝到 ${dist}/browser 下</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_2290929"></a><span style="">doc</span>
+<ul><li><a name="Freemind_Link_775361187"></a><span style="">创建目录 ${dist}/doc</span></li></ul>
+<ul><li><a name="Freemind_Link_1595170542"></a><span style="">创建目录 ${dist}/doc/javadoc</span></li></ul>
+<ul><li><a name="Freemind_Link_1945091965"></a><span style="">将 ${src}/doc/freemind.mm 文件拷贝到 ${dist}/doc</span></li></ul>
+<ul><li><a name="Freemind_Link_1328893121"></a><span style="">将 ${src} 中 freemind.* 的 package 生成 javadoc 到 ${dist}/doc/javadoc 目录</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_218963142"></a><span style="">post</span>
+<ul><li><a name="Freemind_Link_259291030"></a><span style="">创建目录 ${post}</span></li></ul>
+<ul><li><a name="Freemind_Link_1125933012"></a><span style="">创建 ${post}/freemind-bin.tar.gz 和 freemind-bin.zip</span>
+<ul><li><a name="Freemind_Link_743299922"></a><span style="">包含 ${dist} 中除了 browser/,doc/javadoc/,plugins/** 外的文件</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_591047035"></a><span style="">创建 ${post}/freemind-src.tar.gz 和 freemind-src.zip</span>
+<ul><li><a name="Freemind_Link_1720174146"></a><span style="">包含 ${src_base_for_post}（../） 中 freemind/**,.classpath,.project 文件</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1267805286"></a><span style="">创建 ${post}/freemind-browser.tar.gz 和 freemind-browser.zip</span>
+<ul><li><a name="Freemind_Link_182910909"></a><span style="">包含 ${dist}/browser 文件</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_652669815"></a><span style="font-family:sansserif;font-size:12;">执行 plugins/build.xml，目标 post</span>
+
+<ul><li><a name="Freemind_Link_994341928"></a><span style="">plugins/build_help.xml， 目标 post</span></li></ul>
+<ul><li><a name="Freemind_Link_1625439204"></a><span style="">plugins/build_svg.xml， 目标 post</span></li></ul>
+<ul><li><a name="Freemind_Link_1808440760"></a><span style="">plugins/build_time..xml， 目标 post</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_615707382"></a><span style="">run</span>
+<ul><li><a name="Freemind_Link_393251654"></a><span style="">执行 ${FM.jar} 的 freemind.main.FreeMind</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1603325659"></a><span style="">clean</span>
+<ul><li><a name="Freemind_Link_520284312"></a><span style="">删除目录 build, dist, dist_macos_base, gen.dir, post, 
+删除文件 src/**/*~</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_107834387"></a><span style="">build.xml 异常处理</span>
+<ul><li><a name="Freemind_Link_418066892"></a><span style="">报错</span>
+<ul><li><span style="">E:\Home\WORK\eclipse\freemind\build.xml:23: taskdef class com.loomcom.ant.tasks.jarbundler.JarBundler cannot be found</span></li></ul>
+<ul><li><a name="Freemind_Link_784726161"></a><span style="">在 Preferences -&gt; Ant -&gt; Runtime -&gt; Classpath 中设置。</span>
+<ul><li><a name="Freemind_Link_1337323848"></a><span style="">Add jars -&gt; freemind/lib/jarbundler-1.4.jar</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1715307800"></a><span style="">报错</span>
+<ul><li><span style="">E:\Home\WORK\eclipse\freemind\build.xml:35: taskdef class com.sun.tools.xjc.XJCTask cannot be found</span></li></ul>
+<ul><li><a name="Freemind_Link_1163326636"></a><span style="">在 Preferences -&gt; Ant -&gt; Runtime -&gt; Classpath 中设置。</span>
+<ul><li><a name="Freemind_Link_452199483"></a><span style="">Add jars -&gt; freemind/lib/ant/lib/jaxb-xjc.jar</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1410140293"></a><span style="">报错</span>
+<ul><li><a name="Freemind_Link_1811357155"></a><span style="">E:\Home\WORK\eclipse\freemind\build.xml:75: The following error occurred while executing this line:
+java.lang.NoClassDefFoundError: org/apache/xerces/xni/XNIException</span></li></ul>
+<ul><li><a name="Freemind_Link_1438843627"></a><span style="">使用 jwsp2.0 的 lib 取代 freemind/lib 下的 jar 文件</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_905140915"></a><span style="">报错</span>
+<ul><li><a name="Freemind_Link_907519513"></a><span style="">    [javac] Compiling 65 source files to E:\Home\WORK\eclipse\bin\classes
+    [javac] E:\Home\WORK\eclipse\freemind\generated\actions\freemind\controller\actions\generated\instance\AddArrowLinkXmlAction.java:45: -source 1.3 中不支持注释
+    [javac] （请尝试使用 -source 1.5 以启用注释）
+    [javac] @XmlAccessorType(AccessType.FIELD)
+    [javac] ^
+</span></li></ul>
+<ul><li><a name="Freemind_Link_189984790"></a><span style="">如何 debug classpath 的值？ &lt;fail message="${classpath}"/&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_1340569510"></a><span style="">解决方法：问题出在 java_target_version 的值，修改为 1.5</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1829222982"></a><span style="">报错</span>
+<ul><li><a name="Freemind_Link_585902002"></a><span style="">    [javac] E:\Home\WORK\eclipse\freemind\freemind\preferences\layout\OptionPanel.java:67: 找不到符号
+    [javac] 符号： 类 OptionPanelWindowConfigurationStorageType
+    [javac] 位置： 软件包 freemind.controller.actions.generated.instance
+    [javac] import freemind.controller.actions.generated.instance.OptionPanelWindowConfigurationStorageType;
+    [javac] ^
+</span></li></ul>
+<ul><li><a name="Freemind_Link_36387893"></a><span style="">classpath 为 ：
+lib/ant/lib/jaxb-xjc.jar:lib/ant/lib/jaxb-api.jar:lib/ant/lib/jaxb-impl.jar:lib/ant/lib/jaxb-libs.jar:lib/ant/lib/namespace.jar:lib/ant/lib/relaxngDatatype.jar:lib/ant/lib/xsdlib.jar:lib/ant/lib/jax-qname.jar:lib/ant/lib/sax.jar:lib/ant/lib/dom.jar:lib/commons-lang-2.0.jar:lib/forms-1.0.5.jar </span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_835606910"></a><span style="">创建 Eclipse 工程</span>
+<ul><li><a name="Freemind_Link_1211560828"></a><span style="">目录结构</span>
+<ul><li><a name="Freemind_Link_106406627"></a><span style="">.classpath
+.project
+freemind/build.xml
+freemind/accessories
+freemind/freemind
+freemind/plugins
+...</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1686778107"></a><span style="">从 build.xml 创建新 java 工程</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1511307513"></a><span style="">如何提交更改？</span>
+<ul><li><a name="Freemind_Link_1970897514"></a><span style="">Wiki</span>
+<ul><li><a name="Freemind_Link_1832386521"></a><span style="">在 Wiki 上建立自述页面 User:YOUR_NAME，并将自己的更改作为自述页面的自页面；</span></li></ul>
+<ul><li><a name="Freemind_Link_1327277375"></a><span style="">格式参照：  http://freemind.sourceforge.net/wiki/index.php/User:Jiangxin</span></li></ul>
+<ul><li><a name="Freemind_Link_1358549848"></a><span style="">提交到 WHODO Wiki 上，最好在提交到 http://freemind.sourceforge.net/wiki/ 上一份，因为那里是 FreeMind 大本营，有足够多的眼睛帮你找 Bug</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_760012721"></a><span style="">SVN</span>
+<ul><li><a name="Freemind_Link_1238526388"></a><span style="">申请获得 WHODO SVN 用户账号；</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_4604100"></a><span style="">关于 Freemind.exe</span>
+<ul><li><a name="Freemind_Link_861336145"></a><span style="">实际上是 lib/freemind.jar 的一个 Wrapper</span></li></ul>
+<ul><li><a name="Freemind_Link_915876304"></a><span style="">实际执行的命令行</span>
+<ul><li><a name="Freemind_Link_748192297"></a><span style="">javaw.exe</span></li></ul>
+<ul><li><a name="Freemind_Link_872054497"></a><span style="">-Xmx256M</span>
+<ul><li><a name="Freemind_Link_611429171"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">内存最大占用 256MB。因此如果编辑大文件，存在内存问题，可以从这里入手修改。</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1929656870"></a><span style="">-jar</span></li></ul>
+<ul><li><a name="Freemind_Link_1592634363"></a><span style="">&lt;PATH&gt;\\lib\\freemind.jar</span></li></ul>
+<ul><li><a name="Freemind_Link_206654170"></a><span style="">其余参数从 main() 的参数传递</span></li></ul>
+<ul><li><a name="Freemind_Link_1356774133"></a><span style="">最后一个参数为 null</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_915719985"></a><span style="">如果将来编辑大文件（100MB）存在内存问题，可能需要修改 Freemind.exe 调用 JVM 的参数！</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_453681464"></a><span style="">处理流程</span>
+<ul><li><a name="Freemind_Link_247350915"></a><span style="">freemind.main</span>
+<ul><li><a name="Freemind_Link_1066379644"></a><span style="">main/FreeMind.java</span>
+<ul><li><a name="Freemind_Link_1280162027"></a><span style="">main()</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1977156845"></a><span style="">文件打开</span>
+<ul><li><a name="Freemind_Link_31371904"></a><span style="">modes/ControllerAdapter.java</span>
+<ul><li><a name="Freemind_Link_103438654"></a><span style="">打开文件对话框</span></li></ul>
+<ul><li><a name="Freemind_Link_1080677388"></a><span style="">line 660: public void open()</span>
+<ul><li><a name="Freemind_Link_1986277200"></a><a style="" href="#Freemind_Link_1805329207">加载文件: load(chooser.getSelectedFile());</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1805329207"></a><a style="" href="#Freemind_Link_1986401424">line 541: public void load (File file)</a>
+
+<ul><li><span style="">model.load(file);</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_206532566"></a><span style="">modes/mindmapmode/MindMapMapModel.java</span>
+<ul><li><a name="Freemind_Link_1986401424"></a><span style="">line 508: public void load(File file)</span>
+<ul><li><a name="Freemind_Link_417290305"></a><a style="" href="#Freemind_Link_1381097000">MindMapNodeModel root = loadTree(file);</a>
+
+<ul><li><a name="Freemind_Link_1889224305"></a><span style="">加载文件</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_925499367"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">是不是在这里加载 .mmx 文件？</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1381097000"></a><span style="">line 544: loadTree(File file)</span>
+<ul><li><a name="Freemind_Link_1431158249"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">检查文件头 &lt;map version=...，因此如果最前面加上 &lt;?xml ... 会造成版本判断错误！</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1372610927"></a><span style="">版本正确</span>
+<ul><li><span style="">reader = getActualReader(file);</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1357606599"></a><span style="">版本太旧</span>
+<ul><li><a name="Freemind_Link_1761981820"></a><span style="">reader = getUpdateReader(file);</span>
+<ul><li><a name="Freemind_Link_1122991728"></a><span style="">用 xslt 文件 freemind/modes/mindmapmode/freemind_version_updater.xslt 进行格式转换</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_958857263"></a><span style="">mapElement.parseFromReader(reader);</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_347655959"></a><span style="">文件保存</span>
+<ul><li><a name="Freemind_Link_330228848"></a><span style="">modes/ControllerAdapter.java</span>
+<ul><li><a name="Freemind_Link_263411523"></a><span style="">line 699: public boolean saveAs() </span>
+<ul><li><a name="Freemind_Link_1203851535"></a><span style="">File f = chooser.getSelectedFile();</span></li></ul>
+<ul><li><a name="Freemind_Link_689647375"></a><span style="">保存文件到 f，并强制扩展名为 .mm</span>
+<ul><li><a name="Freemind_Link_741049636"></a><span style="">        String ext = Tools.getExtension(f.getName());
+        if(!ext.equals("mm")) {
+           f = new File(f.getParent(),f.getName()+".mm"); }        
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_274755276"></a><a style="" href="#Freemind_Link_1971628092">调用 save(f) 保存文件</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1971628092"></a><span style="">public boolean save(File file) </span>
+<ul><li><a name="Freemind_Link_1183594662"></a><span style="">调用 getModel().save(file)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_735546910"></a><span style="">modes/mindmapmode/MindMapMapModel.java</span>
+<ul><li><a name="Freemind_Link_355826110"></a><a style="" href="#Freemind_Link_965138483">line 406:  save(File file)</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_965138483"></a><span style="">line 411: boolean saveInternal(File file, boolean isInternal)</span>
+<ul><li><a name="Freemind_Link_469868447"></a><span style="">保存文件</span>
+<ul><li><span style="">BufferedWriter fileout = new BufferedWriter( new OutputStreamWriter( new FileOutputStream(file), FreeMind.DEFAULT_CHARSET ) );</span></li></ul>
+<ul><li><a name="Freemind_Link_442855904"></a><a style="" href="#Freemind_Link_227772565">getXml(fileout);</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1963682553"></a><span style="">增加保存 .mmx 文件，用于保存 fold 等属性</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_227772565"></a><span style="">line 445: getXml(fileout)</span>
+<ul><li><a name="Freemind_Link_304823088"></a><span style="">保存 XML 文件</span></li></ul>
+<ul><li><a name="Freemind_Link_1438273895"></a><a style="" href="#Freemind_Link_1139438905">((MindMapNodeModel)getRoot()).save(fileout, this.getLinkRegistry());</a>
+
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_316675860"></a><span style="">modes/mindmapmode/MindMapNodeModel.java</span>
+<ul><li><a name="Freemind_Link_1139438905"></a><a style="" href="#Freemind_Link_50579119">继承 NodeAdapter</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_950593154"></a><span style="">modes/NodeAdapter.java</span>
+<ul><li><a name="Freemind_Link_50579119"></a><span style="">line 829: public XMLElement save(Writer writer, MindMapLinkRegistry registry)</span>
+<ul><li><a name="Freemind_Link_331519363"></a><span style="">不保存 FOLDED 属性</span>
+<ul><li><a name="Freemind_Link_1701362483"></a><span style="">        if (0 == save_attr)
+    	{
+    		if (!isRoot() &amp;&amp; !isLeaf()) {
+    			node.setAttribute("FOLDED","true");
+    		}
+    	}
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1194618159"></a><span style="">写 node</span>
+<ul><li><a name="Freemind_Link_634919699"></a><span style="">child.save(writer, registry);
+node.writeClosingTag(writer);</span>
+<ul><li><a name="Freemind_Link_823965903"></a><span style="">如果包含字节点</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_9628896"></a><a style="" href="#Freemind_Link_1967427320">node.write(writer);</a>
+
+</li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_8694099"></a><span style="">main/XMLElement.java</span>
+<ul><li><a name="Freemind_Link_1967427320"></a><span style="">line 2193: public void write(Writer writer, boolean withClosingTag)</span></li></ul>
+<ul><li><a name="Freemind_Link_1521378270"></a><span style="">设置 only_attlist</span>
+<ul><li><a name="Freemind_Link_945409491"></a><span style="">只保存 only_attlist 的属性。不再检查 hide_attlist</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1655677242"></a><span style="">设置 hide_attlist</span>
+<ul><li><a name="Freemind_Link_1964659248"></a><span style="">不保存 hide_attlist 的属性</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1749983879"></a><span style="">设置 em_attlist</span>
+<ul><li><a name="Freemind_Link_1199539125"></a><span style="">设置为强调的 em_attlist，另起一行显示。显示完毕如果还有属性值，换行并缩进</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_540286668"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">Hacking</span>
+
+<ul><li><a name="Freemind_Link_153678580"></a><span style="">版本号</span>
+<ul><li><a name="Freemind_Link_989618317"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">main/FreeMind.java </span>
+
+<ul><li><a name="Freemind_Link_1965391059"></a><span style="">public static final String version = "0.8.0(worldhello.net)"; </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_206547945"></a><span style="">controller/Controller.java</span>
+<ul><li><a name="Freemind_Link_533056935"></a><span style="">该文件读取 FreeMind.version，但是由于没有设置依赖关系，造成 About 对话框没有更新。需要 rebuild.</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1890191063"></a><span style="">build.xml</span>
+<ul><li><a name="Freemind_Link_611413449"></a><span style="">&lt;property name="ver" value="0_8_0" /&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_1004458545"></a><span style="">决定生成 jar 文件的文件名</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_773939713"></a><span style="">中文内容的存储。utf-8 格式的 xml 文件。</span>
+<ul><li><a name="Freemind_Link_280594994"></a><span style="">文件 modes/ControllerAdapter.java</span>
+<ul><li><a name="Freemind_Link_468215801"></a><span style="">public boolean saveAs() </span></li></ul>
+<ul><li><a name="Freemind_Link_47793143"></a><span style="">public boolean save(File file) </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_638850632"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">modes/mindmapmode/MindMapMapModel.java</span>
+
+<ul><li><a name="Freemind_Link_368916152"></a><span style="">private boolean saveInternal(File file, boolean isInternal) </span>
+<ul><li><a name="Freemind_Link_325609082"></a><span style="">保存文件接口， isInternal 为 true，则是保存备份</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1956774680"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">line 418 增加 charset 设置</span>
+
+<ul><li><a name="Freemind_Link_1142801037"></a><span style=""></span>
+
+  
+    
+  
+  
+    BufferedWriter fileout = new BufferedWriter( new OutputStreamWriter( new FileOutputStream(file), "UTF-8" ) );
+  
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1356194758"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">line 444: public void getXml(Writer fileout) </span>
+
+<ul><li><a name="Freemind_Link_590274686"></a><span style="">写 XML 文件</span></li></ul>
+<ul><li><a name="Freemind_Link_1064443752"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">增加一行</span>
+
+<ul><li><a name="Freemind_Link_752873856"></a><span style="">fileout.write("&lt;?xml version=\"1.0\" encoding=\"UTF-8\"?&gt;\n");</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1222416786"></a><a style="" href="#Freemind_Link_408391117">((MindMapNodeModel)getRoot()).save(fileout, this.getLinkRegistry());</a>
+
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_408391117"></a><span style="">modes/public XMLElement save(Writer writer, MindMapLinkRegistry registry) </span>
+<ul><li><a name="Freemind_Link_714323382"></a><span style="">保存 node 信息</span></li></ul>
+<ul><li><a name="Freemind_Link_1560638938"></a><span style="">NODE 格式</span>
+<ul><li><span style="">&lt;node CREATED="1143916340296" FOLDED="true" ID="Freemind_Link_747410934" MODIFIED="1143916344265" POSITION="right" TEXT="&amp;#x7ed3;&amp;#x675f;&amp;#x6d4b;&amp;#x8bd5;"&gt;</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1215461907"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">main/XMLElement.java</span>
+
+<ul><li><a name="Freemind_Link_894239741"></a><span style="font-family:sansserif;font-size:12;">public void write(Writer writer, boolean withClosingTag)</span>
+
+<ul><li><a name="Freemind_Link_884282703"></a><span style="">保存 node</span></li></ul>
+<ul><li><span style="">this.writeEncoded(writer, this.contents);</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1235542612"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">protected void writeEncoded(Writer writer, String str)</span>
+
+<ul><li><a name="Freemind_Link_762452598"></a><span style="">                    int unicode = (int) ch;
+                    if ((unicode &lt; 32) /*|| (unicode &gt; 126)*/ ) {
+                        writer.write('&amp;'); writer.write('#');
+                        writer.write('x');
+                        writer.write(Integer.toString(unicode, 16));
+                        writer.write(';');
+                    } else {
+                        writer.write(ch);
+                    }
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1503280973"></a><span style="">写入：String newStr = new String(oldStr.getByte(“GB2312”), “ISO8859_1”);
+读出：String newStr = new String(oldStr.getByte(“ISO8859_1”),”GB2312”);
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1578683283"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_729024460"></a><span style="">import java.io.*;
+
+public class inputtest {
+  
+  public static void main(String[] args) {
+    String outfile = null;
+
+    try { convert(args[0], args[1], "GB2312", "UTF8"); } // or "BIG5"
+    catch (Exception e) {
+      System.out.print(e.getMessage());
+      System.exit(1);
+    }
+  }
+
+  public static void convert(String infile, String outfile, String from, String to) 
+       throws IOException, UnsupportedEncodingException
+  {
+    // set up byte streams
+    InputStream in;
+    if (infile != null) in = new FileInputStream(infile);
+    else in = System.in;
+    OutputStream out;
+    if (outfile != null) out = new FileOutputStream(outfile);
+    else out = System.out;
+
+    // Use default encoding if no encoding is specified.
+    if (from == null) from = System.getProperty("file.encoding");
+    if (to == null) to = System.getProperty("file.encoding");
+
+    // Set up character stream
+    Reader r = new BufferedReader(new InputStreamReader(in, from));
+    Writer w = new BufferedWriter(new OutputStreamWriter(out, to));
+
+    // Copy characters from input to output.  The InputStreamReader
+    // converts from the input encoding to Unicode,, and the OutputStreamWriter
+    // converts from Unicode to the output encoding.  Characters that cannot be
+    // represented in the output encoding are output as '?'
+    char[] buffer = new char[4096];
+    int len;
+    while((len = r.read(buffer)) != -1) 
+      w.write(buffer, 0, len);
+    r.close();
+    w.flush();
+    w.close();
+  }
+
+}
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_228836602"></a><span style="">   public String toString()  </span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_196690741"></a><span style="font-family:sansserif;font-size:12;">fold/unford 的存储信息保存在外部</span>
+
+<ul><li><a name="Freemind_Link_279762883"></a><span style="">保存在文件 .mmx 中</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1912935422"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">读入 MindMap，连同 .mmx 一并读入</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_305613236"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">节点被选择后，输入 ascii 字符，直接替换，但是输入中文则不起作用！</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_545228396"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">设置对话框增加</span>
+
+<ul><li><a name="Freemind_Link_1462194822"></a><span style="">保存文件的字符集</span></li></ul>
+<ul><li><a name="Freemind_Link_1398891243"></a><span style="">分开存放 fold/unfold 等信息</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1301669122"></a><span style="">其他</span>
+
+<ul><li><a name="Freemind_Link_589832144"></a><span style="">用户自定义</span>
+<ul><li><a name="Freemind_Link_425957412"></a><span style="">目录: C:\Documents and Settings\&lt;UserName&gt;\.freemind </span></li></ul>
+<ul><li><a name="Freemind_Link_1927554508"></a><span style="">user.properties</span>
+<ul><li><a name="Freemind_Link_1769004723"></a><span style="">C:\Documents and Settings\&lt;UserName&gt;\.freemind\user.properties</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1553305141"></a><span style="">patterns.xml</span>
+<ul><li><a name="Freemind_Link_193643973"></a><span style="">用户可以自定义 patterns.xml</span></li></ul>
+<ul><li><a name="Freemind_Link_1936131317"></a><span style="">自定义样式</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1056355014"></a><span style="">自动保存</span>
+<ul><li><a name="Freemind_Link_1558456782"></a><span style="">自动保存的目录</span>
+<ul><li><a name="Freemind_Link_659043161"></a><span style="">user.properties 中的默认配置是 path_to_automatic_saves=freemind_home</span></li></ul>
+<ul><li><a name="Freemind_Link_647925142"></a><span style="">即 user.properties 所在的目录</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_947773230"></a><span style="">版本控制</span>
+<ul><li><a name="Freemind_Link_1757541703"></a><span style="">版本</span>
+<ul><li><a name="Freemind_Link_1564385688"></a><span style="">0.4</span>
+<ul><li><a name="Freemind_Link_1853726563"></a><span style="">补充 Debian Linux 下安装 WorldHello 版本的 FreeMind。(2007/06/19)</span></li></ul>
+<ul><li><a name="Freemind_Link_1943835699"></a><span style="">增加 FreeMind Flash player 限制条件。(2007/06/19)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1127595077"></a><span style="">0.3</span>
+<ul><li><a name="Freemind_Link_1940091493"></a><span style="">修改 whodo svn 地址。 (2007/06/04)</span></li></ul>
+<ul><li><a name="Freemind_Link_572328670"></a><span style="">添加 freemind 下载地址。 (2007/06/04)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_211307111"></a><span style="">0.2</span>
+<ul><li><a name="Freemind_Link_302969466"></a><span style="">补充 FreeMind 在网页上的显示。 (2006/05/03)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1998866896"></a><span style="">作者</span>
+<ul><li><a name="Freemind_Link_1892886125"></a><span style="">蒋鑫</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</p><p class="info">//mm2html.xsl FreemindVersion:0.9.0_Beta_8</p></body></html>

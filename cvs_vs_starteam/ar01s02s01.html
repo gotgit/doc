@@ -1,0 +1,1691 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.1. CVS服务器设置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="vs-svrsetup.html" title="2. CVS vs. STARTEAM——服务器设置">
+<link rel="prev" href="vs-svrsetup.html" title="2. CVS vs. STARTEAM——服务器设置">
+<link rel="next" href="ar01s02s02.html" title="2.2. Starteam服务器权限设置">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.1. CVS服务器设置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="vs-svrsetup.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. CVS vs. STARTEAM——服务器设置</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s02s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4510464"></a>2.1. CVS服务器设置</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="ar01s02s01.html#idp4510976">2.1.1. 运行 CVS</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s01.html#cvs-account">2.1.2. 添加帐号和设置权限</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s01.html#idp4544320">2.1.3. 创建工程</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s01.html#cvs-admin-files">2.1.4. 用CVS管理文件进行功能扩充</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s01.html#linux-acl">2.1.5. 基于 Linux ACL 的权限控制</a></span></dt>
+</dl></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4510976"></a>2.1.1. 运行 CVS</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+<code class="filename">/etc/services</code>
+</p>
+<pre class="screen">
+...
+cvspserver      2401/tcp
+cvspserver      2401/udp
+...
+</pre>
+</li>
+<li>
+<p>
+用xinetd运行: <code class="filename">/etc/xinetd.d/cvs</code>
+</p>
+<pre class="screen">
+
+service cvspserver
+{
+        socket_type     = stream        
+        protocol        = tcp
+        wait            = no
+        user            = root
+        server          = /usr/bin/cvs
+        server_args     = -f --allow-root=/repos/root1 --allow-root=/repos/root2 pserver
+        disable         = no
+}
+
+</pre>
+</li>
+<li>
+<p>
+用inetd运行: <code class="filename">/etc/inetd.conf</code>
+</p>
+<pre class="screen">
+
+...
+cvspserver stream tcp nowait root /usr/bin/cvs cvs -f --allow-root=/repos/project --allow-root=/repos/user pserver
+...
+
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="cvs-account"></a>2.1.2. 添加帐号和设置权限</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+创建系统帐号
+</p>
+<p>
+假设目录 <code class="filename">/repos/project</code> 作为多人共享项目的版本控制根目录，需要用组权限控制；<code class="filename">/repos/user</code>作为存放个人独占地版本控制根目录。管理员帐号为cvsroot，项目版本控制的公共帐号为 cvsproject，用户版本控制的公共帐号为 cvsuser，相应的用户组为 cvsroot, cvsproject, cvsuser。
+</p>
+<pre class="screen">
+$ groupadd cvsproject
+$ groupadd cvsuser
+$ groupadd cvsroot
+$ useradd  -g cvsproject -s /sbin/nologin         cvsproject
+$ useradd  -g cvsuser    -s /sbin/nologin         cvsuser
+$ useradd  -g cvsroot    -G cvsproject,cvsuser    cvsroot               <a name="co.cvs.multigroup"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+$ useradd  -g cvsuser    -s /sbin/nologin         cvs_jiangxin          <a name="co.cvs.user"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+$ useradd  -g cvsuser    -s /sbin/nologin         cvs_johnson           
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.multigroup"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置 cvsroot 属于多个组，这样 cvsroot 用户除了进行系统维护外（如添加新的工程），还可以和其它组用户一样具有管理代码的权限。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.user"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用来和CVS用户帐号一一对应的系统帐号。系统帐号禁止登录，密码设置在相应的 CVS 对应帐号文件中设置。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+创建CVS根目录
+</p>
+<pre class="screen">
+
+$ mkdir -p /repos/project
+$ mkdir -p /repos/user
+$ chown cvsroot:cvsroot /repos/project
+$ chown cvsroot:cvsroot /repos/user
+$ chmod  775 /repos
+$ chmod 2775 /repos/project
+$ chmod 2775 /repos/user
+$ su - cvsroot
+$ cvs -d /repos/project init
+$ cvs -d /repos/user init
+
+</pre>
+<p>
+运行完毕 <span><strong class="command">cvs init</strong></span> 之后，在CVS根目录下创建了配置目录<code class="filename">CVSROOT</code>，权限如下：
+</p>
+<pre class="screen">
+$ ls -l /repos/project/CVSROOT/
+
+-r--r--r--    1 cvsroot  cvsroot       493 Jan 21 10:37 checkoutlist
+-r--r--r--    1 cvsroot  cvsroot       696 Jan 21 10:37 checkoutlist,v
+-r--r--r--    1 cvsroot  cvsroot       760 Jan 21 10:37 commitinfo
+-r--r--r--    1 cvsroot  cvsroot       963 Jan 21 10:37 commitinfo,v
+-r--r--r--    1 cvsroot  cvsroot       527 Jan 21 10:37 config
+-r--r--r--    1 cvsroot  cvsroot       730 Jan 21 10:37 config,v
+-r--r--r--    1 cvsroot  cvsroot       753 Jan 21 10:37 cvswrappers
+-r--r--r--    1 cvsroot  cvsroot       956 Jan 21 10:37 cvswrappers,v
+-r--r--r--    1 cvsroot  cvsroot      1025 Jan 21 10:37 editinfo
+-r--r--r--    1 cvsroot  cvsroot      1228 Jan 21 10:37 editinfo,v
+drwxrwxr-x    2 cvsroot  cvsroot      4096 Jan 21 10:37 Emptydir
+-rw-rw-rw-    1 cvsroot  cvsroot         0 Jan 21 10:37 history
+-r--r--r--    1 cvsroot  cvsroot      1141 Jan 21 10:37 loginfo
+-r--r--r--    1 cvsroot  cvsroot      1344 Jan 21 10:37 loginfo,v
+-r--r--r--    1 cvsroot  cvsroot      1151 Jan 21 10:37 modules
+-r--r--r--    1 cvsroot  cvsroot      1354 Jan 21 10:37 modules,v
+-r--r--r--    1 cvsroot  cvsroot       564 Jan 21 10:37 notify
+-r--r--r--    1 cvsroot  cvsroot       767 Jan 21 10:37 notify,v
+-r--r--r--    1 cvsroot  cvsroot       649 Jan 21 10:37 rcsinfo
+-r--r--r--    1 cvsroot  cvsroot       852 Jan 21 10:37 rcsinfo,v
+-r--r--r--    1 cvsroot  cvsroot       879 Jan 21 10:37 taginfo
+-r--r--r--    1 cvsroot  cvsroot      1082 Jan 21 10:37 taginfo,v
+-rw-rw-rw-    1 cvsroot  cvsroot         0 Jan 21 10:37 val-tags
+-r--r--r--    1 cvsroot  cvsroot      1026 Jan 21 10:37 verifymsg
+-r--r--r--    1 cvsroot  cvsroot      1229 Jan 21 10:37 verifymsg,v
+</pre>
+<p>
+可以看出文件 history, val-tags 的权限是任何人可读写，其它文件的权限是任何帐号只读。
+</p>
+<p>
+文件 <code class="filename">CVSROOT/val-tags</code> 用来确定是否一个TAG是可用的；文件 <code class="filename">CVSROOT/history</code> 用来记录CVS的访问记录。
+</p>
+</li>
+<li>
+<p>
+创建 CVS 用户帐号
+</p>
+<p>
+使用系统帐号不安全，而CVS提供了独立于系统的用户帐号管理。
+</p>
+<p>
+使用配置文件 <code class="filename">CVSROOT/passwd</code>, <code class="filename">CVSROOT/passwd</code>, <code class="filename">CVSROOT/passwd</code> ，来管理帐号。
+</p>
+<pre class="screen">
+$ cat /repos/project/CVSROOT/passwd
+jiangxinroot:_passwd_here_:cvsroot	<a name="co.cvspasswd.root"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+jiangxin:_passwd_here_:cvsproject
+johnson:_passwd_here_:cvsproject	<a name="co.cvspasswd.project"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+anonymous::cvsproject			<a name="co.cvspasswd.anonymous"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+
+$ cat /repos/project/CVSROOT/readers
+anonymous				<a name="co.cvsreaders.anonymous"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvspasswd.root"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户帐号 jiangxinroot，具有和系统帐号 cvsroot 同样权限。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvspasswd.project"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户帐号 jiangxin, johnson，都具有系统帐号 cvsproject 同样的权限，
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvspasswd.anonymous"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+匿名帐号 anonymous 的密码为空。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsreaders.anonymous"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+readers 文件中出现的用户帐号，只具有只读权限。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+CVS 用户修改口令
+</p>
+<p>
+我写了一个程序，作为用户登录的 shell，允许用户远程 SSH 登录，修改自己的 Unix 系统口令以及 CVS 账号口令，参见：<a href="cvs-faq.html#faq-cvspasswd">附件</a>。如果您有更好的方法，不吝赐教。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4544320"></a>2.1.3. 创建工程</h4></div></div></div>
+<p>
+只能以 cvsroot 用户创建工程。因为 cvs 根目录的权限设置为 cvsroot 帐户可写。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+在客户端创建工程
+</p>
+<pre class="screen">
+client$ cvs -d :pserver:jiangxinroot@10.0.0.7:/repos/project login
+client$ cvs -d :pserver:jiangxinroot@10.0.0.7:/repos/project import -m "add module test, vendor jiangxin, init_tag start." test jiangxin start
+
+$ ls -l /repos/project
+drwxrwxr-x    3 cvsroot  cvsroot      4096 Jan 21 10:54 CVSROOT
+drwxrwsr-x    2 cvsroot  cvsroot      4096 Jan 21 11:00 test	 <a name="co.priv.test"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+
+$ chown -R cvsproject:cvsproject test
+$ chmod -R 770 test		
+$ chmod -R g+s test		<a name="co.priv.setgid"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+
+client$ cvs -d :pserver:jiangxin@10.0.0.7:/repos/project co test		<a name="co.priv.checkout"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+client$ cvs -d :pserver:johnson@10.0.0.7:/repos/project  co -d test2 test
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.priv.test"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置工程/模块 test 的目录权限，使只有 cvsproject组用户才有读写权限，其他帐号拒绝访问。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.priv.checkout"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户帐号 jiangxin, johnson 映射为系统帐号 cvsproject，因此可以访问工程 test。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.priv.setgid"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+之所以为模块 test 设置 g+s，是为了当设置一个用户属于多个时，操作不同工程时，能够保障文件的组id维持不变。否则可能影响其它用户的权限。可以用更简单的命令执行 <span><strong class="command">chmod -R 2770 test</strong></span> 进行设置。
+</p></td>
+</tr>
+</table></div>
+<p>
+于是创建了多用户共享的工程 test。
+</p>
+</li>
+<li>
+<p>
+另一种创建工程的方法：在服务器端创建工程
+</p>
+<p>
+可以直接在服务器端创建目录，设置权限，即完成工程的创建。当然这样创建的工程只是一个空的工程，需要在客户端为空的工程逐个添加文件和目录。
+</p>
+<pre class="screen">
+$ cat /repos/project/CVSROOT/passwd
+jiangxroot:_passwd_here_:cvsroot
+anonymous:_passwd_here_:cvsuser
+jiangxin:_passwd_here_:cvs_jiangxin
+johnson:_passwd_here_:cvs_johnson
+
+$ cd /repos/project
+$ mkdir jiangxin; chown -R cvs_jiangxin:cvsuser jiangxin; chmod -R 2700 jiangxin
+$ mkdir johnson;  chown -R cvs_johnson:cvsuser  johnson;  chmod -R 2700 johnson
+</pre>
+<p>
+于是创建了两个用户独占的工程。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="cvs-admin-files"></a>2.1.4. 用CVS管理文件进行功能扩充</h4></div></div></div>
+<p>
+确省安装的CVS的权限仅仅作用于目录，而不能精细到文件级别。而且即使用户只需要拥有文件的只读权限，也要对相应的目录具有写权限，因为需要在目录下创建锁定文件。有一个办法可以避免此问题，即：通过配置文件 <code class="filename"><a href="CVSROOT/config" target="_top">CVSROOT/config</a></code> 的 LockDir 来设置单独的锁定目录，为该单独的锁定目录设置更宽泛的权限控制。
+</p>
+<p>
+CVS 提供了功能的扩充接口：CVSROOT目录下的管理文件。这些文件提供了相应功能扩充的接口，不但可以完成精细的权限控制，还能完成更加个性化的功能。关于CVSROOT下的脚本，FreeBSD 的源代码就有一个非常好的CVSROOT脚本，可供我们参照：
+</p>
+<p>
+<a href="http://www.freebsd.org/doc/en_US.ISO8859-1/articles/cvs-freebsd/article.html" target="_top">Setting up a CVS repository - the FreeBSD way</a>。我们可以参照这个指南，定制我们自己的CVSROOT脚本。
+</p>
+<p>
+下载 FreeBSD 的 CVSROOT 脚本，可以以匿名用户连接到 FreeBSD 的 CVS 服务器：
+</p>
+<pre class="screen">
+$ cvs -d :pserver:anoncvs@anoncvs.freebsd.org:2401/home/ncvs login   # 输入密码 anoncvs
+$ cvs -d :pserver:anoncvs@anoncvs.freebsd.org:2401/home/ncvs co  CVSROOT-src
+</pre>
+<p>
+下载获得 FreeBSD 的 CVSROOT 代码后，需要进行相应的定制，然后才能 checkin 到自己的 CVSROOT 目录中。这个补丁是我对其的修改和定制：<a href="CVSROOT/patch.txt" target="_top">patch.txt</a>。
+</p>
+<p>
+定制过程：
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+升级CVS
+</p>
+<p>
+确认安装的CVS服务器版本，要高于 1.11.2 。因为我们要用到在版本 1.11.2 才出现的功能：能够在检查commit log 后重新读入 commit log，以实现对 commit log 的格式化。
+</p>
+</li>
+<li>
+<p>
+定制 PERL 模块 cfg.pm
+</p>
+<p>
+文件 <code class="filename"><a href="CVSROOT/cfg.pm" target="_top">CVSROOT/cfg.pm</a></code>，是 perl脚本的核心包，对其做了一些改动，主要是添加了禁止某些用户发送 Email功能；还增加了部分子过程，部分是从原 log_acum.pl 中移动过来，目的将这些函数设置为模块内部的函数便于其它需要发送邮件的脚本调用，如脚本 log_accum.pl 和 tagcheck 都需要使用这些新增子过程。
+</p>
+<p>
+对脚本 <code class="filename"><a href="CVSROOT/cfg.pm" target="_top">CVSROOT/cfg.pm</a></code> 的改动如下：
+</p>
+<pre class="screen">
+diff -u -r1.1 -r1.2
+--- cfg.pm	14 Aug 2003 10:00:53 -0000	1.1
++++ cfg.pm	15 Aug 2003 01:44:20 -0000	1.2
+@@ -17,9 +17,10 @@
+ 	$ADD_TO_LINE $AVAIL_FILE $CHECK_HEADERS $COMMITCHECK_EXTRA
+ 	@COMMIT_HOSTS $COMMITTER $DEBUG $DIFF_BLOCK_TOTAL_LINES $EXCLUDE_FILE
+ 	$FILE_PREFIX $IDHEADER $LAST_FILE @LOG_FILE_MAP $MAILADDRS $MAILBANNER
+-	$MAILCMD $MAIL_BRANCH_HDR $MAIL_ON_DIR_CREATION $MAIL_TRANSFORM
++	$MAILCMD $MAIL_BRANCH_HDR @MAIL_MAP $MAIL_ON_DIR_CREATION $MAIL_TRANSFORM
+ 	$MINCVSVERSION $MAX_DIFF_SIZE $NO_DOS_LINEBREAKS $PID $PROG_CVS
+ 	$PROG_MV %TEMPLATE_HEADERS $TMPDIR $UNEXPAND_RCSID $WARN_HEADERS
++	$BADSENDER_FILE
+ );
+ 
+ my $CVSROOT = $ENV{'CVSROOT'} || die "Can't determine \$CVSROOT!";
+@@ -52,7 +53,7 @@
+ $PROG_MV =	'/bin/mv';		# mv(1)
+ 
+ # The username of the committer.
+-$COMMITTER = $ENV{"LOGNAME"} || $ENV{'USER'} || getlogin
++$COMMITTER = <span class="emphasis"><em>$ENV{"CVS_USER"} </em></span>|| $ENV{"LOGNAME"} || $ENV{'USER'} || getlogin   <a name="co.cvs.get.committer"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+		|| (getpwuid($&lt;))[0] || sprintf("uid#%d",$&lt;);
+ 
+ 
+@@ -83,6 +84,7 @@
+ # commit to what.
+ $AVAIL_FILE = "$CVSROOT/CVSROOT/avail";
+ 
++$BADSENDER_FILE = "$CVSROOT/CVSROOT/blocksender"; <a name="co.cvs.blocksender"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+ 
+ ################
+ ### logcheck ###
+@@ -208,6 +210,10 @@
+ 	'other'		=&gt; '.*'
+ );
+ 
++@MAIL_MAP = (
++	'nobody'	=&gt; '.*'
++);
++
+ # Include diffs of not greater than this size in kbytes in the
+ # commit mail for each file modified. (0 = off).
+ $MAX_DIFF_SIZE = 0;
+@@ -270,6 +276,64 @@
+ 	return @output;
+ };
+ 
++
++############################################################
++#
++# Subroutines
++#
++############################################################
++
++# !!! Mailing-list and commitlog history file mappings here !!!
++# This needs pulling out as a configuration block somewhere so
++# that others can easily change it.
++
++sub get_log_name {
++	my $dir = shift;	# Directory name
++
++
++	for my $i (0 .. ($#cfg::LOG_FILE_MAP - 1) / 2) {
++		my $log = $cfg::LOG_FILE_MAP[$i * 2];
++		my $pattern = $cfg::LOG_FILE_MAP[$i * 2 + 1];
++
++		return $log if $dir =~ /$pattern/;
++	}
++
++	return 'other';
++}
++
++sub get_mail_name {
++	my $dir = shift;	# Directory name
++	my $CVSROOT = $ENV{'CVSROOT'};
++	$dir =~ s,^$CVSROOT[/]?,,g;
++	$dir .= "/" unless $dir =~ /\/$/;
++	
++	for my $i (0 .. ($#cfg::MAIL_MAP - 1) / 2) {
++		my $email = $cfg::MAIL_MAP[$i * 2];
++		my $pattern = $cfg::MAIL_MAP[$i * 2 + 1];
++		return $email if $dir =~ /$pattern/;
++	}
++
++	return $cfg::MAILADDRS;
++}
++
++
++# do not send email, if committer is in badsender file...
++sub sendmail_acl_check {
++	my $sendmail = 1;
++	if (-e $cfg::BADSENDER_FILE)
++	{
++		open (BADSENDER, $cfg::BADSENDER_FILE) || die "open $cfg::BADSENDER_FILE: $!\n";
++		while (&lt;BADSENDER&gt;) {
++			if ($_ =~ /\b$cfg::COMMITTER\b/i)
++			{
++				$sendmail = 0;
++				last;
++			}
++		}
++	}
++	
++	return $sendmail;
++}
+ 
+ ######################################################################
+ # Load the local configuration file, that allows the entries in this
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.get.committer"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+增加检查环境变量 CVS_USER。以能够正确反映使用 CVSROOT/password 文件进行身份验证的用户名。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.blocksender"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+通过文件 $BADSENDER_FILE 设置哪些用户对 CVS 操作不必发送邮件，这个功能可以用于自动编译下的特定用户的CVS操作不必发送邮件。
+</p></td>
+</tr>
+</table></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+还在该perl模块中增加了几个过程，供其它程序调用。
+</p></td></tr>
+</table></div>
+<p>
+文件 <code class="filename"><a href="CVSROOT/cfg_local.pm" target="_top">CVSROOT/cfg_local.pm</a></code> 用于对模块 cfg.pm 进行定制：
+</p>
+<pre class="screen">
+hash$ <span><strong class="command">diff -u -r1.1 cfg_local.pm</strong></span>
+--- cfg_local.pm	14 Aug 2003 10:00:53 -0000	1.1
++++ cfg_local.pm	15 Aug 2003 03:09:39 -0000	1.3
+@@ -13,7 +13,7 @@
+ ####################################################################
+ ####################################################################
+ 
+-$CHECK_HEADERS = 1;
++$CHECK_HEADERS = 0; <a name="co.cvs.nocheckheader"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+ $IDHEADER = 'FreeBSD';
+ $UNEXPAND_RCSID = 1;
+ 
+@@ -29,25 +29,30 @@
+ $MAILCMD = "/usr/local/bin/mailsend -H";
+ $MAIL_BRANCH_HDR  = "X-FreeBSD-CVS-Branch";
+ $ADD_TO_LINE = 0;
+-$MAILBANNER = "FreeBSD src repository";
++$MAILBANNER = "My repository"; <a name="co.cvs.mailbanner"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+ if (defined $ENV{'CVS_COMMIT_ATTRIB'}) {
+   my $attrib = $ENV{'CVS_COMMIT_ATTRIB'};
+   $MAILBANNER .= " ($attrib committer)";
+ }
++# The minimum version of cvs that we will work with.
++$MINCVSVERSION = "1110200";  # 1.11.2 <a name="co.cvs.mincvsversion"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
++
++$MAIL_ON_DIR_CREATION = 0; <a name="co.cvs.mailoncreation"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+ 
+ # Sanity check to make sure we've been run through the wrapper and are
+ # now primary group 'ncvs'.
+ #
+-$COMMITCHECK_EXTRA = sub {
+-	my $GRP=`/usr/bin/id -gn`;
+-	chomp $GRP;
+-	unless ( $GRP =~ /^ncvs$/ ) {
+-		print "You do not have group ncvs (commitcheck)!\n";
+-		exit 1;	# We could return false here.  But there's
+-			# nothing to stop us taking action here instead.
+-	}
+-	return 1;
+-};
++
++#$COMMITCHECK_EXTRA = sub { <a name="co.cvs.nocheckgrp"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
++#	my $GRP=`/usr/bin/id -gn`;
++#	chomp $GRP;
++#	unless ( $GRP =~ /^ncvs$/ ) {
++#		print "You do not have group ncvs (commitcheck)!\n";
++#		exit 1;	# We could return false here.  But there's
++#			# nothing to stop us taking action here instead.
++#	}
++#	return 1;
++#};
+ 
+ # Wrap this in a hostname check to prevent mail to the FreeBSD
+ # list if someone borrows this file and forgets to change it.
+@@ -91,6 +96,22 @@
+@LOG_FILE_MAP = ( <a name="co.cvs.local.filemap"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+	'CVSROOT'	=&gt; '^CVSROOT/',
+	'distrib'	=&gt; '^distrib/',
+	'doc'		=&gt; '^doc/',
+	'ports'		=&gt; '^ports/',
+	'www'		=&gt; '^www/',
+
+ 	'other'		=&gt; '.*'
+ );
++# CVSROOT is still shared between src, ports, doc at the moment. projects has
++# its own CVSROOT.
++@MAIL_MAP = ( <a name="co.cvs.local.mailmap"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0">
++	'maillist1' =&gt; '^CVSROOT/',
++	'maillist2' =&gt; '^src/',
++	'cvsnone' =&gt; '.*',
++); 
++
++@TAG_MAP = ( <a name="co.cvs.local.tagmap"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0">
++	'jiangxin' =&gt; '^(release|mailstome).*',
++); 
++
++# Email addresses of recipients of commit mail.
++$MAILADDRS = 'cvsnone'; <a name="co.cvs.local.mailaddrs"></a><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0">
++
++
+ 
+ 1; # Perl requires all modules to return true.  Don't delete!!!!
+ #end
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.nocheckheader"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置为0，不强制文件头包含特定的CVS关键字。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.mincvsversion"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置安装的CVS服务器的最低版本为 1.11.2；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.mailoncreation"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+创建目录的事件，也发送邮件。参见脚本：<code class="filename"><a href="CVSROOT/log_accum.txt" target="_top">CVSROOT/log_accum.pl</a></code>。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.nocheckgrp"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+注释该函数，不检查用户组。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.local.filemap"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+定制该数组，将 CVS 模块的 commit log 存储在对应的文件中。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.local.mailmap"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加哈希表 @MAIL_MAP，设置模块和用户邮件地址的对应关系，相应模块的 commit，通过邮件通知相应用户。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.local.tagmap"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加哈希表 @TAG_MAP，设置某些格式的TAG只能被某些用户管理。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.local.mailaddrs"><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0"></a> </td>
+<td valign="top" align="left"><p>
+确省的邮件地址。对于没有在 MAIL_MAP 数组找到匹配的邮件地址，即使用该地址。确省为 'nobody'。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+CVS 服务器配置文件：<code class="filename"><a href="CVSROOT/config" target="_top">CVSROOT/config</a></code>
+</p>
+<pre class="screen">
+#SystemAuth=no                 <a name="co.cvs.config.sysauth"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+#LockDir=/var/lock/cvs         <a name="co.cvs.config.lockdir"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+#TopLevelAdmin=no
+LogHistory=TOFEWGCMAR          <a name="co.cvs.config.logall"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+RereadLogAfterVerify=always    <a name="co.cvs.config.reloadlog"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.config.sysauth"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+如果设置 SystemAuth=no，则只通过 CVS 提供的身份验证。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.config.lockdir"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+可以用来指定单独的锁定目录， 便可以更灵活的设置数据仓库的目录权限。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.config.logall"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+对所有事件记录日志，亦可写为 LogHistory=all。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.config.reloadlog"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+启用只有在 1.11.2 版本才具有的 commit log 重写功能。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/cvsignore" target="_top">CVSROOT/cvsignore</a></code>
+</p>
+<p>
+设置版本控制过程中，需要忽略的文件。这些文件将不被显示为未知状态（"?"）。如：
+</p>
+<pre class="screen">
+*.db
+*.info
+*.[Sp]o
+*.core
+*.aps
+*.clw
+*.exe
+*.ncb
+*.obj
+*.opt
+*.plg
+Debug
+Release
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+亦可由每个目录下的文件 <code class="filename">.cvsignore</code> 来控制；
+</p>
+<p>
+对于 WinCVS，则由文件 <code class="filename">C:\.cvsignore</code> 来控制，如果将 HOME 路径设置为 C:\ 的话。
+</p>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/cvswrappers" target="_top">CVSROOT/cvswrappers</a></code>
+</p>
+<p>
+匹配文件名，并作相应处理。如： -kb 即以二进制方式处理文件。
+</p>
+<pre class="screen">
+*.gif -k 'b'
+*.GIF -k 'b'
+*.jpg -k 'b'
+...
+</pre>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/modules" target="_top">CVSROOT/modules</a></code>
+</p>
+<p>
+设置数据仓库中的模块名，可以通过命令：“cvs co -c”察看当前数据仓库（repository）中包含的模块/工程名称。也可以在调整服务器端目录结构时，设置 modules 来保持和以前设置的兼容性。
+</p>
+<pre class="screen">
+CVSROOT	CVSROOT
+module1	module2 &amp;module3
+</pre>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/checkoutlist" target="_top">CVSROOT/checkoutlist</a></code>
+</p>
+<p>
+列在 checkoutlist 中的文件，在 checkin 后，能够自动在服务器 CVSROOT 目录中重建。
+</p>
+<pre class="screen">
+#access             <a name="co.cvs.checkoutlist"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+avail
+cfg.pm
+cfg_local.pm
+commit_prep.pl
+commitcheck
+cvs_acls.pl
+exclude
+log_accum.pl
+logcheck
+options
+rcstemplate
+tagcheck
+unwrap
+wrap
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list"><tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.checkoutlist"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+access 文件供 FreeBSD 的cvs wrapper程序调用，进行权限控制，如不需要该功能注释掉，忽略该文件。
+</p></td>
+</tr></table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/notify" target="_top">CVSROOT/notify</a></code>
+</p>
+<p>
+当用户设置了 watch 一个文件，可以定制该文件进行控制。在此该文件未被用到。
+</p>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/commitinfo" target="_top">CVSROOT/commitinfo</a></code>
+</p>
+<p>
+Commit 事件要触发三个脚本文件，依次是 commitinfo, verifymsg, loginfo。其中先遍历整个目录树对所有需要 commit 的文件执行 commitinfo文件。再分别针对每一个目录执行 verifymsg, loginfo 脚本。
+</p>
+<p>
+commitinfo 会调用 commitcheck 脚本，完成的功能：通过用户主机名、用户名来检查权限；确认CVS服务器的版本号不低于某个版本；将遍历目录树的结果（最后一个目录名）记录下来，以便接下来运行 verifymsg, loginfo的脚本能够确认运行结束等。
+</p>
+<p>
+相关文件：<code class="filename"><a href="CVSROOT/commitcheck" target="_top">CVSROOT/commitcheck</a></code>，<code class="filename"><a href="CVSROOT/cvs_acls.txt" target="_top">CVSROOT/cvs_acls.pl</a></code>，<code class="filename"><a href="CVSROOT/avail" target="_top">CVSROOT/avail</a></code>，<code class="filename"><a href="CVSROOT/commit_prep.txt" target="_top">CVSROOT/commit_prep.pl</a></code>，<code class="filename"><a href="CVSROOT/exclude" target="_top">CVSROOT/exclude</a></code>，<code class="filename"><a href="CVSROOT/cfg.pm" target="_top">CVSROOT/cfg.pm</a></code>，<code class="filename"><a href="CVSROOT/cfg_local.pm" target="_top">CVSROOT/cfg_local.pm</a></code>。
+</p>
+<p>
+文件 <code class="filename"><a href="CVSROOT/avail" target="_top">CVSROOT/avail</a></code>，被脚本 cvs_acls.pl 读取，再被脚本 commitcheck 调用，用以精细控制权限。例如：
+</p>
+<pre class="screen">
+
+group|meisters|peter,jdp,markm,joe
+# Pick up the list of bad users from ncvs/CVSROOT/badcommitters  See that
+# file for details
+group|penaltybox|!badcommitters
+
+unavail
+avail||CVSROOT
+avail||distrib
+avail||doc
+avail||ports
+avail||src
+unavail||src/contrib/binutils,src/contrib/file
+avail|obrien|src/contrib/binutils,src/contrib/file
+unavail||src/contrib/tcpdump
+avail|fenner,nectar|src/contrib/tcpdump
+avail||www
+avail|:meisters
+unavail|:penaltybox
+
+</pre>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/verifymsg" target="_top">CVSROOT/verifymsg</a></code>
+</p>
+<p>
+用于检查和格式化 commit log。禁止在版本控制提交时，使用空的 commit log。对于 wincvs 在用户不提交 commit log 时，会自动使用“no message”作为commit log。为了禁止该情况发生，需要定制该脚本：
+</p>
+<p>
+相关文件：<code class="filename"><a href="CVSROOT/logcheck" target="_top">CVSROOT/logcheck</a></code>。
+</p>
+<pre class="screen">
+bash$ <span><strong class="command">diff -u -r1.1 logcheck</strong></span>
+--- logcheck	14 Aug 2003 10:00:53 -0000	1.1
++++ logcheck	15 Aug 2003 02:01:37 -0000	1.2
+@@ -47,8 +47,10 @@
+ 
+ # Remove leading and trailing blank lines.  (There will be at most
+ # one because of the duplicate removal above).
++local $^W = 0;                        <a name="co.cvs.hide.err"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+ shift @log_in if $log_in[0] eq "";
+ pop @log_in if $log_in[-1] eq "";
++local $^W = 1;
+ 
+ # Scan through the commit message looking for templated headers
+ # as defined in the configuration file, and rcstemplate.
+@@ -104,6 +106,9 @@
+ # completely empty.  This is a bug in cvs.
+ my $log = "@log_in";
+ die "Log message contains no content!\n" if $log =~ /^\s*$/;
++
++# commit without commit log using WINCVS , will automatically provide commit log as "no message".
++die "Log message contains no content using WINCVS!\n" if $log =~ /^no message$/ or $log =~ /^\.+$/; <a name="co.cvs.logcheck.wincvs"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.hide.err"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+隐藏语法警告；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.logcheck.wincvs"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+禁止其它的无意义的commit log，其中一个是 WINCVS 缺省的 COMMITLOG，一个是本人以前随意的COMMITLOG风格。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/loginfo" target="_top">CVSROOT/loginfo</a></code>
+</p>
+<p>
+将 commit log 分门别类存储在目录 CVSROOT/commitlogs 下，并同时通过邮件外发。为了防止一次事件触发多次的邮件外发，该脚本利用到 commitinfo 的运行结果，只有确认到了目录树的最后，才发送邮件。 模块和存储日志文件以及用户邮件列表在文件<code class="filename"><a href="CVSROOT/cfg_local.pm" target="_top">CVSROOT/cfg_local.pm</a></code>中定义。
+</p>
+<p>
+相关文件：<code class="filename"><a href="CVSROOT/log_accum.txt" target="_top">CVSROOT/log_accum.pl</a></code>，<code class="filename"><a href="CVSROOT/cfg.pm" target="_top">CVSROOT/cfg.pm </a></code>，<code class="filename"><a href="CVSROOT/cfg_local.pm" target="_top">CVSROOT/cfg_local.pm</a></code>。
+</p>
+<p>
+文件 <code class="filename"><a href="CVSROOT/loginfo" target="_top">CVSROOT/loginfo</a></code>，调用脚本 log_accum.pl，并传递文件名等参数，用于组织日志和发送邮件。
+</p>
+<p>
+<a name="bug-spaceinfilename"></a>
+原 FreeBSD 脚本存在一个 BUG，如果文件名或者目录名中存在空格，脚本运行不正常，出错，导致不能组织和发送邮件，这个 Bug 修正方法如下：
+</p>
+<p>
+在文件 <code class="filename"><a href="CVSROOT/loginfo" target="_top">CVSROOT/loginfo</a></code>中调用 log_accum.pl 时使用的参数由原来的 %s 修改为 %{,,,s}，即加入三个连续的逗号作为分隔符，否则使用空格作为分隔符，难以区分是文件的分隔符还是路径或文件名中的空格。
+</p>
+<pre class="screen">
+bash$ tail -1 loginfo
+DEFAULT         $CVSROOT/CVSROOT/log_accum.pl %{,,,s}
+</pre>
+<p>
+对文件 <code class="filename"><a href="CVSROOT/log_accum.txt" target="_top">CVSROOT/log_accum.pl</a></code> 的修正如下：
+</p>
+<pre class="screen">
+bash$ diff -u -r1.1 log_accum.pl
+
+--- log_accum.pl	14 Aug 2003 10:00:53 -0000	1.1
++++ log_accum.pl	15 Aug 2003 02:00:35 -0000	1.2
+@@ -47,6 +47,7 @@
+ my $LOG_FILE      = "$BASE_FN.log";
+ my $SUMMARY_FILE  = "$BASE_FN.summary";
+ my $LOGNAMES_FILE = "$BASE_FN.lognames";
++my $MAILNAMES_FILE = "$BASE_FN.mailnames"; <a name="co.cvsroot.logac.mailnames_file"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+ my $SUBJ_FILE     = "$BASE_FN.subj";
+ my $TAGS_FILE     = "$BASE_FN.tags";
+ my $DIFF_FILE     = "$BASE_FN.diff";
+@@ -233,7 +234,8 @@
+ 	while (&lt;RCS&gt;) {
+ 		if (/^[ \t]*Repository revision/) {
+ 			chomp;
+-			my @revline = split;
++			my @revline = split(/[ \t]+/, $_, 5); <a name="co.cvsroot.logac.revline"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
++			shift @revline while($revline[0] eq "");
+ 			$revision = $revline[2];
+ 			$revline[3] =~ m|^$CVSROOT/+(.*),v$|;
+ 			$rcsfile = $1;
+@@ -383,20 +385,6 @@
+ # !!! Mailing-list and commitlog history file mappings here !!!
+ # This needs pulling out as a configuration block somewhere so
+ # that others can easily change it.
+-sub get_log_name { <a name="co.cvsroot.logac.movetopm"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+-	my $dir = shift;	# Directory name
+-
+-
+-	for my $i (0 .. ($#cfg::LOG_FILE_MAP - 1) / 2) {
+-		my $log = $cfg::LOG_FILE_MAP[$i * 2];
+-		my $pattern = $cfg::LOG_FILE_MAP[$i * 2 + 1];
+-
+-		return $log if $dir =~ /$pattern/;
+-	}
+-
+-	return 'other';
+-}
+-
+ 
+ sub do_changes_file {
+ 	my @text = @_;
+@@ -408,11 +396,17 @@
+ 		$unique{$category} = 1;
+ 
+ 		my $changes = "$CVSROOT/CVSROOT/commitlogs/$category";
+-		open CHANGES, "&gt;&gt;$changes"
+-			or die "Cannot open $changes.\n";
+-		print CHANGES map { "$_\n" } @text;
+-		print CHANGES "\n\n\n";
+-		close CHANGES;
++		if (open CHANGES, "&gt;&gt;$changes")
++		{
++			print CHANGES map { "$_\n" } @text;
++			print CHANGES "\n\n\n";
++			close CHANGES;
++		}
++		else <a name="co.cvsroot.logac.notdie"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
++		{
++			print "Cannot open $changes.\n";
++		}
++
+ 	}
+ }
+ 
+@@ -420,22 +414,29 @@
+ sub mail_notification {
+ 	my @text = @_;
+ 
+-# This is turned off since the To: lines go overboard.
+-# Also it has bit-rotted since, and can't just be switched on again.
+-# - but keep it for the time being in case we do something like cvs-stable
+-#	my @mailaddrs = &amp;read_logfile($LOGNAMES_FILE);
+-#	print(MAIL 'To: cvs-committers' . $dom . ", cvs-all" . $dom);
+-#	foreach $line (@mailaddrs) {
+-#		next if ($unique{$line});
+-#		$unique{$line} = 1;
+-#		next if /^cvs-/;
+-#		print(MAIL ", " . $line . $dom);
+-#	}
+-#	print(MAIL "\n");
++	if (! &amp;cfg::sendmail_acl_check()) <a name="co.cvsroot.logac.mailto"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
++	{
++		print "mail sent from $cfg::COMMITTER is blocked.\n";
++		return 0;	
++	}
++
++	my %unique = ();
++	my @mailaddrs = &amp;read_logfile($MAILNAMES_FILE);
++	# ok, this is kinda hokey, but I need to break up lines with multiple addresses
++	my $fu = join(" ", @mailaddrs);
++	@mailaddrs = split " ", $fu;
++
++	my $to = "";
++	foreach my $category (@mailaddrs) {
++		next if ($unique{$category});
++		$unique{$category} = 1;
++
++		$to .= " " unless $to eq "";
++		$to .= $category;
++	}
+ 
+ 	my @email = ();
+ 
+-	my $to = $cfg::MAILADDRS;
+ 	print "Mailing the commit message to '$to'.\n";
+ 
+ 	push @email, "To: $to" if $cfg::ADD_TO_LINE;
+@@ -497,10 +498,14 @@
+ 	}
+ 
+ 	# Send the email.
+-	open MAIL, "| $cfg::MAILCMD $to"
+-	    or die "Please check $cfg::MAILCMD.";
+-	print MAIL map { "$_\n" } @email;
+-	close MAIL;
++	if(fork() == 0)
++	{
++		open MAIL, "| $cfg::MAILCMD -F $cfg::COMMITTER $to" <a name="co.cvsroot.logac.mailcmd"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
++	    		or die "Please check $cfg::MAILCMD.";
++		print MAIL map { "$_\n" } @email;
++		close MAIL;
++	}
++	exit(0);
+ }
+ 
+ 
+@@ -634,8 +639,9 @@
+ #
+ # Initialize basic variables
+ #
++my $separator=",,,"; <a name="co.cvsroot.logac.separator"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0">
+ my $input_params = $ARGV[0];
+-my ($directory, @filenames) = split " ", $input_params;
++my ($directory, @filenames) = split / ${separator}/, $input_params; <a name="co.cvsroot.logac.getfilename"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0">
+ #@files = split(' ', $input_params);
+ 
+ my @path = split('/', $directory);
+@@ -660,8 +666,9 @@
+ }
+ 
+ # Was used for To: lines, still used for commitlogs naming.
+-&amp;append_line($LOGNAMES_FILE, &amp;get_log_name("$directory/"));
+-&amp;append_line($SUBJ_FILE, "$directory " . join(" ", sort @filenames));
++&amp;append_line($LOGNAMES_FILE, &amp;cfg::get_log_name("$directory/")); <a name="co.cvsroot.logac.get.logname"></a><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0">
++&amp;append_line($MAILNAMES_FILE, &amp;cfg::get_mail_name("$directory/")); <a name="co.cvsroot.logac.get.mailname"></a><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0">
++&amp;append_line($SUBJ_FILE, "$directory/(" . join(",", sort @filenames) .") "); <a name="co.cvsroot.logac.get.subjname"></a><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0">
+ 
+ #
+ # Check for a new directory first.  This will always appear as a
+@@ -697,7 +704,7 @@
+ 
+ 	&amp;do_changes_file(@text);
+ 	&amp;mail_notification(@text);
+-	system("/usr/local/bin/awake", $directory);
++	# system("/usr/local/bin/awake", $directory);
+ 	&amp;cleanup_tmpfiles();
+ 	exit 0;
+ }
+@@ -742,7 +749,28 @@
+ 	}
+ 
+ 	# otherwise collect information about which files changed.
+-	my @files = split;
++	my @tmpfiles = split;
++	my $strname = "";
++	my @files;
++	while (my $item = shift(@tmpfiles))
++	{
++		if ($strname eq "") 
++		{
++			$strname = $item;
++		} 
++		else	
++		{
++			$strname .= " $item";
++		} 
++		for (my $i=0; $i&lt;=$#filenames; $i++)
++		{
++			if ($strname eq $filenames[$i])
++			{
++				push (@files, $strname);
++				$strname = "";
++			}
++		}
++	}
+ 	push @{ $changed_files{$tag} },	@files if $state == $STATE_CHANGED;
+ 	push @{ $added_files{$tag} },	@files if $state == $STATE_ADDED;
+ 	push @{ $removed_files{$tag} },	@files if $state == $STATE_REMOVED;
+@@ -896,7 +924,7 @@
+ 	&amp;mail_notification(@log_msg);
+ }
+ 
+-system("/usr/local/bin/awake", $directory);
++# system("/usr/local/bin/awake", $directory);
+ &amp;cleanup_tmpfiles();
+ exit 0;
+ # EOF
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.mailnames_file"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+存储邮件地址的临时文件；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.revline"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+避免当文件名中包含空格时，$rcsfile 获取失败；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.movetopm"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+该函数被移动到 cfg.pm 模块，成为模块的子过程；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.notdie"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+没有找到日志记录文件，发出警告，不中断；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.mailto"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+读取哈希表 @MAIL_MAP，获取改动代码需要发送到的邮件地址；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.mailcmd"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+发送邮件，设置发件人为 $cfg::COMMITTER；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.separator"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+字段分隔符，应和 loginfo 文件中指定的向匹配！
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.getfilename"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left"><p>
+使用自定义的字段分隔符，以避免由于文件名中出现空格导致文件名获取失败；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.get.logname"><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0"></a> </td>
+<td valign="top" align="left"><p>
+该函数已经移动到模块 cfg.pm；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.get.mailname"><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置收件人名单；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.get.subjname"><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置邮件标题；
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/taginfo" target="_top">CVSROOT/taginfo</a></code>
+</p>
+<p>
+在执行 tag/rtag 命令前执行该脚本，如果脚本返回非零值，tag/rtag 动作取消。
+相关脚本：<code class="filename"><a href="CVSROOT/tagcheck" target="_top">CVSROOT/tagcheck</a></code>。负责对添加/删除 TAG 事件进行控制——允许/禁止/发送邮件。
+</p>
+<p>
+由于 tag/rtag 事件不象 commit 事件，不是通过多个脚本的配合完成，而是只通过一个脚本 taginfo 完成。这就出现一个问题：如果为一个目录树打上TAG，则可能多次执行脚本，可能要多次触发邮件发送。我的解决办法是，根据TAG进程的 PID 确定在整个过程唯一的文件名，将日志记录到该文件中，taginfo 脚本本身无法知道是否结束，而是系统通过 crontab 定期执行脚本 <a href="CVSROOT/checkmailspool.sh" target="_top">CVSROOT/checkmailspool.sh</a>来检查是否有完成的 tag 邮件需要外发。
+</p>
+<pre class="screen">
+
+#!/usr/bin/perl -w
+#
+# Author: Jiang Xin
+# Reference: http://www.worldhello.net/
+#
+
+use strict;
+use lib $ENV{CVSROOT};
+use CVSROOT::cfg;
+
+
+#############################################################
+#
+# Main Body
+#
+# TAG  add/mov/del  repo  files...
+# $1   $2           $3    $4   ...
+#
+############################################################
+
+my $tag = shift;
+my $action = shift;
+my $repos = shift;
+my $fileitem = "";
+my $filerev= "";
+my $filelist = "";
+
+my $uid = $cfg::COMMITTER;
+my $userlist = "";
+my $pattern = "";
+my $permission = 1;
+my $to = "";
+
+my $tmpstr = &amp;cfg::get_mail_name($repos);
+$tmpstr =~ s/\@/\./g ;
+$tmpstr="nobody" unless $tmpstr;
+my $MAILFILE = "/var/spool/cvsmail/cvs.tag.$tmpstr.$cfg::PID"; <a name="co.cvs.tag.filename"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+
+die "Usage: tagcheck tag action repos files...\n" unless $repos;
+
+for my $i (0 .. ($#cfg::TAG_MAP - 1) / 2) { <a name="co.cvs.tag.priv"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+	$userlist = $cfg::TAG_MAP[$i * 2];
+	$pattern = $cfg::TAG_MAP[$i * 2 + 1];
+	
+	if ($tag =~ /$pattern/i)
+	{
+		if ($userlist =~ /\b$uid\b/i)
+		{
+			$permission=1;
+			last;
+		}
+		else
+		{
+			$permission=0;
+			last;
+		}
+	}
+}
+
+if ($permission == 0)
+{
+	# normal users can not do this.
+	print STDERR "User \"$cfg::COMMITTER\" canot perform this operation!\n";
+	print STDERR "Only users: $userlist, can handle tag patterm: \"$pattern\"!\n";
+}
+
+while ($fileitem = shift)
+{
+        $filerev = shift;
+        $filelist = sprintf("%s\t%-24s:\t%s\n", $filelist, $fileitem, $filerev);
+}
+
+print "save message in spool `dirname $MAILFILE`...\n";
+
+my @email = ();
+
+if (! -e $MAILFILE )
+{
+	$to = &amp;cfg::get_mail_name($repos); <a name="co.cvs.tag.mail"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+	push @email, "From: $uid&lt;$uid&gt;";
+	push @email, "To: $to";
+	$tmpstr = sprintf("Date: %s", `date -R`);
+	chomp $tmpstr;
+	push @email, $tmpstr;
+
+	if ($permission == 0)
+	{
+		push @email, "Subject: cvs tag FAILED! ($action $tag on $repos)";
+	}
+	else
+	{
+		push @email, "Subject: cvs tag success: $action $tag on $repos";
+	}
+
+	push @email, "";
+
+	delete $ENV{'TZ'};
+	$tmpstr = sprintf("%-11s:    %-8s", "Author", $cfg::COMMITTER);
+	push @email, $tmpstr;
+	$tmpstr = sprintf("%-11s:    %-8s", "Date", `/bin/date +"%Y/%m/%d %H:%M:%S %Z"`);
+	chomp $tmpstr;
+	push @email, $tmpstr;
+	$tmpstr = sprintf("%-11s:    %-8s", "Tag", $tag);
+	push @email, $tmpstr;
+	$tmpstr = sprintf("%-11s:    %-8s", "Operation", $action);
+	push @email, $tmpstr;
+
+	push @email, "";
+	push @email, "  $cfg::MAILBANNER", "" if $cfg::MAILBANNER;
+}
+
+if ($permission == 0)
+{
+	push @email, "Permission denied: $action $tag on $repos !";
+	push @email, "--------------------------------------------------";
+}
+else
+{
+	$tmpstr = sprintf("%-11s:    %-8s", "Repository", $repos);
+	push @email, $tmpstr;
+	push @email, $filelist if $filelist;
+}
+
+#save mail to spool
+open MAIL, "&gt;&gt; $MAILFILE "
+	or die "Cannot open file $MAILFILE for append.";
+print MAIL map { "$_\n" } @email;
+close MAIL;
+
+if ($permission == 0)
+{
+	exit 1
+}
+else
+{
+	exit 0
+}
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.tag.filename"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+确定进程唯一的文件名称；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.tag.priv"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+@cfg::TAG_MAP 数组定义了需要权限控制的 TAG 名称，以及授权人列表。受限的TAG名称对应于软件开发中的里程碑，要严格的权限控制。和该模式匹配的 tag，只能被授权人操作，其它名称的 TAG，所有用户都可以操作。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.tag.mail"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+邮件地址亦从 MAIL_MAP 数组中获取；
+</p></td>
+</tr>
+</table></div>
+<p>
+文件 <code class="filename"><a href="CVSROOT/checkmailspool.sh" target="_top">CVSROOT/checkmailspool.sh</a></code>，加入到 crontab 中定期执行，检查 tagcheck 生成的邮件。
+</p>
+<pre class="screen">
+
+#!/bin/sh
+# checkmailspool.sh
+# Auther: Jiang Xin
+#
+# $CVSMAILPATH (cvs mail spool) is a spool directory created by user, 
+# and cvs tag message will store in it.
+# run this script timely to check cvsmail spool and send messages...
+# please put this script in crontab. 
+
+
+CVSMAILPATH=/var/spool/cvsmail
+if [ ! -d $CVSMAILPATH ]; then
+	mkdir -p $CVSMAILPATH
+	chmod 777 $CVSMAILPATH
+fi
+
+cd $CVSMAILPATH
+for i in `ls `; do
+	pid=`echo $i| sed -e "s/.*\.\([0-9]*\)$/\1/"`
+	
+	xxx=0
+	
+	while ps -p $pid&gt;/dev/null; do
+		xxx=`expr $xxx + 1`
+		if [ $xxx -gt 10 ]; then
+			break
+		fi
+		sleep 3
+		echo waiting $pid, $xxx times ...
+	done
+	echo -e "\n\n========================================" &gt;&gt; $i
+	echo -e "End\n" &gt;&gt; $i
+	cat $i | sendmail -oi -oem -odb -t
+	rm -f $i
+done
+
+</pre>
+</li>
+<li>
+<p><a name="rm-cvs-tmpfiles"></a>
+清除CVSROOT产生的临时文件
+</p>
+<p>
+以上 CVSROOT 脚步在执行过程中将会在临时目录中产生很多临时文件，如果不加以清理，不但会浪费磁盘空间，更有可能导致发送张冠李戴的错误邮件。在 crontab 中配置每隔一个小时执行一遍以下脚本：
+</p>
+<pre class="screen">
+
+#/bin/sh
+
+cd /tmp
+ls \#cvs.files.* | sed -e 's/\#cvs.files.\([0-9]*\)\..*$/\1/g' | sort -u | \
+while read xxx; do if ps --pid $xxx&gt;/dev/null 2&gt;&amp;1; then continue; fi ; \
+    rm -f /tmp/\#cvs.files.$xxx.* ; done
+
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="linux-acl"></a>2.1.5. 基于 Linux ACL 的权限控制</h4></div></div></div>
+<p>
+Linux ACL 的相关资源参见：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Linux ACL Homepage
+</p>
+<p>
+<a href="http://acl.bestbits.at/" target="_top">http://acl.bestbits.at/</a>
+</p>
+</li>
+<li>
+<p>
+Using ACLs with Fedora Core 2
+</p>
+<p>
+<a href="http://www.vanemery.com/Linux/ACL/linux-acl.html" target="_top">http://www.vanemery.com/Linux/ACL/linux-acl.html</a>
+</p>
+</li>
+<li>
+<p>
+还有我的一个 Wiki 页面 =)
+</p>
+<p>
+<a href="http://jiangxin.worldhello.net/wiki/L/Linux/ACL.htm" target="_top">http://jiangxin.worldhello.net/wiki/L/Linux/ACL.htm</a>
+</p>
+</li>
+</ul></div>
+<p>
+为什么要使用 ACL 呢？因为对于一个大的CVS项目，需要对各个模块进行精确的权限控制，如果只靠传统的Unix的目录权限控制 user,group,other 将会大大增进系统管理员的负担，项目的“超级用户”需要同时属于多个用户组，才可以访问所有的模块。
+</p>
+<p>
+突然有一天，发现权限设置不灵了，经过测试，原来 linux 2.4 内核一个用户最多属于 32 个用户组！看来是另辟蹊径的时候了。久闻 acl 的大名，对于2.4内核是以内核补丁方式存在，2.6内核已经集成进去了，这可真是一个好消息。(注意: 2.6.10 内核的ACL存在一个大BUG，已再 2.6.11-rc4 内核中修正。具体参见我的wiki =)
+</p>
+<p>
+虽然使用 acl，对于CVS来说，前面提到的CVS权限控制依然试用。即：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+项目相关的所有用户必须对CVS工程目录以及工程的CVSROOT目录具有 r-x 权限；</p></li>
+<li><p>
+所有用户对文件 CVSROOT/history, CVSROOT/val-tags, 和目录 CVSROOT/commitlogs/(如果安装了CVSROOT扩展)，必须拥有写权限；
+</p></li>
+<li><p>
+设置目录的 setgid 位，使用户创建目录的时候，新目录能够保持上一级目录的用户属主；
+</p></li>
+<li><p>
+CVSROOT 下的脚本，需要清除其 setuid, setgid 位，否则脚本执行时报错；
+</p></li>
+<li>
+<p>
+为工程添加权限时，不要修改 symbol link 文件权限，以免互相覆盖；
+</p>
+<p>
+例如: 多个项目共享同一个 passwd 文件。执行 setfacl 需要加上 -P 参数；
+</p>
+</li>
+</ul></div>
+<p>
+一个权限设置脚本模块：
+</p>
+<pre class="screen">
+
+#!/bin/sh
+# acl.sh version 0.9
+
+SETFACLCMD="setfacl -P"
+CVSHOMEDIR=/cvshome
+
+##############################################################################
+#Declare Function:
+
+####################################################################
+# /etc/group 记录:
+#    tst_root:x:682:u_tst_root
+#    tst_doc:x:705:u_tst_doc
+#    tst_src:x:683:u_tst_src
+#    tst_src_1:x:706:u_tst_src_1
+#    tst_src_2:x:707:u_tst_src_2
+####################################################################
+apply_acl_test()
+{
+	if [ $# -ne 1 ];then
+		echo format: `basename $0` project
+		exit 1
+	fi
+	
+	project=$1
+	if [ ! -d $project ]; then
+		echo "Can not find project: $project."
+	fi
+		
+
+	# tst_root 组可以访问所有模块，包括 CVSROOT 的写权限
+	$SETFACLCMD -d -R -m g:tst_root:rwx  $project
+	$SETFACLCMD    -R -m g:tst_root:rwx  $project
+	
+	# tst_src 组能够访问所有代码、文档
+	$SETFACLCMD -d -R -m g:tst_src:rwx   $project/src $project/doc
+	$SETFACLCMD    -R -m g:tst_src:rwx   $project/src $project/doc
+	
+	# 所有用户均能访问文档
+	$SETFACLCMD -d -R -m g:tst_src:rwx,g:tst_src_1:rwx,g:tst_src_2:rwx,g:tst_doc:rwx   $project/doc
+	$SETFACLCMD    -R -m g:tst_src:rwx,g:tst_src_1:rwx,g:tst_src_2:rwx,g:tst_doc:rwx   $project/doc
+	
+	
+	# 需要权限控制的小组，缺省访问权限
+	$SETFACLCMD -d -R -m g:tst_src_1:rwx,g:tst_src_2:rwx   $project/src
+	$SETFACLCMD    -R -m g:tst_src_1:rwx,g:tst_src_2:rwx   $project/src
+	
+	# 设置敏感模块的权限
+	$SETFACLCMD -d -R -x g:tst_src_1,g:tst_src_2      $project/src/mod1 $project/src/mod2
+	$SETFACLCMD    -R -x g:tst_src_1,g:tst_src_2      $project/src/mod1 $project/src/mod2
+	$SETFACLCMD -d -R -m g:tst_src_1:rwx  $project/src/mod1
+	$SETFACLCMD    -R -m g:tst_src_1:rwx  $project/src/mod1
+	$SETFACLCMD -d -R -m g:tst_src_2:rwx  $project/src/mod2
+	$SETFACLCMD    -R -m g:tst_src_2:rwx  $project/src/mod2
+
+	# 需要权限控制的小组，需要能够进入 tst/src 目录，但只有 root,src 组能够在 src 下创建目录。
+	# 如此设置，这些用户不能修改 $project/src 目录下面的文件
+	#$SETFACLCMD       -m g:tst_src_1:r-x,g:tst_src_2:r-x   $project/src
+
+	# 所有用户组都能够进入（只读访问） tst, tst/CVSROOT 目录，否则无法访问相应模块。但只有 root 组能够在 根 下创建目录和修改 CVSROOT。
+	$SETFACLCMD       -m g:tst_src:r-x,g:tst_src_1:r-x,g:tst_src_2:r-x,g:tst_doc:r-x   $project
+	$SETFACLCMD    -R -m g:tst_src:r-x,g:tst_src_1:r-x,g:tst_src_2:r-x,g:tst_doc:r-x   $project/CVSROOT
+}
+
+
+apply_acl_other_project()
+{
+	# ... ...
+}
+
+#End Declare Function:
+##############################################################################
+
+##############################################################################
+# MAIN Function Here
+##############################################################################
+
+if [ $# -eq 0 ];then
+	echo format: `basename $0` project ...
+	exit 1
+fi
+
+cd ${CVSHOMEDIR}
+
+while [ $# -gt 0 ]; do
+	project=$1
+	if [ ! -d $project ]; then
+		echo "Can not find project: $project."
+		shift
+		continue
+	fi
+
+	##############################################################################
+	# PRE, 预设置
+	##############################################################################
+
+	echo -n "Begin PRE ACL Setup for project: $project ..."
+
+	# 设置 ${CVSHOMEDIR}/$project 下文件权限：rwx------, mask 为 rwx；
+	# 添加 cvs 超级用户 cvsroot,cvsroot_ro 权限；
+	$SETFACLCMD -R -m m::rwx,u::rwx,g::---,o::---,d:m::rwx,d:u::rwx,d:g::---,d:o::---,g:cvsroot:rwx,d:g:cvsroot:rwx,g:cvsroot_ro:r-x,d:g:cvsroot_ro:r-x    ${CVSHOMEDIR}/$project
+	
+	# 目录属主被子目录集成
+	chmod -R g+s           ${CVSHOMEDIR}/$project
+	
+	# 设置 ${CVSHOMEDIR} 的属主，设置为 nobody.cvsnull，注意最好任何用户不属于 cvsnull；
+	chown -R nobody.cvsnull ${CVSHOMEDIR}/$project
+
+	echo "	done"
+	
+	##############################################################################
+	# 开始项目的权限设置
+	##############################################################################
+
+	echo -n "Begin ACL Setup for project: $project ..."
+
+	case "$project" in
+		test*)
+			apply_acl_test  $project
+			;;
+		*)
+			echo "Unknown project name: $project"
+			exit 1
+			;;
+	esac
+	
+	echo "	done"
+	
+	##############################################################################
+	# POST, 后设置
+	##############################################################################
+
+	echo -n "Begin POST ACL Setup for project: $project ..."
+
+	# 将 CVSROOT 目录中的需要完全读写的文件，清除 ACL， 并清除组的粘贴位，
+	### 还要注意 symbol link 文件的权限也需要恢复，如文件 passwd, blocksender...
+	
+	# 因为 CVSROOT 下脚本需要执行，必须去除其 setgid 位
+	chmod -R g-s "$project/CVSROOT"
+
+	# 由于去除了用户属主的保持位, 当用户checkin CVSROOT时?其它用户可能访问不到，因此需要设置组能够访问
+	# 不能使用 chmod g+rx , 因为对于设置了 ACL， chmod 是修改其 mask
+	$SETFACLCMD -R -m m::rwx,u::rwx,g::rwx,o::r-x,d:m::rwx,d:u::rwx,d:g::rwx,d:o::r-x    $project/CVSROOT
+	
+	# val-tags, history 文件需要所有人的读写权限
+	$SETFACLCMD -b "$project/CVSROOT/val-tags" "$project/CVSROOT/history"
+	chmod 777 "$project/CVSROOT/val-tags" "$project/CVSROOT/history"
+
+	# commitlogs/ 目录要可写
+	$SETFACLCMD -b -R "$project/CVSROOT/commitlogs/"
+	chmod -R 777  "$project/CVSROOT/commitlogs/"
+
+	echo "	done"
+	
+	shift
+
+done
+
+#	$SETFACLCMD -b "/etc/passwd.cvs" "/etc/blocksender"
+#	chmod 444 "/etc/passwd.cvs" "/etc/blocksender"
+
+echo ""
+echo "Make sure every one has access right"
+ls -ld ${CVSHOMEDIR}
+ls -l "/etc/passwd.cvs" "/etc/blocksender"
+
+</pre>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="vs-svrsetup.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="vs-svrsetup.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s02s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2. CVS vs. STARTEAM——服务器设置 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2.2. Starteam服务器权限设置</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1.2. NIS 配置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="网络安全的最后一道屏障">
+<link rel="up" href="windows.html" title="1. Windows平台的个人防火墙">
+<link rel="prev" href="windows-overview.html" title="1.1. Windows平台个人防火墙综述">
+<link rel="next" href="zonealarm.html" title="1.3. ZoneAlarm 配置">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1.2. NIS 配置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="windows-overview.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">1. Windows平台的个人防火墙</th>
+<td width="20%" align="right"> <a accesskey="n" href="zonealarm.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="nis"></a>1.2. NIS 配置</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="nis.html#nis-alert">1.2.1. 关于连接告警</a></span></dt>
+<dt><span class="sect3"><a href="nis.html#nis-common">1.2.2. 基本配置</a></span></dt>
+<dt><span class="sect3"><a href="nis.html#nis-advance">1.2.3. 高级配置：对外提供服务</a></span></dt>
+</dl></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="nis-alert"></a>1.2.1. 关于连接告警</h4></div></div></div>
+<p>
+如图，打开连接告警，则在发现策略中不存在的网络访问时，会打开对话框，询问策略。在建立控制策略阶段，便于策略调试。
+</p>
+<div class="mediaobject">
+<img src="images/nis-alert.gif"><div class="caption"><p>
+个人防火墙设置--&gt;自定义级别
+</p></div>
+</div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+在完成策略配置之后，关掉“连接告警”选项，则免受频繁打开的对话框的影响。但要注意选择默认禁止的策略——个人防火墙选项："高级:除非特别允许，否则全部禁止"。
+</p></td></tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="nis-common"></a>1.2.2. 基本配置</h4></div></div></div>
+<p>
+目标：能够让本机自由访问 Internet，拒绝来自外部的任何访问。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+选择系统范围设置，进入安全策略配置菜单
+</p>
+<div class="mediaobject">
+<img src="images/nis-basic1.jpg"><div class="caption"><p>
+选择系统范围设置，进入安全策略配置菜单
+</p></div>
+</div>
+</li>
+<li>
+<p>
+添加策略
+</p>
+<div class="mediaobject">
+<img src="images/nis-basic2.jpg"><div class="caption"><p>
+系统策略的初始值
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-p1.jpg"><div class="caption"><p>
+增加策略1: allow anytcp, anyudp out
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-p2.jpg"><div class="caption"><p>
+增加策略2: allow anyicmp out
+</p></div>
+</div>
+</li>
+<li>
+<p>
+增加 FTP Port模式的访问策略
+</p>
+<p>
+这是由于FTP的特殊性（动态协商端口）决定的，对于 port 和 passive模式有不同的设置。
+</p>
+<p>
+对于 passive 模式，则不需要再做配置，因为已经添加了全局设置： “all anytcp, anyudp out”。
+</p>
+<p>
+命令行的 ftp，由于默认使用 port 方式，因此需要单独对该应用添加设置。打开连接告警,以便在发现没有的访问策略,提示创建。（参见“<a href="nis.html#nis-alert" title="1.2.1. 关于连接告警">连接告警</a>”）
+</p>
+<p>
+先在命令行下运行 ftp，访问外部站点。输入合法用户名后，输入 debug 命令，看到使用 PORT 模式。当用命令 ls，查看列表时，触发外部ftp服务器以 20(ftp-data)端口连接本机的一个动态端口。这时命令行ftp挂起，NIS的“连接告警”激活。
+</p>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp1.jpg"><div class="caption"><p>
+运行 ls，ftp 程序挂起
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp2.jpg"><div class="caption"><p>
+NIS的“连接告警”激活。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp3.jpg"><div class="caption"><p>
+配置策略
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp4.jpg"><div class="caption"><p>
+ftp 得以正确运行
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp5.gif"><div class="caption"><p>
+配置了一条应用程序访问控制策略
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp6.jpg"><div class="caption"><p>
+IE 去掉“对FTP站点启用文件夹视图”选项，便以 passive方式访问 ftp 站点。
+</p></div>
+</div>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+当然也可以通过增加一条系统范围的配置：“允许远程20端口到本地1024-65535的TCP/UDP访问”，来解决ftp客户端以标准模式访问外部ftp服务器的问题。虽然减少了对每一个ftp客户端的单独配置，但是加大了系统风险。
+</p></td></tr>
+</table></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="nis-advance"></a>1.2.3. 高级配置：对外提供服务</h4></div></div></div>
+<p>
+目标：除了让本机自由访问 Internet，还提供某些网络提供服务，如 http，ftp服务。
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+选择系统范围设置，进入安全策略配置菜单
+</p></li>
+<li>
+<p>
+配置系统策略：
+</p>
+<div class="mediaobject">
+<img src="images/nis-adv-p1.jpg"><div class="caption"><p>
+添加由外部访问内部 21, 80 端口的策略。
+</p></div>
+</div>
+<p>
+但此时的FTP服务无法提供 passive 模式访问，因为 passive模式，客户端（远程主机）要访问服务器（本机）的动态端口。
+</p>
+</li>
+<li>
+<p>
+支持 passive 模式的 FTP 服务
+</p>
+<p>
+从远程（ftcmpl）测试本机（10.0.0.35）的80端口和21端口的访问。http服务（端口80）可以访问，普通ftp模式也通，但是passive 模式ftp不通，ftp命令挂起，NIS的“连接告警”激活。
+</p>
+<div class="mediaobject">
+<img src="images/nis-adv-test.jpg"><div class="caption"><p>
+从远程（ftcmpl）测试本机（10.0.0.35）的80端口和21端口的访问。passive 模式 ftp不通
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-adv-p2.jpg"><div class="caption"><p>
+远程 passive ftp 访问，激活NIS的“连接告警”。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-adv-p3.jpg"><div class="caption"><p>
+为 ftp 服务器程序：war ftp daemon，设置应用程序策略
+</p></div>
+</div>
+<p>
+然后，便可以提供 passive 模式 ftp 服务。
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="windows-overview.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="windows.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="zonealarm.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">1.1. Windows平台个人防火墙综述 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 1.3. ZoneAlarm 配置</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

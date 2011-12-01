@@ -1,0 +1,149 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.4. 使用Iptables增强主机的安全性How-To</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="网络安全的最后一道屏障">
+<link rel="up" href="linux.html" title="2. Linux平台的安全性">
+<link rel="prev" href="ar01s02s03.html" title="2.3. NetFilter框架和Iptables使用方法概述">
+<link rel="next" href="bsd.html" title="3. Building Secure OpenBSD Network">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.4. 使用Iptables增强主机的安全性How-To</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s02s03.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. Linux平台的安全性</th>
+<td width="20%" align="right"> <a accesskey="n" href="bsd.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4594848"></a>2.4. 使用Iptables增强主机的安全性How-To</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+取消不必要的服务监听端口
+</p>
+<p>
+使用Linux下的Setup命令，进入ASCI图形界面，限制主机提供的常用服务，例如FTP、Daytime、Echo、Telnet、WEB、syslog remote等等一系列不需要的服务。
+</p>
+<p>
+然后使用下列命令序列重启Xinetd：
+</p>
+<pre class="screen">
+[test /root]# <span><strong class="command">cd /etc/init.d</strong></span>
+[test /root]# <span><strong class="command">./xinted restart</strong></span>
+</pre>
+<p>
+使用netstat -na命令观察系统中是否有不期望的端口正在监听。如果自己需要什么服务，利用Setup工具打开服务，并且重启Xinetd就可以了。
+</p>
+<p>
+如果没有不期望的端口被打开，可以进入下一步。
+</p>
+</li>
+<li>
+<p>
+修改INPUT和OUTPUT规则链的默认策略
+</p>
+<p>
+使用下列命令序列：
+</p>
+<pre class="screen">
+[test /root]# <span><strong class="command">iptables -P INPUT DROP</strong></span>
+[test /root]# <span><strong class="command">iptables -P OUTPUT DROP</strong></span>
+</pre>
+<p>
+这样以来，任何未经同意的数据包都会被系统拒绝。
+</p>
+<p>
+添加如下命令控制访问主机：
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -A INPUT -p PROTO -state ESTABLISHED ,RELATED -j ACCEPT</strong></span>
+</pre>
+<p>
+本条命令的含义是凡是属于已经建立连接的数据包，或者关联性连接的数据包都允许通过。注意将命令行中的"PROTO"换成真正的协议名称tcp、 udp、 或者 icmp
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -A INPUT -s A.B.C.D/32 -p PROTO -dport PORT -j ACCEPT</strong></span>
+</pre>
+<p>
+这条命令的含义是允许从IP地址为A.B.C.D主机来的，协议为PROTO的IP包，访问本主机的PORT端口的数据包允许通过。例如可以将PORT换成80 ，表示WEB服务，换成22，表示SSH服务等等。注意将PROTO换成tcp或者udp。
+</p>
+<p>
+好了，只有经过上述命令添加的IP地址的主机，才能访问该主机。
+</p>
+<p>
+为了防止IP地址冒充，我们可以将IP地址和MAC地址进行绑定，使用如下命令：
+</p>
+<pre class="screen">
+<span><strong class="command">arp -s A.B.C.D aa:bb:cc:dd:ee:ff</strong></span>
+</pre>
+<p>
+表示A.B.C.DIP地址对应的MAC地址是aa:bb:cc:dd:ee:ff。
+</p>
+<p>
+上述命令完成以后，主机的安全访问就在NetFilter的控制之下了。
+</p>
+<p>
+例如，允许10.0.0.41的主机访问该服务器的SSH服务，使用如下命令：
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -A INPUT -s 10.0.0.41/32 -p tcp -dport 22 -j ACCEPT</strong></span>
+</pre>
+<p>
+允许10.0.0.0/24网段访问news服务：
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -A INPUT -s 10.0.0.0/24 -p tcp -dport 532 -j ACCEPT</strong></span>
+</pre>
+<p>
+同时绑定内部主机的MAC地址和IP地址的对应关系。
+</p>
+<p>
+最后可以使用下列命令观察一下是否所有需要的规则都被完全的加入了内核中：
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -L</strong></span>
+</pre>
+</li>
+</ol></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s02s03.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="linux.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="bsd.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2.3. NetFilter框架和Iptables使用方法概述 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3. Building Secure OpenBSD Network</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

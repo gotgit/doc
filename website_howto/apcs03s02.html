@@ -1,0 +1,161 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>C.3.2. PHP 4.x Apache Directives Notes</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="Website Construction Howto">
+<link rel="up" href="apache-conf.html" title="C.3. 配置">
+<link rel="prev" href="apcs03s01.html" title="C.3.1. HightlLight">
+<link rel="next" href="apcs03s03.html" title="C.3.3. Virtual Host">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">C.3.2. PHP 4.x Apache Directives Notes</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="apcs03s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">C.3. 配置</th>
+<td width="20%" align="right"> <a accesskey="n" href="apcs03s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4600432"></a>C.3.2. PHP 4.x Apache Directives Notes</h3></div></div></div>
+<p>
+When using PHP as an Apache module, not cgi and cli version, you can also
+change the configuration settings using directives in Apache configuration 
+files (e.g. httpd.conf) and .htaccess files (You will need "AllowOverride 
+Options" or "AllowOverride All" privileges) 
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+PHP constants do not exist outside of PHP. For example, in httpd.conf do not use PHP constants such as E_ALL or E_NOTICE to set the error_reporting directive as they will have no meaning and will evaluate to 0. Use the associated bitmask values instead. These constants can be used in php.ini 
+</p></td></tr>
+</table></div>
+<pre class="screen">
+Title:       PHP 4.x Apache Directives Notes
+Contributor: Randall Goguen (aka Ranman)
+Last Update: Tuesday July 18 19:55 EDT 2000
+URL: http://www.linuxguruz.org/documents/php_directives.html
+
+Syntax
+======
+  php_value name value 
+  	-- This sets the value of the specified variable.
+  
+  php_flag name on|off 
+  	-- This is used to set a Boolean configuration option.
+  
+  php_admin_value name value 
+  	-- This sets the value of the specified variable. 
+  	    "Admin" configuration settings can only be set from within 
+  	    the main Apache configuration files, and not from .htaccess files. 
+  
+  php_admin_flag name on|off 
+  	-- This is used to set a Boolean configuration option. 
+
+Samples
+========
+  &lt;IfModule mod_php4.c&gt;
+   php_value include_path ".:/usr/local/lib/php"
+   php_admin_flag safe_mode on
+  &lt;/IfModule&gt;
+  &lt;IfModule mod_php3.c&gt;
+   php3_include_path ".:/usr/local/lib/php"
+   php3_safe_mode on
+  &lt;/IfModule&gt;
+
+Favorite
+=========
+php_flag expose_php Off
+php_flag register_globals Off
+#variables_order EGPCS
+
+auto_prepend_file string 
+auto_append_file string 
+default_charset string 
+include_path
+
+
+
+# For .htaccess
+&lt;Directory /home/htdocs&gt;
+php_flag log_errors on
+php_flag short_open_tag on
+php_value max_execution_time 180
+php_value upload_tmp_dir /home/htdocs/tmp
+php_value include_path /home/htdocs/include
+php_value memory_limit 8388608
+php_value error_reporting 15
+php_flag display_errors on
+php_flag track_errors off
+php_value error_log /usr/local/httpd-php/logs/php3_error.log
+php_flag magic_quotes_gpc on
+php_flag track_vars on
+php_value auto_prepend_file /usr/local/httpd-php/php/prepend.php3
+php_value auto_append_file /usr/local/httpd-php/php/append.php3
+&lt;/Directory&gt;
+
+# For httpd.conf
+&lt;Directory /home/htdocs&gt;
+php_admin_flag engine on
+php_admin_flag log_errors on
+php_admin_value max_execution_time 180
+php_admin_value upload_tmp_dir /home/htdocs/tmp
+php_admin_value include_path /home/htdocs/include
+php_admin_flag short_open_tag on
+php_admin_value memory_limit 8388608
+php_admin_value error_reporting 15
+php_admin_flag display_errors on
+php_admin_flag track_errors off
+php_admin_value error_log /usr/local/httpd-php/logs/php3_error.log
+php_admin_flag magic_quotes_gpc on
+php_admin_flag track_vars on
+php_admin_value auto_prepend_file /usr/local/httpd-php/php/prepend.php3
+php_admin_value auto_append_file /usr/local/httpd-php/php/append.php3
+php_admin_value include_path /home/htdocs/include
+&lt;/Directory&gt;
+
+# This document is Copyright (c) 1999, 2000 by LinuxGuruz
+</pre>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="apcs03s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="apache-conf.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="apcs03s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">C.3.1. HightlLight </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> C.3.3. Virtual Host</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

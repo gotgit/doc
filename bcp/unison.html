@@ -1,0 +1,650 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.2. unison 命令</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="BCP (Basic)">
+<link rel="up" href="mirror.html" title="3. 镜像，数据同步">
+<link rel="prev" href="rsync.html" title="3.1. sync 命令">
+<link rel="next" href="batch.html" title="4. 自动任务">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.2. unison 命令</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="rsync.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. 镜像，数据同步</th>
+<td width="20%" align="right"> <a accesskey="n" href="batch.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="unison"></a>3.2. unison 命令</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="unison.html#idp4501472">3.2.1. unison 命令行</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4510416">3.2.2. 常用参数</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4529760">3.2.3. 模式匹配</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4547968">3.2.4. 应用举例</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4559184">3.2.5. unison 配置文件</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4579152">3.2.6. FAQ</a></span></dt>
+</dl></div>
+<p>
+Unison 是一个文件同步工具，采用 rsync 类似的算法，但是提高了一步，双向同步以及一个统一的版本控制系统。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4501472"></a>3.2.1. unison 命令行</h4></div></div></div>
+<p>
+可以用如下格式调用 unison
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+<span><strong class="command">unison profile_name [options]</strong></span>
+</p>
+<p>
+读取 ~/.unison 目录下的配置文件 "profile_name.prf"。
+</p>
+<p>
+注意到命令行没有指出要进行文件同步的两个地址，实际上应该在配置文件 &lt;profile_name.prf&gt; 中有相关的 root 指令进行了设置。如：
+</p>
+<pre class="screen">
+# Roots of the synchronization 	 
+root = /home/bcpierce 	 
+root = ssh://saul//home/bcpierce 	 
+
+# Paths to synchronize 	 
+path = current 	 
+path = common 	 
+path = .netscape/bookmarks.html 
+</pre>
+</li>
+<li>
+<p>
+<span><strong class="command">unison profile root1 root2 [options]</strong></span>
+</p>
+<p>
+root1, root2 分别是要执行同步的两个路径。这时 "profile.prf" 配置文件中，应该不包含 root 设置；
+</p>
+<p>
+root1, root2 路径的格式可以是本地目录，也可以是远程服务器的路径，例如: ssh://username@remotehost//home/jiangxin/work
+</p>
+</li>
+<li>
+<p>
+<span><strong class="command">unison root1 root2 [options]</strong></span>
+</p>
+<p>
+相当于 unison default root1 root2。即读取 "default.prf" 的配置。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4510416"></a>3.2.2. 常用参数</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+-testserver
+</p>
+<p>
+测试连通性，连接到服务器即退出。示例:
+</p>
+<pre class="screen">
+$ unison / ssh://opensou1@bluehost/    -servercmd=~/bin/unison -testserver
+</pre>
+<p>
+如果服务器端 unison 可执行文件不在默认目录下，甚至没有 unison 命令（需要你编译一个上传到服务器），则需要使用 -servercmd 参数告诉要执行的服务器 unison 命令位置。
+</p>
+<p>
+使用 -testserver 参数，则成功链接即退出，也不会去执行目录的比较等后续操作。
+</p>
+</li>
+<li>
+<p>
+-servercmd xxx
+</p>
+<p>
+告诉 unison， 服务器端的 unison 命令是什么。参见上面的示例。
+</p>
+</li>
+<li>
+<p>
+-auto
+</p>
+<p>
+接受缺省的动作，然后等待用户确认是否执行。
+</p>
+</li>
+<li>
+<p>
+-batch
+</p>
+<p>
+batch mode, 全自动模式，接受缺省动作，并执行。
+</p>
+</li>
+<li>
+<p>
+-ignore xxx
+</p>
+<p>
+增加 xxx 到忽略列表中
+</p>
+</li>
+<li>
+<p>
+-ignorecase [true|false|default]
+</p>
+<p>
+是否忽略文件名大小写
+</p>
+</li>
+<li>
+<p>
+-follow xxx
+</p>
+<p>
+是否支持对符号连接指向内容的同步；
+</p>
+<p>
+例如在我的 ~/.unison 的配置文件 default.prf 中有
+</p>
+<pre class="screen">
+# Unison preferences file
+follow = Path {unison_*}
+ignore = Path {WWWROOT/wiki_mirror}
+ignore = Name {,.}*{.~$lock}
+ignore = Name {a.out}
+</pre>
+<p>
+  我将预进行同步的系统文件在 xxx/src 下分别作符号链接，如 unison_httpd.conf
+  指向 c:/program files/apache/.../httpd.conf。
+  同步时，"follow = Path {unison_*}" 配置（或参数）将跟踪符号链接指向的实际文件。
+  如果没有该设置，符号链接不予同步。
+</p>
+</li>
+<li>
+<p>
+-immutable xxx  
+</p>
+<p>
+不变目录，扫描时即忽略
+</p>
+</li>
+<li>
+<p>
+-silent
+</p>
+<p>
+安静模式
+</p>
+</li>
+<li>
+<p>
+-times
+</p>
+<p>
+同步修改时间
+</p>
+</li>
+<li>
+<p>
+-path xxx 参数
+</p>
+<p>
+只同步 -path 参数指定的子目录以及文件，而非整个目录。例如
+</p>
+<pre class="screen">
+  unison /home/username ssh://remotehost//home/username \
+	-path shared \
+	-path pub \
+	-path .netscape/bookmarks.html
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4529760"></a>3.2.3. 模式匹配</h4></div></div></div>
+<p>
+如下参数 ignore/ignorenot, follow, sortfirst/sortlast, backup, merge 定义各自的匹配模式。
+例如: ignore = pattern
+</p>
+<p>
+pattern 的语法格式
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Regex regexp
+</p>
+<p>
+即常规表达式。
+</p>
+</li>
+<li>
+<p>
+Name name
+</p>
+<p>
+路径的最后一部分与 “name" 匹配。可以使用通配符，见下面描述。
+</p>
+</li>
+<li>
+<p>
+Path path
+</p>
+<p>
+全路径与 "path" 匹配。可以使用通配符，见下面描述。
+</p>
+</li>
+</ul></div>
+<p>
+以下通配符可以用在 Path 和 Name 中:
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+?
+</p>
+<p>
+匹配除了 "/" 之外，任意单个字符；
+</p>
+</li>
+<li>
+<p>
+*
+</p>
+<p>
+匹配除了 "/" 之外的任意字符；如果用在 "Name" 中，则不和以 "."开始的文件匹配，而用在 "Path" 中，可以和 "." 开始的向匹配。
+</p>
+</li>
+<li>
+<p>
+[xyz] 	 
+</p>
+<p>
+匹配 {x,y,z} 中任一字符；
+</p>
+</li>
+<li>
+<p>
+{a,bb,ccc}
+</p>
+<p>
+匹配 a, bb, ccc 中任何一个；
+</p>
+</li>
+</ul></div>
+<p>
+示例：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+忽略 CVS 目录以及以 .cmo 结尾的文件：
+</p>
+<pre class="screen">
+ignore = Name {CVS,*.cmo}
+</pre>
+</li>
+<li>
+<p>
+忽略路径 a/b:
+</p>
+<pre class="screen">
+ignore = Path a/b
+</pre>
+</li>
+<li>
+<p>
+忽略路径 */tmp。当 * 用在 Path 中，可以和以 "." 开始的文件、目录名匹配，如下面的和 ".foo/tmp" 匹配；
+</p>
+<pre class="screen">
+ignore = Path */tmp
+</pre>
+</li>
+<li>
+<p>
+忽略 a/b/ 开始，结尾是 .ml 的文件。
+</p>
+<pre class="screen">
+ignore = Regex a/b/.*\.ml
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4547968"></a>3.2.4. 应用举例</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+本地目录间的镜像
+</p>
+<pre class="screen">
+unison &lt;目录1&gt; &lt;目录2&gt;
+</pre>
+</li>
+<li>
+<p>
+获取远程 unison 版本
+</p>
+<pre class="screen">
+ssh remotehostname unison -version
+</pre>
+</li>
+<li>
+<p>
+测试
+</p>
+<pre class="screen">
+unison -testServer 本地目录 ssh://user@remotehostname/远程目录
+</pre>
+</li>
+<li>
+<p>
+执行数据同步
+</p>
+<pre class="screen">
+unison  &lt;本地目录&gt; ssh://remotehostname/&lt;远程目录&gt;
+</pre>
+</li>
+<li>
+<p>
+远程目录是绝对目录，不是用户主目录
+</p>
+<p>
+注意 在主机和目录间又多加了一个 "/"：
+</p>
+<pre class="screen">
+unison  &lt;本地目录&gt; ssh://remotehostname//&lt;绝对路径&gt;
+</pre>
+</li>
+<li>
+<p>
+参数 -path 指定同步的子目录。以下只同步 /home/username 下的 shared 目录。
+</p>
+<pre class="screen">
+unison /home/username ssh://remotehost//home/username -path shared
+</pre>
+<p>
+-path 可以多次出现
+</p>
+<pre class="screen">
+unison /home/username ssh://remotehost//home/username \
+	-path shared \
+	-path pub \
+	-path .netscape/bookmarks.html
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4559184"></a>3.2.5. unison 配置文件</h4></div></div></div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4559696"></a>3.2.5.1. .unison 目录</h5></div></div></div>
+<p>
+~/.unison 目录保存用户配置文件以及 Archive 文件。
+</p>
+<p>
+配置文件扩展名为 .prf，缺省的配置文件为: "default.prf"。
+</p>
+<p>
+Archive 文件可能有多个，每对同步的对象对应一个文件。这个文件记录了文件的状态，可以在后续的更新动作中更快速的判断文件的更新动作。
+Archive 文件名和双方的主机名、路径名等相关。
+</p>
+<p>
+Archive 虽然自动由 unison 维护，但是特殊情况下（如本机的地址经常变更），可以利用下面的方法：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+环境变量 "UNISONLOCALHOSTNAME" 可以用于本机地址经常变化的环境，unison 会采用该环境变量的值；
+</p></li>
+<li>
+<p>
+可以在缺省的配置文件中，用 rootalias 命令将新的主机、路径名称对应为老的主机名和路径名，
+ 然后再确定出 archive 名称。这样就不会造成由于主机名修改，导致 unison 更新状态的丢失，
+ 进而导致上次更新状态的丢失。
+</p>
+<pre class="screen">
+ rootalias = //new-hostname//new-path -&gt; //old-hostname//old-path
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4566416"></a>3.2.5.2. *.prf 配置文件</h5></div></div></div>
+<p>
+如果 unison 只带一个参数执行，如
+</p>
+<pre class="screen">
+unison &lt;name&gt;
+</pre>
+<p>
+则在 ~/.unison 目录下查找 "&lt;name&gt;.prf" 配置文件。
+</p>
+<p>
+如果不带参数执行 unison，则查找 "default.prf" 文件。
+</p>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4569136"></a>3.2.5.3.  .prf 文件示例</h5></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+简单的 default.prf 示例
+</p>
+<pre class="screen">
+# Roots of the synchronization 	 
+root = /home/bcpierce 	 
+root = ssh://saul//home/bcpierce 	 
+
+# Paths to synchronize 	 
+path = current 	 
+path = common 	 
+path = .netscape/bookmarks.html 	 
+</pre>
+</li>
+<li>
+<p>
+更复杂的配置文件:
+</p>
+<pre class="screen">
+# Roots of the synchronization
+root = /home/bcpierce
+root = ssh://saul//home/bcpierce
+
+# Paths to synchronize
+path = current
+path = common
+path = .netscape/bookmarks.html
+
+# Some regexps specifying names and paths to ignore
+ignore = Name temp.*
+ignore = Name *~
+ignore = Name .*~
+ignore = Path */pilot/backup/Archive_*
+ignore = Name *.o
+ignore = Name *.tmp
+
+# Window height
+height = 37
+
+# Keep a backup copy of the entire replica
+backup = Name *
+
+# Use this command for displaying diffs
+diff = diff -y -W 79 --suppress-common-lines
+
+# Log actions to the terminal
+log = true
+</pre>
+</li>
+<li><p>
+使用 include 包含文件
+</p></li>
+<li>
+<p>
+"unison workingset" 参照 "workingset.prf" 执行：
+</p>
+<pre class="screen">
+path = current/papers
+path = Mail/inbox
+path = Mail/drafts
+include common
+</pre>
+<p>
+"common" 文件内容:
+</p>
+<p>
+在 common 包含文件中，没有出现 PATH，毕竟要在包含文件中包含各个配置文件的交集么。
+</p>
+<pre class="screen">
+# Roots of the synchronization
+root = /home/bcpierce
+root = ssh://saul//home/bcpierce
+
+# (... other preferences ...)
+# If any new preferences are added by Unison (e.g. ’ignore’
+# preferences added via the graphical UI), then store them in the
+# file ’common’ rathen than in the top-level preference file
+addprefsto = common
+
+# regexps specifying names and paths to ignore
+ignore = Name temp.*
+ignore = Name *~
+ignore = Name .*~
+ignore = Path */pilot/backup/Archive_*
+ignore = Name *.o
+ignore = Name *.tmp
+</pre>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4579152"></a>3.2.6. FAQ</h4></div></div></div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4579664"></a>3.2.6.1. ssh 超时问题</h5></div></div></div>
+<p>
+和远程服务器同步大量数据，上传一部分数据后，超时：
+</p>
+<pre class="screen">
+  9%  559:15 ETARead from remote host bluehost: Connection reset by peer
+Fatal error: Lost connection with the server
+</pre>
+<p>
+Google 搜索类似问题：
+</p>
+<pre class="screen">
+该文章提出增大 ssh 超时时间设置：
+http://groups.yahoo.com/group/unison-users/message/3403
+
+hello users, I am trying to run unison to sync up 2 different servers.
+The directory I am syncing is pretty large... about 3000 subdirs and
+each of those subdirs has a couple dozen dirs under them. About 80 GBs
+of data total.
+
+I am using the following command:
+
+unison -batch /dir/path ssh://remoteserver//dir/path
+
+I originally used rsync to move the directory over to the remote
+server however I now have a need for bidirectional mirroring hence the
+reason why I now use unison.
+
+When I run this command, I get the usual warning about no prior index
+found since this is the first run.
+
+Unison then begins to list all the dirs and subdirs (building the
+index dbase I suppose). When it's almost finished, I get the following
+lines:
+
+Waiting for changes from server
+Fatal Error: Lost connection with server
+
+I have used unison before to mirror directories between these two
+machines, but none of which were this big with so many subdir branches.
+
+Nothing in any logs to give me any clues. I though it might be some
+sort of ssh timeout, so I added "ConnectTimeout 10" in
+/etc/ssh/ssh_config to give it a 10 second timeout, but I dont think
+this will help since the ssh session does indeed connect initially.
+
+ulimit -s shows I have an 8MB stack size.
+
+Can anyone shed any light onto this problem?
+
+Thank you
+</pre>
+<p>
+另外一个用户提出将一个任务分解成多个任务的方法：
+</p>
+<pre class="screen">
+http://groups.yahoo.com/group/unison-users/message/3651
+
+The connection between the client and the server can remain idle for a
+long time when checking for updates. So, if there is a masquerading
+router (or a firewall using stateful inspection) between the client
+and the server, it may wrongly consider that the connection is dead
+after some time.
+
+The usual workaround is to use the path directive to synchronize
+smaller parts of the replica at a time. This should necessary only
+for the first synchronization, as the subsequent ones are much faster.
+
+You could also try to use the ServerAliveInterval directive of ssh in
+order to keep the connection active.
+</pre>
+<p>
+实际操作中，第一次，我先把要上传的文件打成包，用 ftp 上传，然后展开到服务器中，之后执行一次 unison 同步即可。
+</p>
+</div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="rsync.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="mirror.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="batch.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3.1. sync 命令 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4. 自动任务</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

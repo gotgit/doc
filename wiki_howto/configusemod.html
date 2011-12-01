@@ -1,0 +1,243 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.2. UseModWiki 的配置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="usemod.html" title="4. UseModWiki">
+<link rel="prev" href="installusemod.html" title="4.1. UseModWiki 的安装">
+<link rel="next" href="usemodl0n.html" title="4.3. UseModWiki 的汉化">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.2. UseModWiki 的配置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="installusemod.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. UseModWiki</th>
+<td width="20%" align="right"> <a accesskey="n" href="usemodl0n.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="configusemod"></a>4.2. UseModWiki 的配置</h3></div></div></div>
+<p>
+定制 UseModWiki，直接修改 wiki.pl 显然不是一个好的主意，因为这将加大 Wiki 升级的难度。UseModWiki 提供了另外的一个配置文件 <code class="filename">config</code>，提供对 UseModWiki 的定制。
+</p>
+<p>
+将安装包中的 <code class="filename">config</code> 文件，拷贝到刚刚创建的数据目录：$DataDir。
+</p>
+<pre class="screen">
+bash# cp config /opt/UseModWiki/
+</pre>
+<p>
+编辑 <code class="filename">config</code> 文件，进行对 UseModWiki 的定制。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+标题文字
+</p>
+<pre class="screen">
+
+$SiteName    = "Wiki";          # Name of site (used for titles)
+
+</pre>
+</li>
+<li>
+<p>
+LOGO 图片位置
+</p>
+<p>
+将安装包中的LOGO图片 wiki.gif 拷贝到 Web服务器合适的目录下，要和 config 文件中的配置一致。确省设置如下：
+</p>
+<pre class="screen">
+
+$LogoUrl     = "/wiki.gif";     # URL for site logo ("" for no logo)
+
+</pre>
+</li>
+<li>
+<p>
+Cookie 名称
+</p>
+<p>
+如果一个站点配置了多个 UseModWiki，每个独立的 UseModWiki 需要配置不同的 Cookie 名称。该 Cookie 主要是保存用户的登录信息等。确省设置如下：
+</p>
+<pre class="screen">
+
+$CookieName  = "Wiki";          # Name for this wiki (for multi-wiki sites)
+
+</pre>
+</li>
+<li>
+<p>
+设置字符集
+</p>
+<p>
+要让页面确省的编码为简体中文，如下配置：
+</p>
+<pre class="screen">
+
+$HttpCharset = "gb2312";              # Charset for pages, like "iso-8859-2"
+
+</pre>
+</li>
+<li>
+<p>
+使用样式表 CSS
+</p>
+<p>
+使用样式表，定制页面显示：
+</p>
+<pre class="screen">
+
+$StyleSheet  = "/inc/css/wiki.css";              # URL for CSS stylesheet (like "/wiki.css")
+
+</pre>
+</li>
+<li>
+<p>
+配置 intermap
+</p>
+<p>
+可选配置。拷贝压缩包中的配置文件 intermap 至UseModWiki数据目录。intermap 文件记录了常用的 Wiki 链接，可以直接引用。
+</p>
+</li>
+<li>
+<p>
+设置保留时间 KeptPages
+</p>
+<pre class="screen">
+$KeepDays    = 14;              # Days to keep old revisions
+</pre>
+<p>
+确省 $KeptPages 设置为两周（14天），含义为清除14天以前的改动历史。对于更新不频繁的 Wiki 网站，这个值显然要设置的大一些为好。
+</p>
+<p>
+该配置在进行维护操作（?action=maintain）时被读入，并进行相应的清理过期版本等操作。参见：<a href="usemodadmin.html" title="4.6. UseModWiki 的管理">UseMod 管理</a>。
+</p>
+</li>
+<li>
+<p>
+1.0 版本开始支持文件上传，需要在 config 文件中进行设置
+</p>
+<pre class="screen">
+$UploadDir   = 'E:/REPOS/UseModWiki/upload';   # Full path (like /foo/www/uploads) for files
+$UploadUrl   = '/upload';                      # Full URL (like http://foo.com/uploads)
+...
+$UseUpload   = 1;                              # 1 = allow uploads,      0 = no uploads
+...
+$AllUpload    = 1;                             # 1 = anyone can upload,   0 = only editor/admins
+</pre>
+<p>
+其中的 $UploadDir 为上传文件的物理路径；$UploadUrl 为在网站上映射的目录名；$AllUpload 是允许任何用户都可以上传文件，否则只有具有编辑权限和管理员才能上传文件。
+</p>
+</li>
+<li>
+<p>
+开启邮件通知功能
+</p>
+<p>
+1.0 版本开始支持邮件通知功能，用户只要在“个性设置”中配置接收邮件通知的邮箱，则在 Wiki 页面修改后，会收到邮件通知。
+</p>
+<pre class="screen">
+$EmailNotify = 1;           # 1 = use email notices,  0 = no email on changes
+</pre>
+</li>
+<li>
+<p>
+开启页面缓存
+</p>
+<p>
+如果开启了页面缓存，将在数据目录 $DataDir 下建立页面缓存目录 $DataDir/html，该目录下保存最新的页面缓存，不必在每次浏览 Wiki 页面时，靠 cgi 重新生成，提高响应速度。
+</p>
+<pre class="screen">
+$UseCache    = 1;           # 1 = cache HTML pages,   0 = generate every page
+</pre>
+<p>
+但是，发现一个问题，缓存页面中的链接指向的是 cgi脚本的文件名（不带路径），对于配置了可以用多种 URL 访问wiki页面，会出现问题。例如: 可以用 "/cgi-bin/wiki.pl" 和 "/wiki" 访问 wiki，缓存页面中的链接可能是 &lt;a href="wiki.pl?... 也可能是 &lt;a href="wiki?... ，在页面跳转过程中，就会出现去访问根本访问不到的 URL，如 "/cgi-bin/wiki", "/wiki.pl"。解决办法是修改 Wiki 脚本中生成页面链接部分的代码：
+</p>
+<pre class="screen">
+
+my @ScriptPath = split('/', "$ENV{SCRIPT_NAME}");
+... ...
+#$ScriptName = pop(@ScriptPath);  # Name used in links
+$ScriptName = "";     # Set $ScriptName to blank to generate common links in cached htmls
+
+</pre>
+<p>
+即简单的将 $ScriptName 设置为空即可。
+</p>
+</li>
+<li>
+<p>
+其他
+</p>
+<pre class="screen">
+$NewFS       = 1; <a name="co.wiki.conf.newfs"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+$ThinLine    = 1; <a name="co.wiki.conf.thinline"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.wiki.conf.newfs"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+使用多字节的分隔符，避免出现在中文页面中出现乱码；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.wiki.conf.thinline"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+水平分隔符功能扩展支持；
+</p></td>
+</tr>
+</table></div>
+</li>
+</ul></div>
+<p>
+现在已经可以访问我们搭建起来的 Wiki 平台了，用浏览器访问我们建好的 UseModWiki 平台，可以发现界面是英文界面，有什么办法将界面汉化么？
+</p>
+<div class="mediaobject">
+<img src="images/wiki-2-usemod-en.gif" alt="英文界面的 UseModWiki"><div class="caption"><p>
+英文界面的 UseModWiki
+</p></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="installusemod.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="usemod.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="usemodl0n.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.1. UseModWiki 的安装 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.3. UseModWiki 的汉化</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

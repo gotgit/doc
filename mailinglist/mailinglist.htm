@@ -1,0 +1,874 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>知识管理</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content=" （编译自版本: 408fb68，最后更新时间: 2007-06-19）">
+<link rel="start" href="#index" title="知识管理">
+<link rel="next" href="#majordomo" title="2. 用 majordomo 构建邮件列表">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>知识管理</h1></div>
+<div><h3 class="subtitle"><i>Maillist Howto</i></h3></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.2</td>
+<td align="left">2003/06/07</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">补充 <a href="#mailarchive" title="2.7. 用 MHonarc 实现邮件归档">Mail Archive</a>
+</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2003/2/22</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">majordomo howto</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+
+</p>
+<p>
+（编译自版本: 408fb68，最后更新时间: 2007-06-19）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#whymaillist">1. 为什么使用邮件列表？</a></span></dt>
+<dt><span class="sect1"><a href="#majordomo">2. 用 majordomo 构建邮件列表</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#majordomo-install">2.1. majordomo 的安装</a></span></dt>
+<dt><span class="sect2"><a href="#majordomo-config">2.2. 邮件列表的配置</a></span></dt>
+<dt><span class="sect2"><a href="#idp4501232">2.3. Moderated Majordomo List</a></span></dt>
+<dt><span class="sect2"><a href="#majordomo-usage">2.4. 邮件列表的使用</a></span></dt>
+<dt><span class="sect2"><a href="#majorcool">2.5. Majordomo 的Web界面 Majorcool</a></span></dt>
+<dt><span class="sect2"><a href="#news-maillist">2.6. 新闻组和 Majordomo 邮件列表互转</a></span></dt>
+<dt><span class="sect2"><a href="#mailarchive">2.7. 用 MHonarc 实现邮件归档</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#idp4554336">3. Mailman Howto</a></span></dt>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="whymaillist"></a>1. 为什么使用邮件列表？</h2></div></div></div>
+<p>
+在开放源码的世界里，Maillist 是除了 CVS 外的最重要的工具。那么 Maillist 有何特殊之处呢？
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+配置简单
+</p>
+<p>
+作为沟通工具，邮件列表的配置要比论坛、新闻组简单的多，而且也易于使用，只要用户能收发邮件即可。
+</p>
+</li>
+<li>
+<p>
+实现内容的推
+</p>
+<p>
+我曾经在公司内部倡导使用新闻组进行小组沟通，新闻组或者论坛固然很好，但是必须经常提醒大家上去看，要是能实现内容的退该多好？而邮件列表就是以推的形式工作的。
+</p>
+</li>
+<li>
+<p>
+安全性高
+</p>
+<p>
+从安全性考虑，邮件列表借助电子邮件，而不像新闻组作为单独的一项服务要开放新的服务端口，增加了网络安全隐患。
+</p>
+<p>
+有些信息需要限制在一定的范围内，禁止非授权用户订阅。新闻组的权限配置非常麻烦，而邮件列表则简单的多，只要控制订阅邮件列表的用户名单，限制订阅的用户即可。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="majordomo"></a>2. 用 majordomo 构建邮件列表</h2></div></div></div>
+<p>
+何为邮件列表？其实就是将一个邮件别名映射到一系列用户。majordomo 是用 perl 语言写的工具，能够更有效的管理别名文件，实现用户可以自由订阅和反订阅邮件列表（即将用户加入别名文件和从别名文件中删除）。邮件 moderate，即发送之前，必须先经过管理员对邮件进行审核。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="majordomo-install"></a>2.1. majordomo 的安装</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+创建用户 majordom，属于用户组 daemon
+</p>
+<pre class="screen">
+$ useradd -g daemon majordom
+</pre>
+<p>
+You can create and use a group other id than "daemon" if you want, but if you do, that UID needs to be a "trusted" user as far as Sendmail is concerned (i.e., the user name needs to appear on a "T" line in your sendmail.cf file).
+</p>
+</li>
+<li>
+<p>
+创建安装目录
+</p>
+<pre class="screen">
+$ mkdir /usr/local/majordomo
+</pre>
+</li>
+<li>
+<p>
+创建安装目录
+</p>
+<pre class="screen">
+$ mkdir /usr/local/majordomo
+</pre>
+</li>
+<li>
+<p>
+修改 Makefile
+</p>
+<p>
+Edit the Makefile, defining where Perl and the C compiler are, the
+Majordomo home directory (chosen in step 2), the location of the
+manual pages, the user and group that Majordomo will run under, and
+the permissions for the various files and directories. If running on
+a non-POSIX system, comment out the POSIX SECTION in the Makefile.
+Under POSIX, wrapper must be setuid "root", even if the programs will
+be running as something other than "root" (i.e., "daemon"), or it
+won't work. The symptom of this is that Perl starts complaining about
+security violations and "unsafe usages".
+</p>
+</li>
+<li>
+<p>
+修改配置文件 majordomo.cf
+</p>
+<p>
+If this is a new install, copy sample.cf to majordomo.cf first.
+</p>
+<p>
+This .cf file is "require"ed into majordomo, so it needs to be valid
+Perl.  Here are the important variables to set:
+</p>
+<pre class="screen">
+    $whereami		What machine am I on?
+    $whoami		Who do users send requests to me as?
+    $whoami_owner	Who is the owner of the above, for problems?
+    $homedir		Where can I find my extra .pl files?
+    $listdir		Where are the mailing lists?
+    $log		Where do I write my log?
+    $sendmail_command   Where the sendmail program resides.
+    $mailer		What program and args do I use to send mail to the
+                          lists?
+    $bounce_mailer      What program and args do I use to send administrative
+                          messages?
+</pre>
+</li>
+<li>
+<p>
+make
+</p>
+<pre class="screen">
+$ make wrapper
+$ make install
+$ make install-wrapper
+</pre>
+</li>
+<li>
+<p>
+增加单独的别名文件，由 majordomo 管理
+</p>
+<p>
+修改 sendmail.mc 配置文件，如下：
+</p>
+<pre class="screen">
+define(`ALIAS_FILE',`/etc/aliases,/path/to/majordomo/majordomo.aliases')
+</pre>
+</li>
+<li>
+<p>
+增加 majordomo 管理别名
+</p>
+<p>
+修改别名文件：/path/to/majordomo/majordomo.aliases
+</p>
+<pre class="screen">
+majordomo: "|/usr/local/majordomo/wrapper majordomo"
+owner-majordomo: root,
+majordomo-owner: root
+majordom: root
+</pre>
+<p>
+之后执行如下命令：
+</p>
+<pre class="screen">
+$ touch /usr/local/majordomo/majordomo.aliases.db
+$ chmod 644 /usr/local/majordomo/majordomo.aliases.db
+$ newaliases
+</pre>
+</li>
+<li>
+<p>
+测试配置文件
+</p>
+<pre class="screen">
+
+$ su - &lt;another_user&gt;    # 以其它用户身份登录，非 root,majordom 用户。
+$ cd /path/to/majordomo
+$ ./wrapper config-test
+
+</pre>
+</li>
+<li>
+<p>
+测试邮件列表功能
+</p>
+<pre class="screen">
+$ touch /usr/local/majordomo/lists/test
+$ echo 'lists' | mail majordomo
+</pre>
+<p>
+如果配置正确，就会收到 Majordomo，而非 Mailer-Daemon 发送的邮件，提示现在已有的邮件列表。目前只有一个邮件列表，就是我们创建的 test。
+</p>
+</li>
+<li>
+<p>
+可能遇到的问题有：
+</p>
+<p>
+由于 sendmail 使用了 smrsh 作为 shell，导致 wrapper 程序不在 smrsh 允许之列，拒绝执行。
+参见：<a href="http://www.worldhello.net/doc/email_howto/" target="_top">Email Howto</a>；
+</p>
+<p>
+由于 lists 目录、别名文件、或者 majordomo 其它配置文件的权限设置太为宽松，导致 sendmail 拒绝执行。
+参见：<a href="http://www.worldhello.net/doc/email_howto/" target="_top">Email Howto</a>；
+</p>
+<p>
+邮件列表的名称必须是小写，且按照模式："[a-z0-9_-]+" 组成。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="majordomo-config"></a>2.2. 邮件列表的配置</h3></div></div></div>
+<p>
+配置邮件列表别名文件：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+基本的邮件列表功能
+</p>
+<p>
+在别名文件 majordomo.aliases 中，进行如下配置：
+</p>
+<pre class="screen">
+test:           :include:/usr/local/majordomo/lists/test            <a name="co.mj.inc.test"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+owner-test:     root
+test-owner:     root
+test-request:   "|/usr/local/majordomo/wrapper request-answer test" <a name="co.mj.wrp.reqans"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+test-approval:  root
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mj.inc.test"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+需要创建文件 /usr/local/majordomo/lists/test，因为邮件别名 test 包含（:include:）了该文件。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mj.wrp.reqans"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+使用 perl 脚本 request-answer 处理发向 test-request 别名的邮件。
+</p></td>
+</tr>
+</table></div>
+<p>
+该邮件列表 test，只能完成邮件到邮件列表的原样拷贝。如果需要改动邮件内容，如加头加尾，需要用 perl 程序 resend 处理到 test 的邮件，如下例。
+</p>
+</li>
+<li>
+<p>
+使用 resend 处理邮件列表
+</p>
+<p>
+在别名文件 majordomo.aliases 中，进行如下配置：
+</p>
+<pre class="screen">
+test:           "|/usr/local/majordomo/wrapper resend -l test test-list" <a name="co.mj.wrp.resend"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+test-list:      :include:/usr/local/majordomo/lists/test                 <a name="co.mj.inc.testlist"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+owner-test:     root
+test-owner:     root
+test-request:   "|/usr/local/majordomo/wrapper request-answer test"
+test-approval:  root
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mj.wrp.resend"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+即用perl程序 resend 处理发送到 test 邮件列表（-l test）的邮件，处理完毕，发送到 test-list 别名中。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mj.inc.testlist"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+test-list别名包含 test 别名文件。注意一定是名字 test，否则用户发送 lists 给 majordomo 时，得到错误的mail-list清单。
+</p></td>
+</tr>
+</table></div>
+<p>
+resend 通过配置文件——lists目录下的&lt;list-name&gt;.config，对邮件进行处理。配置文件的具体配置，参见 resend 的 man 手册。
+</p>
+</li>
+<li>
+<p>
+对 mail-list 用另外的邮件地址管理订阅和退订
+</p>
+<p>
+在别名文件 majordomo.aliases 中，修改相应的 test-request 别名：
+</p>
+<pre class="screen">
+test-request: 	"|/usr/local/majordomo/wrapper majordomo -l test"
+</pre>
+</li>
+<li>
+<p>
+更多示例：
+</p>
+<pre class="screen">
+
+#
+# Sample mailing list
+#
+# Adding "nobody" prevents expansion to "long" under sendmail v8:
+owner-sample: long, nobody
+sample-owner: long, nobody
+#sample: "|/usr/local/majordomo/wrapper resend -p bulk -M 10000 -R -l sample -f sample-owner -h girl.ee.ntu.edu.tw -s sample-outgoing"
+sample: "|/usr/local/majordomo/wrapper resend -l sample -h girl.ee.ntu.edu.tw sample-outgoing"
+sample-approval: owner-sample
+sample-outgoing: :include:/usr/local/majordomo/lists/sample, sample-archive,
+"|/usr/local/majordomo/wrapper digest -r -C -l sample-digest sample-digest-outgoing"
+#
+# For digest version list
+#
+sample-digest: sample
+sample-digest-outgoing: "|/usr/local/majordomo/wrapper request-answer sample-digest"
+owner-sample-digest: owner-sample
+owner-sample-digest-outgoing: owner-sample
+owner-sample-digest-request: owner-sample
+sample-digest-approval: sample-approval
+#
+# End of the digest version list
+#
+owner-sample-outgoing: owner-sample
+sample-archive: "|/usr/local/majordomo/wrapper archive -f /usr/local/majordomo/archives/sample/sample -m -a"
+owner-sample-archive: owner-sample
+#
+# For someone who may use listname-request to ask questions
+#sample-request: "|/usr/local/majordomo/wrapper request-answer sample"
+sample-request: "|/usr/local/majordomo/wrapper majordomo -l sample"
+owner-sample-request: owner-sample
+#
+# End of listname-request version 
+
+
+    test:"|/tools/majordomo/wrapper resend -l test -h cs.umb.edu test-outgoing"
+    test-digest:test
+
+    # I put the digest and archive programs on the outgoing list so that
+    # messages bounced by resend don't end up in the digest or archive
+    # unless I send them through resend explicitly. 
+    test-outgoing::include:/usr/local/Lists/test,
+     "| /tools/majordomo/wrapper digest -r -C -l test-digest test-digest-outgoing",
+     "| /tools/majordomo/wrapper archive2.pl -a  -m
+	-f /usr/local/mail/archive/test/test.archive"
+    # archive produces a monthly archive with the -m flag.
+
+    test-digest-outgoing::include:/usr/local/Lists/test-digest
+
+    owner-test:rouilj
+    owner-test-outgoing:owner-test
+    # note that the "-digest" and "-digest-outgoing" suffixes
+    # are required to allow the majordomo mkdigest command, and the
+    # config code to work properly.
+    owner-test-digest:owner-test
+    owner-test-digest-outgoing:owner-test
+
+    test-request: "|/tools/majordomo/wrapper request-answer test"
+    test-digest-request: "|/tools/majordomo/wrapper request-answer test-digest"
+
+    test-approval:rouilj
+    test-digest-approval:test-approval
+
+
+</pre>
+</li>
+</ul></div>
+<p>
+关于邮件列表的配置文件
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+一个复杂的 footer
+<sup>[<a name="fn.mj.document" href="#ftn.fn.mj.document">1</a>]</sup>
+</p>
+<pre class="screen">
+
+'message_fronter',      '#! local($TEMP) = $list;
+	if ( $list =~ /-digest$/ ) 
+	{
+		$TEMP =~ s/-digest$//;
+		"In this issue:\n\n\t_SUBJECTS_\n\nSee the end of the digest
+		 for information on subscribing to the $TEMP\nor $TEMP-digest mailing lists.\n";
+	} 
+	else 
+	{
+	    "";
+	}',
+'message_footer',      '#! local($TEMP) = $list;
+	if ( $list =~ /-digest$/ ) 
+	{
+		$TEMP =~ s/-digest$//;
+		"To subscribe to $TEMP-digest, send the command:\n\n\t
+		subscribe $TEMP-digest\n\nin the body of a message to \"Majordomo@
+		Majordomo.cso.uiuc.edu\".  If you want\nto subscribe something
+		other than the account the mail is coming from,\nsuch as a local
+		redistribution list, then append that address to the\n\"subscribe\"
+		command; for example, to subscribe \"local-$TEMP\":\n\n\tsubscribe
+		$TEMP-digest local-$TEMP@your.domain.net\n\nA non-digest
+		(direct mail) version of this list is also available;
+		to\nsubscribe to that instead, replace all instances of
+		\"$TEMP-digest\"\nin the commands above with \"$TEMP\".";
+	}
+	else
+	{
+		"";
+	}',
+
+
+</pre>
+<p>
+以上设置比较复杂，如果没有设置相应的摘要邮件列表，或者不介意在摘要中每个文章都加上冗长的结尾的化，只要写一个字符串即可。如：
+</p>
+<pre class="screen">
+
+message_footer      &lt;&lt;  END
+-
+----------------------------------------------------------------------
+内部的 mail-list 使用指南：
+-  1. 将你机器的 DNS 服务器设置为内部 DNS;
+-  2. 只有在邮件服务器中将 SMTP 服务器设置为 内部邮件服务器，
+-     方可向 $LIST 发送邮件;
+-  3. 取消邮件列表：
+-     向 majordomo 发送邮件:
+-     内容为： unsubscribe $LIST &lt;your_email_address&gt;，标题为空;
+-  4. 寻求更多帮助，请发送邮件到 majordomo，
+-     内容为: help
+-
+-
+END
+
+</pre>
+</li>
+<li>
+<p>
+邮件订阅受控，即订阅之前，先要由管理员审核用户
+</p>
+<p>
+参见：<a href="#faq.mmj.restsubs" title="Question">FAQ</a>。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4501232"></a>2.3. Moderated Majordomo List</h3></div></div></div>
+<p>
+Moderated Majordomo List 就是受控的邮件列表，任何人向邮件列表发言前，先要经过审核。只需要在邮件列表的控制文件中如下修改：
+</p>
+<pre class="screen">
+moderate            =   yes
+moderator           =
+</pre>
+<p>
+确省的邮件组审核小组别名为：&lt;list&gt;-approval
+</p>
+<div class="qandaset">
+<dl>
+<dt>问： <a href="#idp4503760">
+How do I approve a message on a moderated Majordomo list?
+[2]
+</a>
+</dt>
+<dt>问： <a href="#idp4509536">
+How can I have more than one moderator/owner for a list?
+[1]
+</a>
+</dt>
+<dt>问： <a href="#idp4513680">
+What steps are required to set up a list where:
+[1]
+</a>
+</dt>
+<dt>问： <a href="#idp4520864">
+What steps are required to set up a list where:
+</a>
+</dt>
+</dl>
+<table border="0" summary="Q and A Set">
+<col align="left" width="1%">
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4503760"></a><a name="faq.mmj.approve"></a><b>问：</b>
+</td>
+<td align="left" valign="top">
+<p>
+How do I approve a message on a moderated Majordomo list?
+<sup>[<a name="fn.mmj.approve" href="#ftn.fn.mmj.approve">2</a>]</sup>
+</p>
+<p>
+I'm the list owner and I received a message that a post has bounced due to the
+list being moderated. What do I do to get it posted to the list?
+</p>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"><b>答：</b></td>
+<td align="left" valign="top">
+<p>
+You'll need to add two lines to the top of the message and resend it to your
+list address. The two lines are:
+</p>
+<p>
+<span><strong class="command">Approved: your-list-password</strong></span>
+</p>
+<p>
+followed by a blank line. It is important that the Approved: line is the first
+line in your new message, and that you have a blank line following the Approved
+line.
+</p>
+<p>
+You can forward the message, or resend it (if your email client has that option)
+You'll want to change the subject of the forwarded message to something other
+than Bounced....etc. If you resend the message it will appear to come from you,
+so you may want to include the actual author's email address in the message.
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4509536"></a><a name="faq.mmj.moremoderator"></a><b>问：</b>
+</td>
+<td align="left" valign="top"><p>
+How can I have more than one moderator/owner for a list?
+<sup>[<a href="#ftn.fn.mj.document">1</a>]</sup>
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"><b>答：</b></td>
+<td align="left" valign="top">
+<p>
+Again majordomo is your friend. Create a mailing list called "&lt;listname&gt;-owner". Again create it nonadvertised and closed. Set up the appropriate aliases for the list: 
+</p>
+<pre class="screen">
+	owner-listname::include:/usr/local/Lists/&lt;listname&gt;-owner
+	listname-owner:owner-listname
+	owner-owner-listname: owner-majordomo
+</pre>
+<p>
+and you are done. 
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4513680"></a><a name="faq.mmj.restsubs"></a><b>问：</b>
+</td>
+<td align="left" valign="top">
+<p>
+What steps are required to set up a list where:
+<sup>[<a href="#ftn.fn.mj.document">1</a>]</sup>
+</p>
+<p>
+* only the owners can subscribe new folks
+</p>
+<p>
+* only the owners can send messages to the list
+</p>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"><b>答：</b></td>
+<td align="left" valign="top">
+<p>
+Create listname.closed in the list directory.  Alias incoming list submissions to 
+go through "resend" with the -A and -a options.
+</p>
+<p>
+Rather than use listname.closed, set 
+</p>
+<p>
+<span><strong class="command">subscribe_policy = closed</strong></span>
+</p>
+<p>
+The -A flag is handed by setting:
+</p>
+<p>
+<span><strong class="command">moderate = yes</strong></span>
+</p>
+<p>
+and the -a &lt;password&gt; flag is handled using the
+</p>
+<p>
+<span><strong class="command">approve_passwd = &lt;some password&gt;</strong></span>
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4520864"></a><a name="idp4521120"></a><b>问：</b>
+</td>
+<td align="left" valign="top">
+<p>
+What steps are required to set up a list where:
+</p>
+<p>
+* only the owners can subscribe new folks
+</p>
+<p>
+* any subscribers can send to the list
+</p>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"><b>答：</b></td>
+<td align="left" valign="top">
+<p>
+Same as above, except leave of the -A and -a options.
+</p>
+<p>
+Simply set <span><strong class="command">moderate = no</strong></span>。
+</p>
+<p>
+The approval password can still be used to approve message bounced
+due to length restrictions or administrivia checks.
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="majordomo-usage"></a>2.4. 邮件列表的使用</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+寻求帮助
+</p>
+<p>
+向地址 Majordomo@YourDomain.Com 发送邮件，主题为空，内容为 help 。
+</p>
+</li>
+<li>
+<p>
+显示当前提供的邮件列表服务清单
+</p>
+<p>
+向地址 Majordomo@YourDomain.Com 发送邮件，主题为空，内容为 lists 。
+</p>
+</li>
+<li>
+<p>
+订阅邮件列表（假设邮件列表名为 test）
+</p>
+<p>
+向地址 Majordomo@YourDomain.Com 发送邮件，主题为空，内容为 subscribe test 。
+</p>
+<p>
+邮件服务器会发来一封确认信，按照确认信内容操作。
+</p>
+</li>
+<li>
+<p>
+退订邮件列表（假设邮件列表名为 test）
+</p>
+<p>
+向地址 Majordomo@YourDomain.Com 发送邮件，主题为空，内容为 unsubscribe test 。
+</p>
+<p>
+邮件服务器会发来一封确认信，按照确认信内容操作。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="majorcool"></a>2.5. Majordomo 的Web界面 Majorcool</h3></div></div></div>
+<p>
+Majorcool 是用 Perl 写的 cgi 脚本，提供了 Majordomo 的易用接口。
+</p>
+<p>
+网络资源：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Majordomo/Majorcool Howto
+</p>
+<p>
+<a href="http://www.tldp.org/HOWTO/Majordomo-MajorCool-HOWTO/index.html" target="_top">http://www.tldp.org/HOWTO/Majordomo-MajorCool-HOWTO/index.html</a>
+</p>
+</li>
+<li>
+<p>
+下载 Majorcool
+</p>
+<p>
+<a href="ftp://140.113.17.209/pub/ports/distfiles/majorcool-1.3.2.tar.gz" target="_top">ftp://140.113.17.209/pub/ports/distfiles/majorcool-1.3.2.tar.gz</a>
+</p>
+</li>
+</ul></div>
+<p>
+我在 Linux 上安装 Majorcool，基本上没有费多大周折。按照前面的 Howto 一步步执行即可。在后面的运行维护阶段，曾经遇到过“Majorcool 不能更新列表的问题”：
+</p>
+<p>
+Majordomo 创建的新的邮件列表，Majorcool 不能显示出来。即 Majorcool 不能更新列表。我的第一个反应是查看 Majorcool 的源代码，看看它是如何获取当前已有的邮件列表。
+</p>
+<p>
+首先定位到函数 get_lists：
+</p>
+<pre class="screen">
+
+#-----------------------------------------------
+# Find all lists matching a certain criteria.
+#-----------------------------------------------
+sub get_lists {
+	local($address,$pattern,$criteria,$list_match) = @_;
+	local(@lists);
+	#
+	# all lists
+	if ($criteria eq "available") {
+		@lists = sort(keys(%cached_descr));
+	}
+	#
+
+</pre>
+<p>
+发现邮件列表初始化自哈希表 %cached_descr，查找 %cached_descr 初始化的代码，自然定位到函数 load_cache：
+</p>
+<pre class="screen">
+
+#-----------------------------------------------
+# Create a table of cached keys for each list.
+#-----------------------------------------------
+sub load_cache {
+	&amp;send_error("Cannot Open File &lt;$cache&gt; -- $!")
+		unless open(CACHE, "$cache");
+	while (&lt;CACHE&gt;) {
+		chop;					# remove the trailing \n
+		next if /^\s*$/;			# remove blank lines
+		local($list,$owner,$spolicy,$upolicy,$descr,$adv,$noadv)
+			 = split(/\007/);
+		# only add good lists to the cache
+		if (&amp;valid_list($listdir,$list)) {
+			$cached_owner{$list} = $owner;
+			$cached_spolicy{$list} = $spolicy;
+			$cached_upolicy{$list} = $upolicy;
+			$cached_descr{$list} = &amp;html_encode($descr);
+			$cached_adv{$list} = $adv; 
+			$cached_noadv{$list} = $noadv;
+		}
+	}
+	close(CACHE);
+}
+
+</pre>
+<p>
+原来是从文件 $cache 初始化的邮件列表。查找 $cache 的定义，找到在文件 <code class="filename">majorcool_default.cf</code> 中：
+</p>
+<pre class="screen">
+
+$cache  		= "/usr/local/majordomo/.majordomo_keys";
+
+</pre>
+<p>
+剩下的事情就简单多了，打开并编辑文件 <code class="filename">/usr/local/majordomo/.majordomo_keys</code>，发现 Majorcool 的邮件列表清单有了变化。
+</p>
+<p>
+再到 Google 上搜一搜，找到了.majordomo_keys 文件初始化的命令。即在安装 Majorcool 过程中，使用了如下命令初始化该文件：
+</p>
+<pre class="screen">
+<span><strong class="command">/usr/local/majordomo/wrapper mj_key_cache -v -K /usr/local/majordomo/.majordomo_keys -C /usr/local/majordomo/majordomo.cf</strong></span>
+</pre>
+<p>
+打开文件 /usr/local/majordomo/mj_key_cache，看到文件头中的注释，告诉应该将该命令设置为在 crontab 中自动执行。于是...
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="news-maillist"></a>2.6. 新闻组和 Majordomo 邮件列表互转</h3></div></div></div>
+<p>
+参见：<a href="http://www.worldhello.net/doc/inn_howto/" target="_top">Newsgroup Howto</a>。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="mailarchive"></a>2.7. 用 MHonarc 实现邮件归档</h3></div></div></div>
+<p>
+邮件如何归档？<a href="http://www.mhonarc.org/" target="_top">MHonarc</a>，一个强大的邮件归档工具，将邮件转换为 html，是一个不错的选择。
+参见：<a href="http://www.worldhello.net/doc/search_engine/webarchive.html" target="_top">搜索引擎 Howto 之 Web存档</a>。
+</p>
+</div>
+<div class="footnotes">
+<br><hr width="100" align="left">
+<div class="footnote"><p><sup>[<a name="ftn.fn.mj.document" href="#fn.mj.document">1</a>] </sup>来源：<a href="http://www.realtime.net/realtime/rtmd.html" target="_top">Majordomo Documentation</a></p></div>
+<div class="footnote"><p><sup>[<a name="ftn.fn.mmj.approve" href="#fn.mmj.approve">2</a>] </sup>来源：<a href="http://www.swcp.com/swcp-web/kb/kb-view.php?107" target="_top">SWCP Knowledge Base</a></p></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="idp4554336"></a>3. Mailman Howto</h2></div></div></div>
+<p>
+Mailman 作为 GNU 的 maillist, 在功能上、管理上、界面上更胜一筹。
+</p>
+<p>
+文档整理中，参见: <a href="http://jiangxin.worldhello.net/wiki/M/Mailman.htm" target="_top">http://jiangxin.worldhello.net/wiki/M/Mailman.htm</a>...
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,624 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1.3. 定制 MHonArc</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="webarchive.html" title="1. Web 存档">
+<link rel="prev" href="mhonarc-paradigm.html" title="1.2. MHonArc 应用示例">
+<link rel="next" href="search-engine.html" title="2. 建立搜索引擎">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1.3. 定制 MHonArc</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="mhonarc-paradigm.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">1. Web 存档</th>
+<td width="20%" align="right"> <a accesskey="n" href="search-engine.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="mhonarc-custom"></a>1.3. 定制 MHonArc</h3></div></div></div>
+<p>
+上面的步骤提及了 MHonArc 的模板配置文件 $HOME/.mhonarc.mrc。下面是我定制的一个模板。至于详细内容参考 MHonArc 的帮助。
+</p>
+<pre class="screen">
+
+&lt;!--The MHonARC documentation on the web provides a good introduction to all the below --&gt;
+
+&lt;SORT&gt;		# List messages by date in main index
+&lt;REVERSE&gt;	# Sort messages in the reverse order
+&lt;TSORT&gt;		# Want thread index
+&lt;TREVERSE&gt;	# Sort thread index in the reverse order
+&lt;MULTIPG&gt;	# Split index page into multiple pages, each page contain $IDXSIZE$ articles
+&lt;IDXSIZE&gt;
+100
+&lt;/IDXSIZE&gt;
+
+
+&lt;LOCALDATEFMT&gt;
+%y/%m/%d %H:%M:%S
+&lt;/LOCALDATEFMT&gt;
+
+&lt;MSGLOCALDATEFMT&gt;
+%y/%m/%d %H:%M:%S
+&lt;/MSGLOCALDATEFMT&gt;
+
+&lt;GMTDateFmt&gt;
+%y/%m/%d %H:%M:%S GMT
+&lt;/GMTDateFmt&gt;
+
+&lt;TTITLE&gt;
+$IDXTITLE$(线索)
+&lt;/TTITLE&gt;
+
+
+&lt;CharsetConverters override&gt;
+plain;    mhonarc::htmlize
+default;  mhonarc::htmlize 
+&lt;/CharsetConverters&gt;
+
+
+&lt;!--
+ ***************************************************************
+ Define a custom resource variable representing our link. 
+ ***************************************************************
+--&gt;
+
+&lt;DefineVar&gt;
+HOME-LINK
+[&lt;a href="/"&gt;HOME&lt;/a&gt;]
+&lt;/DefineVar&gt;
+
+&lt;IDXFNAME&gt;
+index.html
+&lt;/IDXFNAME&gt;
+
+&lt;IDXPREFIX&gt;
+index
+&lt;/IDXPREFIX&gt;
+
+&lt;TIDXFNAME&gt;
+threads.html
+&lt;/TIDXFNAME&gt;
+
+&lt;TIDXPREFIX&gt;
+threads
+&lt;/TIDXPREFIX&gt;
+
+&lt;TIDXLABEL&gt;
+&lt;a href='threads.html'&gt;依线索排序&lt;/a&gt;
+&lt;/TIDXLABEL&gt;
+
+&lt;IDXLABEL&gt;
+&lt;a href='index.html'&gt;依日期排序&lt;/a&gt;
+&lt;/IDXLABEL&gt;
+
+
+&lt;!--
+ ***************************************************************
+ Main Index Page
+ ================
+	IDXPGSSMARKUP
+	IDXPGBEGIN
+	    LISTBEGIN
+		(AUTHORBEGIN |
+		 DAYBEGIN |
+		 SUBJECTBEGIN)?
+		LITEMPLATE+
+		(AUTHOREND |
+		 DAYEND |
+		 SUBJECTEND)?
+	     LISTEND
+	    DOC?
+	IDXPGEND
+ ***************************************************************
+--&gt;
+
+&lt;IdxPgBegin&gt;
+&lt;!doctype html public "-//W3C//DTD HTML//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta http-equiv="Content-Language" content="zh-cn"&gt;
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=gb2312"&gt;
+  &lt;link rel="STYLESHEET" type="text/css" href="/inc/css/main.css"/&gt;
+  &lt;title&gt;$IDXTITLE$ - $PAGENUM$/$NUMOFPAGES$&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;
+&lt;script language="javascript" src="/inc/jscript/header.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;table border=0 width=90%&gt;
+  &lt;tr&gt;&lt;td&gt;
+&lt;table border=0 width=100%&gt;
+  &lt;tr&gt;
+   &lt;td class="idxtitle"&gt;
+     $IDXTITLE$
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="homelink"&gt;
+      $HOME-LINK$
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;/IdxPgBegin&gt;
+
+
+&lt;IdxPgEnd&gt;
+  &lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;script language="javascript" src="/inc/jscript/footer.js" type="text/javascript"&gt;
+write_footer("Page $PAGENUM$/$NUMOFPAGES$");
+&lt;/script&gt;
+&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;/IdxPgEnd&gt;
+
+
+&lt;ListBegin&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+&lt;ul&gt;
+  &lt;li&gt;更新日期: $LOCALDATE$，Articles: $NUMOFIDXMSG$/$NUMOFMSG$, Page: $PAGENUM$/$NUMOFPAGES$&lt;/li&gt;
+  &lt;li&gt;$TIDXLABEL$&lt;/li&gt;
+  &lt;li&gt;$PGLINK(PREV)$ | [&lt;a href="$PG(FIRST)$"&gt;First Page&lt;/a&gt;] | [&lt;a href="$PG(LAST)$"&gt;Last Page&lt;/a&gt;] | $PGLINK(NEXT)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+  &lt;tr&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle" width=2%&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle" width=68%&gt;&lt;strong&gt;&lt;U&gt;标题&lt;/U&gt;&lt;/strong&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle" width=10%&gt;[&lt;strong&gt;&lt;U&gt;作者&lt;/U&gt;&lt;/strong&gt;]&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle" width=20%&gt;[&lt;strong&gt;&lt;U&gt;日期&lt;/U&gt;&lt;/strong&gt;]&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;!-- Blank Row left out intentionally --&gt;
+  &lt;tr&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle"&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle"&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle"&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/ListBegin&gt;
+
+
+&lt;LISTEND&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+&lt;ul&gt;
+  &lt;li&gt;更新日期: $LOCALDATE$，Articles: $NUMOFIDXMSG$/$NUMOFMSG$, Page: $PAGENUM$/$NUMOFPAGES$&lt;/li&gt;
+  &lt;li&gt;$TIDXLABEL$&lt;/li&gt;
+  &lt;li&gt;$PGLINK(PREV)$ | [&lt;a href="$PG(FIRST)$"&gt;First Page&lt;/a&gt;] | [&lt;a href="$PG(LAST)$"&gt;Last Page&lt;/a&gt;] | $PGLINK(NEXT)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/table&gt;
+&lt;/LISTEND&gt;
+
+
+&lt;LiTemplate&gt; #this defoines the LI's of every list on the main index page
+&lt;tr&gt;
+  &lt;td ALIGN=LEFT VALIGN="top"&gt;
+    &lt;strong&gt;#&lt;/strong&gt;&lt;/td&gt;
+  &lt;td ALIGN=LEFT VALIGN="top"&gt;
+    &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;&lt;/td&gt;
+  &lt;td ALIGN=LEFT VALIGN="top"&gt;
+    [&lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;]&lt;/td&gt;
+  &lt;td ALIGN=LEFT VALIGN="top"&gt;
+    [&lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/LiTemplate&gt;
+
+
+&lt;!--
+ ***************************************************************
+ Thread Index Page
+ =================
+	TIDXPGSSMARKUP
+	TIDXPGBEGIN
+	    THEAD
+		((TTOPBEGIN
+		    TSUBLISTBEG
+			((TLITXT
+			    [possible subthread listing]
+			  TLIEND)|
+			(TLINONE
+			    [possible subthread listing]
+			 TLINONEEND))+
+		    (TSUBJECTBEG
+			((TLITXT
+			    [possible subthread listing]
+			  TLIEND)|
+			(TLINONE
+			    [possible subthread listing]
+			 TLINONEEND))+
+		     TSUBJECTEND)?
+		    TSUBLISTEND
+		  TTOPEND)
+		 |
+		 TSINGLETXT)* [message w/o references or follow-ups]
+	    TFOOT
+	    DOC?
+	TIDXPGEND
+ ***************************************************************
+--&gt;
+
+&lt;TIdxPgBegin&gt; #Every index page will have this at the begining
+&lt;!doctype html public "-//W3C//DTD HTML//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta http-equiv="Content-Language" content="zh-cn"&gt;
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=gb2312"&gt;
+  &lt;link rel="STYLESHEET" type="text/css" href="/inc/css/main.css"/&gt;
+  &lt;title&gt;$TIDXTITLE$ - $PAGENUM$/$NUMOFPAGES$&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;
+&lt;script language="javascript" src="/inc/jscript/header.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;table border=0 width=90%&gt;
+  &lt;tr&gt;&lt;td&gt;
+&lt;table border=0 width=100%&gt;
+  &lt;tr&gt;
+   &lt;td class="idxtitle"&gt;
+     $TIDXTITLE$
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="homelink"&gt;
+      $HOME-LINK$
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;/TIdxPgBegin&gt;
+
+
+&lt;TIdxPgEnd&gt;
+  &lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;script language="javascript" src="/inc/jscript/footer.js" type="text/javascript"&gt;
+write_footer("Page $PAGENUM$/$NUMOFPAGES$");
+&lt;/script&gt;
+&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;/TIdxPgEnd&gt;
+
+
+&lt;THead&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+&lt;ul&gt;
+  &lt;li&gt;更新日期: $LOCALDATE$，Articles: $NUMOFIDXMSG$/$NUMOFMSG$, Page: $PAGENUM$/$NUMOFPAGES$&lt;/li&gt;
+  &lt;li&gt;$IDXLABEL$&lt;/li&gt;
+  &lt;li&gt;$PGLINK(TPREV)$ | [&lt;a href="$PG(TFIRST)$"&gt;First Page&lt;/a&gt;] | [&lt;a href="$PG(TLAST)$"&gt;Last Page&lt;/a&gt;] | $PGLINK(TNEXT)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;/THead&gt;
+
+
+&lt;TFoot&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+&lt;ul&gt;
+  &lt;li&gt;更新日期: $LOCALDATE$，Articles: $NUMOFIDXMSG$/$NUMOFMSG$, Page: $PAGENUM$/$NUMOFPAGES$&lt;/li&gt;
+  &lt;li&gt;$IDXLABEL$&lt;/li&gt;
+  &lt;li&gt;$PGLINK(TPREV)$ | [&lt;a href="$PG(TFIRST)$"&gt;First Page&lt;/a&gt;] | [&lt;a href="$PG(TLAST)$"&gt;Last Page&lt;/a&gt;] | $PGLINK(TNEXT)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/table&gt;
+&lt;/TFoot&gt;
+
+
+&lt;TTopBegin&gt;
+&lt;li&gt;
+  &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;,
+  &lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;,
+  &lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;
+&lt;/TTopBegin&gt;
+
+
+&lt;TTopEnd&gt;
+&lt;/li&gt;
+&lt;/TTopEnd&gt;
+
+
+&lt;TContBegin&gt;
+&lt;li&gt;
+  &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;, &lt;EM&gt;(continued)&lt;/EM&gt;,
+  &lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;,
+  &lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;
+&lt;/TContBegin&gt;
+
+
+&lt;TContEnd&gt;
+&lt;/li&gt;
+&lt;/TContEnd&gt;
+
+
+&lt;TSubListBeg&gt;
+&lt;ul&gt;
+&lt;/TSubListBeg&gt;
+
+
+&lt;TSubListEnd&gt;
+&lt;/ul&gt;
+&lt;/TSubListEnd&gt;
+
+
+&lt;TLiTxt&gt;
+&lt;li&gt;
+  &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;,
+  &lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;,
+  &lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;
+&lt;/TLiTxt&gt;
+
+
+&lt;TLiEnd&gt;
+&lt;/li&gt;
+&lt;/TLiEnd&gt;
+
+
+&lt;TLiNone&gt;
+&lt;li&gt;&lt;em&gt;Message not available&lt;/em&gt;
+&lt;/TLiNone&gt;
+
+
+&lt;TLiNoneEnd&gt;
+&lt;/li&gt;
+&lt;/TLiNoneEnd&gt;
+
+
+&lt;TSubjectBeg&gt;
+&lt;li&gt;&amp;lt;Possible follow-up(s)&amp;gt;&lt;/li&gt;
+&lt;/TSubjectBeg&gt;
+
+
+&lt;TSUBJECTEND&gt;
+&lt;/TSUBJECTEND&gt;
+
+
+&lt;TSingleTxt&gt;
+&lt;li&gt;
+  &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;,
+  &lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;,
+  &lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;
+&lt;/TSingleTxt&gt;
+
+
+&lt;!--
+ ***************************************************************
+ Message Page
+ ============
+ The message page contains a single message converted to HTML and archive navigational links.
+	MSGPGSSMARKUP
+	MSGPGBEGIN
+	    MSGHEAD
+	    TOPLINKS
+	    SUBJECTHEADER
+	    Converted message header
+	    HEADBODYSEP
+	    Converted message body
+	    MSGBODYEND
+	    (FOLUPBEGIN
+		FOLUPLITXT+
+	     FOLUPEND)?
+	    (REFSBEGIN
+		REFSLITXT+
+	     REFSEND)?
+	    BOTLINKS
+	    MSGFOOT
+	MSGPGEND
+ ***************************************************************
+--&gt;
+&lt;MsgPgBegin&gt;
+&lt;!doctype html public "-//W3C//DTD HTML//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Language" content="zh-cn"&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=gb2312"&gt;
+&lt;link rel="STYLESHEET" type="text/css" href="/inc/css/main.css"/&gt;
+&lt;title&gt;$SUBJECTNA:20$&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;center&gt;
+  &lt;script language="javascript" src="/inc/jscript/header.js" type="text/javascript"&gt;&lt;/script&gt;
+
+  &lt;table border=0 width=90%&gt;
+    &lt;tr&gt;&lt;td&gt;
+  &lt;table border=0 width=100%&gt;
+    &lt;tr&gt;
+      &lt;td class="idxtitle"&gt;
+        $SUBJECTNA$
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="homelink"&gt;
+        $HOME-LINK$
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+&lt;/MsgPgBegin&gt;
+
+
+&lt;MsgPgEnd&gt;
+    &lt;/td&gt;&lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;script language="javascript" src="/inc/jscript/footer.js" type="text/javascript"&gt;
+    write_footer("$LOCALDATE$");
+  &lt;/script&gt;
+  &lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;/MsgPgEnd&gt;
+
+
+&lt;MSGHEAD&gt;
+&lt;/MSGHEAD&gt;
+
+
+&lt;MSGFOOT&gt;
+&lt;/MSGFOOT&gt;
+
+
+&lt;TopLinks&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+  &lt;li&gt;$BUTTON(PREV)$$BUTTON(NEXT)$$BUTTON(TPREV)$$BUTTON(TNEXT)&lt;/li&gt;
+  &lt;li&gt;$[&lt;a href="$IDXFNAME$#$MSGNUM$"&gt;Date Index&lt;/a&gt;][&lt;a href="$TIDXFNAME$#$MSGNUM$"&gt;Thread Index&lt;/a&gt;]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/TopLinks&gt;
+
+
+&lt;SubjectHeader&gt;
+&lt;h1&gt;$SUBJECTNA$&lt;/h1&gt;
+&lt;/SubjectHeader&gt;
+
+
+&lt;HEADBODYSEP&gt;
+&lt;hr&gt;
+&lt;/HEADBODYSEP&gt;
+
+
+&lt;MSGBODYEND&gt;
+&lt;hr&gt;
+&lt;/MSGBODYEND&gt;
+
+
+&lt;FOLUPBEGIN&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;跟帖&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;/FOLUPBEGIN&gt;
+
+
+&lt;FOLUPLITXT&gt;
+&lt;li&gt;&lt;strong&gt;$SUBJECT$&lt;/strong&gt;
+&lt;ul&gt;&lt;li&gt;&lt;em&gt;From:&lt;/em&gt; $FROM$&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+&lt;/FOLUPLITXT&gt;
+
+
+&lt;FOLUPEND&gt;
+&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/FOLUPEND&gt;
+
+
+&lt;REFSBEGIN&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;参考&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;/REFSBEGIN&gt;
+
+
+&lt;REFSLITXT&gt;
+&lt;li&gt;&lt;strong&gt;$SUBJECT$&lt;/strong&gt;
+&lt;ul&gt;&lt;li&gt;&lt;em&gt;From:&lt;/em&gt; $FROM$&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+&lt;/REFSLITXT&gt;
+
+
+&lt;REFSEND&gt;
+&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/REFSEND&gt;
+
+
+&lt;BotLinks&gt;
+&lt;ul&gt;
+  $LINK(PREV)$$LINK(NEXT)$
+  $LINK(TPREV)$$LINK(TNEXT)$
+  &lt;li&gt;Index(es):
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="$IDXFNAME$#$MSGNUM$"&gt;
+      &lt;strong&gt;日期排序&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="$TIDXFNAME$#$MSGNUM$"&gt;
+      &lt;strong&gt;线索排序&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/BotLinks&gt;
+
+
+</pre>
+<p>
+与该模板对应的 css 文件
+</p>
+<pre class="screen">
+
+p {font-size:9pt}
+h1 {font-size:18pt;line-height:130%;font-weight:"bold";align:"center";color:"red";}
+
+td,li,select,input {font-size:9pt}
+.sect1 {font-size:9pt;line-height:150%;color:#333333;background-color:#E1E1E1;font-weight:bolder;}
+.datetime {font-size:9pt;color:"red"}
+.star  {font-size:9pt;color:"red"}
+.gray {font-size:9pt;color:"gray"}
+.cvskw {font-size:9pt}
+.footer           {font-size:9pt;font-weight:bolder}
+.footer A:link    {font-size:9pt;font-weight:bolder}
+.footer A:active  {font-size:9pt;font-weight:bolder}
+.footer A:visited {font-size:9pt;font-weight:bolder}
+.footer A:hover   {font-size:9pt;font-weight:bolder}
+A:link {color: #000000;}
+A:visited {color: #000000;}
+A:active,A:hover {color : #000000}
+HTML BODY { LINE-HEIGHT: 1.2; MARGIN: 0 0 2em 0 }
+UL { list-style-image: url("/images/dot.gif") }
+
+.em           {font-size:"9pt";color:"red";font-weight:"bolder";font-style:"normal";letter-spacing:"2px";}
+.em A:link    {color: "red";letter-spacing:"4px";}
+.em A:active  {color: "red";letter-spacing:"4px";}
+.em A:visited {color: "red";letter-spacing:"4px";}
+.em A:hover   {color: "red";letter-spacing:"4px";font-size:"12pt";}
+
+.idxtitle {text-align:"center";text-valign:"middle";background-color:"#006666";font-size:"12pt";font-weight:"bold";color:"#FFFFFF";}
+.homelink {text-align:"right";text-valign:"middle";font-size:"9pt";color:"#AB0000";}
+
+hr		{border:dashed; color:blue; height:1px;}
+
+.msgtitle	{font-size:"9pt";color:"black";font-weight:"bolder";font-style:"normal";}
+.msgauthor	{font-size:"9pt";color:"black";font-weight:"normal";font-style:"italic";}
+.msgdate	{font-size:"9pt";color:"gray"; font-weight:"normal";font-style:"normal";}
+
+
+</pre>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="mhonarc-paradigm.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="webarchive.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="search-engine.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">1.2. MHonArc 应用示例 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2. 建立搜索引擎</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

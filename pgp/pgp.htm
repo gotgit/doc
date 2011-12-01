@@ -1,0 +1,955 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>PGP/GPG Howto</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="PGP/GPG 是不对称加密、数字签名的经典和标准，不但可以为个人的数字传输提供信用保障， 用于保护个人之间通讯的隐私，保护敏感数据，而且可以在更大的范围内，如公司范围内的 数据加密，电子产品（软件）的数字签名，知识产权保护等。 本文介绍PGP/GPG软件的使用技巧等。 （编译自版本: dc50d4f，最后更新时间: 2007-06-19）">
+<link rel="start" href="#index" title="PGP/GPG Howto">
+<link rel="next" href="#install" title="2. 安装">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>PGP/GPG Howto</h1></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.5</td>
+<td align="left">2002/9/04</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#pgpdisk" title="7. 用PGPDISK进行磁盘加密">
+增加用PGPDISK进行磁盘加密
+</a>
+</td></tr>
+<tr>
+<td align="left">修订 0.4</td>
+<td align="left">2002/9/03</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#key-mangement" title="3. PGP 公钥管理">
+增加PGP公钥管理
+</a>
+</td></tr>
+<tr>
+<td align="left">修订 0.3</td>
+<td align="left">2002/2/25</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#faq-winxp">
+Windows XP 和 PGP兼容性问题
+</a>
+</td></tr>
+<tr>
+<td align="left">修订 0.2</td>
+<td align="left">2002/2/22</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+增加简介和PGP GUI和CLI共存
+</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2002/2/20</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">PGP/GPG Howto
+</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+PGP/GPG 是不对称加密、数字签名的经典和标准，不但可以为个人的数字传输提供信用保障，
+用于保护个人之间通讯的隐私，保护敏感数据，而且可以在更大的范围内，如公司范围内的
+数据加密，电子产品（软件）的数字签名，知识产权保护等。
+</p>
+<p>
+本文介绍PGP/GPG软件的使用技巧等。
+</p>
+<p>
+（编译自版本: dc50d4f，最后更新时间: 2007-06-19）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#beginning">1. 不是多此一举</a></span></dt>
+<dt><span class="sect1"><a href="#install">2. 安装</a></span></dt>
+<dt><span class="sect1"><a href="#key-mangement">3. PGP 公钥管理</a></span></dt>
+<dt><span class="sect1"><a href="#mixup-pgp-gpg">4. PGP GUI, PGP CLI, GPG共存</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4484752">4.1. PGP GUI和CLI共存</a></span></dt>
+<dt><span class="sect2"><a href="#idp4494784">4.2. PGP移植到GPG</a></span></dt>
+<dt><span class="sect2"><a href="#idp4506960">4.3. GPG移植到PGP</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#env">5. 环境配置</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4520032">5.1. PGP (WIN2K+CYGWIN)</a></span></dt>
+<dt><span class="sect2"><a href="#idp4526688">5.2. GPG (WIN2K+CYGWIN)</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#command">6. 命令参考</a></span></dt>
+<dt><span class="sect1"><a href="#pgpdisk">7. 用PGPDISK进行磁盘加密</a></span></dt>
+<dt><span class="sect1"><a href="#faq">8. FAQ</a></span></dt>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="beginning"></a>1. 不是多此一举</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+一些废话
+</p>
+<p>
+PGP/GPG作为数字签名软件的标准，已经存在多年。它不但可以为公司、个人之间重要
+的隐私保护手段，更为重要的是，可以为我们出版的软件、内核等电子产品进行数字签名，
+防止被篡改，最大程度保障了信息安全。
+</p>
+<p>
+但是为防止公钥欺骗、保证公钥的不可否认性（Non-repudiation），我们需要一种机制
+来管理和发布我们的公钥。
+</p>
+</li>
+<li>
+<p>
+公钥的维护
+</p>
+<p>
+可以将公钥用版本控制系统维护和收集，并定期更新到 FTP 服务器中发布。
+</p>
+</li>
+<li>
+<p>
+注意事项
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+建立有过期保护的公钥
+</p>
+<p>
+加入过期机制，千万不要建立永不过期的公钥，以免私钥泄漏或丢失，想撤销公钥都不可能。
+</p>
+</li>
+<li>
+<p>
+备份你的私钥
+</p>
+<p>
+如果私钥丢失，则无法打开以前加密的文件。而且即使知道私钥被他人滥用，也无法使自己的公钥过期。
+</p>
+</li>
+<li>
+<p>
+为私钥加上口令保护
+</p>
+<p>
+这样即使私钥被人拷贝，还有一层保护啊。阿弥陀佛！
+</p>
+</li>
+<li>
+<p>
+为公钥建立信任网络
+</p>
+<p>
+由公司权威人士为大家的公钥签名并发布到网络签名的ldap公共服务器中。
+对此权威人士公钥的信任，会自动验证其他人的公钥。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+资源列表
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+PGP
+</p>
+<p>
+<a href="http://www.pgpi.org/download/" target="_top">下载</a>
+</p>
+</li>
+<li>
+<p>
+GPG
+</p>
+<p>
+<a href="http://www.gnupg.org/download.html" target="_top">下载</a>
+</p>
+</li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="install"></a>2. 安装</h2></div></div></div>
+<p>
+在 BSD 上成功安装了 gpg 1.0.6；在 WINDOWS 2K 上实现了PGP命令行，PGP图形界
+面，GPG 1.0.6的安装和共存。
+</p>
+<p>
+建议在windows 2000上安装PGP 6.0.2版本，因为这是免费包含PGPDISK（加密磁盘）的最后一版。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+Windows XP 和 PGP 7.0.3 （for WIN2000） 存在严重的兼容性问题，甚至会导致系
+统重装！安装前请参见 <a href="#faq-winxp">FAQ</a>。
+</p>
+<p>
+PGP6.0.2 存在BUG：“Installation of Outlook Express plugin fails. （The OE plugin does not work with OE 5! ）”。
+参见：<a href="http://www.pgpi.org/doc/bugs/win/" target="_top">http://www.pgpi.org/doc/bugs/win/</a>
+</p>
+</td></tr>
+</table></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="key-mangement"></a>3. PGP 公钥管理</h2></div></div></div>
+<p>
+基于不对称加密的 PGP 加密、签名固然是安全的，但如何能够保障你获取的公钥就是其所声明的
+本人的 KEY? 
+</p>
+<p>
+PGP 的公钥，一般是保存在 Certserver 中，当 PGP 在需要时，会自动连接到服务器中获取。当然
+还有一种方法，就是放在Web/Ftp服务器中，以只读方式下载获取。
+</p>
+<p>
+当 import 一个人的公钥时，默认是不予信任，需要通过传统手段（电话、信件等）确认，然后在
+对该公钥签名，完成对一个公钥的信任。对该公钥的签名可以是 public, 亦可以是 private 的。
+</p>
+<p>
+当设置了一个KEY的信任度后，该KEY签署的KEY会被自动 valid。
+</p>
+<div class="mediaobject">
+<img src="images/keymangement.jpg" alt="公钥管理"><div class="caption"><p>
+公钥管理示意图
+</p></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="mixup-pgp-gpg"></a>4. PGP GUI, PGP CLI, GPG共存</h2></div></div></div>
+<p>
+图形化界面的优点是集成性、易用性好；命令行方式的WINDOWS版本同UNIX版本，
+适合高级用户，适合自动化执行。
+</p>
+<p>
+但基于如下原因，必须使用命令行。
+</p>
+<p>
+图形界面的PGP不能用于商业应用，而GPG不受限制。
+</p>
+<p>
+使用GnuPG(gpg)的目的也是源于此。由于RSA，IDEA等算法在美、加的专利注册，使得我们在商业场合使用公开的算法技术成为必须。而gpg在这方面做的最好。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4484752"></a>4.1. PGP GUI和CLI共存</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+设置PGP命令行的主目录(适用于WINDOWS和UNIX)
+</p>
+<p>
+PGP Command Line 6.5.8 for NT Freeware
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+PGPPATH
+</p>
+<p>
+The first time you start PGP, the software checks to see if the environment
+variable PGPPATH is defined. If PGPPATH is defined, the software puts the
+PGP preferences file, keyring files, pgp.cfg, and the randseed file in the
+%PGPPATH% directory.
+</p>
+</li>
+<li>
+<p>
+USERPROFILE
+</p>
+<p>
+If PGPPATH is not defined, the software checks to see if the environment
+variable USERPROFILE is defined. If USERPROFILE is defined, the software
+puts the files in the %USERPROFILE%\Application Data\pgp directory.
+</p>
+<p>
+If USERPROFILE is not defined, the software puts the files in
+%SYSTEMROOT%\pgp.
+</p>
+<p>
+The randseed file is always placed in the %SYSTEMROOT% directory on 
+Windows NT, and "%PGPPATH%/randseed.rnd" on UNIX.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+PGP图形界面的主目录
+</p>
+<p>
+PGPfreeware 7.0.3
+</p>
+<p>
+通过 Options--&gt;Files, 重新设置各个项的位置，使和命令行版本保持同一。
+上述两个版本的PGP配置文件结构相同。这样很方便实现两者的同步。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+本人仅在PGPfreeware 7.0.3和PGP Command Line 6.5.8做过试验，请自行斟酌。
+</p>
+<p>
+GPG配置文件和PGP不相同，切勿照此办理，后果自负。
+</p>
+</td></tr>
+</table></div>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4494784"></a>4.2. PGP移植到GPG</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+导入公钥
+</p>
+<pre class="screen">
+$ pgp -kxa &lt;userid&gt; &gt; &lt;userid.asc&gt;
+$ gpg --import &lt; &lt;userid.asc&gt;
+</pre>
+<p>
+or
+</p>
+<pre class="screen">
+$ pgp -kxa &lt;userid&gt; | gpg --import 
+</pre>
+<p>
+测试
+</p>
+<pre class="screen">
+$ echo 'Hello Friend!' | gpg -ear &lt;userid&gt;
+</pre>
+</li>
+<li>
+<p>
+导入公钥和密钥
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+导入公钥
+</p>
+<pre class="screen">
+$ pgp -kx &lt;userid&gt; | gpg --import
+</pre>
+</li>
+<li>
+<p>
+去掉PGP密钥的加密口令 (NO LONGER REQUIRED!)
+</p>
+<pre class="screen">
+$ pgp -ke &lt;userid&gt;
+</pre>
+</li>
+<li>
+<p>
+Export private key into GnuPG
+</p>
+<pre class="screen">
+$ gpg --armor --export-secret-keys --secret-keyring ~/.pgp/secring.skr &lt;userid&gt; &gt; mykey.sec
+$ gpg --import --allow-secret-key-import &lt; mykey.sec
+</pre>
+</li>
+<li>
+<p>
+Set passphrase on both keys IMMEDIATELY 
+</p>
+<pre class="screen">
+$ pgp -ke &lt;userid&gt;
+$ gpg --edit-key &lt;userid&gt;
+</pre>
+</li>
+<li>
+<p>
+Test key.
+</p>
+<pre class="screen">
+$ echo 'hello world' | pgp -er &lt;userid&gt; | gpg --decrypt
+</pre>
+</li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4506960"></a>4.3. GPG移植到PGP</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+去掉密钥口令加密
+</p>
+<pre class="screen">
+$ gpg --edit-key &lt;user_id&gt;
+gnupg&gt; passwd
+Enter passphrase: *****
+new passphrase:
+reenter passphrase:
+Are you sure you want to remove your passphrase? Y
+gnupg&gt; save
+</pre>
+</li>
+<li>
+<p>
+导出密钥
+</p>
+<pre class="screen">
+$ gpg --export-secret-keys --armor --no-comment --output bad.asc
+</pre>
+</li>
+<li>
+<p>
+重新为密钥加上口令
+</p>
+<pre class="screen">
+$ gpg --edit &lt;user_id&gt;
+   gnupg&gt; passwd
+   You have no passphrase!
+   new passphrase: *****
+   reenter passphrase: *****
+   gnupg&gt; save
+</pre>
+</li>
+<li>
+<p>
+密钥导入到PGP
+</p>
+<p>
+import bad.asc into PGP.
+</p>
+<pre class="screen">
+$ pgp -ka bad.asc
+</pre>
+</li>
+<li>
+<p>
+删除临时文件
+</p>
+<pre class="screen">
+$ pgp -w bad.asc
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+'-w' means safely wipe file. It is better than using rm.
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+为导入到PGP的KEY设置为绝对信任（implicit trust/
+an ultimately-trusted introducer）。
+</p>
+<pre class="screen">
+$ pgp -ke &lt;userid&gt;
+</pre>
+</li>
+<li>
+<p>
+为PGP的密钥加入口令保护。
+</p>
+<pre class="screen">
+$ pgp -ke &lt;userid&gt;
+</pre>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="env"></a>5. 环境配置</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4520032"></a>5.1. PGP (WIN2K+CYGWIN)</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+环境变量
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+TZ
+</p>
+<p>
+时区设置：SET TZ=GMT-4
+</p>
+</li>
+<li>
+<p>
+PGPPASS
+</p>
+<p>
+密钥口令: SET PGPPASS=???????
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+配置文件: <code class="filename">pgp.cfg</code>
+</p>
+<pre class="screen">
+Armor = on
+Armorlines = 0
+Cert_depth = 3
+ClearSig = on
+KEYSERVER_URL = ldap://keyserver.pgp.com
+#ENCRYPTTOSELF = on
+#TZFIX=0
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4526688"></a>5.2. GPG (WIN2K+CYGWIN)</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+环境变量
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+注册表设置配置文件主目录
+</p>
+<p>
+可设置注册表键值\\HKEY_CURRENT_USER\Software\GNU\GnuPG\HomeDir
+为 C:/Documents and Settings/Administrator/Application Data/GPG，
+则配置文件保存其中。
+</p>
+</li>
+<li>
+<p>
+环境变量
+</p>
+<p>
+可设置环境变量 GNUPGHOME=
+C:/Documents and Settings/Administrator/Application Data/GPG
+来改变缺省设置： ~/.gnupg。还可以通过设置注册表来完成。注册表优先。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+为右键菜单增加“GPG 签名”的命令
+</p>
+<p>
+修改 HKEY_CLASSES_ROOT\*\shell\SigGPG， 增加 command 项，
+默认设置为：<span><strong class="command">gpg -sba %1</strong></span>。
+</p>
+</li>
+<li>
+<p>
+配置文件: <code class="filename">options</code>
+</p>
+<pre class="screen">
+# Options for GnuPG
+# Copyright 1998, 1999, 2000, 2001 Free Software Foundation, Inc.
+#
+# This file is free software; as a special exception the author gives
+# unlimited permission to copy and/or distribute it, with or without
+# modifications, as long as this notice is preserved.
+#
+# This file is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# Unless you you specify which option file to use (with the
+# commandline option "--options filename"), GnuPG uses the
+# file ~/.gnupg/options by default.
+#
+# An option file can contain all long options which are
+# available in GnuPG. If the first non white space character of
+# a line is a '#', this line is ignored.  Empty lines are also
+# ignored.
+#
+# See the man page for a list of options.
+
+# Uncomment the next line to get rid of the copyright notice
+#no-greeting
+
+# If you have more than 1 secret key in your keyring, you may want
+# to uncomment the following option and set your preffered keyid
+
+#default-key 621CC013
+
+# GnuPG ultimately trusts all keys in the secret keyring.  If you do
+# not have all your secret keys online available you should use this
+# option to tell GnuPG about ultimately trusted keys.
+# You have to give the long keyID here which can be obtained by using
+# the --list-key command along with the option --with-colons; you will
+# get a line similiar to this one:
+#    pub:u:1024:17:5DE249965B0358A2:1999-03-15:2006-02-04:59:f:
+# the 5th field is what you want.
+
+#trusted-key 12345678ABCDEF01
+
+
+# If you do not pass a recipient to gpg, it will ask for one.
+# Using this option you can encrypt to a default key.  key validation
+# will not be done in this case.
+# The second form uses the default key as default recipient.
+
+#default-recipient some-user-id
+#default-recipient-self
+
+
+# The next option is enabled because this one is needed for interoperation
+# with PGP 5 users.  To enable full OpenPGP compliance you have to remove
+# this option.
+
+force-v3-sigs
+
+# Because some mailers change lines starting with "From " to "&gt;From "
+# it is good to handle such lines in a special way when creating
+# cleartext signatures; all other PGP versions do it this way too.
+# To enable full OpenPGP compliance you have to remove this option.
+
+escape-from-lines
+
+# If you do not use the Latin-1 (ISO-8859-1) charset, you should
+# tell GnuPG which is the native character set.  Please check
+# the man page for supported character sets.
+#charset utf-8
+
+
+# You may define aliases like this:
+#   alias mynames  -u 0x12345678 -u 0x456789ab -z 9
+# everytime you use --mynames, it will be expanded to the options
+# in the above defintion.  The name of the alias may not be abbreviated.
+# NOTE: This is not yet implemented
+
+# lock the file only once for the lifetime of a process.
+# if you do not define this, the lock will be obtained and released
+# every time it is needed - normally this is not needed.
+lock-once
+
+# If you have configured GnuPG without a random gatherer
+# (./configure --enable-static-rnd=none), you have to
+# uncomment _one_ of the following lines.  These
+# extensions won't get used if you have a random gatherer
+# compiled in (which is the default for GNU and xxxBSD systems)
+#load-extension rndlinux
+#load-extension rndunix
+#load-extension rndegd
+
+
+# GnuPG can import a key from a HKP keyerver if one is missing
+# for certain operations. Is you set this option to a keyserver
+# you will be asked in such a case whether GnuPG should try to
+# import the key from that server (server do syncronize with each
+# other and DNS Round-Robin may give you a random server each time).
+# Use "host -l pgp.net | grep www" to figure out a keyserver.
+#
+# If you do not want to use the default port 11371, you can give the
+# name of the keyserver like this:
+#   x-hkp://keyserver.example.net:22742
+# If you have problems connecting through a buggy proxy, you can use this:
+#   x-broken-hkp://keyserver.example.net:11371
+# But first you should make sure that you have read the man page regarding
+# proxies (--honor-http-proxy)
+# Most users just set the name of the preferred keyserver.
+keyserver keyserver.pgp.com
+
+# The environment variable http_proxy is only used when the
+# this option is set.
+
+honor-http-proxy
+
+
+# added for PGP win95 support :-\                                                
+cipher-algo CAST5
+compress-algo 1
+
+# It wasn't working with these two uncommented (Unix version of GnuPG) I don't
+# know about the windows version.
+#disable-cipher-algo BLOWFISH
+#disable-cipher-algo TWOFISH
+
+# The rest is not GnuPG option stuff but notes for GPG integration with other
+# apps.
+#=============================================================================
+# The following macros were added to .muttrc to properly deal with clearsigned
+# messages that procmail couldn't catch.
+#macro pager S "|gpg --verify -\n" "Pipe text to GPG for verification."
+#macro pager D "|gpg -d|less\n" "Pipe text to GPG for decryption."
+
+# The following was added to .muttrc to support old PGP messages
+# (Eudora/Outlook are retards when it comes to the de facto standard of
+# PGP/MIME)
+#macro compose S "Fgpg --clearsign\ny" "Clear sign an attachment."
+#macro compose E "Fgpg -a --encrypt\ny" "Encrypt an atachmant."
+#macro compose I "Fgpg -a --sign --encrypt\ny" "Encrypt and sign an atachmant."
+
+# In your .muttrc make sure you don't have these two entires or Mutt won't
+# handle them internaly:
+#auto_view application/pgp-signature
+#auto_view application/pgp
+</pre>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="command"></a>6. 命令参考</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+管理KEY
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+创建key
+</p>
+<pre class="screen">
+pgp -kg &lt;userid&gt;
+gpg --gen-key &lt;userid&gt;
+</pre>
+</li>
+<li>
+<p>
+维护key
+</p>
+<pre class="screen">
+pgp -ke &lt;userid&gt;
+gpg --edit-key &lt;userid&gt;
+gpg --delete-key &lt;userid&gt;
+gpg --delete-secret-key &lt;userid&gt;
+gpg -keyserver ldap://keyserver.pgp.com -send-key &lt;userid&gt;
+gpg --s2k-cipher-algo CAST5 --s2k-digest-algo SHA1 --compress-algo 1 --edit-key &lt;userid&gt;
+gpg --sign-key &lt; UID &gt; 
+gpg --sign-key &lt; UID &gt; 
+</pre>
+</li>
+<li>
+<p>
+查看key属性
+</p>
+<pre class="screen">
+pgp -kv  &lt;userid&gt;
+pgp -kvv &lt;userid&gt;
+pgp -kvc &lt;userid&gt;
+gpg --list-keys
+gpg --list-sigs
+gpg --fingerprint
+gpg --list-secret-keys
+</pre>
+</li>
+<li>
+<p>
+导入导出key
+</p>
+<pre class="screen">
+pgp -ka &lt;keyfile&gt;
+pgp -kx &lt;userid&gt; &lt;keyfile&gt; &lt;keyring&gt;
+gpg --import [--allow-secret-key-import] &lt;keyfile&gt;
+gpg --export &lt;userid&gt;
+gpg --export-secret-keys -a &lt;userid&gt;
+</pre>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+签名和验证
+</p>
+<pre class="screen">
+pgp -sba &lt;file&gt; [-u yourid]
+pgp &lt;file.asc&gt;
+gpg -sba [--force-v3-sigs] &lt;file&gt;  [-u yourid]
+gpg &lt;file.asc&gt;
+</pre>
+</li>
+<li>
+<p>
+加密和解密
+</p>
+<pre class="screen">
+pgp -ew  &lt;file&gt; &lt;userid ...&gt;	# 加密并删除原文
+pgp -esa &lt;file&gt; &lt;userid ...&gt;	# 加密并签名
+pgp &lt;file.asc&gt; [-o output_file]
+gpg -ea &lt;file&gt; -r &lt;userid ...&gt;
+gpg --compress-algo 1 --cipher-algo cast5 -e &lt;file&gt; -r &lt;userid ...&gt;
+gpg --armor [-u sender] [--recipient userid ...] [--sign] [--output outputfile] --encrypt &lt;file&gt; 
+gpg [-d] &lt;file.asc&gt; [-o output_file]
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="pgpdisk"></a>7. 用PGPDISK进行磁盘加密</h2></div></div></div>
+<p>
+可以用 PGPDISK 将加密文件模拟成一个加密磁盘分区来管理，也许还有其它软件，
+但 PGPDISK 是最方便的一个。PGPDISK 其实和 PGP 无关，只是生拉硬拽到 PGP 
+的软件包中。PGP 6.0.2 是免费包含PGPDISK（加密磁盘）的最后一版，之后的
+版本的PGPDISK 作为商业软件要收费。
+</p>
+<div class="mediaobject">
+<img src="images/pgpdisk1.jpg" alt="PGPDISK加密磁盘文件示意"><div class="caption"><p>
+PGPDISK加密磁盘文件示意
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/pgpdisk2.jpg" alt="PGPDISK加密磁盘文件的口令保护"><div class="caption"><p>
+PGPDISK加密磁盘文件的口令保护
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/pgpdisk3.jpg" alt="为加密PGPDISK文件分配盘符"><div class="caption"><p>
+为加密PGPDISK文件分配盘符
+</p></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="faq"></a>8. FAQ</h2></div></div></div>
+<div class="qandaset">
+<dl>
+<dt>8.1. <a href="#idp4562192">
+
+PGP 7.03 GUI和 Win XP不兼容么？
+</a>
+</dt>
+<dt>8.2. <a href="#idp4565552">
+如何成功在 Win XP 安装 PGP 7.0.3 ?
+</a>
+</dt>
+</dl>
+<table border="0" summary="Q and A Set">
+<col align="left" width="1%">
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4562192"></a><a name="idp4562448"></a><b>8.1.</b>
+</td>
+<td align="left" valign="top"><p>
+<a name="faq-winxp"></a>
+PGP 7.03 GUI和 Win XP不兼容么？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+I had the same problem after installing 7.03 on my XP machine. No need to 
+reinstall XP. Go to System Restore and click on "Restore my computer to an 
+earlier time". Choose a time and date that is earlier than the date when you 
+installed PGP 7.03, and then click Next. 
+</p>
+<p>
+Checked with Microsoft and it isn't compatible at all with WinXP. If you 
+installed the IPSEC functionality you have to back out to the previous good 
+configuration, uninstall won't cut it. 
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4565552"></a><a name="idp4565808"></a><b>8.2.</b>
+</td>
+<td align="left" valign="top"><p>
+如何成功在 Win XP 安装 PGP 7.0.3 ?
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+I appreciate the posts that you all have provided here... I was having the 
+same networking snafu that a few of you described: Here's how I've got PGP and 
+WinXP to work: 
+</p>
+<p>
+I upgraded from Win98 -&gt; WinXP. The first time I did, I already had PGP 7.0.3 
+installed on my box. When XP booted, I had the "cannot establish link to 
+pgpsdk service" message... couldn't for the life of me get rid of it. Tried to 
+remove/re-install PGP which proceeded to cut off my network connection. I had 
+to back all the way back to Win98 to restore my network connection. 
+</p>
+<p>
+Here's how I got it right: 
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+Uninstalled PGP FIRST, *before* upgrading to XP. 
+</p></li>
+<li><p>
+Upgraded to XP. 
+</p></li>
+<li><p>
+Installed PGP... but here's the key, UNCHECK the Personal Firewall/VPN/etc. 
+option in the setup. (I think it's the first one on the list of installable 
+options) I think that's the thing that caused me the most trouble... 
+</p></li>
+<li><p>
+Install as normal... I hope that helps some of you. 
+</p></li>
+</ol></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

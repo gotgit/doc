@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.3. 函数</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="开发规范参考">
+<link rel="up" href="format.html" title="3. 格式规范">
+<link rel="prev" href="ar01s03s02.html" title="3.2. 变量">
+<link rel="next" href="comment.html" title="3.4. 注释">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.3. 函数</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s03s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. 格式规范</th>
+<td width="20%" align="right"> <a accesskey="n" href="comment.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4587136"></a>3.3. 函数</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>所有调用函数在".h"头文件中声名，对于只是在本模块中调用的函数，用static关键字限制；
+</p></li>
+<li><p>main函数，一定有返回值，且为int类型；
+</p></li>
+<li><p>函数之间空两行，以示区分；
+</p></li>
+<li>
+<p>函数的类型和函数名分开两行写，即函数类型和函数名都从1列开始；
+</p>
+<p>
+方便使用命令 <span><strong class="command">grep "^函数名" 文件名</strong></span> 快速查找函数定义，而不会定位到函数调用的代码；
+</p>
+</li>
+<li><p>函数的参数一个一行（推荐）；
+</p></li>
+<li><p>一个函数不长于100行左右，即不超过两屏，如果超过，说明应该考虑进一步模块化；
+</p></li>
+</ol></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s03s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="format.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="comment.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3.2. 变量 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3.4. 注释</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

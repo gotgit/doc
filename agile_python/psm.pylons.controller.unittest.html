@@ -1,0 +1,111 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.4. 控制器的单元测试</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="敏捷 Web 开发实践">
+<link rel="up" href="psm.pylons.html" title="3. 华丽外衣——Pylons造">
+<link rel="prev" href="psm.pylons.ajax.html" title="3.3. 用AJAX取代传统的form提交">
+<link rel="next" href="psm.pylons.controller.others.html" title="3.5. 实现其他的控制器">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.4. 控制器的单元测试</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="psm.pylons.ajax.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. 华丽外衣——Pylons造</th>
+<td width="20%" align="right"> <a accesskey="n" href="psm.pylons.controller.others.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.controller.unittest"></a>3.4. 控制器的单元测试</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="psm.pylons.controller.unittest.html#psm.pylons.nosetest">3.4.1. 配置nosetests</a></span></dt>
+<dt><span class="sect3"><a href="psm.pylons.controller.unittest.html#psm.pylons.controller.unittest.sample1">3.4.2. 测试示例一</a></span></dt>
+<dt><span class="sect3"><a href="psm.pylons.controller.unittest.html#psm.pylons.controller.unittest.sample2">3.4.3. 测试示例二</a></span></dt>
+</dl></div>
+<p>每一个控制器，在tests/functional 目录下都一个对应的单元测试文件。
+      Pylons的单元测试是使用 paste.fixture 来模拟浏览器对Web服务器的访问，
+      通过对返回结果的检查实现测试。</p>
+<p>测试用例的运行，还是使用nosetests，nosetests能够主动到tests目录下发现测试用例，
+      并运行。</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.nosetest"></a>3.4.1. 配置nosetests</h4></div></div></div>
+<p>在setup.cfg文件中，对nosetests进行设置。可以设置采用不同的pylons配置文件。</p>
+<pre class="screen">
+[nosetests]
+verbose=True
+verbosity=2
+with-pylons=test.ini # 使用test.ini作为pylons的配置文件
+detailed-errors=1
+#with-doctest=1      # 不进行 doctest测试，因为依赖的confobj包的doctest不通过
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.controller.unittest.sample1"></a>3.4.2. 测试示例一</h4></div></div></div>
+<pre class="screen">
+res = self.app.get(url_for(controller='check')) 
+assert res.status == 200 
+assert '''&lt;input type="submit" name="submit" value='Check Permissions'&gt;''' in res.body 
+assert res.c.reposlist == ['/', u'repos1', u'repos2', u'repos3', u'document']
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.controller.unittest.sample2"></a>3.4.3. 测试示例二</h4></div></div></div>
+<pre class="screen">
+params = {
+         'userinput':'select', 
+         'userselector':'user1',
+         'reposinput':'select', 
+         'reposselector':'repos1',
+         'pathinput':'manual',
+         'pathname':'/trunk/src/test',
+         'abbr':'True',
+         }
+res = self.app.get(url_for(controller='check', action='access_map'), params)
+assert res.status == 200
+assert '''&lt;div id='acl_path_msg'&gt;[repos1:/trunk/src/test] user1 =&lt;/div&gt;''' in res.body, res.body
+</pre>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="psm.pylons.ajax.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="psm.pylons.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="psm.pylons.controller.others.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3.3. 用AJAX取代传统的form提交 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3.5. 实现其他的控制器</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

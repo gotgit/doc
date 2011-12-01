@@ -1,0 +1,195 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.13. 文档的过期设置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="inside-inn.html" title="4. 深入 INN">
+<link rel="prev" href="ar01s04s12.html" title="4.12. 存储方式">
+<link rel="next" href="maintain-inn.html" title="5. 维护新闻组">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.13. 文档的过期设置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s04s12.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. 深入 INN</th>
+<td width="20%" align="right"> <a accesskey="n" href="maintain-inn.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="inn-expire"></a>4.13. 文档的过期设置</h3></div></div></div>
+<div class="toc"><dl><dt><span class="sect3"><a href="inn-expire.html#idp4864192">4.13.1. expire.ctl</a></span></dt></dl></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4864192"></a>4.13.1. expire.ctl</h4></div></div></div>
+<p>
+配置文件 <code class="filename">expire.ctl</code>，控制文章的过期设置
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+全局的设置
+</p>
+<pre class="screen">
+/remember/:10
+</pre>
+<p>
+history 文件保持 Message-IDs 的时间。在这段时间内，将不允许相同 Message-IDs 的文章进入，防止重复粘贴。
+</p>
+</li>
+<li>
+<p>
+当 inn.conf 中有配置：groupbaseexpiry: false 时的语法
+</p>
+<pre class="screen">
+
+ &lt;storage_class&gt;:&lt;keep&gt;:&lt;default&gt;:&lt;purge&gt;
+
+</pre>
+<p>
+&lt;storage_class&gt; 是在 storage.conf 中存储配置定义的 class number。
+</p>
+<p>
+对于普通的文章（没有在头信息中定义 Expires），&lt;default&gt;定义了文章保持的天数。
+</p>
+<p>
+对于在头信息中定义了 Expires 的文章，&lt;keep&gt;和&lt;purge&gt;有作用。
+</p>
+<p>
+不管文章头信息中的 Expires 日期，所有文章至少要保持 &lt;keep&gt; 天，并且在 &lt;purge&gt; 天后过期，即使 Expires 定义的时间更长。
+</p>
+<p>
+如果 &lt;default&gt; 定义为 never，则没有定义 Expires 头信息的普通文章永不过期；
+</p>
+<p>
+如果 &lt;keep&gt; 定义为 never，则定义了 Expires 头信息的文章永不过期。忽略  &lt;purge&gt; 的配置。
+</p>
+<p>
+如果 &lt;purge&gt; 定义为 never，则定义了 Expires 头信息的文章永不过期。
+</p>
+</li>
+<li>
+<p>
+当 inn.conf 中有配置：groupbaseexpiry: true 时的语法
+</p>
+<pre class="screen">
+
+ &lt;wildmat&gt;:&lt;flag&gt;:&lt;keep&gt;:&lt;default&gt;:&lt;purge&gt;
+
+</pre>
+<p>
+&lt;wildmat&gt; 匹配新闻组名。注意 &lt;wildmat&gt; 只能有一个表达式，且不能使用 ! 和 @。
+</p>
+<p>
+&lt;flag&gt; 可以取值为：M（受控）, U（非受控）, A（任何一种）。
+</p>
+<p>
+&lt;keep&gt;，&lt;default&gt;，&lt;purge&gt; 的含义和前面的一样。
+</p>
+</li>
+</ul></div>
+<p>
+news expire 的过程：expire 五部曲
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+expire
+</p>
+<p>
+扫描 history file, 找出应被 expire 的 article pathname, 写到 /home/inn/log/expire.rm. 此一过程很短, 只要10分钟即可找到10万封该 expire 掉的 article.
+</p>
+</li>
+<li>
+<p>
+expireover
+</p>
+<p>
+读入 /home/inn/log/expire.rm, 把此档案内所有 entry 位於 overview db 对应之 index 移除.
+</p>
+</li>
+<li>
+<p>
+fastrm
+</p>
+<p>
+根据 /home/inn/log/expire.rm, 把内含之 pathname 全数移除, 相当於完成:
+<span><strong class="command">cat /home/inn/log/expire.rm | xargs rm</strong></span>
+</p>
+</li>
+<li>
+<p>
+expired entries in history removed,  active renumber,
+</p>
+<p>
+疑除该 expire 掉 article 的 history entries,
+</p>
+<p>
+rebuild dbz database (history.pag,.dir)
+</p>
+<p>
+根据 spool 内 article low/high number 调整 active 的 low/high number.
+</p>
+<p>
+此过程约数分钟, 此时不接受 nnrp connection request, post request 会延迟.
+</p>
+</li>
+<li>
+<p>
+innstat
+</p>
+<p>
+run awk -f /home/inn/news/innlog.awk /home/inn/log/news.notice
+</p>
+<p>
+df spool-dir, overview-dir, newslib-dir, out.going-dir
+</p>
+<p>
+cat /home/inn/log/errlog
+</p>
+<p>
+mail result to user usenet.
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s04s12.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="inside-inn.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="maintain-inn.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.12. 存储方式 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 5. 维护新闻组</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

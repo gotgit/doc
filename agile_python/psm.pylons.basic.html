@@ -1,0 +1,178 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.1. 建立 Web 应用框架</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="敏捷 Web 开发实践">
+<link rel="up" href="psm.pylons.html" title="3. 华丽外衣——Pylons造">
+<link rel="prev" href="psm.pylons.html" title="3. 华丽外衣——Pylons造">
+<link rel="next" href="psm.pylons.controller.check.html" title="3.2. 控制器check的实现">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.1. 建立 Web 应用框架</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="psm.pylons.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. 华丽外衣——Pylons造</th>
+<td width="20%" align="right"> <a accesskey="n" href="psm.pylons.controller.check.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.basic"></a>3.1. 建立 Web 应用框架</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="psm.pylons.basic.html#psm.pylons.basic.controller">3.1.1. 理解控制器</a></span></dt>
+<dt><span class="sect3"><a href="psm.pylons.basic.html#psm.pylons.basic.routing">3.1.2. 修改控制器映射</a></span></dt>
+<dt><span class="sect3"><a href="psm.pylons.basic.html#psm.pylons.basic.model">3.1.3. 加入模组和单元测试</a></span></dt>
+</dl></div>
+<p>我们的应用定名为 pySvnManager。建立同名的 Pylons 框架：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>paster create -t pylons pySvnManager</em></span>
+Selected and implied templates:
+Pylons#pylons  Pylons application template
+
+Variables:
+egg:      pySvnManager
+package:  pysvnmanager
+project:  pySvnManager
+Enter template_engine (mako/genshi/jinja/etc: Template language) ['mako']:
+Enter sqlalchemy (True/False: Include SQLAlchemy 0.4 configuration) [False]:
+Creating template pylons
+Creating directory ./pySvnManager
+…
+$ <span class="emphasis"><em>cd pySvnManager</em></span>
+$ <span class="emphasis"><em>ls -F</em></span>
+development.ini  ez_setup.py  pysvnmanager/           README.txt  setup.py
+docs/            MANIFEST.in  pySvnManager.egg-info/  setup.cfg   test.ini
+</pre>
+<p>启动Web应用：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>paster serve --reload development.ini</em></span>
+Starting subprocess with file monitor
+Starting server in PID 817.
+serving on http://127.0.0.1:5000
+</pre>
+<p>用浏览器访问 http://127.0.0.1:5000 会看到一个网页。这个网页实际上调用的是 
+      <code class="filename">public/index.html</code> 文件。如果删除该文件，则浏览器显示
+      404错误（网页未找到）。</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.basic.controller"></a>3.1.1. 理解控制器</h4></div></div></div>
+<p>下面用命令创建控制器 check，会产生两个文件，一个是控制器文件本身：
+        <code class="filename">controllers/check.py</code>，另外一个是单元测试文件：
+        <code class="filename">tests/functional/test_check.py</code>。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>paster controller check</em></span>
+Creating /home/jiangxin/pyenv/pySvnManager/pysvnmanager/controllers/check.py
+Creating /home/jiangxin/pyenv/pySvnManager/pysvnmanager/tests/functional/test_check.py
+</pre>
+<p>用浏览器访问URL：http://127.0.0.1:5000/check/ 会看到Hello World。
+        我们追根溯源，会看到 <code class="filename">controllers/check.py</code> 中的代码：</p>
+<pre class="programlisting">
+class CheckController(BaseController):
+
+    def index(self):
+        return 'Hello World'
+</pre>
+<p>哦，原来如此。Pylons 已经将 URL到代码的映射搞定！就是将浏览器对 URL
+        的访问映射到控制器代码，再由控制器处理后将结果显示给浏览器。
+        控制器调用实现逻辑（即Model），然后把从Model获取的结果填充到模板（View）中，
+        于是 MVC 便实现了逻辑和展现分离。Pylons 框架实现的将URL映射到控制器代码，
+        和 Windows 下 VC/Delphi 等GUI编程中将事件（鼠标、按钮等）映射到对应的代码是多么的近似。</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.basic.routing"></a>3.1.2. 修改控制器映射</h4></div></div></div>
+<p>还记得我们已经删除了 <code class="filename">public/index.html</code> 文件么？
+        我们现在通过修改控制器映射，将 Web 应用的缺省首页指向我们新建立的 controller。
+        要修改的文件就是： <code class="filename">config/routing.py</code></p>
+<pre class="programlisting">
+18     map.connect('/error/{action}', controller='error')
+19     map.connect('/error/{action}/{id}', controller='error')
+20
+21     # CUSTOM ROUTES HERE
+22     <span class="emphasis"><em>map.connect('/', controller='check', action='index')</em></span>
+23
+24     <span class="emphasis"><em>map.connect('/{controller}')</em></span>
+25     map.connect('/{controller}/{action}')
+26     map.connect('/{controller}/{action}/{id}')
+</pre>
+<p>第22行是我们新增的，告诉Pylons，将缺省的主页定位到名为 check 的控制器的
+        <code class="methodname">index</code> 方法（动作）。</p>
+<p>我们打开浏览器访问 <code class="uri">http://127.0.0.1:5000/</code> 会自动定位到 
+        <code class="uri">http://127.0.0.1:5000/check/index</code> 。</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.basic.model"></a>3.1.3. 加入模组和单元测试</h4></div></div></div>
+<p>把我们已经开发完毕的 <span class="package">svnauthz</span> 模组及其单元测试放到
+        <span class="package">pySvnManager</span> 的代码树中，因为 <code class="classname">svnauthz</code>
+        和 <span class="package">pySvnManager</span> 的耦合很紧，没有必要单独维护 
+        <span class="package">svnauthz</span> 模组。</p>
+<p><code class="filename">pySvnManager/model</code> 目录是放置模组的地方，
+        将 <span class="package">svnauthz</span> 的模组放在该目录下。</p>
+<p>至于单元测试用例，则应该拷贝到 <code class="filename">pysvnmanager/tests</code> 
+        目录下。该目录下有文件 <code class="filename">test_models.py</code>，就是用于测试模组的。
+        我们可以用 <code class="filename">test_svnauthz.py</code> 覆盖
+        空文件 <code class="filename">test_models.py</code> ，并在该文件中设置 Python 包含路径，
+        以便能成功包含要测试的模组：</p>
+<pre class="programlisting">
+1 #!/usr/bin/env python
+2 # -*- coding: utf-8 -*-
+… 
+20 import os
+21 import sys
+22 sys.path.insert(0,os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+23
+24 from pysvnmanager.tests import *
+25 from pysvnmanager import model
+26 from pysvnmanager.model.svnauthz import *
+</pre>
+<p>实验一下 <span><strong class="command">nosetests</strong></span> 是否依然可靠运行。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>nosetests</em></span>
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.546s
+
+OK
+</pre>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="psm.pylons.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="psm.pylons.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="psm.pylons.controller.check.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3. 华丽外衣——Pylons造 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3.2. 控制器check的实现</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

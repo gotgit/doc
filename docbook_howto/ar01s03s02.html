@@ -1,0 +1,705 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.2. 搭建编译环境</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="DocBook 助你完成传世之作">
+<link rel="up" href="helloworld.html" title="3. Hello World —— DocBook 起步">
+<link rel="prev" href="ar01s03s01.html" title="3.1. 撰写 Hello World">
+<link rel="next" href="ar01s03s03.html" title="3.3. 编译文档">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.2. 搭建编译环境</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s03s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. Hello World —— DocBook 起步</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s03s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4703392"></a>3.2. 搭建编译环境</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4712256">3.2.1. DocBook DTD</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4758688">3.2.2. 安装样式表</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4777696">3.2.3. OpenJade</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4803392">3.2.4. XSLTPROC</a></span></dt>
+</dl></div>
+<p>
+我们在前面提到过，DocBook最早采用的是SGML技术，目前已经有了相应XML技术的实现。为什么不直接选用XML，仍然在SGML上浪费时间呢？这是因为：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+SGML的实现已经足够好了，相应的工具如：使用DSSSL的文档格式化工具OpenJade，Linux文档工程对DSSSL的定制，已经完全能够满足需要。
+</p></li>
+<li>
+<p>
+DocBook最早是基于SGML的实现，因此网上的资源较多，很多用DocBook写的文档都是SGML格式。
+</p>
+<p>
+当你想参与某个开放源码项目，需要修改其DocBook格式的文档，你不能期望大家都去赶时髦，都去用XML格式，这就需要你熟悉SGML及相应工具、环境的部署。
+</p>
+</li>
+<li>
+<p>
+DocBook格式的文档，使用SGML还是使用XML语法，差别非常细微，基本上只要注意标记名用小写，就可以保证顺利的在两种语法之间转换。但是SGML格式和XML格式对DocBook的部署环境和工具的要求就差别很大，这也是采用SGML格式的人迟迟不愿意向XML转换的原因之一。
+</p>
+<p>
+XML脱胎于SGML，如果沿用SGML的文档描述语言DTD和SGML的样式表DSSSL，则也可以沿用SGML的相应工具。如使用下面将要介绍的OpenJade来对SGML和XML两种DocBook实现完成格式转换。
+</p>
+</li>
+<li>
+<p>
+XML的规范仍在发展当中。比如XML的文档格式描述语言就计划采用Schema来代替SGML的DTD，采用XSL来代替DSSSL，但是DocBook的XML相关实现尚处在实验阶段。
+</p>
+<p>
+但是考虑到XML的发展是大势所趋，本书并不想成为一本很快就过时的东西，因此本书将同时兼顾SGML与XML。两者兼顾，应该不会给读者带来更多的工作量，因为不要忘了XML是SGML的子集。
+</p>
+</li>
+</ul></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4712256"></a>3.2.1. DocBook DTD</h4></div></div></div>
+<p>
+我们说 DocBook 实际上是用SGML/XML定义的一种针对文档撰写的方言，指的就是用SGML/XML定义了一套DTD。DTD可以说就是DocBook的灵魂。目前DocBook DTD由Oasis-Open 组织的一个技术委员会维护，并在其网站发布关于DocBook DTD的最新消息和DTD下载。DTD的下载格式有符合SGML规范的DTD、符合XML规范的DTD、使用最新的Schema格式描述的DTD格式等。但目前只有前两个版本是正式版本，使用其它格式描述的DTD还在不断发展中。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Oasis-Open 的 DocBook 技术委员会
+</p>
+<p>
+<a href="http://www.oasis-open.org/docbook/" target="_top">http://www.oasis-open.org/docbook/</a>
+</p>
+</li>
+<li>
+<p>
+SGML格式的DocBook DTD下载
+</p>
+<p>
+可以从<a href="http://www.oasis-open.org/docbook/sgml/4.2/index.shtml" target="_top">http://www.oasis-open.org/docbook/sgml/4.2/index.shtml</a> 下载；也可以从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。目前版本是4.2，文件名为：“docbook-4.2.zip”
+</p>
+</li>
+<li>
+<p>
+XML格式的DocBook DTD下载
+</p>
+<p>
+可以从<a href="http://www.oasis-open.org/docbook/xml/4.2/index.shtml" target="_top">http://www.oasis-open.org/docbook/xml/4.2/index.shtml</a> 下载；也可以从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。目前版本是4.2，文件名为：“docbook-xml-4.2.zip”
+</p>
+</li>
+</ul></div>
+<p>
+分别下载SGML和XML格式的DTD，展开压缩包，并进行目录比较，就可以发现SGML格式的DTD多了两个文件，其它的文件基本相同！实际上SGML和XML格式的DTD只有细微的差别，通过使用参数实体的技术，做到了SGML和XML的DTD共用同一组文件。关于参数实体的详细概念，我们稍后会提到。实际上我们完全可以共用同一套 DTD——SGML的DTD，同时满足SGML和XML格式文档的需要。
+</p>
+<p>
+有两个文件需要注意：<code class="filename">docbook.cat</code>和<code class="filename">catalog.xml</code>。它们分别是SGML和XML格式的目录文件（catalog），负责将SGML和XML文档中声明的公共标识符（public Identifier）来和本地文件建立映射。这两个文件的格式不同但含义相同，关于这两个文件的语法我们将在后面的章节具体讲解。
+</p>
+<p>
+如果打开目录文件，我们会发现其中有关于 ISO 8879:1986 ENTITIES 文件的引用，但是在 DTD 的压缩包中可能找不到相应的文件。这些文件为处理一些特殊字符、不可打印字符提供了描述方法，如用 &amp;lt; 代表 &lt;，用 &amp;amp; 代表 &amp;。ISO ENTITIES并不由Oasis-Open 的 DocBook 技术委员会维护，因此并没有绑定在 DTD 的压缩包一并提供，需要单独下载和安装。ISO Entities的下载方法：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+SGML格式的ISO Entities
+</p>
+<p>
+可以从 <a href="http://www.oasis-open.org/cover/ISOEnts.zip" target="_top">http://www.oasis-open.org/cover/ISOEnts.zip</a>下载；也可以从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+<li>
+<p>
+XML格式的ISO Entities
+</p>
+<p>
+可以从 <a href="http://www.oasis-open.org/committees/docbook/xmlcharent/0.3/xmlcharent-0.3.zip" target="_top">http://www.oasis-open.org/committees/docbook/xmlcharent/0.3/xmlcharent-0.3.zip</a>下载；也可以从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+</ul></div>
+<p>
+安装过程：
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+创建配置文件的根目录
+</p>
+<p>
+创建一个目录作为DocBook的DTD以及后面提到的DSSSL、XSL等配置文件的根目录：在Windows上，我们创建 C:\share，在Unix上我们创建 /share。实际上，可以是使用任何目录名，这里我们只是举一个典型的例子。后面我们要经常提到的配置文件根目录，就指的是这个目录。
+</p>
+</li>
+<li>
+<p>
+安装 DTD
+</p>
+<p>
+在配置文件根目录（Windows上的C:\share，Unix上的/share），创建子目录 dtd/4.2，并在子目录下展开压缩包“docbook-4.2.zip”（4.2版本，SGML格式的DTD）。
+</p>
+</li>
+<li>
+<p>
+关于 ISO 8879:1986 ENTITIES
+</p>
+<p>
+DTD中引用了ISO 8879:1986 ENTITIES，但 ISO ENTITIES并不由Oasis-Open 的 DocBook 技术委员会维护，因此并没有绑定在 DTD 的压缩包一并提供，需要单独下载和安装。我们或者可以将下载的ENTITIES放到DTD制定的目录下，或者修改相应的目录文件，修改Entities文件本地存储的位置。我们选择第二种方法。
+</p>
+</li>
+<li>
+<p>
+安装 ISO Entities
+</p>
+<p>
+我们或者可以将下载的ENTITIES放到DTD制定的目录下，或者修改相应的目录文件，修改Entities文件本地存储的位置。我们选择第二种方法。
+</p>
+<p>
+在配置文件根目录（Windows上的C:\share，Unix上的/share），创建子目录 entity/xml，并在该目录下，展开压缩包“xmlcharent-0.3.zip”。
+</p>
+<p>
+在配置文件根目录下，创建子目录 entity/sgml，并在该目录下，展开压缩包“ISOEnts.zip”。
+</p>
+</li>
+<li>
+<p>
+为Entities添加目录文件（catalog）
+</p>
+<p>
+在Entities目录（Windows上的C:\share\entity，Unix上的/share/entity），创建SGML格式的目录文件：<code class="filename">catalog.sgml</code>和XML格式的目录文件：<code class="filename">catalog.xml</code>，如下：
+</p>
+<p>
+文件：<code class="filename">catalog.sgml</code>
+</p>
+<pre class="screen">
+
+
+OVERRIDE YES
+
+-- ...................................................................... --
+-- ISO entity sets for DocBook SGML ..................................... --
+
+PUBLIC "ISO 8879:1986//ENTITIES Diacritical Marks//EN"
+       "sgml/iso-dia.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN"
+       "sgml/iso-num.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Publishing//EN"
+       "sgml/iso-pub.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES General Technical//EN"
+       "sgml/iso-tech.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 1//EN"
+       "sgml/iso-lat1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 2//EN"
+       "sgml/iso-lat2.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Greek Letters//EN"
+       "sgml/iso-grk1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Monotoniko Greek//EN"
+       "sgml/iso-grk2.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Greek Symbols//EN"
+       "sgml/iso-grk3.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN"
+       "sgml/iso-grk4.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN"
+       "sgml/iso-amsa.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN"
+       "sgml/iso-amsb.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN"
+       "sgml/iso-amsc.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN"
+       "sgml/iso-amsn.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN"
+       "sgml/iso-amso.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN"
+       "sgml/iso-amsr.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Box and Line Drawing//EN"
+       "sgml/iso-box.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Russian Cyrillic//EN"
+       "sgml/iso-cyr1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN"
+       "sgml/iso-cyr2.ent"
+
+-- End of ISO entity sets for DocBook SGML .............................. --
+-- ...................................................................... --
+
+-- ...................................................................... --
+-- ISO entity sets for DocBook XML ...................................... --
+
+PUBLIC "ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
+       "xml/iso-dia.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
+       "xml/iso-num.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Publishing//EN//XML"
+       "xml/iso-pub.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES General Technical//EN//XML"
+       "xml/iso-tech.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
+       "xml/iso-lat1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
+       "xml/iso-lat2.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
+       "xml/iso-grk1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
+       "xml/iso-grk2.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
+       "xml/iso-grk3.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
+       "xml/iso-grk4.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
+       "xml/iso-amsa.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
+       "xml/iso-amsb.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
+       "xml/iso-amsc.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
+       "xml/iso-amsn.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
+       "xml/iso-amso.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
+       "xml/iso-amsr.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
+       "xml/iso-box.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
+       "xml/iso-cyr1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
+       "xml/iso-cyr2.ent"
+
+-- End of ISO entity sets for DocBook XML ............................... --
+-- ...................................................................... --
+
+</pre>
+<p>
+文件：<code class="filename">catalog.xml</code>
+</p>
+<pre class="screen">
+
+&lt;?xml version='1.0'?&gt;
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"&gt;
+
+&lt;!-- ...................................................................... --&gt;
+&lt;!-- ISO entity sets ...................................................... --&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
+        uri="xml/iso-dia.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
+        uri="xml/iso-num.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
+        uri="xml/iso-pub.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
+        uri="xml/iso-tech.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
+        uri="xml/iso-lat1.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
+        uri="xml/iso-lat2.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
+        uri="xml/iso-grk1.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
+        uri="xml/iso-grk2.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
+        uri="xml/iso-grk3.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
+        uri="xml/iso-grk4.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
+        uri="xml/iso-amsa.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
+        uri="xml/iso-amsb.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
+        uri="xml/iso-amsc.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
+        uri="xml/iso-amsn.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
+        uri="xml/iso-amso.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
+        uri="xml/iso-amsr.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
+        uri="xml/iso-box.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
+        uri="xml/iso-cyr1.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
+        uri="xml/iso-cyr2.ent"/&gt;
+&lt;/catalog&gt;
+
+</pre>
+</li>
+<li>
+<p>
+修改DTD的目录文件
+</p>
+<p>
+DTD的目录文件<code class="filename">docbook.cat</code>和<code class="filename">catalog.xml</code>中包含错误的Entities文件映射，因此需要删除文件中关于ISO Entities的文件映射。
+</p>
+</li>
+<li>
+<p>
+建立全局的目录文件
+</p>
+<p>
+在配置文件的根目录创建目录文件。一个是SGML格式的目录文件 <code class="filename">catalog.sgml</code>，一个是XML格式的目录文件 <code class="filename">catalog.xml</code>。这两个目录文件分别将DTD文件和Entities文件包含在一起。
+</p>
+<p>
+文件：<code class="filename">catalog.sgml</code>
+</p>
+<pre class="screen">
+
+-- ...................................................................... --
+--                "export SGML_CATALOG_FILES=/PATH/catalog"               --
+
+OVERRIDE YES
+
+SGMLDECL "dtd/4.2/docbook.dcl"
+
+CATALOG "dtd/4.2/docbook.cat"
+CATALOG "entity/catalog.sgml"
+
+DOCTYPE book	dtd/4.2/docbook.dtd
+DOCTYPE article	dtd/4.2/docbook.dtd
+DOCTYPE chapter	dtd/4.2/docbook.dtd
+
+</pre>
+<p>
+文件：<code class="filename">catalog.xml</code>
+</p>
+<pre class="screen">
+
+&lt;?xml version='1.0'?&gt;
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"&gt;
+
+&lt;!-- ...................................................................... --&gt;
+&lt;!-- DocBook driver file .................................................. --&gt;
+&lt;nextCatalog  catalog="dtd/4.2/catalog.xml" /&gt; 
+
+&lt;!-- ...................................................................... --&gt;
+&lt;!-- ISO entity sets ...................................................... --&gt;
+&lt;nextCatalog  catalog="entity/xml/catalog.xml" /&gt; 
+
+&lt;/catalog&gt;
+
+</pre>
+</li>
+<li>
+<p>
+设置环境变量
+</p>
+<p>
+SGML/XML的应用程序需要通过环境变量SGML_CATALOG_FILES和XML_CATALOG_FILES来确认目录文件的位置，进而找到相应的DTD等文件。
+</p>
+<p>
+Windows通过控制面板中的系统来设置环境变量，设置 SGML_CATALOG_FILES 为 C:\share\catalog.sgml，设置 XML_CATALOG_FILES 为 C:\share\catalog.xml。
+</p>
+<p>
+Unix 通过以下命令来设置
+</p>
+<pre class="screen">
+export SGML_CATALOG_FILES=/share/sgml/catalog.sgml
+export XML_CATALOG_FILES=/share/xml/catalog.xml
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4758688"></a>3.2.2. 安装样式表</h4></div></div></div>
+<p>
+DTD定义了DocBook的元素，描述了DocBook文档的结构，但是DTD并没有包含一点点文档格式化的信息。无论如何，文档的漂亮的表现形式——格式，都是非常重要的。这些就依靠样表来解决了。SGML的样表是DSSSL，XML还可以用XSL来描述。
+</p>
+<p>
+如果只使用OpenJade来转换 SGML格式和XML格式的DocBook文档，我们完全可以只安装 DSSSL样表。因为 OpenJade 是专门针对 DSSSL 技术的实现。但是目前有更多的XML应用（如针对收藏夹的XBEL，和DocBook一样是另外一种XML方言），使用XSL作为样式表，使用其它工具（如 xsltproc）来完成XML文档的格式转换。DocBook的样式表，目前有DSSSL格式的实现，也有XSL格式的实现，我们这里就权且兼收并蓄吧。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+DSSSL
+</p>
+<p>
+当前版本为：1.77。下载地址：<a href="http://sourceforge.net/projects/docbook/" target="_top">http://sourceforge.net/projects/docbook/</a>；或从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+<li>
+<p>
+XSL
+</p>
+<p>
+当前版本为：1.58.1。下载地址：<a href="http://sourceforge.net/projects/docbook/" target="_top">http://sourceforge.net/projects/docbook/</a>；或从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+<li>
+<p>
+LDP
+</p>
+<p>
+LDP（Linux文档计划）使用DocBook格式撰写文档，并且在 Norman Walsh DSSSL 的基础上进行了一定的扩充。我们使用 LDP 的DSSSL扩充，一方面使自己撰写的文档具有LDP的统一的风格，另一方面可以学习到定制 DSSSL 的知识。
+</p>
+<p>
+下载地址：<a href="http://www.tldp.org/authors/tools/ldp.dsl" target="_top">http://www.tldp.org/authors/tools/ldp.dsl</a>；或从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+</ul></div>
+<p>
+安装
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+展开压缩包
+</p>
+<p>
+在配置文件根目录（Windows上的C:\share，Unix上的/share），创建子目录 style，作为样表的根目录。并在该子目录下，在分别创建 dsssl目录和xsl目录。
+</p>
+<p>
+在 style/dsssl 目录下创建 1.77 目录，展开当前版本号为1.77的dsssl包。
+</p>
+<p>
+在 style/xsl 目录下创建 1.58.1 目录，展开当前版本号为1.58.1的xsl包。
+</p>
+</li>
+<li>
+<p>
+更新目录文件
+</p>
+<p>
+更新配置文件根目录下的目录文件（catalog.sgml），如下内容：
+</p>
+<pre class="screen">
+CATALOG "style/dsssl/1.77/catalog"
+</pre>
+</li>
+<li>
+<p>
+安装 LDP DSSSL扩展
+</p>
+<p>
+将文件 <code class="filename">ldp.dsl</code> 拷贝到 style/dsssl 目录下；
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4777696"></a>3.2.3. OpenJade</h4></div></div></div>
+<p>
+OpenJade 是一个DSSSL语言的实现工具，它可以把SGML和XML文档通过DSSSL转换为其它格式，如转换为 RTF、TeX、HTML等格式。OpenJade 源自 James Clark's 的工具 JADE (James' DSSSL Engine)，现在作为开放源码，由Source Forge维护。
+</p>
+<p>
+可以从<a href="http://sourceforge.net/projects/openjade/" target="_top">http://sourceforge.net/projects/openjade/</a>下载。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+安装 OpenJade
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Windows平台
+</p>
+<p>
+可以从<a href="http://sourceforge.net/projects/openjade/" target="_top">http://sourceforge.net/projects/openjade/</a>下载Windows平台的安装包 <code class="filename">openjade-1.3-1.exe</code>。
+</p>
+<p>
+如同大部分Windows软件一样，安装过程非常简单，只需要按照提示一步一步执行即可。安装完毕之后，需要做的一件事是将OpenJade的可执行文件的目录（如：<code class="filename">C:\Program Files\OpenJade-1.3\bin</code>）加到系统的环境变量 PATH 中，以便可以在Windows命令行直接调用 openjade。
+</p>
+</li>
+<li>
+<p>
+Linux
+</p>
+<p>
+可以从<a href="http://sourceforge.net/projects/openjade/" target="_top">http://sourceforge.net/projects/openjade/</a>下载源码 <code class="filename">OpenSP-1.5.tar.gz</code>和<code class="filename">openjade-1.3.2.tar.gz</code>。
+</p>
+<p>
+同其他使用了autoconf, automake 的Unix软件包一样，安装过程也非常简单。
+</p>
+<pre class="screen">
+$ tar zxvf OpenSP-1.5.tar.gz
+$ cd OpenSP-1.5
+$ ./configure
+$ make
+$ make install
+
+$ cd ..
+
+$ tar zxvf openjade-1.3.2.tar.gz
+$ cd openjade-1.3.2
+$ ./configure
+$ make
+$ make install
+</pre>
+</li>
+<li>
+<p>
+Cygwin
+</p>
+<p>
+Cygwin 是一个伟大的软件，通过一些DLL文件，建立了一个Windows平台上运行Unix命令的虚拟接口。Cygwin 还有一个好处是，它是开放源码，完全免费的。对于那些对Windows命令行和定制能力感到失望的人，和Unix命令行嗜好者，Cygwin是一个好的选择。
+</p>
+<p>
+安装 Cygwin 非常的简单，下载安装启动程序 Setup.exe，通过网络下载其它安装包，或者直接开始安装。在选择安装包时，可以选择 openjade。
+</p>
+<p>
+下载地址：<a href="http://www.cygwin.com" target="_top">http://www.cygwin.com</a>。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+修改目录文件
+</p>
+<p>
+将OpenJade自带的DTD，加入到目录文件中。先拷贝安装目录中的 dsssl子目录，将该子目录下所有文件拷贝到配置根目录下的 dtd/openjade 目录下。修改目录文件，增加如下一行。
+</p>
+<pre class="screen">
+CATALOG "dtd/openjade/catalog"
+</pre>
+<p>
+现在配置文件根目录下的目录文件 catalog.sgml 算是修改完毕，内容如下：
+</p>
+<pre class="screen">
+
+-- ...................................................................... --
+--                "export SGML_CATALOG_FILES=/PATH/catalog"               --
+OVERRIDE YES
+
+SGMLDECL "dtd/4.2/docbook.dcl"
+
+CATALOG "dtd/4.2/docbook.cat"
+CATALOG "entity/catalog.sgml"
+CATALOG "style/dsssl/1.77/catalog"
+CATALOG "dtd/openjade/catalog"
+
+DOCTYPE book	dtd/4.2/docbook.dtd
+DOCTYPE article	dtd/4.2/docbook.dtd
+DOCTYPE chapter	dtd/4.2/docbook.dtd
+
+</pre>
+</li>
+<li>
+<p>
+设置环境变量
+</p>
+<p>
+OpenJade 可以通过读取环境变量 SGML_CATALOG_FILES，确认 DTD 的本地存储位置。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Windows
+</p>
+<p>
+Windows通过控制面板中的系统来设置环境变量，设置 SGML_CATALOG_FILES 为 C:\share\catalog.sgml。
+</p>
+</li>
+<li>
+<p>
+Unix
+</p>
+<p>
+Unix 通过以下命令来设置：
+</p>
+<pre class="screen">
+export SGML_CATALOG_FILES=/share/sgml/catalog.sgml
+</pre>
+</li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4803392"></a>3.2.4. XSLTPROC</h4></div></div></div>
+<p>
+xsltproc 和 OpenJade 一样，是为 DocBook 文档完成向其它格式转换的工具。但是它们的不同点是 xsltproc 只能对 XML 格式的文档进行处理，而且其使用的样表也只能是 XSL 格式的样式表，而不能是 DSSSL 格式的样式表。
+</p>
+<p>
+xsltproc 可以安装在 Unix 系统上，或者借助 Cygwin，运行在 Windows 平台。
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s03s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="helloworld.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s03s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3.1. 撰写 Hello World </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3.3. 编译文档</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

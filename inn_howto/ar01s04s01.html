@@ -1,0 +1,108 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.1. 新闻组体系结构</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="inside-inn.html" title="4. 深入 INN">
+<link rel="prev" href="inside-inn.html" title="4. 深入 INN">
+<link rel="next" href="ar01s04s02.html" title="4.2. 新闻组文章结构">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.1. 新闻组体系结构</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="inside-inn.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. 深入 INN</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s04s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4600848"></a>4.1. 新闻组体系结构</h3></div></div></div>
+<p>
+INN帮助文档中经常提到 feeder（喂食者） 和 reader（读者），也有人将其翻译为上游和下游。但是根据新闻组的架构，往往难以分清这两个角色。
+</p>
+<p>
+对于集中控制（单一服务器）的新闻组，结构非常简单，只需要一台机器控制外部来的喂信（incoming feed）、向外部喂信（outgoing feed），建立和用户的连接，提供文章发布（posting）和阅读（reading）。缺点是存在单点故障。
+</p>
+<p>
+分布式结构有使用共享池，文章复制等结构。参见：<a href="http://web.inter.nl.net/users/Elena.Samsonova/unix/INN/v2.3/architectures.html" target="_top">《INN Architecture Guide》</a>。
+</p>
+<p>
+当INN被设定为批处理方式进行 newsfeed的情况下， News的工作流程为：
+</p>
+<p>
+News 使用者是透过News Reader软体来读取(Read)
+或发送 (Post) , 这类软体可以称之为News界面软体或者News读取软体。
+当使用者发送出一封讨论信时, News Server 立刻接手处理。首先Server
+会把该封讨论信放在自己的News Spool (/var/spool/news) 之下, 同时
+在外送预备区 (通常是/var/spool/news/out.going/site 或 /var/spool
+/news/out.going/site/togo) 留下一份记录。 这里, News Server对
+News Reader的服务是即时的, 也就是说, 以上这些流程是一瞬间完成,
+而且是连贯的。
+</p>
+<p>
+    接下来就由News Transport软体接手, 不过, News Server到News
+Transport之间就不一定是即时进行, 正常的话, 负责执行传输的软体
+是由 cron 定时启动, 之後依照/var/spool/news/out.going/site这份
+记录, 把News外送到下游的News Server。 照内定状态, INN 与 C-News
+的传输工作都必须透过 cron 来带动, 这是典型的批次处理模式。
+</p>
+<p>
+    整个Usenet的架构, 就是这样一个News Server 把讨论信传给另一
+部News Server, 如此由点而面, 构成一个资讯传输网。 再次提醒读者,
+Usenet 中的 诸多News Server彼此之间的差异可能非常大, 诸多常见的
+传送方法包括卫星传送、 NNTP over TCP/IP传送、 UUCP dialup、
+UUCP over TCP/IP、 E-mail (用任何可能的Mail Transport Agent)等
+等, 一部Server Server只要使用何其上下游News Server 相同的传输
+方法即可, 而无须顾虑外面世界究竟如何。
+</p>
+<p>
+    另外还有一点与News Transport相关的观念, 对NNTP传输方式来说,
+News 的喂送, 通常是上游的News Server「主动」将News喂送到下游的
+News Server。 举个例子来说, 我们所需要的Newsgroups, 是我们的上
+游News依照我们所要求的 (也就是我们指定订阅的) 讨论区newsgroups,
+不多不少的传送过来, 我们只需要「被动」的接受即可, 换个角度, 对
+於我们这一端产生的东西, 也是我们主动传给我们的上游News Server。
+这个说明适用於大部分的情况, 至於其例外, 我会在後面专门来介绍News
+传输的篇幅中, 更详细的介绍。
+</p>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="inside-inn.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="inside-inn.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s04s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4. 深入 INN </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.2. 新闻组文章结构</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

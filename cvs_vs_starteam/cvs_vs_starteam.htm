@@ -1,0 +1,6474 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>软件配置管理 HOWTO</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="本网站还可以提供 版本控制系统（CVS）等的用户培训 以及 CVS 服务器配置 等收费服务，咨询电话参见 本网站联系方式。 （编译自版本: 9b62cff，最后更新时间: 2007-06-19）">
+<link rel="start" href="#index" title="软件配置管理 HOWTO">
+<link rel="next" href="#vs-svrsetup" title="2. CVS vs. STARTEAM——服务器设置">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>软件配置管理 HOWTO</h1></div>
+<div><h3 class="subtitle"><i>VSS, Starteam, CVS, or Others?</i></h3></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 2.4</td>
+<td align="left">2005/02/24</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#linux-acl" title="2.1.5. 基于 Linux ACL 的权限控制">补充 acl 对CVS进行精确的权限控制</a>；
+</td></tr>
+<tr>
+<td align="left">修订 2.3</td>
+<td align="left">2003/11/17</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#rm-cvs-tmpfiles">定期清理CVSROOT脚本产生的临时文件</a>；
+</td></tr>
+<tr>
+<td align="left">修订 2.2</td>
+<td align="left">2003/8/15</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#bug-spaceinfilename">修正了当目录或者文件名中包含空格，CVSROOT脚本工作不正常，不能发送邮件的 BUG</a>；
+</td></tr>
+<tr>
+<td align="left">修订 2.1</td>
+<td align="left">2003/4/9</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+增加<a href="#starteam2cvs" title="8. 版本管理工具迁移">版本管理系统的迁移</a>。
+</td></tr>
+<tr>
+<td align="left">修订 2.0</td>
+<td align="left">2003/2/19</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+增加<a href="#cvs-admin-files" title="2.1.4. 用CVS管理文件进行功能扩充">用CVS管理文件进行功能扩充</a>。
+</td></tr>
+<tr>
+<td align="left">修订 1.9</td>
+<td align="left">2003/1/21</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+由于1.11.2版的CVS存在着的服务器端 <a href="#cvsbug-softlink">repository soft-link 的BUG</a>，因此重新规划服务器端存储，增加了<a href="#cvs-account" title="2.1.2. 添加帐号和设置权限">CVS目录目录权限设置</a>。
+</td></tr>
+<tr>
+<td align="left">修订 1.8</td>
+<td align="left">2002/11/19</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#cvs-faq" title="A. CVS FAQ">增加CVS使用FAQ。</a>
+</td></tr>
+<tr>
+<td align="left">修订 1.7</td>
+<td align="left">2002/09/10</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#cvs-modshare" title="6. CVS vs. STARTEAM——模块间共享">增加通过 modules 文件，建立模块实现目录共享</a>
+</td></tr>
+<tr>
+<td align="left">修订 1.6</td>
+<td align="left">2002/09/08</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#vs-cmd" title="5. CVS vs. STARTEAM——常用版本控制操作">增加 Starteam, CVS 命令对照</a>
+</td></tr>
+<tr>
+<td align="left">修订 1.5</td>
+<td align="left">2002/08/02</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+补充 Starteam 和 Microsoft Visual C++ 的集成
+</td></tr>
+<tr>
+<td align="left">修订 1.4</td>
+<td align="left">2002/05/27</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+补充命令行参考，并修订其它章节
+</td></tr>
+<tr>
+<td align="left">修订 1.3</td>
+<td align="left">2002/03/04</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#workstation" title="7.9. 客户端设置">客户端设置</a>
+</td></tr>
+<tr>
+<td align="left">修订 1.2</td>
+<td align="left">2002/03/01</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+修改FAQ，更具可读性。如：<a href="#faq-status-unknown">
+关于status Unknown 的FAQ</a>
+</td></tr>
+<tr>
+<td align="left">修订 1.1</td>
+<td align="left">2002/01/10</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">转换为Docbook格式</td></tr>
+<tr>
+<td align="left">修订 1.0</td>
+<td align="left">2001/12</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">增加FAQ，修改删除反删除</td></tr>
+<tr>
+<td align="left">修订 0.9</td>
+<td align="left">2001/11/23</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">CWAP组Starteam使用经验报告</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+<a href="http://www.worldhello.net/" target="_top">本网站</a>还可以提供 版本控制系统（CVS）等的用户培训 以及 CVS 服务器配置 等收费服务，咨询电话参见 <a href="http://www.worldhello.net/" target="_top">本网站联系方式</a>。
+</p>
+<p>
+（编译自版本: 9b62cff，最后更新时间: 2007-06-19）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#tocvsfun">1. Overview</a></span></dt>
+<dt><span class="sect1"><a href="#vs-svrsetup">2. CVS vs. STARTEAM——服务器设置</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4509952">2.1. CVS服务器设置</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4510464">2.1.1. 运行 CVS</a></span></dt>
+<dt><span class="sect3"><a href="#cvs-account">2.1.2. 添加帐号和设置权限</a></span></dt>
+<dt><span class="sect3"><a href="#idp4544224">2.1.3. 创建工程</a></span></dt>
+<dt><span class="sect3"><a href="#cvs-admin-files">2.1.4. 用CVS管理文件进行功能扩充</a></span></dt>
+<dt><span class="sect3"><a href="#linux-acl">2.1.5. 基于 Linux ACL 的权限控制</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp4737856">2.2. Starteam服务器权限设置</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#usermgr">2.2.1. 用户管理</a></span></dt>
+<dt><span class="sect3"><a href="#server">2.2.2. 服务器配置的安全设置</a></span></dt>
+<dt><span class="sect3"><a href="#project-right">2.2.3. 工程的权限设置</a></span></dt>
+<dt><span class="sect3"><a href="#view-right">2.2.4. 视图的权限设置</a></span></dt>
+<dt><span class="sect3"><a href="#folder-right">2.2.5. 文件夹的权限设置</a></span></dt>
+<dt><span class="sect3"><a href="#maintenance">2.2.6. Starteam服务器优化</a></span></dt>
+</dl></dd>
+</dl></dd>
+<dt><span class="sect1"><a href="#vs-svrstore">3. CVS vs. STARTEAM——服务器端存储</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4884800">3.1. CVS 服务器端存储</a></span></dt>
+<dt><span class="sect2"><a href="#idp4887600">3.2. Starteam 服务器端存储</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#vs-client">4. CVS vs. STARTEAM——客户端设置</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4894528">4.1. CVS 客户端设置</a></span></dt>
+<dt><span class="sect2"><a href="#idp4907024">4.2. Starteam 客户端设置</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#vs-cmd">5. CVS vs. STARTEAM——常用版本控制操作</a></span></dt>
+<dt><span class="sect1"><a href="#cvs-modshare">6. CVS vs. STARTEAM——模块间共享</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4959680">6.1. CVS 中的文件和目录的共享</a></span></dt>
+<dt><span class="sect2"><a href="#idp4967024">6.2. Starteam 中的文件和目录的共享</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#steam-howto">7. Starteam Howto</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#serverconfig">7.1. Server Configuration</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4972160">7.1.1. 用户角度</a></span></dt>
+<dt><span class="sect3"><a href="#idp4979536">7.1.2. 管理员角度</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#project">7.2. Project</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4992816">7.2.1. 用户角度</a></span></dt>
+<dt><span class="sect3"><a href="#idp4994304">7.2.2. 管理员角度</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#view">7.3. View</a></span></dt>
+<dt><span class="sect2"><a href="#branch">7.4. Branch</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5008528">7.4.1. STARTEAM和CVS的分支不同点</a></span></dt>
+<dt><span class="sect3"><a href="#idp5019872">7.4.2. 建立分支注意事项</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#label">7.5. Label</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5042944">7.5.1. View Label</a></span></dt>
+<dt><span class="sect3"><a href="#idp5047296">7.5.2. Build label</a></span></dt>
+<dt><span class="sect3"><a href="#idp5050384">7.5.3. Promotion state</a></span></dt>
+<dt><span class="sect3"><a href="#idp5054672">7.5.4. Revision label</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#directory">7.6. 目录划分</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5070928">7.6.1. 源码的版本控制</a></span></dt>
+<dt><span class="sect3"><a href="#idp5078272">7.6.2. 文档的版本控制</a></span></dt>
+<dt><span class="sect3"><a href="#idp5079504">7.6.3. 缺陷控制</a></span></dt>
+<dt><span class="sect3"><a href="#idp5086912">7.6.4. ProjectManagement目录</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#delundel">7.7. 删除和反删除</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5094304">7.7.1. Starteam文件存放机理</a></span></dt>
+<dt><span class="sect3"><a href="#idp5098640">7.7.2. 删除</a></span></dt>
+<dt><span class="sect3"><a href="#idp5100272">7.7.3. 移动</a></span></dt>
+<dt><span class="sect3"><a href="#idp5102784">7.7.4. 反删除的步骤</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#defect">7.8. 文件服务器和个人版本控制</a></span></dt>
+<dt><span class="sect2"><a href="#workstation">7.9. 客户端设置</a></span></dt>
+<dt><span class="sect2"><a href="#built">7.10. Nightly Build和测试</a></span></dt>
+<dt><span class="sect2"><a href="#starteam-cli">7.11. Starteam CLI Wrapper</a></span></dt>
+<dt><span class="sect2"><a href="#integration">7.12. StarTeam 与 常用开发工具整合</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#starteam2cvs">8. 版本管理工具迁移</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp5173696">8.1. 用同一套本地目录，对应于相应的 STARTEAM 和 CVS 工程</a></span></dt>
+<dt><span class="sect2"><a href="#idp5180224">8.2. 导出 Starteam 每个文件的Commit Log</a></span></dt>
+<dt><span class="sect2"><a href="#idp5185312">8.3. 剖析STARTEAM日志，生成脚本</a></span></dt>
+<dt><span class="sect2"><a href="#idp5195168">8.4. 运行生成的脚本，完成代码 Checkin</a></span></dt>
+<dt><span class="sect2"><a href="#idp5200128">8.5. 缺憾</a></span></dt>
+</dl></dd>
+<dt><span class="appendix"><a href="#cvs-faq">A. CVS FAQ</a></span></dt>
+<dt><span class="appendix"><a href="#starteam-faq">B. Starteam FAQ</a></span></dt>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="tocvsfun"></a>1. Overview</h2></div></div></div>
+<p>
+CVS 是开放源码的一个奇迹，亦是开放源码得以延续和发展的推动者，是版本控制的经典。CVS 是常用的版本控制工具。
+</p>
+<p>
+Starteam 是一个集合了版本控制和缺陷控制两种功能的软件，并且具有 CVS 没有的强大的图形界面，易学易用。2002年底被Borland公司收购，发展前景未知，它是我是用的第一个大型商用版本控制软件（真的付了Money的呦）。
+</p>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+评价 CVS、STARTEAM 孰优孰劣，是一个仁者见仁，智者见智的问题。
+</p>
+<p>
+Starteam 的图形化界面，能够使初学者易于接收，而且其缺陷控制功能的功能（基于数据库的Change Request），是CVS 不具有的，更是相应工具中独树一帜的。
+</p>
+<p>
+CVS的优秀跨平台能力、强大的命令行、清晰的服务器端数据结构更便于数据的备份、灾难恢复和可靠性。Simple is Butiful 送给 CVS 一定没错。
+</p>
+</td></tr>
+</table></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+侧重不同
+</p>
+<p>
+CVS专注于配置管理软件范畴中的版本管理系统。而配置管理系统除了包括版本管理外，还包括构建管理（Build Management）和缺陷跟踪系统。而Starteam包括了这三项。本文档也就只比较其版本管理系统的异同。
+</p>
+</li>
+<li>
+<p>
+权限控制
+</p>
+<p>
+一般来说，CVS的权限设置单一，通常只能通过CVSROOT/passwd, CVSROOT/readers, CVSROOT/writers 文件，同时还要设置CVS REPOS的物理目录权限来完成权限设置，无法完成复杂的权限控制；而STARTEAM无需通过物理路径的权限设置，而是通过自己的数据库管理，实现了类似WINDOWS NT的域用户管理和目录文件ACL控制。
+</p>
+<p>
+但是CVS通过CVSROOT目录下的脚本，提供了相应功能扩充的接口，不但可以完成精细的权限控制，还能完成更加个性化的功能。
+</p>
+</li>
+<li>
+<p>
+易用性
+</p>
+<p>
+Starteam的图形界面功能强大，但其命令行功能较CVS弱，需要自己编写shell脚本加强。而随着WINCVS作为图形客户端的可用性的增强，Starteam的强项正在被削弱。
+</p>
+</li>
+<li>
+<p>
+Label的管理
+</p>
+<p>
+CVS 的 label 建立在文件上，难以确定到底有多少存在的 label ，而STARTEAM（图形界面）可以很方便知道有哪些 View Label及Revision Label。
+</p>
+<p>
+CVS的版本分支， label是建立在文件上，工作在其他分支的程序同样会看到其它分支的label；而Starteam的label只在同一个视图内有效，有独立的命名空间。
+</p>
+<p>
+STARTEAM具有Promotion states，可以看作是label的标签。在label上又封装一层的 Promotion State 便于记录版本的提升，和建立自动编译；而CVS 没有浮动 label 的概念，只能通过文件记录方式实现（如我们使用 .promotion 文件记录当前稳定的 label）。
+</p>
+</li>
+<li>
+<p>
+文件缓存
+</p>
+<p>
+Starteam 存在CACHE目录，缓存了所有 Checkout的版本的文件，因此 Checkout速度快。而CVS没有缓存，check out过程较慢，尤其是分支的 Checkout。
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+但我对此表示怀疑。尤其是Starteam Unix客户端基于JAVA技术，速度明显比CVS要慢。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+操作文件名和目录名
+</p>
+<p>
+CVS的REPOSITORY的物理存储结构即为项目的组织结构，使得文件名修改和目录的重新组织成为难题，往往需要管理员权限去手动操作Repository；而STARTEAM的Repository的文件结构和视图的文件结构可以完全不同，目录、文件名修改和移动非常方便，基于数据库的文件名管理还可以方便地在不同工程之间共享文件，协同工作。
+</p>
+</li>
+<li>
+<p>
+CVS是程序员的工具，STARTEAM还是管理项目的工具
+</p>
+<p>
+个人文件管理或小项目的组织，需要轻量级的管理，和灵活的文件导入、导出，以及和自由代码的交互，则CVS，Perforce，PVCS，SourceSafe等面向文件的版本控制占优势。对于公司、大项目，需要独立的测试、QA等分工，还要更多的考虑多样的用户权限控制，易用性（图形界面），缺陷控制，则需要面向工程的STARTEAM来进行版本控制和开发。
+</p>
+</li>
+<li>
+<p>
+CVS的优势
+</p>
+<p>
+CVS的优势：项目文件可以方便的组合和移植，这是因为CVS以文件为核心，即面向文件的管理方式。而且目前网络上很多开放源码都采用CVS，可以很好沟通。
+</p>
+<p>
+CVS配置简单、健壮、可以很容易地移植；STARTEAM集成度较高，移植过程复杂，需要的管理负担大，需要完善的备份计划。
+</p>
+<p>
+CVS是开发源码，服务器端存储易于理解，便于控制；而Starteam为商业软件，服务器端存储方式封闭，难以管理。但是 CVS 不提供图形界面，有较长的学习曲线。
+</p>
+</li>
+<li>
+<p>
+Starteam 的劣势
+</p>
+<p>
+不支持分支的合并，需要过多的手动干预。而CVS可以自动完成。
+</p>
+<p>
+速度慢，一定程度上影响开发效率。
+</p>
+<p>
+不支持并行开发，不能很好解决Merge的问题。而CVS可以智能 Merge。
+</p>
+<p>
+故障恢复困难，需要有专职管理员维护。而CVS易于维护。
+</p>
+</li>
+<li>
+<p>
+评价优劣，不如先用先得
+</p>
+<p>
+不用刻意去取舍哪一个，只要用好，即可。况且，已经有了完美的CVS、STARTEAM互相转换的方法。（参见：《CVS, Starteam互相转换》）
+</p>
+</li>
+</ol></div>
+<p>
+下面通过对 CVS、STARTEAM 的服务器端和客户端对照，了解背后的真相。
+</p>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="vs-svrsetup"></a>2. CVS vs. STARTEAM——服务器设置</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4509952"></a>2.1. CVS服务器设置</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4510464"></a>2.1.1. 运行 CVS</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+<code class="filename">/etc/services</code>
+</p>
+<pre class="screen">
+...
+cvspserver      2401/tcp
+cvspserver      2401/udp
+...
+</pre>
+</li>
+<li>
+<p>
+用xinetd运行: <code class="filename">/etc/xinetd.d/cvs</code>
+</p>
+<pre class="screen">
+
+service cvspserver
+{
+        socket_type     = stream        
+        protocol        = tcp
+        wait            = no
+        user            = root
+        server          = /usr/bin/cvs
+        server_args     = -f --allow-root=/repos/root1 --allow-root=/repos/root2 pserver
+        disable         = no
+}
+
+</pre>
+</li>
+<li>
+<p>
+用inetd运行: <code class="filename">/etc/inetd.conf</code>
+</p>
+<pre class="screen">
+
+...
+cvspserver stream tcp nowait root /usr/bin/cvs cvs -f --allow-root=/repos/project --allow-root=/repos/user pserver
+...
+
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="cvs-account"></a>2.1.2. 添加帐号和设置权限</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+创建系统帐号
+</p>
+<p>
+假设目录 <code class="filename">/repos/project</code> 作为多人共享项目的版本控制根目录，需要用组权限控制；<code class="filename">/repos/user</code>作为存放个人独占地版本控制根目录。管理员帐号为cvsroot，项目版本控制的公共帐号为 cvsproject，用户版本控制的公共帐号为 cvsuser，相应的用户组为 cvsroot, cvsproject, cvsuser。
+</p>
+<pre class="screen">
+$ groupadd cvsproject
+$ groupadd cvsuser
+$ groupadd cvsroot
+$ useradd  -g cvsproject -s /sbin/nologin         cvsproject
+$ useradd  -g cvsuser    -s /sbin/nologin         cvsuser
+$ useradd  -g cvsroot    -G cvsproject,cvsuser    cvsroot               <a name="co.cvs.multigroup"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+$ useradd  -g cvsuser    -s /sbin/nologin         cvs_jiangxin          <a name="co.cvs.user"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+$ useradd  -g cvsuser    -s /sbin/nologin         cvs_johnson           
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.multigroup"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置 cvsroot 属于多个组，这样 cvsroot 用户除了进行系统维护外（如添加新的工程），还可以和其它组用户一样具有管理代码的权限。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.user"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用来和CVS用户帐号一一对应的系统帐号。系统帐号禁止登录，密码设置在相应的 CVS 对应帐号文件中设置。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+创建CVS根目录
+</p>
+<pre class="screen">
+
+$ mkdir -p /repos/project
+$ mkdir -p /repos/user
+$ chown cvsroot:cvsroot /repos/project
+$ chown cvsroot:cvsroot /repos/user
+$ chmod  775 /repos
+$ chmod 2775 /repos/project
+$ chmod 2775 /repos/user
+$ su - cvsroot
+$ cvs -d /repos/project init
+$ cvs -d /repos/user init
+
+</pre>
+<p>
+运行完毕 <span><strong class="command">cvs init</strong></span> 之后，在CVS根目录下创建了配置目录<code class="filename">CVSROOT</code>，权限如下：
+</p>
+<pre class="screen">
+$ ls -l /repos/project/CVSROOT/
+
+-r--r--r--    1 cvsroot  cvsroot       493 Jan 21 10:37 checkoutlist
+-r--r--r--    1 cvsroot  cvsroot       696 Jan 21 10:37 checkoutlist,v
+-r--r--r--    1 cvsroot  cvsroot       760 Jan 21 10:37 commitinfo
+-r--r--r--    1 cvsroot  cvsroot       963 Jan 21 10:37 commitinfo,v
+-r--r--r--    1 cvsroot  cvsroot       527 Jan 21 10:37 config
+-r--r--r--    1 cvsroot  cvsroot       730 Jan 21 10:37 config,v
+-r--r--r--    1 cvsroot  cvsroot       753 Jan 21 10:37 cvswrappers
+-r--r--r--    1 cvsroot  cvsroot       956 Jan 21 10:37 cvswrappers,v
+-r--r--r--    1 cvsroot  cvsroot      1025 Jan 21 10:37 editinfo
+-r--r--r--    1 cvsroot  cvsroot      1228 Jan 21 10:37 editinfo,v
+drwxrwxr-x    2 cvsroot  cvsroot      4096 Jan 21 10:37 Emptydir
+-rw-rw-rw-    1 cvsroot  cvsroot         0 Jan 21 10:37 history
+-r--r--r--    1 cvsroot  cvsroot      1141 Jan 21 10:37 loginfo
+-r--r--r--    1 cvsroot  cvsroot      1344 Jan 21 10:37 loginfo,v
+-r--r--r--    1 cvsroot  cvsroot      1151 Jan 21 10:37 modules
+-r--r--r--    1 cvsroot  cvsroot      1354 Jan 21 10:37 modules,v
+-r--r--r--    1 cvsroot  cvsroot       564 Jan 21 10:37 notify
+-r--r--r--    1 cvsroot  cvsroot       767 Jan 21 10:37 notify,v
+-r--r--r--    1 cvsroot  cvsroot       649 Jan 21 10:37 rcsinfo
+-r--r--r--    1 cvsroot  cvsroot       852 Jan 21 10:37 rcsinfo,v
+-r--r--r--    1 cvsroot  cvsroot       879 Jan 21 10:37 taginfo
+-r--r--r--    1 cvsroot  cvsroot      1082 Jan 21 10:37 taginfo,v
+-rw-rw-rw-    1 cvsroot  cvsroot         0 Jan 21 10:37 val-tags
+-r--r--r--    1 cvsroot  cvsroot      1026 Jan 21 10:37 verifymsg
+-r--r--r--    1 cvsroot  cvsroot      1229 Jan 21 10:37 verifymsg,v
+</pre>
+<p>
+可以看出文件 history, val-tags 的权限是任何人可读写，其它文件的权限是任何帐号只读。
+</p>
+<p>
+文件 <code class="filename">CVSROOT/val-tags</code> 用来确定是否一个TAG是可用的；文件 <code class="filename">CVSROOT/history</code> 用来记录CVS的访问记录。
+</p>
+</li>
+<li>
+<p>
+创建 CVS 用户帐号
+</p>
+<p>
+使用系统帐号不安全，而CVS提供了独立于系统的用户帐号管理。
+</p>
+<p>
+使用配置文件 <code class="filename">CVSROOT/passwd</code>, <code class="filename">CVSROOT/passwd</code>, <code class="filename">CVSROOT/passwd</code> ，来管理帐号。
+</p>
+<pre class="screen">
+$ cat /repos/project/CVSROOT/passwd
+jiangxinroot:_passwd_here_:cvsroot	<a name="co.cvspasswd.root"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+jiangxin:_passwd_here_:cvsproject
+johnson:_passwd_here_:cvsproject	<a name="co.cvspasswd.project"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+anonymous::cvsproject			<a name="co.cvspasswd.anonymous"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+
+$ cat /repos/project/CVSROOT/readers
+anonymous				<a name="co.cvsreaders.anonymous"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvspasswd.root"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户帐号 jiangxinroot，具有和系统帐号 cvsroot 同样权限。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvspasswd.project"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户帐号 jiangxin, johnson，都具有系统帐号 cvsproject 同样的权限，
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvspasswd.anonymous"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+匿名帐号 anonymous 的密码为空。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsreaders.anonymous"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+readers 文件中出现的用户帐号，只具有只读权限。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+CVS 用户修改口令
+</p>
+<p>
+我写了一个程序，作为用户登录的 shell，允许用户远程 SSH 登录，修改自己的 Unix 系统口令以及 CVS 账号口令，参见：<a href="#faq-cvspasswd">附件</a>。如果您有更好的方法，不吝赐教。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4544224"></a>2.1.3. 创建工程</h4></div></div></div>
+<p>
+只能以 cvsroot 用户创建工程。因为 cvs 根目录的权限设置为 cvsroot 帐户可写。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+在客户端创建工程
+</p>
+<pre class="screen">
+client$ cvs -d :pserver:jiangxinroot@10.0.0.7:/repos/project login
+client$ cvs -d :pserver:jiangxinroot@10.0.0.7:/repos/project import -m "add module test, vendor jiangxin, init_tag start." test jiangxin start
+
+$ ls -l /repos/project
+drwxrwxr-x    3 cvsroot  cvsroot      4096 Jan 21 10:54 CVSROOT
+drwxrwsr-x    2 cvsroot  cvsroot      4096 Jan 21 11:00 test	 <a name="co.priv.test"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+
+$ chown -R cvsproject:cvsproject test
+$ chmod -R 770 test		
+$ chmod -R g+s test		<a name="co.priv.setgid"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+
+client$ cvs -d :pserver:jiangxin@10.0.0.7:/repos/project co test		<a name="co.priv.checkout"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+client$ cvs -d :pserver:johnson@10.0.0.7:/repos/project  co -d test2 test
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.priv.test"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置工程/模块 test 的目录权限，使只有 cvsproject组用户才有读写权限，其他帐号拒绝访问。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.priv.checkout"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户帐号 jiangxin, johnson 映射为系统帐号 cvsproject，因此可以访问工程 test。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.priv.setgid"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+之所以为模块 test 设置 g+s，是为了当设置一个用户属于多个时，操作不同工程时，能够保障文件的组id维持不变。否则可能影响其它用户的权限。可以用更简单的命令执行 <span><strong class="command">chmod -R 2770 test</strong></span> 进行设置。
+</p></td>
+</tr>
+</table></div>
+<p>
+于是创建了多用户共享的工程 test。
+</p>
+</li>
+<li>
+<p>
+另一种创建工程的方法：在服务器端创建工程
+</p>
+<p>
+可以直接在服务器端创建目录，设置权限，即完成工程的创建。当然这样创建的工程只是一个空的工程，需要在客户端为空的工程逐个添加文件和目录。
+</p>
+<pre class="screen">
+$ cat /repos/project/CVSROOT/passwd
+jiangxroot:_passwd_here_:cvsroot
+anonymous:_passwd_here_:cvsuser
+jiangxin:_passwd_here_:cvs_jiangxin
+johnson:_passwd_here_:cvs_johnson
+
+$ cd /repos/project
+$ mkdir jiangxin; chown -R cvs_jiangxin:cvsuser jiangxin; chmod -R 2700 jiangxin
+$ mkdir johnson;  chown -R cvs_johnson:cvsuser  johnson;  chmod -R 2700 johnson
+</pre>
+<p>
+于是创建了两个用户独占的工程。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="cvs-admin-files"></a>2.1.4. 用CVS管理文件进行功能扩充</h4></div></div></div>
+<p>
+确省安装的CVS的权限仅仅作用于目录，而不能精细到文件级别。而且即使用户只需要拥有文件的只读权限，也要对相应的目录具有写权限，因为需要在目录下创建锁定文件。有一个办法可以避免此问题，即：通过配置文件 <code class="filename"><a href="CVSROOT/config" target="_top">CVSROOT/config</a></code> 的 LockDir 来设置单独的锁定目录，为该单独的锁定目录设置更宽泛的权限控制。
+</p>
+<p>
+CVS 提供了功能的扩充接口：CVSROOT目录下的管理文件。这些文件提供了相应功能扩充的接口，不但可以完成精细的权限控制，还能完成更加个性化的功能。关于CVSROOT下的脚本，FreeBSD 的源代码就有一个非常好的CVSROOT脚本，可供我们参照：
+</p>
+<p>
+<a href="http://www.freebsd.org/doc/en_US.ISO8859-1/articles/cvs-freebsd/article.html" target="_top">Setting up a CVS repository - the FreeBSD way</a>。我们可以参照这个指南，定制我们自己的CVSROOT脚本。
+</p>
+<p>
+下载 FreeBSD 的 CVSROOT 脚本，可以以匿名用户连接到 FreeBSD 的 CVS 服务器：
+</p>
+<pre class="screen">
+$ cvs -d :pserver:anoncvs@anoncvs.freebsd.org:2401/home/ncvs login   # 输入密码 anoncvs
+$ cvs -d :pserver:anoncvs@anoncvs.freebsd.org:2401/home/ncvs co  CVSROOT-src
+</pre>
+<p>
+下载获得 FreeBSD 的 CVSROOT 代码后，需要进行相应的定制，然后才能 checkin 到自己的 CVSROOT 目录中。这个补丁是我对其的修改和定制：<a href="CVSROOT/patch.txt" target="_top">patch.txt</a>。
+</p>
+<p>
+定制过程：
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+升级CVS
+</p>
+<p>
+确认安装的CVS服务器版本，要高于 1.11.2 。因为我们要用到在版本 1.11.2 才出现的功能：能够在检查commit log 后重新读入 commit log，以实现对 commit log 的格式化。
+</p>
+</li>
+<li>
+<p>
+定制 PERL 模块 cfg.pm
+</p>
+<p>
+文件 <code class="filename"><a href="CVSROOT/cfg.pm" target="_top">CVSROOT/cfg.pm</a></code>，是 perl脚本的核心包，对其做了一些改动，主要是添加了禁止某些用户发送 Email功能；还增加了部分子过程，部分是从原 log_acum.pl 中移动过来，目的将这些函数设置为模块内部的函数便于其它需要发送邮件的脚本调用，如脚本 log_accum.pl 和 tagcheck 都需要使用这些新增子过程。
+</p>
+<p>
+对脚本 <code class="filename"><a href="CVSROOT/cfg.pm" target="_top">CVSROOT/cfg.pm</a></code> 的改动如下：
+</p>
+<pre class="screen">
+diff -u -r1.1 -r1.2
+--- cfg.pm	14 Aug 2003 10:00:53 -0000	1.1
++++ cfg.pm	15 Aug 2003 01:44:20 -0000	1.2
+@@ -17,9 +17,10 @@
+ 	$ADD_TO_LINE $AVAIL_FILE $CHECK_HEADERS $COMMITCHECK_EXTRA
+ 	@COMMIT_HOSTS $COMMITTER $DEBUG $DIFF_BLOCK_TOTAL_LINES $EXCLUDE_FILE
+ 	$FILE_PREFIX $IDHEADER $LAST_FILE @LOG_FILE_MAP $MAILADDRS $MAILBANNER
+-	$MAILCMD $MAIL_BRANCH_HDR $MAIL_ON_DIR_CREATION $MAIL_TRANSFORM
++	$MAILCMD $MAIL_BRANCH_HDR @MAIL_MAP $MAIL_ON_DIR_CREATION $MAIL_TRANSFORM
+ 	$MINCVSVERSION $MAX_DIFF_SIZE $NO_DOS_LINEBREAKS $PID $PROG_CVS
+ 	$PROG_MV %TEMPLATE_HEADERS $TMPDIR $UNEXPAND_RCSID $WARN_HEADERS
++	$BADSENDER_FILE
+ );
+ 
+ my $CVSROOT = $ENV{'CVSROOT'} || die "Can't determine \$CVSROOT!";
+@@ -52,7 +53,7 @@
+ $PROG_MV =	'/bin/mv';		# mv(1)
+ 
+ # The username of the committer.
+-$COMMITTER = $ENV{"LOGNAME"} || $ENV{'USER'} || getlogin
++$COMMITTER = <span class="emphasis"><em>$ENV{"CVS_USER"} </em></span>|| $ENV{"LOGNAME"} || $ENV{'USER'} || getlogin   <a name="co.cvs.get.committer"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+		|| (getpwuid($&lt;))[0] || sprintf("uid#%d",$&lt;);
+ 
+ 
+@@ -83,6 +84,7 @@
+ # commit to what.
+ $AVAIL_FILE = "$CVSROOT/CVSROOT/avail";
+ 
++$BADSENDER_FILE = "$CVSROOT/CVSROOT/blocksender"; <a name="co.cvs.blocksender"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+ 
+ ################
+ ### logcheck ###
+@@ -208,6 +210,10 @@
+ 	'other'		=&gt; '.*'
+ );
+ 
++@MAIL_MAP = (
++	'nobody'	=&gt; '.*'
++);
++
+ # Include diffs of not greater than this size in kbytes in the
+ # commit mail for each file modified. (0 = off).
+ $MAX_DIFF_SIZE = 0;
+@@ -270,6 +276,64 @@
+ 	return @output;
+ };
+ 
++
++############################################################
++#
++# Subroutines
++#
++############################################################
++
++# !!! Mailing-list and commitlog history file mappings here !!!
++# This needs pulling out as a configuration block somewhere so
++# that others can easily change it.
++
++sub get_log_name {
++	my $dir = shift;	# Directory name
++
++
++	for my $i (0 .. ($#cfg::LOG_FILE_MAP - 1) / 2) {
++		my $log = $cfg::LOG_FILE_MAP[$i * 2];
++		my $pattern = $cfg::LOG_FILE_MAP[$i * 2 + 1];
++
++		return $log if $dir =~ /$pattern/;
++	}
++
++	return 'other';
++}
++
++sub get_mail_name {
++	my $dir = shift;	# Directory name
++	my $CVSROOT = $ENV{'CVSROOT'};
++	$dir =~ s,^$CVSROOT[/]?,,g;
++	$dir .= "/" unless $dir =~ /\/$/;
++	
++	for my $i (0 .. ($#cfg::MAIL_MAP - 1) / 2) {
++		my $email = $cfg::MAIL_MAP[$i * 2];
++		my $pattern = $cfg::MAIL_MAP[$i * 2 + 1];
++		return $email if $dir =~ /$pattern/;
++	}
++
++	return $cfg::MAILADDRS;
++}
++
++
++# do not send email, if committer is in badsender file...
++sub sendmail_acl_check {
++	my $sendmail = 1;
++	if (-e $cfg::BADSENDER_FILE)
++	{
++		open (BADSENDER, $cfg::BADSENDER_FILE) || die "open $cfg::BADSENDER_FILE: $!\n";
++		while (&lt;BADSENDER&gt;) {
++			if ($_ =~ /\b$cfg::COMMITTER\b/i)
++			{
++				$sendmail = 0;
++				last;
++			}
++		}
++	}
++	
++	return $sendmail;
++}
+ 
+ ######################################################################
+ # Load the local configuration file, that allows the entries in this
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.get.committer"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+增加检查环境变量 CVS_USER。以能够正确反映使用 CVSROOT/password 文件进行身份验证的用户名。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.blocksender"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+通过文件 $BADSENDER_FILE 设置哪些用户对 CVS 操作不必发送邮件，这个功能可以用于自动编译下的特定用户的CVS操作不必发送邮件。
+</p></td>
+</tr>
+</table></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+还在该perl模块中增加了几个过程，供其它程序调用。
+</p></td></tr>
+</table></div>
+<p>
+文件 <code class="filename"><a href="CVSROOT/cfg_local.pm" target="_top">CVSROOT/cfg_local.pm</a></code> 用于对模块 cfg.pm 进行定制：
+</p>
+<pre class="screen">
+hash$ <span><strong class="command">diff -u -r1.1 cfg_local.pm</strong></span>
+--- cfg_local.pm	14 Aug 2003 10:00:53 -0000	1.1
++++ cfg_local.pm	15 Aug 2003 03:09:39 -0000	1.3
+@@ -13,7 +13,7 @@
+ ####################################################################
+ ####################################################################
+ 
+-$CHECK_HEADERS = 1;
++$CHECK_HEADERS = 0; <a name="co.cvs.nocheckheader"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+ $IDHEADER = 'FreeBSD';
+ $UNEXPAND_RCSID = 1;
+ 
+@@ -29,25 +29,30 @@
+ $MAILCMD = "/usr/local/bin/mailsend -H";
+ $MAIL_BRANCH_HDR  = "X-FreeBSD-CVS-Branch";
+ $ADD_TO_LINE = 0;
+-$MAILBANNER = "FreeBSD src repository";
++$MAILBANNER = "My repository"; <a name="co.cvs.mailbanner"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+ if (defined $ENV{'CVS_COMMIT_ATTRIB'}) {
+   my $attrib = $ENV{'CVS_COMMIT_ATTRIB'};
+   $MAILBANNER .= " ($attrib committer)";
+ }
++# The minimum version of cvs that we will work with.
++$MINCVSVERSION = "1110200";  # 1.11.2 <a name="co.cvs.mincvsversion"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
++
++$MAIL_ON_DIR_CREATION = 0; <a name="co.cvs.mailoncreation"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+ 
+ # Sanity check to make sure we've been run through the wrapper and are
+ # now primary group 'ncvs'.
+ #
+-$COMMITCHECK_EXTRA = sub {
+-	my $GRP=`/usr/bin/id -gn`;
+-	chomp $GRP;
+-	unless ( $GRP =~ /^ncvs$/ ) {
+-		print "You do not have group ncvs (commitcheck)!\n";
+-		exit 1;	# We could return false here.  But there's
+-			# nothing to stop us taking action here instead.
+-	}
+-	return 1;
+-};
++
++#$COMMITCHECK_EXTRA = sub { <a name="co.cvs.nocheckgrp"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
++#	my $GRP=`/usr/bin/id -gn`;
++#	chomp $GRP;
++#	unless ( $GRP =~ /^ncvs$/ ) {
++#		print "You do not have group ncvs (commitcheck)!\n";
++#		exit 1;	# We could return false here.  But there's
++#			# nothing to stop us taking action here instead.
++#	}
++#	return 1;
++#};
+ 
+ # Wrap this in a hostname check to prevent mail to the FreeBSD
+ # list if someone borrows this file and forgets to change it.
+@@ -91,6 +96,22 @@
+@LOG_FILE_MAP = ( <a name="co.cvs.local.filemap"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+	'CVSROOT'	=&gt; '^CVSROOT/',
+	'distrib'	=&gt; '^distrib/',
+	'doc'		=&gt; '^doc/',
+	'ports'		=&gt; '^ports/',
+	'www'		=&gt; '^www/',
+
+ 	'other'		=&gt; '.*'
+ );
++# CVSROOT is still shared between src, ports, doc at the moment. projects has
++# its own CVSROOT.
++@MAIL_MAP = ( <a name="co.cvs.local.mailmap"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0">
++	'maillist1' =&gt; '^CVSROOT/',
++	'maillist2' =&gt; '^src/',
++	'cvsnone' =&gt; '.*',
++); 
++
++@TAG_MAP = ( <a name="co.cvs.local.tagmap"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0">
++	'jiangxin' =&gt; '^(release|mailstome).*',
++); 
++
++# Email addresses of recipients of commit mail.
++$MAILADDRS = 'cvsnone'; <a name="co.cvs.local.mailaddrs"></a><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0">
++
++
+ 
+ 1; # Perl requires all modules to return true.  Don't delete!!!!
+ #end
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.nocheckheader"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置为0，不强制文件头包含特定的CVS关键字。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.mincvsversion"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置安装的CVS服务器的最低版本为 1.11.2；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.mailoncreation"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+创建目录的事件，也发送邮件。参见脚本：<code class="filename"><a href="CVSROOT/log_accum.txt" target="_top">CVSROOT/log_accum.pl</a></code>。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.nocheckgrp"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+注释该函数，不检查用户组。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.local.filemap"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+定制该数组，将 CVS 模块的 commit log 存储在对应的文件中。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.local.mailmap"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加哈希表 @MAIL_MAP，设置模块和用户邮件地址的对应关系，相应模块的 commit，通过邮件通知相应用户。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.local.tagmap"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加哈希表 @TAG_MAP，设置某些格式的TAG只能被某些用户管理。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.local.mailaddrs"><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0"></a> </td>
+<td valign="top" align="left"><p>
+确省的邮件地址。对于没有在 MAIL_MAP 数组找到匹配的邮件地址，即使用该地址。确省为 'nobody'。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+CVS 服务器配置文件：<code class="filename"><a href="CVSROOT/config" target="_top">CVSROOT/config</a></code>
+</p>
+<pre class="screen">
+#SystemAuth=no                 <a name="co.cvs.config.sysauth"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+#LockDir=/var/lock/cvs         <a name="co.cvs.config.lockdir"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+#TopLevelAdmin=no
+LogHistory=TOFEWGCMAR          <a name="co.cvs.config.logall"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+RereadLogAfterVerify=always    <a name="co.cvs.config.reloadlog"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.config.sysauth"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+如果设置 SystemAuth=no，则只通过 CVS 提供的身份验证。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.config.lockdir"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+可以用来指定单独的锁定目录， 便可以更灵活的设置数据仓库的目录权限。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.config.logall"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+对所有事件记录日志，亦可写为 LogHistory=all。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.config.reloadlog"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+启用只有在 1.11.2 版本才具有的 commit log 重写功能。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/cvsignore" target="_top">CVSROOT/cvsignore</a></code>
+</p>
+<p>
+设置版本控制过程中，需要忽略的文件。这些文件将不被显示为未知状态（"?"）。如：
+</p>
+<pre class="screen">
+*.db
+*.info
+*.[Sp]o
+*.core
+*.aps
+*.clw
+*.exe
+*.ncb
+*.obj
+*.opt
+*.plg
+Debug
+Release
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+亦可由每个目录下的文件 <code class="filename">.cvsignore</code> 来控制；
+</p>
+<p>
+对于 WinCVS，则由文件 <code class="filename">C:\.cvsignore</code> 来控制，如果将 HOME 路径设置为 C:\ 的话。
+</p>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/cvswrappers" target="_top">CVSROOT/cvswrappers</a></code>
+</p>
+<p>
+匹配文件名，并作相应处理。如： -kb 即以二进制方式处理文件。
+</p>
+<pre class="screen">
+*.gif -k 'b'
+*.GIF -k 'b'
+*.jpg -k 'b'
+...
+</pre>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/modules" target="_top">CVSROOT/modules</a></code>
+</p>
+<p>
+设置数据仓库中的模块名，可以通过命令：“cvs co -c”察看当前数据仓库（repository）中包含的模块/工程名称。也可以在调整服务器端目录结构时，设置 modules 来保持和以前设置的兼容性。
+</p>
+<pre class="screen">
+CVSROOT	CVSROOT
+module1	module2 &amp;module3
+</pre>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/checkoutlist" target="_top">CVSROOT/checkoutlist</a></code>
+</p>
+<p>
+列在 checkoutlist 中的文件，在 checkin 后，能够自动在服务器 CVSROOT 目录中重建。
+</p>
+<pre class="screen">
+#access             <a name="co.cvs.checkoutlist"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+avail
+cfg.pm
+cfg_local.pm
+commit_prep.pl
+commitcheck
+cvs_acls.pl
+exclude
+log_accum.pl
+logcheck
+options
+rcstemplate
+tagcheck
+unwrap
+wrap
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list"><tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.checkoutlist"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+access 文件供 FreeBSD 的cvs wrapper程序调用，进行权限控制，如不需要该功能注释掉，忽略该文件。
+</p></td>
+</tr></table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/notify" target="_top">CVSROOT/notify</a></code>
+</p>
+<p>
+当用户设置了 watch 一个文件，可以定制该文件进行控制。在此该文件未被用到。
+</p>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/commitinfo" target="_top">CVSROOT/commitinfo</a></code>
+</p>
+<p>
+Commit 事件要触发三个脚本文件，依次是 commitinfo, verifymsg, loginfo。其中先遍历整个目录树对所有需要 commit 的文件执行 commitinfo文件。再分别针对每一个目录执行 verifymsg, loginfo 脚本。
+</p>
+<p>
+commitinfo 会调用 commitcheck 脚本，完成的功能：通过用户主机名、用户名来检查权限；确认CVS服务器的版本号不低于某个版本；将遍历目录树的结果（最后一个目录名）记录下来，以便接下来运行 verifymsg, loginfo的脚本能够确认运行结束等。
+</p>
+<p>
+相关文件：<code class="filename"><a href="CVSROOT/commitcheck" target="_top">CVSROOT/commitcheck</a></code>，<code class="filename"><a href="CVSROOT/cvs_acls.txt" target="_top">CVSROOT/cvs_acls.pl</a></code>，<code class="filename"><a href="CVSROOT/avail" target="_top">CVSROOT/avail</a></code>，<code class="filename"><a href="CVSROOT/commit_prep.txt" target="_top">CVSROOT/commit_prep.pl</a></code>，<code class="filename"><a href="CVSROOT/exclude" target="_top">CVSROOT/exclude</a></code>，<code class="filename"><a href="CVSROOT/cfg.pm" target="_top">CVSROOT/cfg.pm</a></code>，<code class="filename"><a href="CVSROOT/cfg_local.pm" target="_top">CVSROOT/cfg_local.pm</a></code>。
+</p>
+<p>
+文件 <code class="filename"><a href="CVSROOT/avail" target="_top">CVSROOT/avail</a></code>，被脚本 cvs_acls.pl 读取，再被脚本 commitcheck 调用，用以精细控制权限。例如：
+</p>
+<pre class="screen">
+
+group|meisters|peter,jdp,markm,joe
+# Pick up the list of bad users from ncvs/CVSROOT/badcommitters  See that
+# file for details
+group|penaltybox|!badcommitters
+
+unavail
+avail||CVSROOT
+avail||distrib
+avail||doc
+avail||ports
+avail||src
+unavail||src/contrib/binutils,src/contrib/file
+avail|obrien|src/contrib/binutils,src/contrib/file
+unavail||src/contrib/tcpdump
+avail|fenner,nectar|src/contrib/tcpdump
+avail||www
+avail|:meisters
+unavail|:penaltybox
+
+</pre>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/verifymsg" target="_top">CVSROOT/verifymsg</a></code>
+</p>
+<p>
+用于检查和格式化 commit log。禁止在版本控制提交时，使用空的 commit log。对于 wincvs 在用户不提交 commit log 时，会自动使用“no message”作为commit log。为了禁止该情况发生，需要定制该脚本：
+</p>
+<p>
+相关文件：<code class="filename"><a href="CVSROOT/logcheck" target="_top">CVSROOT/logcheck</a></code>。
+</p>
+<pre class="screen">
+bash$ <span><strong class="command">diff -u -r1.1 logcheck</strong></span>
+--- logcheck	14 Aug 2003 10:00:53 -0000	1.1
++++ logcheck	15 Aug 2003 02:01:37 -0000	1.2
+@@ -47,8 +47,10 @@
+ 
+ # Remove leading and trailing blank lines.  (There will be at most
+ # one because of the duplicate removal above).
++local $^W = 0;                        <a name="co.cvs.hide.err"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+ shift @log_in if $log_in[0] eq "";
+ pop @log_in if $log_in[-1] eq "";
++local $^W = 1;
+ 
+ # Scan through the commit message looking for templated headers
+ # as defined in the configuration file, and rcstemplate.
+@@ -104,6 +106,9 @@
+ # completely empty.  This is a bug in cvs.
+ my $log = "@log_in";
+ die "Log message contains no content!\n" if $log =~ /^\s*$/;
++
++# commit without commit log using WINCVS , will automatically provide commit log as "no message".
++die "Log message contains no content using WINCVS!\n" if $log =~ /^no message$/ or $log =~ /^\.+$/; <a name="co.cvs.logcheck.wincvs"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.hide.err"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+隐藏语法警告；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.logcheck.wincvs"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+禁止其它的无意义的commit log，其中一个是 WINCVS 缺省的 COMMITLOG，一个是本人以前随意的COMMITLOG风格。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/loginfo" target="_top">CVSROOT/loginfo</a></code>
+</p>
+<p>
+将 commit log 分门别类存储在目录 CVSROOT/commitlogs 下，并同时通过邮件外发。为了防止一次事件触发多次的邮件外发，该脚本利用到 commitinfo 的运行结果，只有确认到了目录树的最后，才发送邮件。 模块和存储日志文件以及用户邮件列表在文件<code class="filename"><a href="CVSROOT/cfg_local.pm" target="_top">CVSROOT/cfg_local.pm</a></code>中定义。
+</p>
+<p>
+相关文件：<code class="filename"><a href="CVSROOT/log_accum.txt" target="_top">CVSROOT/log_accum.pl</a></code>，<code class="filename"><a href="CVSROOT/cfg.pm" target="_top">CVSROOT/cfg.pm </a></code>，<code class="filename"><a href="CVSROOT/cfg_local.pm" target="_top">CVSROOT/cfg_local.pm</a></code>。
+</p>
+<p>
+文件 <code class="filename"><a href="CVSROOT/loginfo" target="_top">CVSROOT/loginfo</a></code>，调用脚本 log_accum.pl，并传递文件名等参数，用于组织日志和发送邮件。
+</p>
+<p>
+<a name="bug-spaceinfilename"></a>
+原 FreeBSD 脚本存在一个 BUG，如果文件名或者目录名中存在空格，脚本运行不正常，出错，导致不能组织和发送邮件，这个 Bug 修正方法如下：
+</p>
+<p>
+在文件 <code class="filename"><a href="CVSROOT/loginfo" target="_top">CVSROOT/loginfo</a></code>中调用 log_accum.pl 时使用的参数由原来的 %s 修改为 %{,,,s}，即加入三个连续的逗号作为分隔符，否则使用空格作为分隔符，难以区分是文件的分隔符还是路径或文件名中的空格。
+</p>
+<pre class="screen">
+bash$ tail -1 loginfo
+DEFAULT         $CVSROOT/CVSROOT/log_accum.pl %{,,,s}
+</pre>
+<p>
+对文件 <code class="filename"><a href="CVSROOT/log_accum.txt" target="_top">CVSROOT/log_accum.pl</a></code> 的修正如下：
+</p>
+<pre class="screen">
+bash$ diff -u -r1.1 log_accum.pl
+
+--- log_accum.pl	14 Aug 2003 10:00:53 -0000	1.1
++++ log_accum.pl	15 Aug 2003 02:00:35 -0000	1.2
+@@ -47,6 +47,7 @@
+ my $LOG_FILE      = "$BASE_FN.log";
+ my $SUMMARY_FILE  = "$BASE_FN.summary";
+ my $LOGNAMES_FILE = "$BASE_FN.lognames";
++my $MAILNAMES_FILE = "$BASE_FN.mailnames"; <a name="co.cvsroot.logac.mailnames_file"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+ my $SUBJ_FILE     = "$BASE_FN.subj";
+ my $TAGS_FILE     = "$BASE_FN.tags";
+ my $DIFF_FILE     = "$BASE_FN.diff";
+@@ -233,7 +234,8 @@
+ 	while (&lt;RCS&gt;) {
+ 		if (/^[ \t]*Repository revision/) {
+ 			chomp;
+-			my @revline = split;
++			my @revline = split(/[ \t]+/, $_, 5); <a name="co.cvsroot.logac.revline"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
++			shift @revline while($revline[0] eq "");
+ 			$revision = $revline[2];
+ 			$revline[3] =~ m|^$CVSROOT/+(.*),v$|;
+ 			$rcsfile = $1;
+@@ -383,20 +385,6 @@
+ # !!! Mailing-list and commitlog history file mappings here !!!
+ # This needs pulling out as a configuration block somewhere so
+ # that others can easily change it.
+-sub get_log_name { <a name="co.cvsroot.logac.movetopm"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+-	my $dir = shift;	# Directory name
+-
+-
+-	for my $i (0 .. ($#cfg::LOG_FILE_MAP - 1) / 2) {
+-		my $log = $cfg::LOG_FILE_MAP[$i * 2];
+-		my $pattern = $cfg::LOG_FILE_MAP[$i * 2 + 1];
+-
+-		return $log if $dir =~ /$pattern/;
+-	}
+-
+-	return 'other';
+-}
+-
+ 
+ sub do_changes_file {
+ 	my @text = @_;
+@@ -408,11 +396,17 @@
+ 		$unique{$category} = 1;
+ 
+ 		my $changes = "$CVSROOT/CVSROOT/commitlogs/$category";
+-		open CHANGES, "&gt;&gt;$changes"
+-			or die "Cannot open $changes.\n";
+-		print CHANGES map { "$_\n" } @text;
+-		print CHANGES "\n\n\n";
+-		close CHANGES;
++		if (open CHANGES, "&gt;&gt;$changes")
++		{
++			print CHANGES map { "$_\n" } @text;
++			print CHANGES "\n\n\n";
++			close CHANGES;
++		}
++		else <a name="co.cvsroot.logac.notdie"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
++		{
++			print "Cannot open $changes.\n";
++		}
++
+ 	}
+ }
+ 
+@@ -420,22 +414,29 @@
+ sub mail_notification {
+ 	my @text = @_;
+ 
+-# This is turned off since the To: lines go overboard.
+-# Also it has bit-rotted since, and can't just be switched on again.
+-# - but keep it for the time being in case we do something like cvs-stable
+-#	my @mailaddrs = &amp;read_logfile($LOGNAMES_FILE);
+-#	print(MAIL 'To: cvs-committers' . $dom . ", cvs-all" . $dom);
+-#	foreach $line (@mailaddrs) {
+-#		next if ($unique{$line});
+-#		$unique{$line} = 1;
+-#		next if /^cvs-/;
+-#		print(MAIL ", " . $line . $dom);
+-#	}
+-#	print(MAIL "\n");
++	if (! &amp;cfg::sendmail_acl_check()) <a name="co.cvsroot.logac.mailto"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
++	{
++		print "mail sent from $cfg::COMMITTER is blocked.\n";
++		return 0;	
++	}
++
++	my %unique = ();
++	my @mailaddrs = &amp;read_logfile($MAILNAMES_FILE);
++	# ok, this is kinda hokey, but I need to break up lines with multiple addresses
++	my $fu = join(" ", @mailaddrs);
++	@mailaddrs = split " ", $fu;
++
++	my $to = "";
++	foreach my $category (@mailaddrs) {
++		next if ($unique{$category});
++		$unique{$category} = 1;
++
++		$to .= " " unless $to eq "";
++		$to .= $category;
++	}
+ 
+ 	my @email = ();
+ 
+-	my $to = $cfg::MAILADDRS;
+ 	print "Mailing the commit message to '$to'.\n";
+ 
+ 	push @email, "To: $to" if $cfg::ADD_TO_LINE;
+@@ -497,10 +498,14 @@
+ 	}
+ 
+ 	# Send the email.
+-	open MAIL, "| $cfg::MAILCMD $to"
+-	    or die "Please check $cfg::MAILCMD.";
+-	print MAIL map { "$_\n" } @email;
+-	close MAIL;
++	if(fork() == 0)
++	{
++		open MAIL, "| $cfg::MAILCMD -F $cfg::COMMITTER $to" <a name="co.cvsroot.logac.mailcmd"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
++	    		or die "Please check $cfg::MAILCMD.";
++		print MAIL map { "$_\n" } @email;
++		close MAIL;
++	}
++	exit(0);
+ }
+ 
+ 
+@@ -634,8 +639,9 @@
+ #
+ # Initialize basic variables
+ #
++my $separator=",,,"; <a name="co.cvsroot.logac.separator"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0">
+ my $input_params = $ARGV[0];
+-my ($directory, @filenames) = split " ", $input_params;
++my ($directory, @filenames) = split / ${separator}/, $input_params; <a name="co.cvsroot.logac.getfilename"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0">
+ #@files = split(' ', $input_params);
+ 
+ my @path = split('/', $directory);
+@@ -660,8 +666,9 @@
+ }
+ 
+ # Was used for To: lines, still used for commitlogs naming.
+-&amp;append_line($LOGNAMES_FILE, &amp;get_log_name("$directory/"));
+-&amp;append_line($SUBJ_FILE, "$directory " . join(" ", sort @filenames));
++&amp;append_line($LOGNAMES_FILE, &amp;cfg::get_log_name("$directory/")); <a name="co.cvsroot.logac.get.logname"></a><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0">
++&amp;append_line($MAILNAMES_FILE, &amp;cfg::get_mail_name("$directory/")); <a name="co.cvsroot.logac.get.mailname"></a><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0">
++&amp;append_line($SUBJ_FILE, "$directory/(" . join(",", sort @filenames) .") "); <a name="co.cvsroot.logac.get.subjname"></a><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0">
+ 
+ #
+ # Check for a new directory first.  This will always appear as a
+@@ -697,7 +704,7 @@
+ 
+ 	&amp;do_changes_file(@text);
+ 	&amp;mail_notification(@text);
+-	system("/usr/local/bin/awake", $directory);
++	# system("/usr/local/bin/awake", $directory);
+ 	&amp;cleanup_tmpfiles();
+ 	exit 0;
+ }
+@@ -742,7 +749,28 @@
+ 	}
+ 
+ 	# otherwise collect information about which files changed.
+-	my @files = split;
++	my @tmpfiles = split;
++	my $strname = "";
++	my @files;
++	while (my $item = shift(@tmpfiles))
++	{
++		if ($strname eq "") 
++		{
++			$strname = $item;
++		} 
++		else	
++		{
++			$strname .= " $item";
++		} 
++		for (my $i=0; $i&lt;=$#filenames; $i++)
++		{
++			if ($strname eq $filenames[$i])
++			{
++				push (@files, $strname);
++				$strname = "";
++			}
++		}
++	}
+ 	push @{ $changed_files{$tag} },	@files if $state == $STATE_CHANGED;
+ 	push @{ $added_files{$tag} },	@files if $state == $STATE_ADDED;
+ 	push @{ $removed_files{$tag} },	@files if $state == $STATE_REMOVED;
+@@ -896,7 +924,7 @@
+ 	&amp;mail_notification(@log_msg);
+ }
+ 
+-system("/usr/local/bin/awake", $directory);
++# system("/usr/local/bin/awake", $directory);
+ &amp;cleanup_tmpfiles();
+ exit 0;
+ # EOF
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.mailnames_file"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+存储邮件地址的临时文件；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.revline"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+避免当文件名中包含空格时，$rcsfile 获取失败；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.movetopm"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+该函数被移动到 cfg.pm 模块，成为模块的子过程；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.notdie"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+没有找到日志记录文件，发出警告，不中断；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.mailto"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+读取哈希表 @MAIL_MAP，获取改动代码需要发送到的邮件地址；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.mailcmd"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+发送邮件，设置发件人为 $cfg::COMMITTER；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.separator"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+字段分隔符，应和 loginfo 文件中指定的向匹配！
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.getfilename"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left"><p>
+使用自定义的字段分隔符，以避免由于文件名中出现空格导致文件名获取失败；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.get.logname"><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0"></a> </td>
+<td valign="top" align="left"><p>
+该函数已经移动到模块 cfg.pm；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.get.mailname"><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置收件人名单；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvsroot.logac.get.subjname"><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置邮件标题；
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+文件 <code class="filename"><a href="CVSROOT/taginfo" target="_top">CVSROOT/taginfo</a></code>
+</p>
+<p>
+在执行 tag/rtag 命令前执行该脚本，如果脚本返回非零值，tag/rtag 动作取消。
+相关脚本：<code class="filename"><a href="CVSROOT/tagcheck" target="_top">CVSROOT/tagcheck</a></code>。负责对添加/删除 TAG 事件进行控制——允许/禁止/发送邮件。
+</p>
+<p>
+由于 tag/rtag 事件不象 commit 事件，不是通过多个脚本的配合完成，而是只通过一个脚本 taginfo 完成。这就出现一个问题：如果为一个目录树打上TAG，则可能多次执行脚本，可能要多次触发邮件发送。我的解决办法是，根据TAG进程的 PID 确定在整个过程唯一的文件名，将日志记录到该文件中，taginfo 脚本本身无法知道是否结束，而是系统通过 crontab 定期执行脚本 <a href="CVSROOT/checkmailspool.sh" target="_top">CVSROOT/checkmailspool.sh</a>来检查是否有完成的 tag 邮件需要外发。
+</p>
+<pre class="screen">
+
+#!/usr/bin/perl -w
+#
+# Author: Jiang Xin
+# Reference: http://www.worldhello.net/
+#
+
+use strict;
+use lib $ENV{CVSROOT};
+use CVSROOT::cfg;
+
+
+#############################################################
+#
+# Main Body
+#
+# TAG  add/mov/del  repo  files...
+# $1   $2           $3    $4   ...
+#
+############################################################
+
+my $tag = shift;
+my $action = shift;
+my $repos = shift;
+my $fileitem = "";
+my $filerev= "";
+my $filelist = "";
+
+my $uid = $cfg::COMMITTER;
+my $userlist = "";
+my $pattern = "";
+my $permission = 1;
+my $to = "";
+
+my $tmpstr = &amp;cfg::get_mail_name($repos);
+$tmpstr =~ s/\@/\./g ;
+$tmpstr="nobody" unless $tmpstr;
+my $MAILFILE = "/var/spool/cvsmail/cvs.tag.$tmpstr.$cfg::PID"; <a name="co.cvs.tag.filename"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+
+die "Usage: tagcheck tag action repos files...\n" unless $repos;
+
+for my $i (0 .. ($#cfg::TAG_MAP - 1) / 2) { <a name="co.cvs.tag.priv"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+	$userlist = $cfg::TAG_MAP[$i * 2];
+	$pattern = $cfg::TAG_MAP[$i * 2 + 1];
+	
+	if ($tag =~ /$pattern/i)
+	{
+		if ($userlist =~ /\b$uid\b/i)
+		{
+			$permission=1;
+			last;
+		}
+		else
+		{
+			$permission=0;
+			last;
+		}
+	}
+}
+
+if ($permission == 0)
+{
+	# normal users can not do this.
+	print STDERR "User \"$cfg::COMMITTER\" canot perform this operation!\n";
+	print STDERR "Only users: $userlist, can handle tag patterm: \"$pattern\"!\n";
+}
+
+while ($fileitem = shift)
+{
+        $filerev = shift;
+        $filelist = sprintf("%s\t%-24s:\t%s\n", $filelist, $fileitem, $filerev);
+}
+
+print "save message in spool `dirname $MAILFILE`...\n";
+
+my @email = ();
+
+if (! -e $MAILFILE )
+{
+	$to = &amp;cfg::get_mail_name($repos); <a name="co.cvs.tag.mail"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+	push @email, "From: $uid&lt;$uid&gt;";
+	push @email, "To: $to";
+	$tmpstr = sprintf("Date: %s", `date -R`);
+	chomp $tmpstr;
+	push @email, $tmpstr;
+
+	if ($permission == 0)
+	{
+		push @email, "Subject: cvs tag FAILED! ($action $tag on $repos)";
+	}
+	else
+	{
+		push @email, "Subject: cvs tag success: $action $tag on $repos";
+	}
+
+	push @email, "";
+
+	delete $ENV{'TZ'};
+	$tmpstr = sprintf("%-11s:    %-8s", "Author", $cfg::COMMITTER);
+	push @email, $tmpstr;
+	$tmpstr = sprintf("%-11s:    %-8s", "Date", `/bin/date +"%Y/%m/%d %H:%M:%S %Z"`);
+	chomp $tmpstr;
+	push @email, $tmpstr;
+	$tmpstr = sprintf("%-11s:    %-8s", "Tag", $tag);
+	push @email, $tmpstr;
+	$tmpstr = sprintf("%-11s:    %-8s", "Operation", $action);
+	push @email, $tmpstr;
+
+	push @email, "";
+	push @email, "  $cfg::MAILBANNER", "" if $cfg::MAILBANNER;
+}
+
+if ($permission == 0)
+{
+	push @email, "Permission denied: $action $tag on $repos !";
+	push @email, "--------------------------------------------------";
+}
+else
+{
+	$tmpstr = sprintf("%-11s:    %-8s", "Repository", $repos);
+	push @email, $tmpstr;
+	push @email, $filelist if $filelist;
+}
+
+#save mail to spool
+open MAIL, "&gt;&gt; $MAILFILE "
+	or die "Cannot open file $MAILFILE for append.";
+print MAIL map { "$_\n" } @email;
+close MAIL;
+
+if ($permission == 0)
+{
+	exit 1
+}
+else
+{
+	exit 0
+}
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.tag.filename"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+确定进程唯一的文件名称；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.tag.priv"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+@cfg::TAG_MAP 数组定义了需要权限控制的 TAG 名称，以及授权人列表。受限的TAG名称对应于软件开发中的里程碑，要严格的权限控制。和该模式匹配的 tag，只能被授权人操作，其它名称的 TAG，所有用户都可以操作。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cvs.tag.mail"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+邮件地址亦从 MAIL_MAP 数组中获取；
+</p></td>
+</tr>
+</table></div>
+<p>
+文件 <code class="filename"><a href="CVSROOT/checkmailspool.sh" target="_top">CVSROOT/checkmailspool.sh</a></code>，加入到 crontab 中定期执行，检查 tagcheck 生成的邮件。
+</p>
+<pre class="screen">
+
+#!/bin/sh
+# checkmailspool.sh
+# Auther: Jiang Xin
+#
+# $CVSMAILPATH (cvs mail spool) is a spool directory created by user, 
+# and cvs tag message will store in it.
+# run this script timely to check cvsmail spool and send messages...
+# please put this script in crontab. 
+
+
+CVSMAILPATH=/var/spool/cvsmail
+if [ ! -d $CVSMAILPATH ]; then
+	mkdir -p $CVSMAILPATH
+	chmod 777 $CVSMAILPATH
+fi
+
+cd $CVSMAILPATH
+for i in `ls `; do
+	pid=`echo $i| sed -e "s/.*\.\([0-9]*\)$/\1/"`
+	
+	xxx=0
+	
+	while ps -p $pid&gt;/dev/null; do
+		xxx=`expr $xxx + 1`
+		if [ $xxx -gt 10 ]; then
+			break
+		fi
+		sleep 3
+		echo waiting $pid, $xxx times ...
+	done
+	echo -e "\n\n========================================" &gt;&gt; $i
+	echo -e "End\n" &gt;&gt; $i
+	cat $i | sendmail -oi -oem -odb -t
+	rm -f $i
+done
+
+</pre>
+</li>
+<li>
+<p><a name="rm-cvs-tmpfiles"></a>
+清除CVSROOT产生的临时文件
+</p>
+<p>
+以上 CVSROOT 脚步在执行过程中将会在临时目录中产生很多临时文件，如果不加以清理，不但会浪费磁盘空间，更有可能导致发送张冠李戴的错误邮件。在 crontab 中配置每隔一个小时执行一遍以下脚本：
+</p>
+<pre class="screen">
+
+#/bin/sh
+
+cd /tmp
+ls \#cvs.files.* | sed -e 's/\#cvs.files.\([0-9]*\)\..*$/\1/g' | sort -u | \
+while read xxx; do if ps --pid $xxx&gt;/dev/null 2&gt;&amp;1; then continue; fi ; \
+    rm -f /tmp/\#cvs.files.$xxx.* ; done
+
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="linux-acl"></a>2.1.5. 基于 Linux ACL 的权限控制</h4></div></div></div>
+<p>
+Linux ACL 的相关资源参见：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Linux ACL Homepage
+</p>
+<p>
+<a href="http://acl.bestbits.at/" target="_top">http://acl.bestbits.at/</a>
+</p>
+</li>
+<li>
+<p>
+Using ACLs with Fedora Core 2
+</p>
+<p>
+<a href="http://www.vanemery.com/Linux/ACL/linux-acl.html" target="_top">http://www.vanemery.com/Linux/ACL/linux-acl.html</a>
+</p>
+</li>
+<li>
+<p>
+还有我的一个 Wiki 页面 =)
+</p>
+<p>
+<a href="http://jiangxin.worldhello.net/wiki/L/Linux/ACL.htm" target="_top">http://jiangxin.worldhello.net/wiki/L/Linux/ACL.htm</a>
+</p>
+</li>
+</ul></div>
+<p>
+为什么要使用 ACL 呢？因为对于一个大的CVS项目，需要对各个模块进行精确的权限控制，如果只靠传统的Unix的目录权限控制 user,group,other 将会大大增进系统管理员的负担，项目的“超级用户”需要同时属于多个用户组，才可以访问所有的模块。
+</p>
+<p>
+突然有一天，发现权限设置不灵了，经过测试，原来 linux 2.4 内核一个用户最多属于 32 个用户组！看来是另辟蹊径的时候了。久闻 acl 的大名，对于2.4内核是以内核补丁方式存在，2.6内核已经集成进去了，这可真是一个好消息。(注意: 2.6.10 内核的ACL存在一个大BUG，已再 2.6.11-rc4 内核中修正。具体参见我的wiki =)
+</p>
+<p>
+虽然使用 acl，对于CVS来说，前面提到的CVS权限控制依然试用。即：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+项目相关的所有用户必须对CVS工程目录以及工程的CVSROOT目录具有 r-x 权限；</p></li>
+<li><p>
+所有用户对文件 CVSROOT/history, CVSROOT/val-tags, 和目录 CVSROOT/commitlogs/(如果安装了CVSROOT扩展)，必须拥有写权限；
+</p></li>
+<li><p>
+设置目录的 setgid 位，使用户创建目录的时候，新目录能够保持上一级目录的用户属主；
+</p></li>
+<li><p>
+CVSROOT 下的脚本，需要清除其 setuid, setgid 位，否则脚本执行时报错；
+</p></li>
+<li>
+<p>
+为工程添加权限时，不要修改 symbol link 文件权限，以免互相覆盖；
+</p>
+<p>
+例如: 多个项目共享同一个 passwd 文件。执行 setfacl 需要加上 -P 参数；
+</p>
+</li>
+</ul></div>
+<p>
+一个权限设置脚本模块：
+</p>
+<pre class="screen">
+
+#!/bin/sh
+# acl.sh version 0.9
+
+SETFACLCMD="setfacl -P"
+CVSHOMEDIR=/cvshome
+
+##############################################################################
+#Declare Function:
+
+####################################################################
+# /etc/group 记录:
+#    tst_root:x:682:u_tst_root
+#    tst_doc:x:705:u_tst_doc
+#    tst_src:x:683:u_tst_src
+#    tst_src_1:x:706:u_tst_src_1
+#    tst_src_2:x:707:u_tst_src_2
+####################################################################
+apply_acl_test()
+{
+	if [ $# -ne 1 ];then
+		echo format: `basename $0` project
+		exit 1
+	fi
+	
+	project=$1
+	if [ ! -d $project ]; then
+		echo "Can not find project: $project."
+	fi
+		
+
+	# tst_root 组可以访问所有模块，包括 CVSROOT 的写权限
+	$SETFACLCMD -d -R -m g:tst_root:rwx  $project
+	$SETFACLCMD    -R -m g:tst_root:rwx  $project
+	
+	# tst_src 组能够访问所有代码、文档
+	$SETFACLCMD -d -R -m g:tst_src:rwx   $project/src $project/doc
+	$SETFACLCMD    -R -m g:tst_src:rwx   $project/src $project/doc
+	
+	# 所有用户均能访问文档
+	$SETFACLCMD -d -R -m g:tst_src:rwx,g:tst_src_1:rwx,g:tst_src_2:rwx,g:tst_doc:rwx   $project/doc
+	$SETFACLCMD    -R -m g:tst_src:rwx,g:tst_src_1:rwx,g:tst_src_2:rwx,g:tst_doc:rwx   $project/doc
+	
+	
+	# 需要权限控制的小组，缺省访问权限
+	$SETFACLCMD -d -R -m g:tst_src_1:rwx,g:tst_src_2:rwx   $project/src
+	$SETFACLCMD    -R -m g:tst_src_1:rwx,g:tst_src_2:rwx   $project/src
+	
+	# 设置敏感模块的权限
+	$SETFACLCMD -d -R -x g:tst_src_1,g:tst_src_2      $project/src/mod1 $project/src/mod2
+	$SETFACLCMD    -R -x g:tst_src_1,g:tst_src_2      $project/src/mod1 $project/src/mod2
+	$SETFACLCMD -d -R -m g:tst_src_1:rwx  $project/src/mod1
+	$SETFACLCMD    -R -m g:tst_src_1:rwx  $project/src/mod1
+	$SETFACLCMD -d -R -m g:tst_src_2:rwx  $project/src/mod2
+	$SETFACLCMD    -R -m g:tst_src_2:rwx  $project/src/mod2
+
+	# 需要权限控制的小组，需要能够进入 tst/src 目录，但只有 root,src 组能够在 src 下创建目录。
+	# 如此设置，这些用户不能修改 $project/src 目录下面的文件
+	#$SETFACLCMD       -m g:tst_src_1:r-x,g:tst_src_2:r-x   $project/src
+
+	# 所有用户组都能够进入（只读访问） tst, tst/CVSROOT 目录，否则无法访问相应模块。但只有 root 组能够在 根 下创建目录和修改 CVSROOT。
+	$SETFACLCMD       -m g:tst_src:r-x,g:tst_src_1:r-x,g:tst_src_2:r-x,g:tst_doc:r-x   $project
+	$SETFACLCMD    -R -m g:tst_src:r-x,g:tst_src_1:r-x,g:tst_src_2:r-x,g:tst_doc:r-x   $project/CVSROOT
+}
+
+
+apply_acl_other_project()
+{
+	# ... ...
+}
+
+#End Declare Function:
+##############################################################################
+
+##############################################################################
+# MAIN Function Here
+##############################################################################
+
+if [ $# -eq 0 ];then
+	echo format: `basename $0` project ...
+	exit 1
+fi
+
+cd ${CVSHOMEDIR}
+
+while [ $# -gt 0 ]; do
+	project=$1
+	if [ ! -d $project ]; then
+		echo "Can not find project: $project."
+		shift
+		continue
+	fi
+
+	##############################################################################
+	# PRE, 预设置
+	##############################################################################
+
+	echo -n "Begin PRE ACL Setup for project: $project ..."
+
+	# 设置 ${CVSHOMEDIR}/$project 下文件权限：rwx------, mask 为 rwx；
+	# 添加 cvs 超级用户 cvsroot,cvsroot_ro 权限；
+	$SETFACLCMD -R -m m::rwx,u::rwx,g::---,o::---,d:m::rwx,d:u::rwx,d:g::---,d:o::---,g:cvsroot:rwx,d:g:cvsroot:rwx,g:cvsroot_ro:r-x,d:g:cvsroot_ro:r-x    ${CVSHOMEDIR}/$project
+	
+	# 目录属主被子目录集成
+	chmod -R g+s           ${CVSHOMEDIR}/$project
+	
+	# 设置 ${CVSHOMEDIR} 的属主，设置为 nobody.cvsnull，注意最好任何用户不属于 cvsnull；
+	chown -R nobody.cvsnull ${CVSHOMEDIR}/$project
+
+	echo "	done"
+	
+	##############################################################################
+	# 开始项目的权限设置
+	##############################################################################
+
+	echo -n "Begin ACL Setup for project: $project ..."
+
+	case "$project" in
+		test*)
+			apply_acl_test  $project
+			;;
+		*)
+			echo "Unknown project name: $project"
+			exit 1
+			;;
+	esac
+	
+	echo "	done"
+	
+	##############################################################################
+	# POST, 后设置
+	##############################################################################
+
+	echo -n "Begin POST ACL Setup for project: $project ..."
+
+	# 将 CVSROOT 目录中的需要完全读写的文件，清除 ACL， 并清除组的粘贴位，
+	### 还要注意 symbol link 文件的权限也需要恢复，如文件 passwd, blocksender...
+	
+	# 因为 CVSROOT 下脚本需要执行，必须去除其 setgid 位
+	chmod -R g-s "$project/CVSROOT"
+
+	# 由于去除了用户属主的保持位, 当用户checkin CVSROOT时?其它用户可能访问不到，因此需要设置组能够访问
+	# 不能使用 chmod g+rx , 因为对于设置了 ACL， chmod 是修改其 mask
+	$SETFACLCMD -R -m m::rwx,u::rwx,g::rwx,o::r-x,d:m::rwx,d:u::rwx,d:g::rwx,d:o::r-x    $project/CVSROOT
+	
+	# val-tags, history 文件需要所有人的读写权限
+	$SETFACLCMD -b "$project/CVSROOT/val-tags" "$project/CVSROOT/history"
+	chmod 777 "$project/CVSROOT/val-tags" "$project/CVSROOT/history"
+
+	# commitlogs/ 目录要可写
+	$SETFACLCMD -b -R "$project/CVSROOT/commitlogs/"
+	chmod -R 777  "$project/CVSROOT/commitlogs/"
+
+	echo "	done"
+	
+	shift
+
+done
+
+#	$SETFACLCMD -b "/etc/passwd.cvs" "/etc/blocksender"
+#	chmod 444 "/etc/passwd.cvs" "/etc/blocksender"
+
+echo ""
+echo "Make sure every one has access right"
+ls -ld ${CVSHOMEDIR}
+ls -l "/etc/passwd.cvs" "/etc/blocksender"
+
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4737856"></a>2.2. Starteam服务器权限设置</h3></div></div></div>
+<p>
+每一个服务器配置一个独立的用户数据库设置。用户的权限设置灵活，和本机帐号设置无关（不用设置本地帐号），且和本地路径无关。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="usermgr"></a>2.2.1. 用户管理</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+如果使能了Lockout功能，则需要建立两个系统管理员帐号，以防止一个被锁定（如多次错误登录被无限期死锁），能用另外一个解锁。
+</p></li>
+<li>
+<p>
+建组原则（假设组名为 team1）
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+建立用户组和子组
+</p>
+<p>
+假设组名为 team1，首先建立一个大组 ga_team1 组；再在 team1 组下再建立三个child group: g_team1_admin 组，g_team1_users 组和 g_team1_rdonly 组（即只读组）。
+</p>
+</li>
+<li>
+<p>
+建组的考虑
+</p>
+<p>
+将权限分配到组，是管理权限的基本原则。因为 starteam 在赋予权限时，是将用户名和组名混在一起，因此为组名加上前缀 “g_” 或者 “ga_”。区分 g_ 和 ga_ 是因为要防止误将权限设置到更大的 ga_ 组中（如后所述）。
+</p>
+<p>
+组管理员属于 g_team1_admin 组，拥有管理 LABEL 权限，创建新视图，以及管理代码权限分配权限；starteam管理员部分授权，目的是减少starteam管理员的管理负担。提高效率。
+</p>
+<p>
+小组的其它用户属于 g_team1_users 组，除了不具有 g_team1_admin 组的管理权限外，其它权限同 g_team1_admin。
+</p>
+<p>
+对于其它有研读代码或者掌握进度需求的用户，如 QA、部门领导等属于 g_team1_rdonly 组，除了具有只读方式看代码权限外，其它同 all users。
+</p>
+<p>
+建立项目组 ga_project_manager，是独立于项目组（也可以考虑为每个项目组单独设置），进行项目管理。为管理需求变更，在其下建立 g_pm_req；为管理TODO LIST，建立 g_pm_todo组。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+分配权限时，要注意不要把权限赋予大组（如 ga_team1 组）。因为 team1 组包括了 g_team1_rdonly 组（只读用户组）！
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+关于组本身的权限
+</p>
+<p>
+除 Administrators 组外，任何组不要设置组的权限，以免组的权限设置超越了项目的安全设置，使对项目的安全设置形同虚设。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+关于发布机使用独立用户
+<a name="user-releng"></a>
+</p>
+<p>
+在UNIX命令行上进行代码的check in/check out，需要建立独立用户，如：team1_release。以免由于使用同一个用户名在不同工作站check代码，造成文件状态UNKNOWS的情况。参见Starteam Howto中关于文件状态unknown的FAQ。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="server"></a>2.2.2. 服务器配置的安全设置</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>Starteam VTS 的启动方式设置为NT服务方式
+</p>
+<p>
+保证服务器重启后，Starteam自动启动。
+</p>
+</li>
+<li>
+<p>
+Starteam 服务器端配置
+</p>
+<a name="server-vts-config"></a><div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+General
+</p>
+<p>
+设置登录超时60秒，未动作超时300分钟。
+</p>
+</li>
+<li>
+<p>
+Audits
+</p>
+<p>
+设置只保留10天安全日志。
+</p>
+</li>
+<li>
+<p>
+Vault
+</p>
+<p>
+设置不清除文件状态表；
+</p>
+<p>
+设置最大CACHE为400MB。
+</p>
+<p>
+设置Cache的文件夹在Valut文件夹之外，以使在备份时，对cache区别对待
+（不备份Cache）。
+</p>
+</li>
+<li>
+<p>
+Notifications
+</p>
+<p>
+使能Email通知。
+</p>
+</li>
+<li>
+<p>
+Protocal
+</p>
+<p>
+只保留一种协议支持：TCP/IP(SOCKETS)，因为别的协议支持有问题；
+</p>
+<p>
+TCP/IP加密级别：不作设置，但是管理员要通知用户，如果客户端支持传输加密，请至少选择RSA R4 stream加密。windows客户端都支持，但是unix命令行不支持。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>访问权限（Access Rights）
+</p>
+<p>管理员完全权限，不赋予其它用户任何权限。
+</p>
+</li>
+<li>
+<p>系统策略（System Policy）
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>Access Rights
+</p>
+<p>使能 Ignore object ownership, 即忽略OwnerShip，一切均按照权限设置。
+</p>
+<p>不选择 Ignore group privileges, 即在保证只有 Administrators 组设置了组权限情况下，允许Administrators组用户超越项目的权限限制实施管理。
+</p>
+</li>
+<li>
+<p>Security Events
+</p>
+<p>设置只保留30天的安全日值。
+</p>
+</li>
+<li>
+<p>Passwords
+</p>
+<p>设置密钥最小长度6个字符。
+</p>
+</li>
+<li><p>在用户管理（User manager）界面，设置所有用户第一次登录必须修改口令，并且不允许设置空口令。
+</p></li>
+<li>
+<p>Logon Failures
+</p>
+<p>设置5次失败登录锁定帐号，帐号锁定5分钟。
+</p>
+</li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="project-right"></a>2.2.3. 工程的权限设置</h4></div></div></div>
+<p>先打开要配置的工程，Project-&gt;Access Rights，来设置工程权限。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>Project
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+All Users
+</p>
+<p>
+设置所有用户（All Users）具有如下权限:
+</p>
+<p>
+See Project and Properties
+</p>
+</li>
+<li>
+<p>
+g_xxx_admin
+</p>
+<p>
+设置组管理员（如：g_team1_admin 组）具有如下权限：
+</p>
+<p>
+赋予除了 Delete project 外所有权限。以便于管理员修改自身权限，给自己加上删除label权限等，但要注意缺省没有赋予管理员的权限，当管理员完成相应管理功能后，恢复原状。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>不能赋给任何人删除工程权限！因为工程删除不可逆。
+</p></td></tr>
+</table></div>
+</li>
+</ul></div>
+</li>
+<li>
+<p>Views
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+All Users
+</p>
+<p>
+设置所有用户（All Users）具有如下权限：
+</p>
+<p>
+See View and its Properties
+</p>
+</li>
+<li>
+<p>
+g_xxx_admin
+</p>
+<p>
+设置组管理员（如：g_team1_admin 组）具有如下权限：
+</p>
+<p>
+赋予除了 Delete View, Delete Labels 外所有权限。
+</p>
+</li>
+</ul></div>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+Delete View, Delete Labels 不可逆，因此不赋予任何人此权限。但为了减轻管理员负担，赋予了 g_team1_admin 组 change view security setting 权限，g_team1_admin可以修改自己权限，使具有删除 label, 甚至是删除 view 权限，但要注意完成维护功能后，立即去掉该两项权限！
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>Child Folders
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+g_team1_rdonly 组
+</p>
+<p>
+设置只读组（如：g_team1_rdonly 组）具有如下权限：
+</p>
+<p>
+具有：See folder and its properties, See folder history, See folder links
+权限。
+</p>
+</li>
+<li>
+<p>
+g_team1_users 组
+</p>
+<p>
+设置普通用户组（g_team1_users 组）具有如下权限：
+</p>
+<p>
+除 Modify folder properties, Delete folder from parent folder, 
+Change folder security set 外所有权限。
+</p>
+</li>
+<li>
+<p>
+g_team1_admin组
+</p>
+<p>
+设置组管理员（如：g_team1_admin 组）具有如下权限：
+</p>
+<p>
+除了 Delete folder from parent folder 外所有权限。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>Files
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+g_team1_rdonly 组
+</p>
+<p>
+设置只读组（如：g_team1_rdonly 组）具有如下权限：
+</p>
+<p>
+具有：See file and its properties, See file history, See file links,
+Check out files 权限。
+</p>
+</li>
+<li>
+<p>
+g_team1_users 组
+</p>
+<p>
+设置普通用户组（g_team1_users 组）具有如下权限：
+</p>
+<p>
+除 Change file security set 外所有权限。
+</p>
+</li>
+<li>
+<p>
+g_team1_admin 组
+</p>
+<p>
+设置组管理员（如：g_team1_admin 组）具有如下权限：
+</p>
+<p>
+所有权限。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+Move folder out of a view or project 权限也是危险操作，文件移出视图，也从历史视图中去掉，可能会破坏完整性。但将文件或目录移动到另外一个视图，是从服务器端删除文件的唯一办法。因此慎用。
+</p></td></tr>
+</table></div>
+</li>
+</ul></div>
+</li>
+<li>
+<p>Change Request
+</p>
+<div class="itemizedlist"><ul type="disc"><li>
+<p>
+All Users
+</p>
+<p>
+添加所有用户（All Users），将权限设置为空。即默认禁止一切的策略。
+</p>
+</li></ul></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+工程的权限设置中的ChildFolders, Files, Change request 等的权限设置，用来确定工程的默认设置。即为没有对各项进行单独权限设置时的默认安全设置。 
+</p>
+<p>
+将 Change Request 定义为默认禁止一切，目的是只在指定目录添加 Change Request.
+</p>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p><a name="priv-proj-topic"></a>Topics
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+All Users
+</p>
+<p>
+设置所有用户（All Users）具有如下权限：
+</p>
+<p>
+设置除了 “Change topic security set”，“Delete Topic from folder”外所有权限。提供用户通过 TOPIC 进行讨论以及保存备忘。
+</p>
+</li>
+<li><p>设置组管理员（如：g_team1_admin 组）具有所有权限。
+</p></li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="view-right"></a>2.2.4. 视图的权限设置</h4></div></div></div>
+<p>
+先打开要配置的视图，View-&gt;Access Rights，来设置视图权限。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+根视图
+</p>
+<p>
+可以不设置权限，继承整个工程中的Project AccessRight的 Views 的各项权限设置。
+</p>
+</li>
+<li>
+<p>
+分支视图
+</p>
+<p>
+按需设置。可以使老版本的维护由其他人完成，或者进行 xp 模式开发，为开发者（非管理员）设置更大的权限。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="folder-right"></a>2.2.5. 文件夹的权限设置</h4></div></div></div>
+<p>
+选择视图下相应文件夹，鼠标右键单击，选择 Advanced-&gt;Access Rights，设置权限。
+</p>
+<p>
+需要先设置“根目录”权限。再单独设置各一级子目录（defect, src, doc等）的权限。如果需要还可以对二级目录等（模块）设置权限，但不建议设置二级目录的权限。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+根目录
+</p>
+<p>
+根目录和子目录在权限设置上的异同
+</p>
+<div class="orderedlist"><ol type="a">
+<li><p>
+根目录的权限不传递，即在根目录上设置的权限对派生的子视图没有影响；而非根目录会传递权限，所以尽量不要在子目录（非根目录）上设置权限，以免连带影响其它视图中该目录的权限，造成混乱。
+</p></li>
+<li><p>
+根目录继承视图或者工程的 Child Folder 权限；子目录先继承根目录权限，
+再继承视图，工程权限。
+</p></li>
+<li><p>
+因此，不要设置根目录的权限页的 Child Folder 页，这样没有设置权限的子目录便可以继承视图的 Child Folder页的权限。但是可能需要设置根目录权限页的 This Folder 页，因为 This Folder的权限默认取自视图或者工程的 Child Folder 设置。如果有子目录的权限大于视图或者工程的 Child Folder的设置，就需要设置This Folder 设置。但是副作用是，子目录的权限并没有完全继承视图或者工程的更严格的设置，而是采用了根目录的 This Folder 设置和 视图的Subfolder设置的组合（因为根目录没有设置Subfolder权限）。这样有可能使所有能够访问根目录的用户访问整个目录树！！！好像没有更好的解决方案。
+</p></li>
+</ol></div>
+<p>
+根目录上的权限设置：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+This Folder
+</p>
+<p>
+All Users：所有用户（All Users）具有 See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+g_team1_admin： 组管理员（g_team1_admin）具有：除了Delete folder from parent folder 外所有权限。
+</p>
+</li>
+<li>
+<p>Child Folders，Files, Change Requests, Tasks, Topics
+</p>
+<p>
+不作设置，以继承视图或者工程的权限设置。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Defect目录
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+This Folder
+</p>
+<p>
+All Users ： 所有用户（All Users）具有—— See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+g_qa_admin：QA组管理员（g_qa_admin）具有——除了Delete folder from parent folder 外所有权限。
+</p>
+<p>
+g_team1_admin：team1组管理员（g_team1_admin）具有——除了Delete folder from parent folder 外所有权限。
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+设置服务QA管理员和team1目录管理权限，允许QA管理员建立子目录，用于对CR分类。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>Child Folders
+</p>
+<p>
+All Users：所有用户（All Users）具有——See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+g_qa_admin：QA组管理员（g_qa_admin）具有——除了Delete folder from parent folder 外所有权限。
+</p>
+<p>
+g_team1_admin：team1组管理员（g_team1_admin）具有——除了Delete folder from parent folder 外所有权限。
+</p>
+</li>
+<li>
+<p>Change Requests
+</p>
+<p>All Users：所有用户（All Users）具有——除了Change CR Security set , Delete CR from folder外所有权限。
+</p>
+<p>
+g_qa_admin：QA组管理员（g_qa_admin）具有——除了Delete CR from folder 外所有权限。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+为了减轻管理员负担，赋予了 g_qa_admin 组 change CR security setting 权限，g_qa_admin可以修改change request的权限，使之可以被删除，再删除该 cr。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>Files, Tasks, Topics
+</p>
+<p>不另外设置权限，继承视图或者工程的权限。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+src 目录
+</p>
+<p>
+src 目录是用来存放源代码的目录，应着重注意本目录权限设置。
+</p>
+<p>
+可以不作任何单独设置，因为继承了视图或者工程的权限设置。如果工程或者视图关于文件的权限设置足够安全的话，可以不必设置本目录权限。
+</p>
+</li>
+<li>
+<p>
+ProjectManagement 目录
+</p>
+<p>
+ProjectManagement 目录，用于以文件和 TOPIC形式存储 TODO_LIST, 编程规范，需求变更。
+</p>
+<div class="orderedlist"><ol type="a">
+<li>
+<p>
+ProjectManagement 目录
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+This Folder
+</p>
+<p>
+All Users ：所有用户具有—— See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+ga_project_manager 组 ：具有——除 Modify folder properties, Delete folder from parent folder, Change folder security set 外所有权限。
+</p>
+<p>
+g_team1_admin组 ：具有——除 Delete folder from parent folder 外所有权限。
+</p>
+</li>
+<li>
+<p>Child Folders
+</p>
+<p>
+All Users ：所有用户具有—— See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+ga_project_manager 组 ：具有——除 Modify folder properties, Delete folder from parent folder, Change folder security set 外所有权限。
+</p>
+<p>
+g_team1_admin组 ：具有——除 Delete folder from parent folder 外所有权限。
+</p>
+</li>
+<li>
+<p>Files
+</p>
+<p>
+All Users：具有——See file and its properties, See file history, See file links, Check out files 权限。
+</p>
+<p>
+ga_project_manager：普通用户组具有——除了 Change file security set, Delete file from folder 外的所有权限。
+</p>
+<p>
+g_team1_admin：组管理员具有——除了 Delete file from folder 外的所有权限。
+</p>
+</li>
+<li>
+<p>
+Topic
+</p>
+<p>
+All Users：具有——除了 Change top security set, Delete topic from forder 外所有权限。
+</p>
+<p>
+g_team1_admin：具有——除了 Delete topic from forder 外所有权限。
+</p>
+</li>
+<li>
+<p>Change
+</p>
+<p>暂不设置，采用工程缺省禁用配置。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+TODO LIST子目录
+</p>
+<p>
+所有用户具有只读文件，读写TOPIC权限；g_pm_todo 组 和 g_team1_admin组具有读写文件，读写topic，和整理目录权限。
+</p>
+</li>
+<li>
+<p>
+编程规范
+</p>
+<p>
+所有用户都有整理目录，读写topic权限；g_team1_admin 多了一项管理文件的权限。
+</p>
+</li>
+<li>
+<p>
+需求变更
+</p>
+<p>
+所有用户具有只读文件，只读TOPIC权限；g_pm_req 组 和 g_team1_admin 组具有读写文件，读写topic，和整理目录权限。
+</p>
+</li>
+</ol></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="maintenance"></a>2.2.6. Starteam服务器优化</h4></div></div></div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4864464"></a>2.2.6.1. 提高数据库性能</h5></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>数据库可以有多种选择，但是ACCESS基本可以满足需求，虽然有1.2G文件大小限制，但一般应用不会超过。数据库的选择不是性能瓶颈。
+</p></li>
+<li><p>安装和使用 Copy Indexes Tools in "StarTeam VirtualTeam Server 4.0\Tuning Scripts\MS Access\Package"。
+</p></li>
+<li><p>压缩数据库；（ODBCàsystem dsn）
+</p></li>
+<li><p>增加数据库的Max Buffer size从2048至8192，Threads 从3至 24。
+</p></li>
+<li><p>关于其他数据库，参见
+<a href="http://devforum.starbase.com/starbase/Main.asp" target="_top">
+http://devforum.starbase.com/starbase/Main.asp</a>
+</p></li>
+</ul></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4870320"></a>2.2.6.2. 提高Starteam服务器性能</h5></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>增加Cache目录文件大小至400M；
+</p></li>
+<li><p>将文件状态表导出时间从180天减少到30天；
+</p></li>
+<li><p>将审计导出时间从不导出更改为30天导出；
+</p></li>
+<li><p>在客户端设置Allow  check out of deltas
+"Tools | Workstation | Files "Optimize for slow connection.""
+</p></li>
+<li><p>参见<a href="http://devforum.starbase.com/starbase/Articles/Default.asp?id=206" target="_top">
+http://devforum.starbase.com/starbase/Articles/Default.asp?id=206
+</a>
+</p></li>
+</ul></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4876192"></a>2.2.6.3. 备份</h5></div></div></div>
+<p>备份涉及到： 
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>The Configuration and cipher files
+</p>
+<p>Configuration\server.scg
+</p>
+<p>Configuration\server.cph 
+</p>
+</li>
+<li>
+<p>Database files
+</p>
+<p>Database\StarTeamDB.mdb (Assuming Access database)
+</p>
+</li>
+<li>
+<p>Vault: 
+</p>
+<p>Archive dir: *.*
+</p>
+<p>Attachments dir: *.* 
+</p>
+</li>
+<li>
+<p>Optional
+</p>
+<p>Cache dir: *.* 
+</p>
+</li>
+</ul></div>
+<p>
+参见http://devforum.starbase.com/starbase/Articles/Default.asp?id=133
+</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="vs-svrstore"></a>3. CVS vs. STARTEAM——服务器端存储</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4884800"></a>3.1. CVS 服务器端存储</h3></div></div></div>
+<pre class="screen">
+$ pwd
+/repos/local
+
+$ ls -l
+total 0
+drwxr-xr-x    3 Administ None            0 Dec 14 20:59 CVSROOT
+drwxr-xr-x   12 Administ None            0 Dec 29 21:47 worldhello
+
+$ ls CVSROOT   
+Emptydir        commitinfo,v    cvswrappers,v   loginfo         notify          rcsinfo,v       val-tags
+checkoutlist    config          editinfo        loginfo,v       notify,v        readers         verifymsg
+checkoutlist,v  config,v        editinfo,v      modules         passwd          taginfo         verifymsg,v
+commitinfo      cvswrappers     history         modules,v       rcsinfo         taginfo,v
+
+$ cd worldhello
+
+$ ls -F
+bio/     docbook/   html/    inc/          life/   resource/  utility/
+daily,v  favorite/  images/  index.html,v  make,v  sports/
+
+$ head index.html,v
+head     1.1;
+branch   1.1.1;
+access   ;
+symbols  start:1.1.1.1 jiangxin:1.1.1;
+locks    ; strict;
+comment  @# @;
+
+
+1.1
+date     2002.12.29.13.47.00;  author jiangxin;  state Exp;
+</pre>
+<p>
+可以看出CVS的服务器端存储和客户端的是一一对应的，树形的文件系统。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4887600"></a>3.2. Starteam 服务器端存储</h3></div></div></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+以下的示意，是在 Win2k 平台，在 cygwin 命令行下输出
+</p></td></tr>
+</table></div>
+<p>
+Starteam 的数据库
+</p>
+<pre class="screen">
+$ pwd
+/d/.repos/STARTEAM/johnson/Database
+
+$ ls -l
+-rw-r--r--    1 Administ None      2101248 Sep  5 20:22 StarTeamDB.mdb
+</pre>
+<p>
+版本控制文件 
+</p>
+<pre class="screen">
+$ pwd
+/d/.repos/STARTEAM/johnson/Vault/Archive
+
+$ ls -F
+00000000  00000006  0000000C  00000012  00000018  0000001E  00000024  0000002A
+00000001  00000007  0000000D  00000013  00000019  0000001F  00000025  0000002B
+00000002  00000008  0000000E  00000014  0000001A  00000020  00000026
+00000003  00000009  0000000F  00000015  0000001B  00000021  00000027
+00000004  0000000A  00000010  00000016  0000001C  00000022  00000028
+00000005  0000000B  00000011  00000017  0000001D  00000023  00000029
+</pre>
+<p>
+缓存
+</p>
+<pre class="screen">
+$ pwd
+/d/.repos/STARTEAM/CACHE/johnson
+
+$ ls -F
+00000000.1  00000001.3  00000007.1  00000011.1  0000001B.1  00000025.1
+00000000.2  00000001.4  00000008.1  00000012.1  0000001C.1  00000026.1
+00000000.3  00000001.5  00000009.1  00000013.1  0000001D.1  00000027.1
+00000000.4  00000001.6  0000000A.1  00000014.1  0000001E.1  00000028.1
+00000000.5  00000002.1  0000000B.1  00000015.1  0000001F.1  00000029.1
+00000000.6  00000002.2  0000000C.1  00000016.1  00000020.1  0000002A.1
+00000000.7  00000003.1  0000000D.1  00000017.1  00000021.1  0000002B.1
+00000000.8  00000004.1  0000000E.1  00000018.1  00000022.1
+00000001.1  00000005.1  0000000F.1  00000019.1  00000023.1
+00000001.2  00000006.1  00000010.1  0000001A.1  00000024.1
+</pre>
+<p>
+可以看出Starteam的服务器端存储和客户端完全不同，服务器端文件存储结构是平面结构。文件名和实际物理存储的对应是通过数据库来实现的。
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="vs-client"></a>4. CVS vs. STARTEAM——客户端设置</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4894528"></a>4.1. CVS 客户端设置</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+设置 CVSROOT 环境变量 或者命令行中指定
+</p>
+<pre class="screen">
+# 如： 
+export CVSROOT=:pserver:jiangxin@10.0.0.152:/home/repos-user
+# 或者： 
+cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user  login
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+以下的 cvs 命令行示意，都假定已经设置了环境变量 CVSROOT。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+登录，将密码记录在本地
+</p>
+<pre class="screen">
+cvs login
+# 则口令自动保存在 $HOME/.cvspass 中
+# cat $HOME/.cvspass
+:pserver:releng@10.0.0.61:/lt/repos xxxx
+:pserver:yzw@10.0.0.61:/lt/repos xxxxx
+:pserver:yzw@10.0.0.152:/home/repos-user xxx
+:pserver:jiangxin@10.0.0.61:/repos/home xxxxxx
+:pserver:jiangxin@10.0.0.152:/home/repos-user xxxxx
+:pserver:anonymous@10.0.0.152:/home/repos-user xxxxx
+:pserver:anoncvs@anoncvs1.ca.openbsd.org:/cvs xxxxxx
+:pserver:anoncvs@anoncvs.FreeBSD.org:/home/ncvs xxxxxxxxx
+</pre>
+</li>
+<li>
+<p>
+查看 CVS 中现有的模块
+</p>
+<p>
+cvs co -c
+</p>
+<pre class="screen">
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -c
+CVSROOT      CVSROOT
+all-in-one   pub/docbook
+johnson      -a jiangxin
+wuzj         wuzj &amp;docbook/ltfw_changes
+</pre>
+</li>
+<li>
+<p>
+将模块 Checkout 到本地
+</p>
+<pre class="screen">
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d johnson_homepage jiangxin
+</pre>
+<p>
+将:pserver:jiangxin@10.0.0.152:/home/repos-user中的模块 jiangxin  CHECKOUT 到本地 johnson_homepage 目录。
+</p>
+</li>
+<li>
+<p>
+本地配置文件
+</p>
+<p>
+CVS 通过在本地源码目录同时保存配置信息（CVS目录）来记录源文件的版本等
+</p>
+<pre class="screen">
+# pwd
+/home/jiangxin/work/johnson_homepage
+
+# ls -l CVS
+total 14
+-rw-r--r--  1 root  jiangxin  4786 Sep  5 10:32 Entries
+-rw-r--r--  1 root  jiangxin     9 Jul 23 10:01 Repository
+-rw-r--r--  1 root  jiangxin    43 Jul 23 10:01 Root
+
+# cat CVS/Repository 
+jiangxin
+
+# cat CVS/Root      
+:pserver:jiangxin@10.0.0.152:/home/repos-user
+
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4907024"></a>4.2. Starteam 客户端设置</h3></div></div></div>
+<p>
+下面以我们自己，(最早由杨致伟封装，后经 Johnson 改写)，封装的 Starteam 命令行 Wrapper 为例作以介绍：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+用 st config 进行配置
+</p>
+<pre class="screen">
+# cd /home/jiangxin/work/src/project
+# mkdir branch1
+# cd branch1
+# pwd
+/home/jiangxin/work/src/project/branch1
+
+# st config
+StarTeam Configuration
+
+
+Original starteam server is 10.0.0.60
+new server:[10.0.0.60]
+Original starteam server port is 49201
+new server port:[49201]
+original username is 
+new username:[]jiangxin
+Password:[********]
+Confirm :[********]
+Original checkout project is project
+Project you want to checkout:[project]
+Original checkout view is  ("/" means root view)
+View you want to checkout:[]branch_2_4
+Original checkout folder is  ("/" means root folder)
+Folder you want to checkout:[]Development
+Working dir is /usr/home/jiangxin/work/src/project/branch1
+Your working directory:[/usr/home/jiangxin/work/src/project/branch1]
+Sticky tag base on date :  ("/" means not exist)
+Date:[]
+Sticky tag base on label :  ("/" means not exist)
+Label:[]
+Sticky tag base on promotion-state :  ("/" means not exist)
+Promotion-state:[]
+
+# cat .starteam.ini 
+# StarTeam Configuration: /usr/home/jiangxin/work/src/project/branch1/.starteam.ini
+# /usr/home/jiangxin/work/src/project/branch1/.starteam.ini
+STUSER="jiangxin"
+STSERVER="10.0.0.60"
+STPORT="49201"
+STPROJECT="project"
+STVIEW="branch_2_4"
+STFOLDER="Development"
+STCFGD=""
+STCFGL=""
+STCFGP=""
+STWORKROOT="/usr/home/jiangxin/work/src/project/branch1"
+
+</pre>
+</li>
+<li>
+<p>
+用户登录口令保存在用户主目录下
+</p>
+<p>
+用 st config 配置完成，或者用命令 st login 登录后，用户口令自动保存在 $HOME/.stpass 中
+</p>
+<pre class="screen">
+# cat $HOME/.stpass
+releng:10.1.1.60:49201:xxxxxxxxxxxxxxxx
+jiangxin:10.1.1.60:49201:xxxxxxx
+jiangxin:10.0.0.6:49201:xxxxxxxx
+</pre>
+</li>
+<li>
+<p>
+将代码 Checkout 到本地
+</p>
+<pre class="screen">
+# pwd
+/home/jiangxin/work/src/project/branch1
+
+# st co
+Folder: Development  (working dir: /usr/home/jiangxin/work/src/project/branch1)
+Makefile: checked out
+.......
+</pre>
+<p>
+将配置文件 .starteam.ini 文件指定的视图下的文件，Checkout 到本地
+</p>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+如果不想将全部模块 Checkout 到本地，可先运行命令 st cd ，将整个目录结构 Checkout 到
+本地，然后再运行 st co directory，只 checkout 该目录。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+本地配置文件
+</p>
+<p>
+STARTEAM 不是像 CVS 那样，在本地源码目录同时保存配置信息（CVS目录）来记录源文件的版本等，
+而是直接保存在服务器的数据库中。而该数据库通过主机ID，来区分不同/相同用户在同一/不同主机
+中 CHECKOUT 文件的路径等信息。
+</p>
+<p>
+命令行用 $HOME/.starteam 保存主机ID等配置信息。图形界面类似。
+</p>
+<p>
+starteam cli wrapper 另外需要配置文件： .starteam.ini，因为命令行没有提供简单的读取服务器端
+数据库的方法。
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="vs-cmd"></a>5. CVS vs. STARTEAM——常用版本控制操作</h2></div></div></div>
+<div class="table">
+<a name="idp4919744"></a><p class="title"><b>表 1. CVS, Starteam 常用命令比较</b></p>
+<div class="table-contents"><table summary="CVS, Starteam 常用命令比较" border="1">
+<colgroup>
+<col align="left">
+<col align="left">
+<col align="left">
+</colgroup>
+<thead><tr>
+<th align="left">CVS 命令</th>
+<th align="left">Starteam 命令</th>
+<th align="left">说明</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">
+  cvs co -D "2002-09-2 20:05" ltfilter
+  </td>
+<td align="left">
+  st co --cfgd "12/29/97 10:52 AM" *
+  </td>
+<td align="left">
+  Checkout 某一时刻前的代码
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs up -l
+  </td>
+<td align="left">
+  st up -l
+  </td>
+<td align="left">
+  只更本目录下文件，不更新子目录
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs up -A
+  </td>
+<td align="left">
+  st up -A
+  </td>
+<td align="left">
+  更新为最新的代码，对于cvs, 如果是分支视图，要用" -r &lt;分支TAG&gt; "
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs up -r &lt;tag_name&gt;
+  </td>
+<td align="left">
+  st up -r &lt;label_name&gt;
+  </td>
+<td align="left">
+  Checkout 某一 tag/label 的代码
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs ci -m "commit log..."   &lt;filename&gt;
+  </td>
+<td align="left">
+  st ci -m "commit log..."  &lt;filename&gt;
+  </td>
+<td align="left">
+  Checkin 文件
+  </td>
+</tr>
+<tr>
+<td align="left">
+  
+  </td>
+<td align="left">
+  st ci -m "commit log..." --filter m
+  </td>
+<td align="left">
+  Checkin 状态为 Modified 的文件
+  </td>
+</tr>
+<tr>
+<td align="left">
+  <p>
+  cvs add -kb &lt;binaryfile&gt;
+  </p>
+  <p>
+  cvs commit -m "file add log... ..."
+  </p>
+  </td>
+<td align="left">
+  st add &lt;binaryfile&gt;
+  </td>
+<td align="left">
+  添加新文件
+  </td>
+</tr>
+<tr>
+<td align="left">
+  <p>
+  cvs remove &lt;filename&gt;
+  </p>
+  <p>
+  cvs commit -m "file remove log... ..."
+  </p>
+  </td>
+<td align="left">
+  <p>
+  st delete-local &lt;filename&gt; (删除本地文件)
+  </p>
+  <p>
+  st remove-repos &lt;filename&gt; (删除服务器文件)
+  </p>
+  </td>
+<td align="left">
+  删除文件
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs diff -c -r 1.5 -r 1.7 &lt;filename&gt;
+  </td>
+<td align="left">
+  st diff -r 1.5 -r 1.7 &lt;filename&gt;
+  </td>
+<td align="left">
+  比较文件&lt;filename&gt; 1.5 和 1.7 版本的区别
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs status -v &lt;filename&gt;
+  </td>
+<td align="left">
+  
+  </td>
+<td align="left">
+  查看当前的 label
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs log &lt;filename&gt; | more
+  </td>
+<td align="left">
+  st log &lt;filename&gt; | more
+  </td>
+<td align="left">
+  查看commit logs.
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs -n up -l
+  </td>
+<td align="left">
+  st list -l
+  </td>
+<td align="left">
+  显示当前目录文件状态
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs co -c
+  </td>
+<td align="left">
+  
+  </td>
+<td align="left">
+  显示模块/工程名
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs rtag [ -r &lt;branch_tag_name&gt; ] &lt;tag_name&gt;  &lt;module_name&gt;
+  </td>
+<td align="left">
+  <p>
+  st new-viewlabel --label &lt;label_name&gt; 
+  </p>
+  <p>
+  st label --label &lt;label_name&gt; 
+  </p>
+  </td>
+<td align="left">
+  为模块打 tag/label
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs rtag -b [ -r &lt;base_branch_name&gt; ] &lt;new_branch_name&gt;  &lt;module_name&gt;
+  </td>
+<td align="left">
+  图形界面
+  </td>
+<td align="left">
+  建立分支
+  </td>
+</tr>
+<tr>
+<td align="left">
+  cvs -d :pserver:jiangxin@10.0.0.217:/repos init
+  </td>
+<td align="left">
+  <p>
+  st new-viewlabel --label &lt;label_name&gt; 
+  </p>
+  <p>
+  st label --label &lt;label_name&gt; 
+  </p>
+  </td>
+<td align="left">
+  为模块打 tag/label
+  </td>
+</tr>
+<tr>
+<td align="left">
+  <p>
+  cd wdir
+  </p>
+  <p>
+  cvs import -m "Imported sources" yoyodyne/rdir yoyo start
+  </p>
+  </td>
+<td align="left">
+  
+  </td>
+<td align="left">
+  建立新工程
+  </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break">
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="cvs-modshare"></a>6. CVS vs. STARTEAM——模块间共享</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4959680"></a>6.1. CVS 中的文件和目录的共享</h3></div></div></div>
+<p>
+客户端通过本地配置文件（CVS目录中的文件），来记录存储信息，因此可以在客户端
+的一个目录树下，维护多个工程、不同分支代码，甚至是不同CVS服务器的代码。
+</p>
+<p>
+还可以通过服务器端配置文件：CVSROOT/modules，来将不同目录、文件组合
+成单独的模块，免除了客户端在一个目录树下多次 Check 不同目录的繁琐。
+</p>
+<p>
+如下两个方式Check代码等同，但显然第一种方式好。
+</p>
+<p>
+方式一： 通过服务器端的 modules 配置文件控制
+</p>
+<pre class="screen">
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co CVSROOT
+# cd CVSROOT
+# vi modules
+######## modify modules file as the follows:
+johnson_homepage jiangxin/web &amp;docbook/project &amp;docbook/nightlybuild \
+             &amp;docbook/pm_fw_plan_2_4 &amp;docbook/steam_trans \
+             &amp;docbook/docbook_howto &amp;docbook/pgp &amp;docbook/program_rules \
+             &amp;docbook/tip_sysconfig &amp;docbook/images &amp;docbook/pm_fw_diary_2_4 \
+             &amp;docbook/rd_hwenv &amp;docbook/steam_admin &amp;docbook/tip_sysinstall \
+             &amp;docbook/lession_scm &amp;docbook/pm_fw_module_debug \
+             &amp;docbook/steam_howto
+
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -c
+＃ 显示服务器端配置文件 modules 的内容
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d web johnson_homepage
+＃ Checkout 代码
+</pre>
+<p>
+方式二： 通过在客户端，在目录树下不同的目录执行不同的 Checkout 动作实现。
+</p>
+<pre class="screen">
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d web jiangxin/web
+# cd web
+# ls
+# mkdir docbook
+# cd docbook
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d project           docbook/project
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d nightlybuild        docbook/nightlybuild
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d pm_fw_plan_2_4      docbook/pm_fw_plan_2_4
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d steam_trans         docbook/steam_trans
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d docbook_howto       docbook/docbook_howto
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d pgp                 docbook/pgp
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d program_rules       docbook/program_rules
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d tip_sysconfig       docbook/tip_sysconfig
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d images              docbook/images
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d pm_fw_diary_2_4     docbook/pm_fw_diary_2_4
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d rd_hwenv            docbook/rd_hwenv
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d steam_admin         docbook/steam_admin
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d tip_sysinstall      docbook/tip_sysinstall
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d lession_scm         docbook/lession_scm
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d pm_fw_module_debug  docbook/pm_fw_module_debug
+# cvs -d :pserver:jiangxin@10.0.0.152:/home/repos-user co -d steam_howto         docbook/steam_howto
+</pre>
+<p>
+服务器端目录结构
+</p>
+<pre class="screen">
+# pwd
+/home/repos-user
+
+# mtree -cdin  -k type   
+
+#          user: jiangxin
+#       machine: openbsd
+#          tree: /usr/home/repos-user
+#          date: Tue Sep 10 21:34:26 2002
+/set type=dir
+.              
+    CVSROOT        
+        Emptydir       
+        ..
+    ..
+    docbook        
+        project      
+        ..
+        docbook_howto  
+        ..
+        images         
+            callouts       
+            ..
+        ..
+        lession_scm    
+        ..
+        nightlybuild   
+        ..
+        pgp            
+            images         
+            ..
+        ..
+        pm_fw_diary_2_4
+        ..
+        pm_fw_module_debug
+        ..
+        pm_fw_plan_2_4 
+            Attic          
+            ..
+        ..
+        program_rules  
+        ..
+        rd_hwenv       
+        ..
+        samples        
+        ..
+        steam_admin    
+        ..
+        steam_howto    
+            images         
+            ..
+        ..
+        steam_trans    
+        ..
+        tip_sysconfig  
+        ..
+        tip_sysinstall 
+            images         
+            ..
+        ..
+    ..
+    jiangxin       
+        text           
+            apache         
+            ..
+            config.network.linux
+            ..
+            db.mysql       
+            ..
+            db.oracle      
+                Attic          
+                ..
+            ..
+            dns.bind       
+            ..
+            email.qmail    
+            ..
+            kernel.linux   
+            ..
+            security.linux 
+            ..
+            security.ssh   
+            ..
+            utility.cvs    
+            ..
+            utility.samba  
+            ..
+            utility.xwindow
+            ..
+        ..
+        web            
+            Attic          
+            ..
+            doc            
+            ..
+            html           
+                resources      
+                ..
+            ..
+            images         
+                gif            
+                ..
+                png            
+                ..
+                xpi            
+                ..
+                xpm            
+                ..
+            ..
+            resource       
+                html           
+                ..
+                ipaddr         
+                ..
+                mailaddr       
+                ..
+                pgpkey         
+                ..
+            ..
+            utility        
+                ltutil         
+                ..
+            ..
+        ..
+    ..
+..
+</pre>
+<p>
+客户端目录结构
+</p>
+<pre class="screen">
+# mtree -cdin  -k type 
+
+#          user: jiangxin
+#       machine: openbsd
+#          tree: /usr/home/jiangxin/work/test
+#          date: Tue Sep 10 21:24:33 2002
+/set type=dir
+.              
+    web            
+        CVS            
+        ..
+        doc            
+            CVS            
+            ..
+        ..
+        docbook        
+            CVS            
+            ..
+            project      
+                CVS            
+                ..
+            ..
+            docbook_howto  
+                CVS            
+                ..
+            ..
+            images         
+                CVS            
+                ..
+                callouts       
+                    CVS            
+                    ..
+                ..
+            ..
+            lession_scm    
+                CVS            
+                ..
+            ..
+            nightlybuild   
+                CVS            
+                ..
+            ..
+            pgp            
+                CVS            
+                ..
+                images         
+                    CVS            
+                    ..
+                ..
+            ..
+            pm_fw_diary_2_4
+                CVS            
+                ..
+            ..
+            pm_fw_module_debug
+                CVS            
+                ..
+            ..
+            pm_fw_plan_2_4 
+                CVS            
+                ..
+            ..
+            program_rules  
+                CVS            
+                ..
+            ..
+            rd_hwenv       
+                CVS            
+                ..
+            ..
+            steam_admin    
+                CVS            
+                ..
+            ..
+            steam_howto    
+                CVS            
+                ..
+                images         
+                    CVS            
+                    ..
+                ..
+            ..
+            steam_trans    
+                CVS            
+                ..
+            ..
+            tip_sysconfig  
+                CVS            
+                ..
+            ..
+            tip_sysinstall 
+                CVS            
+                ..
+                images         
+                    CVS            
+                    ..
+                ..
+            ..
+        ..
+        html           
+            CVS            
+            ..
+            resources      
+                CVS            
+                ..
+            ..
+        ..
+        images         
+            CVS            
+            ..
+            gif            
+                CVS            
+                ..
+            ..
+            png            
+                CVS            
+                ..
+            ..
+            xpi            
+                CVS            
+                ..
+            ..
+            xpm            
+                CVS            
+                ..
+            ..
+        ..
+        resource       
+            CVS            
+            ..
+            html           
+                CVS            
+                ..
+            ..
+            ipaddr         
+                CVS            
+                ..
+            ..
+            mailaddr       
+                CVS            
+                ..
+            ..
+            pgpkey         
+                CVS            
+                ..
+            ..
+        ..
+        utility        
+            CVS            
+            ..
+            ltutil         
+                CVS            
+                ..
+            ..
+        ..
+    ..
+..
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4967024"></a>6.2. Starteam 中的文件和目录的共享</h3></div></div></div>
+<p>
+Starteam 可以在同一 ServerConfiguration 中共享数据，既可以在不同视图，
+亦可在不同的工程中共享。在图形界面下操作简洁。
+</p>
+<p>
+但命令行不具有相应功能。
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="steam-howto"></a>7. Starteam Howto</h2></div></div></div>
+<p>
+针对 STARTEAM，写了如下 HOWTO。原因是图形界面的操作固然尤其方便性，但也随处埋藏着地雷。
+</p>
+<p>
+例如：权限设置不当，任何人可以选择工程的根目录，按一下DEL键，只有一次确认机会，便会在不到一秒种的时间，删除整个工程所有文件。如果这时不知所措，重新再次重建整个工程，比如重新 checkin 整个工程的 5,000 个文件，则服务器中的文件个数翻倍。这些文件作为新文件，不但你为找不回Commit LOG 而头大，管理员总有一天为服务器存储空间头大。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="serverconfig"></a>7.1. Server Configuration</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4972160"></a>7.1.1. 用户角度</h4></div></div></div>
+<p>
+在使用 starteam 客户端连接服务器前，首先要设置服务器的IP地址，端口号等参数，以建立连接starteam服务器的Profile。这可以称为用户眼中的Server 
+Configuration。
+</p>
+<p>
+用图形界面的 starteam 客户端，如下方式设置：
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+Project--&gt;Open--&gt;Add Server
+</p></li>
+<li><p>
+设置服务器名，IP地址，协议（TCP/IP Sockets），端口（49201），加密（选择任意一种加密方式）。
+</p></li>
+</ol></div>
+<p>
+命令行 starteam ，请用我们自己封装的 Wrapper: "st" 。
+</p>
+<pre class="screen">
+obsd99:/home/jiangxin/work/src/project/main&gt;st config
+StarTeam Configuration
+Original starteam server is 10.1.1.60
+new server:[10.1.1.60]
+Original starteam server port is 49201
+new server port:[49201]
+original username is jiangxin
+new username:[jiangxin]
+Password:[********]
+Original checkout project is project
+Project you want to checkout:[project]
+Original checkout view is  ("/" means root view)
+View you want to checkout:[]
+Original checkout folder is Development ("/" means root folder)
+Folder you want to checkout:[Development]
+Working dir is /usr/home/jiangxin/work/src/project/main
+Your working directory:[/usr/home/jiangxin/work/src/project/main]
+Sticky tag base on date :  ("/" means not exist)
+Date:[]
+Sticky tag base on label :  ("/" means not exist)
+Label:[]
+Sticky tag base on promotion-state :  ("/" means not exist)
+Promotion-state:[]
+
+</pre>
+<p>
+Server Configuration的配置保存在工作目录中；用户口令加密保存在用户主目录的文件 .stpass 中。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4979536"></a>7.1.2. 管理员角度</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>一个服务器配置（Server Configuration），作为一个独立的服务运行，有独立的
+用户数据库，独立的版本控制文件仓库（Repository），独立的一个数据库来支持。
+</p></li>
+<li><p>一台服务器上可以运行多个不同的STARTEAM服务器配置，不同的SERVER 
+CONFIGURATION需要分配不同的端口设置。
+</p></li>
+<li><p>一个服务器配置内可以运行多个工程（PROJECT），一个Project中可以有多个视图
+（View），视图中有目录、文件、Change Request等元素组成。
+</p></li>
+<li><p>一个服务器配置中的文件等元素可以在工程之间，视图之间共享（类似于拷贝的动
+作）；但是元素不能跨服务器配置共享。
+</p></li>
+<li>
+<p>文件结构：
+</p>
+<p>配置文件
+</p>
+<p>Configuration\server.scg</p>
+<p>Configuration\server.cph</p>
+</li>
+<li>
+<p>数据库文件
+</p>
+<p>Database\StarTeamDB.mdb (Assuming Access database)
+</p>
+</li>
+<li>
+<p>数据仓库
+</p>
+<p>版本控制文件仓库（Repository）：Vault/Archive/ ；
+版本控制文件存储在该目录中，其中没有子目录，文件名以流水号依次排列；
+每个文件控制一个分支的所有版本文件的控制，类似于CVS的版本控制文件，但不同之
+处是该文件包含二进制的头尾，如果文件分支，CVS仍由一个文件来控制，而STARTEAM
+则形成一个新的文件；CVS的TAG包含在文件上，即如果对文件加TAG，文件被更新，而
+STARTEAM的LABEL（相当于CVS的TAG）不包含在文件中，而是存储在数据库中。
+</p>
+</li>
+<li>
+<p>
+Cache
+</p>
+<p>Cache文件夹是为了加速文件CHECKOUT。当一个文件被CHECKOUT，便在该目录建立
+Cache，文件名结构为："文件名.版本号"。
+</p>
+</li>
+<li>
+<p>其他
+</p>
+<p>包括LOG，Attachments（change request, Topic等的附件文件）
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="project"></a>7.2. Project</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4992816"></a>7.2.1. 用户角度</h4></div></div></div>
+<p>
+选择Server Configuration 列表，输入正确的用户名和密码，即打开该 Server
+Configuration 下你有权限的工程列表，选择某一工程。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4994304"></a>7.2.2. 管理员角度</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+在 Server Configuration 下，列表显示的工程列表，即代表了一个个工程。
+</p></li>
+<li>
+<p>
+工程是由一系列视图组成，根视图通常作为工程的缺省视图，直接选择某工程，和选择
+缺省视图的效果一致；
+</p>
+<p>
+创建工程，即创建工程的根视图。尽量在设置权限时，按照工程、视图、文件夹的方式
+来设置权限。
+</p>
+</li>
+<li><p>
+设置权限时，一定设置工程和视图不能被任何人删除！因为一旦删除无法找回。
+</p></li>
+</ol></div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="view"></a>7.3. View</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+通过 Project--&gt;Open 来打开某一工程，会显示视图列表。视图间的关系通过一个树图
+表示出来。根视图通常作为工程的缺省视图，直接选择某工程，和选择缺省视图的效果
+一致；
+</p></li>
+<li><p>
+根视图通常表示目前正在开发的版本；而分支视图表示维护的旧代码分支，或者功能独立
+的代码分支；
+</p></li>
+<li><p>视图是主要用途是管理分支，即将一个分支作为一个独立的视图；当然也可以对
+不同用户建立视图，但是通过对目录的权限控制来实现不同用户使用同一个视图更好；
+</p></li>
+<li><p>
+如果对视图中不同目录分别设置权限，则用户查看该视图，只能看到具有权限的目录。
+</p></li>
+<li><p>
+label只在同一个视图中起作用，且View Label, Build Label, Promotion State
+作用于一个视图中所有文件；
+</p></li>
+<li><p>由于Change Request需要用到Build Label，测试人员用到Promotion State，
+因此需要在同一个视图内存放程序目录，Change Request目录，测试人员目录等；但
+文档具有相对独立性，建议单独建立工程，再共享到其他工程和视图中。
+</p></li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="branch"></a>7.4. Branch</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5008528"></a>7.4.1. STARTEAM和CVS的分支不同点</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+CVS基于文件管理，不同分支的同一文件，即使内容不同，也都体现在同一个文件中；
+STARTEAM 建立分支是基于工程和数据库，两个分支的文件可以指到一个相同的物理文件，
+也可以使不同的物理文件，这样两个分支的文件可以同步变化（float branch），
+也可以分别独立控制（fixed branch）；
+</p></li>
+<li><p>
+CVS分支用tag来管理，不同分支用 rtag/tag -b 来建立，并且不同分支打的
+分支tag或tag，可以被其他分支看到。
+STARTEAM 的分支不通过建立标签实现，而是生成另外的一套数据库。
+</p></li>
+<li>
+<p>
+STARTEAM建立分支的方式：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+同一视图的不同目录
+</p>
+<p>
+另外建立一个目录作为分支的根目录，用ctrl+Drag将预建立分支的版本在
+该目录建立共享，再选择BehavioràBranch on change；则在这些文件修改并checkin
+时，会建立新文件而分支；也可以为方法1新创建的分支目录来建立视图来方便管理。
+</p>
+</li>
+<li>
+<p>
+不同的视图（建立分支视图）
+</p>
+<p>
+创建分支视图，在创建过程中选择Permit items to branch within this view，
+来创建分支。分支视图的好处是，有自己独立的lable(tag)命名空间，不象CVS
+只有一个TAG命名空间。
+</p>
+</li>
+<li><p>
+推荐使用分支视图方式。
+</p></li>
+</ul></div>
+<p>
+</p>
+</li>
+<li>
+<p>
+CVS、STARTEAM都可以实现分支和主线和合并。
+</p>
+<p>
+CVS 命令行功能强大，可以通过命令行完成分支的管理；而 starteam 
+对视图的管理只能通过图形界面实现。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5019872"></a>7.4.2. 建立分支注意事项</h4></div></div></div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp5020384"></a>7.4.2.1. 通过分支视图建立</h5></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+建立新视图，在步骤一，选择文件分支，如图
+</p>
+<p>
+</p>
+<div class="mediaobject">
+<img src="images/st_branch_a1.jpg" alt="建立分支视图步骤一"><div class="caption"><p>建立分支视图步骤一
+</p></div>
+</div>
+<p>
+</p>
+</li>
+<li>
+<p>
+在步骤五，注意"Floating Configuration"和"Configure as ..."的区别
+</p>
+<p>
+</p>
+<div class="mediaobject">
+<img src="images/st_branch_a5.jpg" alt="建立分支视图步骤五"><div class="caption"><p>建立分支视图步骤五
+</p></div>
+</div>
+<p>
+</p>
+<p>
+一般情况下，请选择"Configure as ..."，这样当建立完成后，程序即刻分支，否则
+选择"Floating Configuration"，子视图在没做修改前，一直和父视图同步，称为
+"Variant View"。
+</p>
+<p>
+如果选择了"Floating Configuration"，可以通过将分支视图的所有文件强制
+ Check In，即可。
+</p>
+</li>
+<li>
+<p>
+判断建立好的视图是否为分支视图，查看视图的属性。
+</p>
+<p>
+</p>
+<div class="mediaobject">
+<img src="images/st_branch_a6.jpg" alt="视图的属性"><div class="caption"><p>视图的属性
+</p></div>
+</div>
+<p>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp5035664"></a>7.4.2.2. 通过文件共享建立分支</h5></div></div></div>
+<p>建立一个目录作为分支的根目录，用ctrl+Drag将预建立分支的版本在该目录
+建立共享，再选择Behavior-&gt;Branch on change；则在这些文件修改并checkin时，
+会建立新文件而分支；
+</p>
+<p>通过该方法建立的分支，分支文件仍和主干文件保持同步，直到分支的文件
+被修改而不是主干文件修改，方建立分支。
+</p>
+<p>如果想从一开始便建立分支，将分支文件强制 Check In，即可。
+</p>
+</div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="label"></a>7.5. Label</h3></div></div></div>
+<p>
+STARTEAM的标签（LABEL）主要用来记录事件，如里程碑，和代码分支没有
+必然的联系；而 CVS 的分支必须依靠 TAG 来完成。
+</p>
+<p>
+CVS 的TAG是记录在文件中，建立 tag ，耗时；Starteam 的 LABEL是建立在
+数据库基础上的，建立 label，属于毫秒及的动作。
+</p>
+<p>
+Starteam 地 LABEL 是建立在视图中，文件和视图脱离关系，该文件上的 label
+失去。
+</p>
+<p>
+如何使用LABEL管理项目的示例，参见：<a href="http://www.fox.se/english/starteam/best_practices/%20starteam_best_practices.htm" target="_top">
+http://www.fox.se/english/starteam/best_practices/starteam_best_practices.htm
+</a>，提供了STARTEAM利用LABEL协同工作的范例，这些工作有些是CVS很难做到的。
+</p>
+<p>
+下面具体介绍 label 的几个不同的变种： View Label, Build Label, Promotion State,
+Revision Label。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5042944"></a>7.5.1. View Label</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>View Label 针对一个View中所有文件，可以用来记录项目的里程碑。
+</p></li>
+<li><p>View Label非常灵活，可以将后来新增加的文件加入到View Label中。
+</p></li>
+<li><p>文件移到到其他视图和文件删除对view label 有不同影响：移出文件的
+View Label会自动去掉，并且历史视图，该文件也不存在了，因为文件被移动了。
+删除的文件则不然，仍可以通过历史被访问到，并且删除前的文件仍然具有该
+View Label
+</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5047296"></a>7.5.2. Build label</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>在创建View Label中有"Use as Build Label"的选项，默认创建的View Label
+就是Build Label。
+</p></li>
+<li><p>Build Label基本上等同于View Label，除了Build Label 在Change Request的
+工作流程中会被引用到。Build Label可以用来帮助测试人员了解Bug在哪一个
+Build Label中被解决了。
+</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5050384"></a>7.5.3. Promotion state</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+Promotion State 可以看作是是浮动的View Label， View Label 的标签；
+</p></li>
+<li><p>
+通常要建立的 Promotion State 有： Release, Beta Test, Alpha Test, ...。
+并且要按照顺序建立，这样可以通过提升，将 Beta Test 对应的 Build Label，
+提升为 Release，即用 Release 来指向 Beta Test 的Label。
+</p></li>
+<li><p>
+建立在View Label基础之上，为编译 Checkout 代码，提供一个一致的Label。
+可以方便地建立 Nightly Build 系统。
+</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5054672"></a>7.5.4. Revision label</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+Revision label可以用来对一个视图中单独的文件或某些文件
+（或元素如change request），单独建立label。便于文件查找。
+</p></li>
+<li><p>
+同View Label一样，文件如果被移动到该视图之外，失去Revision Label。
+</p></li>
+</ul></div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="directory"></a>7.6. 目录划分</h3></div></div></div>
+<div class="table">
+<a name="idp5058608"></a><p class="title"><b>表 2. 项目工程目录结构</b></p>
+<div class="table-contents"><table summary="项目工程目录结构" border="1">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="center">目录</th>
+<th align="center">说明</th>
+<th align="center">权限</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">Development</td>
+<td align="left">程序源码，及帮助</td>
+<td align="left">组成员完全权限</td>
+</tr>
+<tr>
+<td align="left">Defect</td>
+<td align="left">用于记录缺陷控制的目录</td>
+<td align="left">组成员控制changRequest完全权限；所有人具有添加修改changeRequest权限
+  </td>
+</tr>
+<tr>
+<td align="left">Document</td>
+<td align="left">项目文档</td>
+<td align="left">组成员完全权限；文档工程师完全权限。（现已废弃不用）</td>
+</tr>
+<tr>
+<td align="left">ProjectManagement</td>
+<td align="left">项目范围控制，时间控制等</td>
+<td align="left">组成员读权限；项目经理完全权限</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break"><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>以上各个目录，只有项目管理人员和系统管理员具有修改安全设置权限。
+</p></td></tr>
+</table></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5070928"></a>7.6.1. 源码的版本控制</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>Development目录下建立各个相关模块目录；
+</p></li>
+<li><p>模块的目录组织结构应该和 checkout 到本地的编译代码目录结构一致。
+</p></li>
+<li><p>
+注意二进制文件尽量不要放在 Starteam 中，而改用其它方式（如文件服务器），
+来进行存储！
+</p></li>
+</ul></div>
+<p>
+</p>
+<div class="mediaobject">
+<img src="images/st_layout.jpg" alt="CWAP 1.1分支视图目录结构图"><div class="caption"><p>CWAP 1.1分支视图目录结构图
+</p></div>
+</div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5078272"></a>7.6.2. 文档的版本控制</h4></div></div></div>
+<p>
+文档的管理，涉及到大量的二进制文档（WORD），改用文件服务器来存储。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5079504"></a>7.6.3. 缺陷控制</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>建立 Defect 目录，并在其下建立需要测试的相应模块的目录。
+</p></li>
+<li><p>目录的权限设置为只读（对QA经理开放建立目录权限等）。
+对于change request，设置为任何人/QA/组内人员具有添加，修改权限等。
+</p></li>
+<li><p>
+建立Defect Tracing目录，而不是在根目录下存放change request的好处是:
+1. 便于设置权限；2. 建立相应模块，便于bug归类存放，不用在category中填写
+易出错。
+</p></li>
+</ul></div>
+<p>
+</p>
+<div class="mediaobject">
+<img src="images/st_defect.jpg" alt="Defect 示例"><div class="caption"><p>Defect 示例
+</p></div>
+</div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5086912"></a>7.6.4. ProjectManagement目录</h4></div></div></div>
+<p>
+ProjectManagement 下，通过文件和topic方式，存储TODO LIST, 
+编程规范，需求变更等信息。用户进行范围管理，工作管理等。
+</p>
+<p>
+ProjectManagement 权限设置为项目经理完全权限。
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="delundel"></a>7.7. 删除和反删除</h3></div></div></div>
+<p>
+删除和反删除文件是 Starteam 和 CVS 最大的不同点之一。如果处理不好，虽然
+不会造成信息丢失，但处理方式不擅，将给 starteam 服务器端引入过多的数字
+垃圾。
+</p>
+<p>
+原则是：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+添加文件慎重
+</p>
+<p>
+添加文件前，一定要将临时文件和二进制文件（编译过程的目标文件，可执行文件等）
+排除在外，以免引入数据垃圾。因为 Starteam 很难将文件彻底从服务器端删除。
+</p>
+</li>
+<li>
+<p>
+反删除文件照章办事
+</p>
+<p>
+反删除文件，按照本文档的步骤执行。严禁通过重新添加方式，反删除，否则同样引入
+数据垃圾！
+</p>
+</li>
+</ul></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5094304"></a>7.7.1. Starteam文件存放机理</h4></div></div></div>
+<p>
+STARTEAM以数据库为核心，是面向工程的管理方式。版本控制文件的文件名
+由数据库管理，文件名不过是"指针"。方便文件在一个工程甚至同一个
+Server Configuration的不同工程中的共享，以及任意移动和组织。
+</p>
+<p>CVS,Perforce以文件为核心，即面向文件的管理方式，文件可以方便的重新
+组合以及移植。原子化的Check In、二进制文件的版本控制是更Perforce的优势。
+但是缺点是很难完成一个工程中，文件的移动及文件改名给前后不同版本/分支带来
+问题；不当处理或者丢掉以前版本控制中的文件部署，或者增加由于文件冗余增加
+占用空间。
+</p>
+<p>STARTEAM的不利因素是很难将一个工程或者Server Configure中的文件分离、
+组合、单独移植。其数据仓库 Repository像一个黑盒子，所有Project的所有版本
+控制文件，都放在同一个目录下（Vault/Archive目录下，这是starteam的不足）。
+目前缺乏良好的文件管理工具，是一个缺憾。
+</p>
+<p>
+Starteam 一旦对文件进行版本控制，就丢入 Repository 目录中，很难在从中删除。
+这应当看作是其最大的 BUG。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5098640"></a>7.7.2. 删除</h4></div></div></div>
+<p>
+无论文件从哪个视图（根view，子view）添加目录和文件到starteam，在
+该view下显示的文件夹和文件只不过是Vault/Archive目录下文件（以流水号作为
+文件名），在数据库（starteam的管理核心）中的一个"指针"，删除文件，不过是
+删除了"指针"，虽然没有真正删除文件，但是如果数据库中的所有关于某个文件的
+"指针"都删除，文件只能通过历史来查看。但可以通过适当方法，通过历史的
+"指针"重新找回版本控制。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5100272"></a>7.7.3. 移动</h4></div></div></div>
+<p>
+文件在同一个视图中移动时，历史被保留；但当文件在不同视图中移动（注意不是删除）
+时，原视图即使在历史中也找不到该文件，该文件从该视图中彻底消失了。如果将
+一个视图彻底删除，如果该视图下文件没有在其他视图中建立共享的话，则造成文件
+丢失，无法找回。
+</p>
+<p>为防止此类事故的发生，经常备份，并设置任何人都没有工程和视图的删除
+权限。
+</p>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5102784"></a>7.7.4. 反删除的步骤</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>同时打开当前视图和删除文件之前的视图，拷贝历史视图的文件到当前视图。
+</p>
+<div class="mediaobject">
+<img src="images/st_undel1.jpg" alt="image"><div class="caption"><p>
+</p></div>
+</div>
+</li>
+<li>
+<p>设置新视图中历史文件的属性。
+</p>
+<div class="mediaobject">
+<img src="images/st_undel2.jpg" alt="image"><div class="caption"><p>
+</p></div>
+</div>
+</li>
+<li>
+<p>设置新视图中历史文件的属性。由历史reversion的只读版本修改成为
+ Floating 版本即可。
+</p>
+<div class="mediaobject">
+<img src="images/st_undel3.jpg" alt="image"><div class="caption"><p>
+</p></div>
+</div>
+</li>
+</ol></div>
+<p>
+</p>
+<p>
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="defect"></a>7.8. 文件服务器和个人版本控制</h3></div></div></div>
+<p>starteam的使用，并不能取代现有文件服务器的功能，因为starteam的版本控制
+系统文件存储的特殊性。
+</p>
+<p>starteam所有版本控制文件存贮在同一个目录下（Vault/Archive），没有任何
+子目录，文件名按照流水号递增，并且一个文件一旦进入版本控制，一直不会删除。
+</p>
+<p>优点是可以方便文件的改名，重新的目录组织，而不是象CVS那样很难修改文件名。
+</p>
+<p>缺点是无法控制文件存储方式和存储量，对二进制（包括WORD文档）的版本控制
+管理不好。因此一些工具及不需要版本控制的文件尽量仍放在文件服务器上。
+</p>
+<p>starteam不是百宝箱，但更不能成为垃圾桶。如对一些不需要纳入工程，统一
+管理的，但仍需要版本控制的文件，建议使用CVS，进行个人维护。CVS有Unix和NT版本
+的SERVER，都很好用。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="workstation"></a>7.9. 客户端设置</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+换行符转换（CRLF-&gt;LF）
+</p>
+<p>
+选择根目录或者需要单独设置的目录，选择菜单：
+<span class="guimenu">Folder</span> → <span class="guimenuitem">Properties</span> → <span class="guimenuitem">Files</span> → <span class="guimenuitem">Eol Conversion</span>，如图：
+</p>
+<p>
+</p>
+<div class="mediaobject"><img src="images/st_wrkcrlf.jpg"></div>
+<p>
+</p>
+</li>
+<li>
+<p>
+Workstation Options
+</p>
+<p>
+选择
+<span class="guimenu">Tools</span> → <span class="guimenuitem">Workstation Options</span>
+</p>
+</li>
+<li>
+<p>
+Workstation Options: Workspace
+</p>
+<div class="mediaobject"><img src="images/st_wrk1.jpg"></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+在目录和Change Request中切换过程中，不改变文件夹
+</p></li>
+<li><p>
+改变路径时，取消文件递归，避免打开文件递归，切换到文件较多的目录，影响响应速度
+</p></li>
+<li><p>
+切换文件夹，保持对filter的修改
+</p></li>
+<li><p>
+对多用户环境（如管理员）有帮助
+</p></li>
+</ol></div>
+</li>
+<li>
+<p>
+Workstation Options: Files
+</p>
+<div class="mediaobject"><img src="images/st_wrk2.jpg"></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+将文件的最后修改时间作为检出时间（强力推荐），否则为当前时间
+</p></li>
+<li><p>
+只在必要时，打开Merge程序解决冲突
+</p></li>
+<li><p>
+设置默认文字处理程序，如: Ultraedit
+</p></li>
+<li>
+<a name="faq-slowconn"></a><p>
+吴昭坚报告说：“如果把 Optimize for slow connection 的勾给选上了，结果在check out文件时极慢（check 一个文件要差不多1分钟）”
+</p>
+<p>
+如果网络速度足够快，就把这个钩钩去掉，以减轻服务器和客户端的计算负担。吴昭坚还报告说 st 命令行亦会变慢，我觉得 st 变慢，
+是由于 ip 反向解析造成的超时，可以在 hosts 中加上 starteam 服务器的相关地址映射（如： 10.0.0.60  starteam），更极端的做法是
+删除 /etc/resolv.conf。
+</p>
+</li>
+</ol></div>
+</li>
+<li>
+<p>
+修改口令和个人信息
+</p>
+<p>
+选择
+<span class="guimenu">Tools</span> → <span class="guimenuitem">Server Administration</span> → <span class="guimenuitem">My Account</span>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="built"></a>7.10. Nightly Build和测试</h3></div></div></div>
+<p>
+参见《自动编译系统（Nightly Build）》
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="starteam-cli"></a>7.11. Starteam CLI Wrapper</h3></div></div></div>
+<p>
+stcmd 是 starteam 的命令行工具，基于 java。因此运行 stcmd，首先需要建立
+java 环境。对于 OpenBSD 系统，要Enable FreeBSD Compatible，再安装 Jave
+虚拟机。
+</p>
+<p>
+Starteam 的功能远远弱于其图形界面，而且命令行参数复杂，难于使用。我们
+用 SHELL 包装了一层：“st”，采用类似 CVS 的命令行。
+</p>
+<p>
+理解 .starteam.ini
+</p>
+<pre class="screen">
+# .starteam.ini 通过命令 st config 生成
+# StarTeam Configuration: /usr/project/branch2/release/.starteam.ini
+STUSER="releng"
+STPASSWDFILE="/project/.relfw.passwd"
+STSERVER="10.1.1.60"
+STPORT="49201"
+STWORKROOT="/usr/project/branch2/release"
+STPROJECT="project"
+STVIEW="branch_2_0"
+STFOLDER=""
+STCFGD=""
+STCFGL=""
+STCFGP="release"
+</pre>
+<p>
+st 的参数及使用方法
+</p>
+<pre class="screen">
+StarTeam command line emulator, $Revision$, by YZW,JX
+
+Usage: st [st_options] [st_command] [command_options] [command_args]
+    st      
+            The name of the starteam wrapper
+    st_options
+            Some options that affect all sub-command of st.
+    st_command
+            One of several different sub-commands.
+    command_options
+            Options that are specific for the command.
+    command_args
+            Arguments to the commands.
+    
+    Global options
+    =============================================
+    -h      help
+    -V      show version
+    -r      readonly
+    -w      readwrite
+    -v      verbose, show version info. (--nv : no verbose)
+    -z      compress during tranfer. (--nz : not compress)
+    -q      a bit quiet mode. only show difference.
+    -qq     more  quiet mode. more quiet then -q. 
+            (not show status "Not In View" and folder info)
+    -Q      most  quiet mode. output nothing. 
+            (--nq: not quiet is default)
+    --eol    set eol(symbol of end-of-line) to platform specific. 
+            CR on unix, CR/LF on windows. (--neol : leave eol aside)
+    -I      Interactive mode. (    --nI / --batch : Batch mode.)
+    -S / -s    
+            Stop on error./ No Stop.
+    --exitcode
+            On Error return 1, success return 0. 
+            Conflict with -q and -qq
+    
+    Command Options
+    =============================================
+    -f      Force. Force starteam to ci/co a new revision even if you 
+            haven't made any changes to the file. _'
+    -l      Local; run only in current working directory, rather than 
+            recursing through subdirectories.
+    -R      Process directories recursively.
+    -m message
+            Use message as log information, instead of invoking an editor.
+    -D date spec
+            Use the most recent revision no later than date spec. 
+            date spec is a single argument, a date description specifying 
+            a date in the past.
+    --lock / --unlock
+            Lock files./Unlock files.
+    -r tag
+            Use the revision specified by the tag argument instead of the
+            default head revision.
+    
+    Commands
+    =============================================
+    
+    help
+    ----------------------------------------
+    Syntax:    st help
+        Show this screen.
+
+    config
+    ----------------------------------------
+    Syntax:    st config
+        Maybe the first command you run. Configure INI file.
+
+        Truth behind "st config". Only for smart boys/girls:
+            After running this configuration, a config file, .starteam.ini
+            will be created under current directory.
+            There several KeyValue pairs.
+
+                STUSER  :       login name for starteam user
+                STSERVER:       ip address of starteam server
+                STPORT  :       tcp port of starteam server
+                STPROJECT:      project name you want to check in/out
+                STVIEW  :       view    name you want to check in/out
+                STFOLDER:       folder name of the view you want to check
+                STCFGD  :       check out base on Date.
+                                Date format:
+                                        "12/29/97 10:52 AM"
+                                        "29-Dec-97 10:52:00 AM"
+                                        "December 29, 1997 10:52:00 AM PST"
+                                        "Monday, December 29, 1997 10:52:00 
+                                                oclock AM PST"
+                STCFGL  :       check out base on Label
+                STCFGP  :       check out base on Promotion State
+                STWORKROOT:     the root of your working dir
+                
+
+
+    default
+    ----------------------------------------
+    Syntax:    st default
+        Show default params
+
+    add
+    ----------------------------------------
+    Syntax:    st [global_opts] add [--lock|--unlock|--nelock] [-m "message"] 
+                [--vl "label"] [files...]
+        Add files to version control
+
+    import    (add-folder)
+    ----------------------------------------
+    Syntax:    st [global_opts] import [--ex "excludeType"][--exlist "fileMask" |
+                 --exfile "fileName"] [foldername...]
+        Add directory.
+
+    ci    (commit / checkin)
+    ----------------------------------------
+    Syntax:    st [global_opts] ci [--filter ...] [--lock|--unlock] [-m "comment"]
+                [--force] [--necessary] &lt;files...&gt;
+        Check in files from local to server.
+
+    co    (checkout / update / up)
+    ----------------------------------------
+    Syntax:    st [global_opts] co [--lock|--unlock] [-r revision] [--nessary] 
+                [--touch][--merge [--dryrun|--alwaysprompt|--neverprompt|
+                --conflictprompt] &lt;files...&gt;
+        Check out files from server to local.
+
+    checkdir (cd)
+    ----------------------------------------
+    Syntax:    st [global_opts] cd &lt;directory...&gt;
+        Check out the Directory structure, but no files.
+
+    diff
+    ----------------------------------------
+    Syntax:    st [global_opts] diff [-r revision] [--filter ...] &lt;files...&gt;
+        differ.
+
+    list
+    ----------------------------------------
+    Syntax:    st list &lt;files...&gt;
+        List files. Show file size and status.
+
+    log    (history)
+    ----------------------------------------
+    Syntax:    st [global_opts] diff [-r revision] [--filter ...] &lt;files...&gt;
+        Show logs.
+
+    status
+    ----------------------------------------
+    Syntax:    st status
+        Update file status.
+
+    tag    (lable / apply-label)
+    ----------------------------------------
+    Syntax:    st [global_opts] tag [--filter "fileStatus"] 
+                [--vl "labelName"|--vd "asOfDate"|--vn revision]
+                --label "labelName" [files...]
+        Apply a already exist lable to file(s).
+
+    describe (dsc)
+    ----------------------------------------
+    Syntax:    st dsc -m "message" &lt;files&gt;
+        Change the desciption of file(s).
+
+    release    (remove /rm)
+    ----------------------------------------
+    Syntax:    st [global_opts] rm [--filter ...] &lt;files...&gt;
+        Remove Local files.
+
+    remove-repos (rm-repos)
+    ----------------------------------------
+    Syntax:    st [global_opts] rm-repos [--filter ...] &lt;files...&gt;
+        Remove files from version control.
+
+    undelete
+    ----------------------------------------
+    Syntax:    st undelete
+        Only be can be done in GUI mode.
+
+    lock
+    ----------------------------------------
+    Syntax:    st lock 
+        Lock and Unlock files.
+
+    mk-build-label
+    ----------------------------------------
+    Syntax:    st mk-build-label
+        Make a build label.
+
+    mk-revision-label
+    ----------------------------------------
+    Syntax:    st mk-revision-label
+        Make a revision label.
+
+    mk-view-label
+    ----------------------------------------
+    Syntax:    st mk-view-label
+        Make a view label.
+
+    admin
+    ----------------------------------------
+    Syntax:    st admin --server &lt;server&gt; --pwdfile &lt;pwdfile&gt; [lock|unlock]
+        Server admistration command. Lock/Unlock server.
+
+
+    update this script and other scripts:
+        st getst
+        st putst
+
+    Filters:
+        C: Current
+        G: Merge
+        I: Missing
+        M: Modified
+        N: Not in view
+        O: Out Of Date
+        U: Unknown
+"st getst" : Update your st immediately.
+
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="integration"></a>7.12. StarTeam 与 常用开发工具整合</h3></div></div></div>
+<p>
+StarTeam 可以和如下开发工具整合
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+Starbase CaliberRM 4.0 
+</p></li>
+<li><p>
+Starbase CodeWright 7.0 
+</p></li>
+<li><p>
+Microsoft Visual Studio .NET (Visual Basic, C++ and C# projects) 
+</p></li>
+<li><p>
+Microsoft Visual C++ 6.0 
+</p></li>
+<li><p>
+Microsoft Visual Basic 6.0 
+</p></li>
+<li><p>
+IBM WebSphere Studio Workbench 4.0.0 and 4.0.3 
+</p></li>
+<li><p>
+Sybase PowerBuilder 7.0 and 8.0 
+</p></li>
+<li><p>
+Rational Rose 2001 and 2002 
+</p></li>
+<li><p>
+Embarcadero Describe 5.5 and 5.8 
+</p></li>
+<li><p>
+Microsoft Access 2000 and 2002 
+</p></li>
+<li><p>
+Borland JBuilder 6.0 and 7 
+</p></li>
+<li><p>
+Borland Delphi 5.0 and 6.0 
+</p></li>
+<li><p>
+Borland C++Builder 5 and 6 
+</p></li>
+<li><p>
+Microsoft Visual InterDev 6.0 
+</p></li>
+<li><p>
+Oracle Developer 2000 and 6 
+</p></li>
+<li><p>
+Microsoft Project 98, 2000 and 2002
+</p></li>
+</ul></div>
+<p>
+Starteam 和这些开发工具的整合需要安装 “StarTeam Integration”，
+如对于和 Microsoft Visual C++ 整合，需要安装
+“StarTeam Microsoft SCC Integration”。
+</p>
+<p>
+下载 <a href="http://www.starbase.com/product_starteam/integrations/downloadopenintegrations.cfm" target="_top">
+StarTeam Integration</a>。
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="starteam2cvs"></a>8. 版本管理工具迁移</h2></div></div></div>
+<p>
+更换版本控制工具一定是万不得已而为之。处理不当，将会丢失文件的版本历史记录，这无异于一场灾难。下面仅仅讨论了从 Starteam 移植到 CVS 的过程，其它类型的迁移可以举一反三。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5173696"></a>8.1. 用同一套本地目录，对应于相应的 STARTEAM 和 CVS 工程</h3></div></div></div>
+<p>
+导出工程在 Starteam 中的文件和目录结构，并在 CVS 中创建新的工程“project”，并导入目录结构。
+</p>
+<pre class="screen">
+# <span><strong class="command">cd ~jiangxin/work/</strong></span>
+# <span><strong class="command">mkdir project</strong></span>
+# <span><strong class="command">cd project</strong></span>
+# <span><strong class="command">st config </strong></span>
+配置为 Starteam 的 project 工程视图
+# <span><strong class="command">st cd </strong></span>
+# <span><strong class="command">cvs import -m "create directory" project Johnson init</strong></span>
+##该命令等效于：
+# <span><strong class="command">for i in `find . -type d -exclude "CVS"`; do cvs add $i; done</strong></span>
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5180224"></a>8.2. 导出 Starteam 每个文件的Commit Log</h3></div></div></div>
+<p>
+从 Starteam 中 Checkout 出每个文件，在将每个文件的Commit Log 导出为扩展名为 .jxlog 的文件。
+导出的 log 被应用程序 steam2cvs 分析并生成脚本，用于完成文件从 starteam 向 cvs 迁移。
+</p>
+<pre class="screen">
+# <span><strong class="command">cd ~jiangxin/work/project</strong></span>
+# <span><strong class="command">st -qq co</strong></span>
+# <span><strong class="command">for i in `find . -type f -exclude "CVS"`; do i=${i#./}; st log $i &gt;$i.jxlog; done</strong></span>
+</pre>
+<p>
+复杂一些的脚本：
+</p>
+<pre class="screen">
+
+#!/bin/sh
+
+cd &lt;PATH&gt;
+
+xxx=0
+
+for i in `find . -type f`; do 
+        if  echo $i | grep -w -e "CVS" -e ".jxlog" -e ".jxsh"; then
+                continue
+        fi 
+
+        j=${i}.jxlog
+        if [ -f $j ]; then
+                continue
+        fi
+        i=${i#./}
+        st log $i &gt;$i.jxlog.tmp
+        mv -f $i.jxlog.tmp $i.jxlog
+        xxx=`eval "expr $xxx + 1"`
+        echo "$xxx : $i"
+done
+
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5185312"></a>8.3. 剖析STARTEAM日志，生成脚本</h3></div></div></div>
+<p>
+根据每个文件的Commit Log 文件（*.jxlog），生成相应的脚本文件。
+</p>
+<p>
+STARTEAM 日志格式如下：
+</p>
+<pre class="screen">
+
+Folder: starteam  (working dir: /home/jiangxin/src/starteam)
+History for: st
+Description:
+Locked by:
+Status: Current
+----------------------------
+Revision: 58 View: compiler Branch Revision: 1.57
+Author: nobody_used_for_utility_coci Date: 3/7/03 11:15:03 AM CST
+use trap 'rm -f xxxx' EXIT to remove temporary passwd file
+
+
+----------------------------
+Revision: 57 View: compiler Branch Revision: 1.56
+Author: nobody_used_for_utility_coci Date: 10/23/02 7:24:38 PM CST
+change server ip from 60 to 6
+
+
+----------------------------
+...
+...
+...
+----------------------------
+Revision: 2 View: compiler Branch Revision: 1.1
+Author: jiangxin(root) Date: 3/10/02 2:12:24 AM CST
+jiangxin edition
+
+----------------------------
+Revision: 1 View: compiler Branch Revision: 1.0
+Author: jiangxin(root) Date: 3/10/02 2:10:17 AM CST
+starteam wrapper. by yangzw
+
+=============================================================================
+
+</pre>
+<p>
+通过程序 steam2cvs 转换之后的脚本示例如下：
+</p>
+<pre class="screen">
+
+st -qq co -lf -r 1 st
+cvs add st
+cvs ci -m "starteam wrapper. by yangzw (Author:jiangxin(root), Date:3/10/02 2:10:17 AM CST)" st
+st -qq co -lf -r 2 st
+cvs ci -m "jiangxin edition (Author:jiangxin(root), Date:3/10/02 2:12:24 AM CST)" st
+st -qq co -lf -r 3 st
+cvs ci -m "ci failed (Author:jiangxin, Date:3/10/02 2:16:25 AM CST)" st
+st -qq co -lf -r 4 st
+cvs ci -m "cvs style wrapper (Author:jiangxin, Date:3/10/02 2:23:10 AM CST)" st
+...
+...
+...
+st -qq co -lf -r 57 st
+cvs ci -m "change server ip from 60 to 6 (Author:nobody_used_for_utility_coci, Date:10/23/02 7:24:38 PM CST)" st
+st -qq co -lf -r 58 st
+cvs ci -m "use trap 'rm -f xxxx' EXIT to remove temporary passwd file (Author:nobody_used_for_utility_coci, Date:3/7/03 11:15:03 AM CST)" st
+
+</pre>
+<p>
+转换程序 steam2cvs 即完成了上述日志到脚本的转换。源程序参见：
+</p>
+<p>
+<a href="src/starteam2cvs/steam2cvs.c" target="_top">steam2cvs.c</a>,<a href="src/starteam2cvs/mystring.c" target="_top">mystring.c</a>, ...
+</p>
+<p>
+对整个工程的文件执行此操作：
+</p>
+<pre class="screen">
+# <span><strong class="command">cd ~jiangxin/work/project</strong></span>
+# <span><strong class="command">find . -name "*.jxlog" -o -name ".*.jxlog" -type f -exclude "CVS" -exec steam2cvs {} \;</strong></span>
+</pre>
+<p>
+复杂一些的脚本：
+</p>
+<pre class="screen">
+
+#!/bin/sh
+
+cd &lt;PATH&gt;
+
+xxx=0
+
+while : ; do
+
+for i in `find . -name "*.jxlog" -o -name ".*.jxlog" -type f`; do 
+        xxx=`eval "expr $xxx + 1"`
+        echo -e "$xxx : proc $i ...     \c"
+        steam2cvs $i
+        j=${i}.jxsh
+        # 运行脚本
+        sh $j
+        rm -f $i
+        echo "done"
+done
+
+sleep 60
+done
+
+
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5195168"></a>8.4. 运行生成的脚本，完成代码 Checkin</h3></div></div></div>
+<pre class="screen">
+# <span><strong class="command">cd ~jiangxin/work/project</strong></span>
+# <span><strong class="command">find . -name "*.jxsh" -o -name ".*.jxsh" -type f -exclude "CVS" -exec sh {} \;</strong></span>
+</pre>
+<p>
+同时在 CVS 服务器端，实时计数
+</p>
+<pre class="screen">
+# <span><strong class="command">while : ; do find . -type f | wc -l ; sleep 10; done</strong></span>
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5200128"></a>8.5. 缺憾</h3></div></div></div>
+<p>
+因为 Starteam 的Label 不能用命令行显示。因此不能自动将 Starteam 中的 LABEL 恢复为 CVS 相应的 TAG。这是一个遗憾。
+</p>
+<p>
+对于重要的 LABEL 我们可以用手工方法重建。
+</p>
+</div>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="cvs-faq"></a>A. CVS FAQ</h2></div></div></div>
+<p>
+CVS有完善的文档，因此此处不在一一赘述，只涉及到本人遇到的一些陷阱。
+</p>
+<div class="qandaset">
+<dl>
+<dt>A.1. <a href="#idp5206752">
+智能0D0A？为何处理回车换行一团糟？
+</a>
+</dt>
+<dt>A.2. <a href="#idp5226192">
+如何让 CVS 智能判断和处理二进制文件？
+</a>
+</dt>
+<dt>A.3. <a href="#idp5230304">
+CVS problem when repository soft-link
+</a>
+</dt>
+<dt>A.4. <a href="#idp5238752">
+请问 CVS 客户端如何修改自己的用户口令？
+</a>
+</dt>
+</dl>
+<table border="0" summary="Q and A Set">
+<col align="left" width="1%">
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5206752"></a><a name="idp5207008"></a><b>A.1.</b>
+</td>
+<td align="left" valign="top"><p>
+智能0D0A？为何处理回车换行一团糟？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+何为0D0A(CRLF)，DOS下的回车换行是也。由于CVS的服务器端和客户端都可能跨平台，
+那么我们分别来说。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+服务器端
+</p>
+<p>
+无论在UNIX上还是WINDOWS（cvsnt）的服务器，都以同样的格式保存文本文件的
+换行符（无论是DOS的0D0A，还是UNIX上的0A，还是MAC上的0D）。服务器端都
+将换行符保存为 0A。
+</p>
+<p>
+但这并不是说在服务器端存储的文件（以 ,v结尾），不能包含字符“0D”。
+比如二进制文件中很多包含字符0D。文本文件也可能包含0D，但大部分包含0D的
+文本文件，很有可能是由于不当的跨平台使用CVS造成的。
+</p>
+<p>
+服务器端的这种处理方法很好的适应了跨平台特性。亦即Unix端服务器的Repository
+可以直接拷贝到Windows端的Repository中，Vice Versa。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+在将Unix维护的服务器端，移植到Windows端，我曾经遇到一个百思不得其解的问题。后来发现是由于Winzip的一个古怪的缺省设置造成的：“TAR file smart CR/LF conversion”！
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+UNIX 客户端
+</p>
+<p>
+Unix上的客户端文本原样存储保存到服务器端，0D作为普通字符随文件checkin，因为
+Unix的默认文件换行符为 “0A”。
+</p>
+<p>
+但是如果Unix端的文件因为某种原因，如使用samba共享unix的文件系统，用WINDOWS
+工具编辑，导致文件换行符变为 CRLF，则在 Unix 下 checkin，会将 OD 随文件checkin。
+</p>
+</li>
+<li>
+<p>
+Windows 客户端
+</p>
+<p>
+WINDOWS上的客户端，具有智能CRLT转换的功能，即：将文本文件中的CRLF转换为LF，提交
+到服务器端，又可以将服务器端的LF转换为CRLF。
+</p>
+<p>
+WINDOWS上的客户端，具有智能CRLT转换的功能，即：将文本文件中的CRLF转换为LF，提交
+到服务器端，又可以将服务器端的LF转换为CRLF。但是如果服务器端是CRLF，则转换为CRCRLF。
+</p>
+</li>
+<li>
+<p>
+WinCVS 客户端的双重身份
+</p>
+<p>
+WinCVS 可以兼具 Windows和Unix客户端的特性。当选择选项：
+Admin--&gt;Preferences--&gt;Globals--&gt;Checkout text files with the Unix LF。
+则成为类似 Unix 客户端的功能。
+</p>
+<p>
+强烈建议不要选择该选项，让一个工具做它不相称的工作，出问题是迟早的事情。
+</p>
+</li>
+<li>
+<p>
+Cygwin 的CVS客户端
+</p>
+<p>
+Cygwin的客户端相当于 Unix 的客户端。
+</p>
+<p>
+由于运行在Windows上，可能经常提交带有 CRLF 的文本文件，因此我常常用Windows的客户端程序
+替换调 Cygwin 下自带的 CVS。
+</p>
+</li>
+<li>
+<p>
+CRLF引起的一团糟
+</p>
+<pre class="screen">
+ Client                  Action               Server
+============================================================
+   LF             -- Unix checkin --&gt;           LF
+  CRLF           &lt;-- Windows checkout --        LF
+  CRLF            -- Unix checkin --&gt;          CRLF
+ CRCRLF          &lt;-- Windows checkout --       CRLF
+</pre>
+</li>
+</ul></div>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+要防止混乱切记不要用Unix的CVS客户端（包括Cygwin的CVS客户端）Checkin DOS格式的文件。
+</p></td></tr>
+</table></div>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5226192"></a><a name="idp5226448"></a><b>A.2.</b>
+</td>
+<td align="left" valign="top"><p>
+如何让 CVS 智能判断和处理二进制文件？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+在把二进制文件加入CVS时，需要指定 -kb 选项。但是为防止万一，最好使用
+CVS的配置文件 cvswrappers 来最后把关。
+</p>
+<pre class="screen">
+# <span><strong class="command">cat CVSROOT/cvswrappers</strong></span>
+*.gif -k 'b'
+*.GIF -k 'b'
+*.jpg -k 'b'
+*.JPG -k 'b'
+*.png -k 'b'
+*.PNG -k 'b'
+*.pdf -k 'b'
+*.PDF -k 'b'
+*.avi -k 'b'
+*.AVI -k 'b'
+*.mp3 -k 'b'
+*.MP3 -k 'b'
+*.mpg -k 'b'
+*.MPG -k 'b'
+*.doc -k 'b'
+*.DOC -k 'b'
+*.xls -k 'b'
+*.XLS -k 'b'
+*.xl* -k 'b'
+*.XL* -k 'b'
+*.mpp -k 'b'
+*.MPP -k 'b'
+*.ppt -k 'b'
+*.PPT -k 'b'
+*.dot -k 'b'
+*.DOT -k 'b'
+*.jar -k 'b'
+*.JAR -k 'b'
+*.tif -k 'b'
+*.TIF -k 'b'
+*.swf -k 'b'
+*.SWF -k 'b'
+*.bmp -k 'b'
+*.BMP -k 'b'
+*.exe -k 'b'
+*.EXE -k 'b'
+*.o   -k 'b'
+*.O   -k 'b'
+*.tgz -k 'b'
+*.TGZ -k 'b'
+*.gz  -k 'b'
+*.GZ  -k 'b'
+</pre>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5230304"></a><a name="idp5230560"></a><b>A.3.</b>
+</td>
+<td align="left" valign="top">
+<p>
+CVS problem when repository soft-link
+</p>
+<a name="cvsbug-softlink"></a>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+CVS 服务器端的CVS根目录，不要使用 softlink。可以使用 --bind 参数调用 mount，参见 mount(8)。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Description:
+</p>
+<p>
+When cvs repository is a softlink, cvs cannot create lock. The assertion in lock.c line 177 fails. 
+</p>
+<p>
+The problem is that it compares the link path as a root of real path. This fails. It should convert link path to real path first. However this only happens sometimes, so the check should be made first wether real path is necessary.
+</p>
+</li>
+<li>
+<p>
+How-To-Repeat:
+</p>
+<p>
+Setup cvs server. The root of all cvs repositories is /cvsroot.
+</p>
+<p>
+Create a cvs repository in let say /tmp/foo.
+</p>
+<p>
+Create softlink for /tmp/foo in /cvsroot.
+</p>
+<p>
+Try to checkout /cvsroot/foo. This should work.
+</p>
+<p>
+Commit file in /cvsroot/foo.
+</p>
+<p>
+Branch file in /cvsroot/foo.
+</p>
+<p>
+Tag branch in /cvsroot/foo.
+</p>
+</li>
+</ul></div>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5238752"></a><a name="idp5239008"></a><b>A.4.</b>
+</td>
+<td align="left" valign="top">
+<p>
+请问 CVS 客户端如何修改自己的用户口令？
+</p>
+<a name="faq-cvspasswd"></a>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+如果你的意思是：“是否存在 cvs passwd 命令，能够让客户端远程修改口令？”，好像 CVSNT, cvsnserver 等支持或部分支持，但是 CVS 暂时不可以。
+</p>
+<p>
+但是并不说就没有办法让用户修改口令，你可以写一个小程序来实现。
+</p>
+<p>
+下面的一段代码，就是我的一个实现。用户的 unix 系统账号都带有前缀 u_ ，CVS 账号则没有此前缀。CVS账号和系统账号一一对应，并保存在 /etc/passwd.cvs 文件中，每个 CVS 工程都在 CVSROOT 目录中创建一个符号链接: passwd -&gt; /etc/passwd.cvs。
+</p>
+<p>
+下面的程序只能够稳定工作，至于是否有安全上的 BUG，还不确定，如果实现上有可改进之处，请不吝赐教。
+</p>
+<pre class="screen">
+
+
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/sem.h&gt;
+#include &lt;string.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;curses.h&gt;
+#include &lt;time.h&gt;
+
+#include "pwd_check.h"
+#include "semtool.h"
+#include "crypt.h"
+
+#define	_CMD_PASSWD_		"/usr/bin/passwd"
+#define	_CVS_PASSWD_FILE_	"/etc/passwd.cvs"
+#define	_TEMP_FILE_			"/tmp/cvspass.XXXXXX"
+#ifndef _PASSWORD_LEN
+#define	_PASSWORD_LEN	128
+#endif
+
+#define	out_msg(format, ...)	fprintf (stderr, format, ## __VA_ARGS__)
+
+#ifdef	_DEBUG
+#define	debug_msg(format, ...)	fprintf (stderr, format, ## __VA_ARGS__)
+#else
+static __inline__ void
+debug_msg (char *fmt, ...)
+{
+}
+#endif
+
+int init_screen ();
+void change_unix_passwd ();
+int change_cvs_passwd ();
+char *encrypt_passwd (char *plain);
+int test_encrypt_passwd (char *pass, char *encrypt);
+int rewrite_cvspass (char *username, char *encrypt, bool b_adduser=false);
+char *get_new_passwd ();
+void check_old_passwd ();
+void curses_init ();
+void add_user(char *username);
+
+int uid;
+char *uname = NULL;
+char * program;
+
+char PASSWD_CHAR[]="abcdefghjkmnpqrstuvwxyABCDEFGHIJKLMNPQRSTUVWXY23456789@%&amp;^";
+
+void
+help()
+{
+	extern char * program;
+	printf("\nUsage:\n");
+	printf("    %s\n\t    gen passwd\n",program);
+	printf("    %s -p\n\t    gen passwd\n",program);
+	printf("    %s -a &lt;username&gt;\n\t    add user\n",program);
+	printf("\n");
+}
+
+void
+init_random()
+{
+	FILE	*fp;
+	long	x = 0;
+
+	if ((fp = fopen("/dev/urandom", "r")) != NULL)
+	{
+		(void) fread(&amp;x, sizeof(x), 1, fp);
+		fclose(fp);
+	}
+	x += time(NULL) + getpid() + getppid();
+	srand(x);
+}
+
+char *
+rand_passwd(char *passwd, int size)
+{
+	char *p;	
+	int begin=0;
+	int end=sizeof(PASSWD_CHAR)/sizeof(PASSWD_CHAR[0])-1;
+	int idx=0, i=0;
+	
+	p = passwd;
+	
+	init_random();
+	//printf("rand number between %d, and %d: \n", begin, end);
+	for(i=0; i&lt;size-1; i++)
+	{
+		idx = (int) (end*1.0*rand()/(RAND_MAX+1.0));
+		if(idx&lt;begin)	idx=begin;
+		if(idx&gt;end)	idx=end;
+		*(p++) = PASSWD_CHAR[idx];
+	}
+	*p = 0;
+	return passwd;
+}
+
+void
+add_user(char *uname)
+{
+	char cmd[1024] = {'\0'};
+	char plain[11];
+	char *encrypt;
+	char cvs_plain[11];
+	char *cvs_encrypt;
+	
+	char *unix_uname, *cvs_uname;
+	int size;
+	size = strlen(uname)+3;
+	
+	unix_uname= (char *) malloc(size);
+	cvs_uname = (char *) malloc(size);
+	bzero(unix_uname, size);
+	bzero(cvs_uname, size);
+	if(uname[0] == 'u' &amp;&amp; uname[1] == '_')
+	{
+		strcpy(unix_uname, uname);
+		strcpy(cvs_uname, uname+2);
+	}
+	else
+	{
+		strcpy(cvs_uname, uname);
+		sprintf(unix_uname, "u_%s", uname);
+	}
+
+	rand_passwd(plain, sizeof(plain));
+	encrypt = encrypt_passwd (plain);
+	snprintf(cmd, sizeof(cmd)-1, "adduser -M -s /bin/cvspasswd -g nobody -p '%s' %s", encrypt, unix_uname);
+	system(cmd);
+
+	cvs_ipc_init ();
+	rand_passwd(cvs_plain, sizeof(cvs_plain));
+	cvs_encrypt = encrypt_passwd (cvs_plain);
+	rewrite_cvspass (unix_uname, cvs_encrypt, true);
+
+	//printf("cmd : %s\n", cmd);
+	printf("Unix Username : %s\n", unix_uname);
+	printf("Unix Passwd   : %s\n", plain);
+	printf("CVS  Username : %s\n", cvs_uname);
+	printf("CVS  Passwd   : %s\n", cvs_plain);
+	printf("\n");
+	printf("CVS 登录口令自己去修改。\n");
+}
+
+
+int
+main (int argc, char *argv[], char **environ)
+{
+	char passwd[11];
+
+	// Regist program name
+	char *p;
+	p = argv[0] + strlen(argv[0]);
+	while (--p != argv[0])
+	{
+		if (*p == '/' || *p == '\\')
+		{
+			p++;
+			break;
+		}
+	}
+	program = strdup(p);
+
+	if(argc&gt;1)
+	{
+		char ch;
+		while ((ch = getopt(argc, argv, "h?pa:")) != -1) {
+			switch (ch) {
+				case 'h':
+				case '?':
+					help();
+					break;
+				case 'p':
+					printf("%s\n",rand_passwd(passwd, sizeof(passwd)));
+					break;
+				case 'a':
+					add_user(optarg);
+					break;
+				default:
+					printf("%s\n",rand_passwd(passwd, sizeof(passwd)));
+					help();
+					break;
+			}
+		}
+		exit(0);
+	}
+
+	uid = getuid();
+	uname = strdup(getlogin());
+	if (uid == 0)
+	{
+		out_msg ("Can not be root, Uid = 0!");
+		return 1;
+	}
+	
+	while (1)
+	{
+		switch (init_screen ())
+		{
+		case 1:
+			// 为了使口令修改更便捷
+			/*
+			if (setreuid (0, 0) != 0)
+			{
+				out_msg ("setuid failed!\n");
+				return 1;
+			}
+			*/
+			change_unix_passwd ();
+			break;
+		case 2:
+			cvs_ipc_init ();
+
+			// 缺省设置，更安全
+			/*
+			if (setreuid (uid, 0) != 0)
+			{
+				out_msg ("setuid failed!\n");
+				return 1;
+			}
+			*/
+			change_cvs_passwd ();
+			break;
+		case 3:
+		case 0:
+			out_msg ("\nbye bye\n");
+			exit(0);
+			break;
+		default:
+			break;
+		}
+		out_msg ("\nPress any key to Continue...");
+		getch ();
+	}
+	return 0;
+}
+
+
+/*
+ * 显示菜单
+ */
+void
+curses_init ()
+{
+	initscr ();
+	cbreak ();
+	nonl ();
+	noecho ();
+	intrflush (stdscr, FALSE);
+	keypad (stdscr, TRUE);
+	refresh ();
+}
+
+int
+init_screen ()
+{
+#define _MENU_START_LINE_	5	/* 可选菜单从第5行开始 */
+#define _MENU_ITEM_NUM_		3	/* 共三项 */
+#define _MENU_LEFT_COL_		5	/* 菜单的左侧启示列 */
+
+	int x, y;
+	int ch;
+
+	curses_init ();
+
+/* 画方框 */
+	box (stdscr, '|', '-');
+
+/* 开启反白模式 */
+	attron (A_REVERSE);
+
+/* 在 (20,0) 处输出反白字元 */
+	mvaddstr (0, 20, "CVS Account Management");
+
+/* 关闭反白模式 */
+	attroff (A_REVERSE);
+
+	mvaddstr (_MENU_START_LINE_ + 0, _MENU_LEFT_COL_,
+			  "1	---	Change Linux login passwd");
+	mvaddstr (_MENU_START_LINE_ + 1, _MENU_LEFT_COL_,
+			  "2	---	Change CVS   login passwd");
+	mvaddstr (_MENU_START_LINE_ + 2, _MENU_LEFT_COL_, "3	---	Exit");
+
+	mvaddstr (_MENU_START_LINE_ + _MENU_ITEM_NUM_ + 2, _MENU_LEFT_COL_,
+			  "Use Number/Cursor to select, and press ENTER to excute!");
+
+/* 将游标移至初始位置 */
+	x = _MENU_LEFT_COL_;
+	y = _MENU_START_LINE_;
+	move (x, y);
+
+	while (1)
+	{
+		ch = getch ();
+		switch (ch)
+		{
+
+/* 判断是否"↑"键被按下 */
+		case KEY_UP:
+			if (y &gt; _MENU_START_LINE_)
+				--y;
+			break;
+
+/* 判断是否"↓"键被按下 */
+		case KEY_DOWN:
+			if (y &lt; _MENU_START_LINE_ + _MENU_ITEM_NUM_ - 1)
+				++y;
+			break;
+
+/* 判断是否"→"键被按下 */
+		case KEY_RIGHT:
+			//++x;
+			break;
+
+/* 判断是否"←"键被按下 */
+		case KEY_LEFT:
+			//--x;
+			break;
+
+/* 判断是否 ENTER 键被按下 */
+		case '1':
+			y = _MENU_START_LINE_;
+			break;
+		case '2':
+			y = _MENU_START_LINE_ + 1;
+			break;
+		case '0':
+		case '3':
+			y = _MENU_START_LINE_ + 2;
+			break;
+		case '\r':
+		case '\n':
+			endwin ();
+			return y + 1 - _MENU_START_LINE_;
+			break;
+
+/* 判断是否[ESC]键被按下, 则退出 curses 模式 */
+		case 27:
+			endwin ();
+			exit (1);
+
+		default:
+			//addch (ch);
+			break;
+		}
+		/* 移动游标至现在位置 */
+		move (y, x);
+	}
+
+	return 0;
+}
+
+
+/*
+ * 修改 Unix 口令
+ */
+void
+change_unix_passwd ()
+{
+	char cmd[1024];
+	memset(cmd, 0, 1024);	
+
+	//out_msg("orignal uid: %d, getuid: %d, geteuid: %d, getlogin:%s\n", uid, getuid(), geteuid(), getlogin());
+
+	if (getuid() == 0)
+	{
+		assert(strcmp(uname, "root")!=0);
+		snprintf(cmd, 1024, "%s %s", _CMD_PASSWD_, uname);
+		system(cmd);
+	}
+	else
+	{
+		system(_CMD_PASSWD_);
+	}
+}
+
+/*
+ * 修改 CVS 口令
+ */
+int
+change_cvs_passwd ()
+{
+	char *newpasswd = NULL;
+	char *encrypt = NULL;
+	int pfd, tfd;
+
+	out_msg ("\n\nChange your CVS Account Password:\n");
+
+	// 获取 loginname
+
+	// 检查是否存在 /etc/passwd.cvs 文件
+	if (access (_CVS_PASSWD_FILE_, F_OK) != 0)
+	{
+		out_msg ("Not find file %s!\n",
+				 _CVS_PASSWD_FILE_);
+		return 1;
+	}
+
+	// 输入旧口令
+	// 修改CVS口令，无须输入旧口令
+	//check_old_passwd();
+
+	// 输入新口令（两次，需要匹配）
+	newpasswd = get_new_passwd ();
+	if (strlen (newpasswd) == 0)
+	{
+		out_msg ("CVS passwd not changed!");
+		return 1;
+	}
+
+	// 新口令加密
+	encrypt = encrypt_passwd (newpasswd);
+
+
+	// 检查用户账号是否和 /etc/passwd.cvs 文件的 realname 字段匹配，格式 aliases:passwd:realname
+	// 重新生成 /etc/passwd.cvs 文件
+	rewrite_cvspass (uname, encrypt);
+
+	return 0;
+}
+
+
+
+/*
+ * 获取用户的原口令输入
+ */
+void
+check_old_passwd ()
+{
+	FILE *fp;
+	char line[1024];			//, buf[1024];
+	char *buf;
+	char *t1, *t2, *t3;
+	char *oldpasswd;
+	int match = 0;
+
+	oldpasswd = getpass ("Old password:");
+
+	// cvs_lock
+	cvs_lock ();
+
+	if ((fp = fopen (_CVS_PASSWD_FILE_, "r")) == NULL)
+	{
+		out_msg ("can not open cvspass file\n");
+		exit (1);
+	}
+
+	while (fgets (line, 1024, fp))
+	{
+		//strncpy(buf, line, 1024);
+		if (line[strlen (line) - 1] == '\n')
+			line[strlen (line) - 1] = 0;
+
+		buf = (char *) strdup (line);
+		t1 = (char *) strtok (buf, ":");
+		t2 = (char *) strtok (NULL, ":");
+		t3 = (char *) strtok (NULL, ":");
+
+		if (t3 != NULL &amp;&amp; strcmp (t3, getlogin ()) == 0)
+		{
+			if (test_encrypt_passwd (oldpasswd, t2))
+			{
+				out_msg ("Wrong password!\n");
+				match = 0;
+			}
+			else
+			{
+				match = 1;
+			}
+		}
+	}
+	fclose (fp);
+
+	// cvs_unlock()
+	cvs_unlock ();
+
+	if (!match)
+	{
+		exit (1);
+	}
+
+	return;
+}
+
+
+/*
+ * 获取用户的新口令输入
+ */
+char *
+get_new_passwd ()
+{
+	int tries, pwd_tries = 3;
+	char *newpasswd = NULL;
+	char *p;
+
+#ifdef	_OLDPWD_CHECK_
+	check_old_passwd ();
+#endif
+
+	if (newpasswd == NULL)
+	{
+		newpasswd = (char *) malloc (_PASSWORD_LEN + 1);
+	}
+
+	for (newpasswd[0] = '\0', tries = 0; tries &lt; pwd_tries; tries++)
+	{
+		p = getpass ("New password:");
+		if (!*p)
+		{
+			out_msg ("Password unchanged.\n");
+			newpasswd[0] = '\0';
+			break;
+		}
+		if (strcmp (p, "s/key") == 0)
+		{
+			out_msg
+				("That password collides with a system feature. Choose another.\n");
+			continue;
+		}
+
+		if ((tries &lt; pwd_tries || pwd_tries == 0) 
+				    &amp;&amp; pwd_check(p) == 0)
+			continue;
+
+		strncpy (newpasswd, p, _PASSWORD_LEN);
+		newpasswd[_PASSWORD_LEN] = 0;
+		if (strcmp (newpasswd, getpass ("Retype new password:")) == 0)
+		{
+			break;
+		}
+		else
+		{
+			newpasswd[0] = 0;
+			out_msg ("Mismatch; try again, EOF to quit.\n");
+		}
+	}
+
+	return (newpasswd);
+}
+
+
+/*
+ * 修改 cvs 口令文件
+ * username is Unix Username, such as: u_xxx
+ */
+int
+rewrite_cvspass (char *username, char *encrypt, bool b_adduser)
+{
+	FILE *fp;
+	int fdtmp;
+	char *tmpfile = NULL;
+	char line[1024];			//, buf[1024];
+	char *buf;
+	char *t1, *t2, *t3;
+	int err = 0, changed = 0;
+	char *alias;
+
+	// cvs_lock
+	cvs_lock ();
+
+	tmpfile = (char *) strdup (_TEMP_FILE_);
+	fdtmp = mkstemp (tmpfile);
+
+	if (fdtmp == -1)
+	{
+		out_msg ("can not open cvspass temp file: %s\n", tmpfile);
+
+		err = 1;
+		goto clean;
+	}
+
+	if ((fp = fopen (_CVS_PASSWD_FILE_, "r")) == NULL)
+	{
+		out_msg ("can not open cvspass file!\n");
+
+		err = 1;
+		close(fdtmp);
+		goto clean;
+	}
+
+	// 重新生成 /etc/passwd.cvs 文件
+	while (fgets (line, 1024, fp))
+	{
+		//strncpy(buf, line, 1024);
+		if (line[strlen (line) - 1] == '\n'
+			|| line[strlen (line) - 1] == '\r')
+			line[strlen (line) - 1] = 0;
+		if (line[strlen (line) - 1] == '\n'
+			|| line[strlen (line) - 1] == '\r')
+			line[strlen (line) - 1] = 0;
+
+		buf = (char *) strdup (line);
+		t1 = (char *) strtok (buf, ":");
+		t2 = (char *) strtok (NULL, ":");
+		t3 = (char *) strtok (NULL, ":");
+
+		if (t3 != NULL &amp;&amp; strcmp (t3, username) == 0)
+		{
+			snprintf (line, 1024, "%s:%s:%s", t1, encrypt, t3);
+			alias = strdup(t1);
+			changed = 1;
+		}
+		write (fdtmp, line, strlen(line));
+		write (fdtmp, "\n", 1);
+	}
+
+	fclose (fp);
+	close (fdtmp);
+
+	if(b_adduser &amp;&amp; !changed)
+	{
+		if ((fp = fopen (tmpfile, "a")) != NULL)
+		{
+			if(username[0] == 'u' &amp;&amp; username[1] == '_')
+				alias = username+2;
+			else
+				alias = username;
+			snprintf (line, 1024, "%s:%s:%s\n", alias, encrypt,username);
+			fputs(line,fp);
+			changed = 2;
+			fclose(fp);
+		}
+		
+	}
+
+	if (rename (tmpfile, _CVS_PASSWD_FILE_) != 0)
+	{
+		out_msg ("can not rename %s to %s\n", tmpfile, _CVS_PASSWD_FILE_);
+
+		err = 1;
+		goto clean;
+	}
+
+clean:
+	// cvs_unlock()
+	cvs_unlock ();
+	
+	switch(changed)
+	{
+	case 1:
+		out_msg ("CVS passwd for %s(%s) changed.\n", alias, username);
+		break;
+	case 2:
+		out_msg ("add CVS passwd entry for %s(%s).\n", alias, username);
+		break;
+	case 0:
+	default:
+		out_msg ("Not find CVS entry of user: %s\n", username);
+		break;
+	}
+	return err;
+}
+
+
+/*
+ * 加密口令
+ */
+char *
+encrypt_passwd (char *plain)
+{
+	unsigned long seed[2];
+	char salt[] = "$1$........";
+	const char *const seedchars =
+		"./0123456789ABCDEFGHIJKLMNOPQRST"
+		"UVWXYZabcdefghijklmnopqrstuvwxyz";
+	char *password;
+	int i;
+
+	/* Generate a (not very) random seed.
+	   You should do it better than this... */
+	seed[0] = time (NULL);
+	seed[1] = getpid () ^ (seed[0] &gt;&gt; 14 &amp; 0x30000);
+
+	/* Turn it into printable characters from `seedchars'. */
+	for (i = 0; i &lt; 8; i++)
+		salt[3 + i] = seedchars[(seed[i / 5] &gt;&gt; (i % 5) * 6) &amp; 0x3f];
+
+	/* Read in the user's password and encrypt it. */
+	password = (char *) crypt (plain, salt);
+
+	/* Print the results. */
+	return password;
+}
+
+
+int
+test_encrypt_passwd (char *pass, char *encrypt)
+{
+	char *result;
+	int ok;
+
+	/* Read in the user's password and encrypt it,
+	   passing the expected password in as the salt. */
+	result = (char *) crypt (pass, encrypt);
+
+	/* Test the result. */
+	ok = strcmp (result, encrypt) == 0;
+
+	return ok ? 0 : 1;
+}
+
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="starteam-faq"></a>B. Starteam FAQ</h2></div></div></div>
+<p>
+以下 FAQ 是在初识 STARTEAM，由我不断闹出的笑话整理得来，亦是想写好本文档的原动力。也许有的过时且可笑，但本人一直不舍得删除。
+</p>
+<div class="qandaset">
+<dl>
+<dt>B.1. <a href="#idp5282720">
+如何反删除?
+</a>
+</dt>
+<dt>B.2. <a href="#idp5286832">
+如何解决文件状态unknow的问题？
+</a>
+</dt>
+<dt>B.3. <a href="#idp5290960">
+当前缺陷控制，都放在根视图，通过手工输入Category来分类，很容易出现分类
+错误，怎么办？
+</a>
+</dt>
+<dt>B.4. <a href="#idp5294336">
+是否所有工程都放在同一个服务器配置中？
+</a>
+</dt>
+<dt>B.5. <a href="#idp5298656">
+如何备份？
+</a>
+</dt>
+<dt>B.6. <a href="#idp5301744">
+如何在UNIX平台使用starteam？
+</a>
+</dt>
+<dt>B.7. <a href="#idp5305936">
+请比较一下CVS, STARTEAM?
+</a>
+</dt>
+<dt>B.8. <a href="#idp5311760">
+关于缺陷控制？
+</a>
+</dt>
+<dt>B.9. <a href="#idp5314720">关键字扩展问题
+</a>
+</dt>
+<dt>B.10. <a href="#idp5317248">
+如何重建server configuration file？
+</a>
+</dt>
+<dt>B.11. <a href="#idp5320320">
+如何建立代码分支？
+</a>
+</dt>
+<dt>B.12. <a href="#idp5324640">
+StarBase 公司关于 working file status "Unknow" 问题的回复
+</a>
+</dt>
+</dl>
+<table border="0" summary="Q and A Set">
+<col align="left" width="1%">
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5282720"></a><a name="idp5282976"></a><b>B.1.</b>
+</td>
+<td align="left" valign="top"><p>
+如何反删除?
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+我曾经有一个错误的看法是：
+在使用starteam过程中，误删了一组文件，很难找回文件，并重新进行版本控制。
+如果选择删除前的某一时刻的视图，将删除文件的checkout，再选择当前视图，
+重新添加，文件更改历史记录丢失。
+</p>
+<p>
+以上反删除的做法不对。
+一个服务器配置（通过一个端口提供服务）的所有Project的所有版本控制
+文件，都放在同一个目录下。（Vault/Archive目录下，这是starteam的不足）。无论
+文件从哪个视图（根view，子view）添加目录和文件到starteam， 在该view下显示的
+文件夹和文件只不过是Vault/Archive目录下文件在数据库（starteam的管理核心）中
+的一个指针，删除文件，不过是删除了指针，并没有真正删除文件，但是如果数据库中
+的所有关于某个文件的指针都删除，则需要按照<a href="#delundel" title="7.7. 删除和反删除">删除和反删除部分
+</a>内容处理，过程稍为复杂。即从历史中拷贝"指针"。
+</p>
+<p>
+BTW，对于Change Request的反删除亦可照此办理。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5286832"></a><a name="idp5287088"></a><b>B.2.</b>
+</td>
+<td align="left" valign="top">
+<p>
+如何解决文件状态unknow的问题？
+</p>
+<a name="faq-status-unknown"></a>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+某些时候，所有或者部分的工作文件的状态可能成为 unknown。
+一种典型的错误做法是：强制CHECK IN 、CHECK OUT，虽然可以解决，
+但是可能会覆盖他人工作。
+</p>
+<p>
+问题的出现是多方面的，参见: <a href="#faq-reply-status-unknown">
+StarBase公司总部发来的答复</a>。因为检查文件状态首先是比较当前文件的
+日期和服务器端数据库保存的该客户端上一次check代码的日期。如果是因为日期
+戳的问题，很好解决，只通过改变文件检查方法，例如设置为使用 MD5 摘要比较
+文件状态甚至设置为全文比较，这样，相同内容的文件，文件状态成为 current！
+如果还不行，看看是是由于不同的计算机具有同一个workstation id（例如在用
+ghost克隆时造成），是否是同一个用户名在不同机器或者同一机器上的路径冲突，
+在或者是否由于服务器端设置导致服务器端数据库保存的文件状态表（MD5摘要）
+被清空。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5290960"></a><a name="idp5291216"></a><b>B.3.</b>
+</td>
+<td align="left" valign="top"><p>
+当前缺陷控制，都放在根视图，通过手工输入Category来分类，很容易出现分类
+错误，怎么办？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+除了我们讨论的 Development, Test , Document, 等目录外，应该建立一个
+Defect tracing目录，并根据需要缺陷控制的模块建立子目录。原因是不应该对所有人
+开放源码目录，但可以开放 Defect tracing目录。建立缺陷控制目录的好处是方便共享
+和组织。
+</p>
+<p>
+修改查看change request的filter，使能够按照目录名分类，这样就一目了然。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5294336"></a><a name="idp5294592"></a><b>B.4.</b>
+</td>
+<td align="left" valign="top"><p>
+是否所有工程都放在同一个服务器配置中？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+这是一个两难的问题。
+</p>
+<p>
+Starteam的一个 server configuration 所包含的所有工程的需要进行版本控制的文件都在同一个目录中存放，通过数据库控制。如果多个工程在同一个server configuration 中，文件会混杂在一起。
+</p>
+<p>
+但是如果将公司各个项目作为单独的server configuration，用户权限管理又成问题，
+需要分别建立用户数据库，跨server configuration 的用户同步成问题。也许可以通过
+import 域用户来实现。
+</p>
+<p>考虑到用户数据库和项目共享问题，还是应该将有一定关联的"项目组"文件放在
+同一个服务器配置中（如各个项目组都要共享文档给"文档组"，或者相互"共享代码"）。
+的确文件混在一起，的确感觉不好。还应该注意文件添加，不需要版本控制或者和工程
+相关性不大的文件，不要添加到STARTEAM，因为，现在还没有理想的方法删除文件，
+而且一旦出现分支，该文件可能存在几个拷贝！还应该考虑建立一套好的备份方案每几
+小时一次的增量备份，每周一次的完全备份（备份应包括 1 数据库，2 版本控制文件，
+3 ServerConfig配置文件，缺一不可）。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5298656"></a><a name="idp5298912"></a><b>B.5.</b>
+</td>
+<td align="left" valign="top"><p>
+如何备份？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+Starteam过度依赖数据库，使备份复杂，并且数据库损坏将造成灾难影响。
+</p>
+<p>
+一定要注意备份。关于备份的方案请参照“Starteam 管理 Howto”文档。
+其他可以考虑的方案包括：用Starteam自带工具"Tuning Scripts"维护数据库，
+定期为数据库减肥和增加索引。可以考虑将数据库移植到大型数据库。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5301744"></a><a name="idp5302000"></a><b>B.6.</b>
+</td>
+<td align="left" valign="top"><p>
+如何在UNIX平台使用starteam？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+方案一是使用Starteam的命令行。但Starteam的命令行功能弱，参数长，并且由于
+没有登录的概念，使得每次运行命令都要通过提供参数通过身份验证。命令行复杂
+造成易误操作，如错误添加文件、误删除。并且不能方便实现rollback.
+</p>
+<p>
+关于命令行的不便，没有办法，还是自己写些SHELL脚本吧，这是STARTEAM中国代理
+回答的所有问题中唯一有用的建议 ：-（
+</p>
+<p>
+方案二是：工作在WINDOWS平台的用户可以考虑通过在UNIX上安装SAMBA，映射驱动器给
+WORKSTATION，再用Windows的STARTEAM客户端在Unix上建立工作目录。但要注意多
+人工作模式下，SAMBA的优化。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5305936"></a><a name="idp5306192"></a><b>B.7.</b>
+</td>
+<td align="left" valign="top"><p>
+请比较一下CVS, STARTEAM?
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+还要提到另一种商业版SCM软件：Perforce。Perforce功能亦很强大，且目前有用户从 
+starteam 转移至Perforce的例子。Perforce 支持 CVS的转换，而starteam在CVS转换
+上很傻。Perforce比 starteam 优越么？
+</p>
+<p>CVS,Perforce以文件为核心，即面向文件的管理方式，文件可以方便的重新组合
+以及移植。原子化的Check In、二进制文件的版本控制是更Perforce的优势。但是缺点
+是很难完成一个工程中，文件的移动及文件改名给前后不同版本/分支带来问题；不当
+处理或者丢掉以前版本控制中的文件部署，或者增加由于文件冗余增加占用空间。但
+Perforce由于原理上同CVS, 可以看成是图形界面的CVS.
+</p>
+<p>STARTEAM以数据库为核心，是面向工程的管理方式。版本控制文件的文件名由
+数据库管理，文件名不过是"指针"。方便文件在一个工程甚至同一个
+Server Configuration的不同工程中的共享，以及任意移动和组织。但是不利因素是
+很难将一个工程或者Server Configure中的文件分离、组合、单独移植。其数据仓库
+Repository像一个黑盒子，目前缺乏良好的控制工具，是一个缺憾。
+</p>
+<p>对于个人或小项目的组织，需要轻量级的管理，和灵活的文件导入、导出，
+以及和自由代码的交互，则CVS，PVCS，SourceSafe等面向文件的版本控制占优势。
+对于公司、大项目，面向工程的管理方式，更多考虑多样的用户权限控制，灵活的
+配置，易用性，STARTEAM是好的选择。如何权衡自己判断吧。但是STARTEAM的缺陷
+控制是最好的。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5311760"></a><a name="idp5312016"></a><b>B.8.</b>
+</td>
+<td align="left" valign="top"><p>
+关于缺陷控制？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+OPEN SOURCE: CVS+GNU GNATS(gnu bug tracking system) . GNATS补充了CVS
+欠缺的bug tracking功能。是否可以代替商业版本的缺陷控制？
+</p>
+<p>
+GNATS安装在UNIX上，以来Email完成，没有好的图形界面。好象现在还没有
+超过Starteam的缺陷控制软件。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5314720"></a><a name="idp5314976"></a><b>B.9.</b>
+</td>
+<td align="left" valign="top"><p>关键字扩展问题
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p>
+如果想仍然使用cvs（毕竟CVS的文件格式可移植性更好），想同步cvs 与
+starteam，要考虑 关键字扩展，如果都关掉 starteam , cvs 的关键字扩展，
+就可以了。关键字扩展问题只是提醒，如果想要在CVS和STARTEAM同步更新
+（转型期间可能需要），一定要注意关键字扩展，因为一个系统中提交，文件中关键字
+便更改了，另外一个系统也认为更改，需要提交，再另一个系统中提交，关键字又被
+另外一个系统更改，。。。。。。很难让CVS和STARTEAM同时满足 8-)
+</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5317248"></a><a name="idp5317504"></a><b>B.10.</b>
+</td>
+<td align="left" valign="top"><p>
+如何重建server configuration file？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>重建过程复杂，最好备份。
+</p>
+<p>参见: 
+<a href="http://www.fox.se/english/starteam/faq.htm#installation_8" target="_top">
+http://www.fox.se/english/starteam/faq.htm#installation_8</a>
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5320320"></a><a name="idp5320576"></a><b>B.11.</b>
+</td>
+<td align="left" valign="top"><p>
+如何建立代码分支？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+Question 1: I made a mistake, the new branch view I setup is a variant view.  it will 
+change (variant) with it's parient view, ie, it still reflect is parient 
+view, until change is made. Pleast tell me how to change the branch view's 
+behavior not be a float branch view?
+</p>
+<p>
+You can force check in all the files in the variant view and this 
+will branch all the files (you can do all the files at once). Once you 
+change the property of any starteam object, the  object will branch in 
+a branch all/floating view. 
+</p>
+<p>
+Question 2: I know another way to branch is to share 
+folder in to another view, and change the behavior 
+of the share folder and all files to "Branch on Change". 
+But the "Branch on Change" share is alway a floating branch. 
+How can I create a "Branch on change" share, branching on 
+the first time it is shared, not the time it is changed. 
+</p>
+<p>
+Once you share a folder and set it to branch on change, you do the
+same thing as above. Choose all files in the folder, set them to "branch
+on change" and force check them in. You also would need to modify the 
+folder's property (i.e. enter/change a description) to branch the folder.
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5324640"></a><a name="idp5324896"></a><b>B.12.</b>
+</td>
+<td align="left" valign="top">
+<p>
+StarBase 公司关于 working file status "Unknow" 问题的回复
+</p>
+<a name="faq-reply-status-unknown"></a>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+Following is my Email to Starbase and their reply.
+</p>
+<p>
+Question: Sometimes status of files in starteam repository is Unknown!
+Then choose Update Status, and select MD5 or even full compare,
+sometimes file status change back to modify or current. But
+still status of some files still is Unknown! even these files
+in working dir are identical to files in repository. 
+</p>
+<p>Jiang,
+</p>
+<p>I have enclosed an FAQ for you that covers the file Status's 
+that seem incorrect, please let me know if this brings up any further
+questions.
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>Overview
+</p>
+<p>Occasionally, StarTeam may report file statuses that seem incorrect.
+  This problem has several causes, as well as several resolutions.  
+  Causes range from shared working folders to common Workstation ID numbers.
+</p>
+</li>
+<li>
+<p>Details
+</p>
+<p>Below is a list of possible causes for seemingly incorrect status
+ reporting:
+</p>
+<div class="table">
+<a name="idp5331344"></a><p class="title"><b>表 B.1.  </b></p>
+<div class="table-contents"><table summary=" " border="1">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="center">Cause</th>
+<th align="center">Action</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">More than one StarTeam folder share the same local working folder 
+location</td>
+<td align="left">Change the folder properties to allow each StarTeam folder to have
+ its own unique working folder path.</td>
+</tr>
+<tr>
+<td align="left">More than one StarTeam view or project share the same local working
+ folder location</td>
+<td align="left">Change the view properties to allow each StarTeam view to have its
+ own unique working folder path.</td>
+</tr>
+<tr>
+<td align="left">More than one StarTeam user/workstation share the same working folder
+ (i.e. shared network drives)</td>
+<td align="left">Make necessary changes so that each StarTeam user/workstation is using
+ a unique working folder path (i.e. local path or unique network path).
+</td>
+</tr>
+<tr>
+<td align="left">More than one StarTeam workstation with the same workstation ID 
+number (ConnectionManager.ini)</td>
+<td align="left">For each client installation with this problem: 
+<div class="orderedlist"><ol type="1">
+<li><p>Close the client 
+</p></li>
+<li><p>Delete the ConnectionManager.ini file 
+</p></li>
+<li><p>Open the client 
+</p></li>
+<li><p>Click OK to allow StarTeam to recreate this file. 
+</p></li>
+</ol></div>
+</td>
+</tr>
+<tr>
+<td align="left">StarTeam clients have been installed via disk image 
+(i.e. Norton Ghost) or SMS.  (This can lead to the previously listed condition)
+</td>
+<td align="left">Follow the same steps as above.  To continue installing StarTeam via 
+image or SMS, remove the ConnectionManager.ini file from the source image or 
+deployment package.</td>
+</tr>
+<tr>
+<td align="left">The file status info table has been set to purge after a certain 
+number of days, and has elapsed for the file(s) in question.
+</td>
+<td align="left">Update the status for the given files, which will repopulate the 
+file status info table. </td>
+</tr>
+<tr>
+<td align="left">The file(s) in question were checked out to an alternate location
+ (or acquired in a non-StarTeam function) and then moved or copied to 
+ the local working folder.</td>
+<td align="left">Update the status for the given files.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break">
+</li>
+</ul></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

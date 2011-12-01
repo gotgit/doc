@@ -1,0 +1,538 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>B. Starteam FAQ</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="index.html" title="软件配置管理 HOWTO">
+<link rel="prev" href="cvs-faq.html" title="A. CVS FAQ">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">B. Starteam FAQ</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="cvs-faq.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> </td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="starteam-faq"></a>B. Starteam FAQ</h2></div></div></div>
+<p>
+以下 FAQ 是在初识 STARTEAM，由我不断闹出的笑话整理得来，亦是想写好本文档的原动力。也许有的过时且可笑，但本人一直不舍得删除。
+</p>
+<div class="qandaset">
+<dl>
+<dt>B.1. <a href="starteam-faq.html#idp5281552">
+如何反删除?
+</a>
+</dt>
+<dt>B.2. <a href="starteam-faq.html#idp5285664">
+如何解决文件状态unknow的问题？
+</a>
+</dt>
+<dt>B.3. <a href="starteam-faq.html#idp5289792">
+当前缺陷控制，都放在根视图，通过手工输入Category来分类，很容易出现分类
+错误，怎么办？
+</a>
+</dt>
+<dt>B.4. <a href="starteam-faq.html#idp5293168">
+是否所有工程都放在同一个服务器配置中？
+</a>
+</dt>
+<dt>B.5. <a href="starteam-faq.html#idp5297488">
+如何备份？
+</a>
+</dt>
+<dt>B.6. <a href="starteam-faq.html#idp5300576">
+如何在UNIX平台使用starteam？
+</a>
+</dt>
+<dt>B.7. <a href="starteam-faq.html#idp5304768">
+请比较一下CVS, STARTEAM?
+</a>
+</dt>
+<dt>B.8. <a href="starteam-faq.html#idp5310592">
+关于缺陷控制？
+</a>
+</dt>
+<dt>B.9. <a href="starteam-faq.html#idp5313552">关键字扩展问题
+</a>
+</dt>
+<dt>B.10. <a href="starteam-faq.html#idp5316080">
+如何重建server configuration file？
+</a>
+</dt>
+<dt>B.11. <a href="starteam-faq.html#idp5319152">
+如何建立代码分支？
+</a>
+</dt>
+<dt>B.12. <a href="starteam-faq.html#idp5323472">
+StarBase 公司关于 working file status "Unknow" 问题的回复
+</a>
+</dt>
+</dl>
+<table border="0" summary="Q and A Set">
+<col align="left" width="1%">
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5281552"></a><a name="idp5281808"></a><b>B.1.</b>
+</td>
+<td align="left" valign="top"><p>
+如何反删除?
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+我曾经有一个错误的看法是：
+在使用starteam过程中，误删了一组文件，很难找回文件，并重新进行版本控制。
+如果选择删除前的某一时刻的视图，将删除文件的checkout，再选择当前视图，
+重新添加，文件更改历史记录丢失。
+</p>
+<p>
+以上反删除的做法不对。
+一个服务器配置（通过一个端口提供服务）的所有Project的所有版本控制
+文件，都放在同一个目录下。（Vault/Archive目录下，这是starteam的不足）。无论
+文件从哪个视图（根view，子view）添加目录和文件到starteam， 在该view下显示的
+文件夹和文件只不过是Vault/Archive目录下文件在数据库（starteam的管理核心）中
+的一个指针，删除文件，不过是删除了指针，并没有真正删除文件，但是如果数据库中
+的所有关于某个文件的指针都删除，则需要按照<a href="delundel.html" title="7.7. 删除和反删除">删除和反删除部分
+</a>内容处理，过程稍为复杂。即从历史中拷贝"指针"。
+</p>
+<p>
+BTW，对于Change Request的反删除亦可照此办理。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5285664"></a><a name="idp5285920"></a><b>B.2.</b>
+</td>
+<td align="left" valign="top">
+<p>
+如何解决文件状态unknow的问题？
+</p>
+<a name="faq-status-unknown"></a>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+某些时候，所有或者部分的工作文件的状态可能成为 unknown。
+一种典型的错误做法是：强制CHECK IN 、CHECK OUT，虽然可以解决，
+但是可能会覆盖他人工作。
+</p>
+<p>
+问题的出现是多方面的，参见: <a href="starteam-faq.html#faq-reply-status-unknown">
+StarBase公司总部发来的答复</a>。因为检查文件状态首先是比较当前文件的
+日期和服务器端数据库保存的该客户端上一次check代码的日期。如果是因为日期
+戳的问题，很好解决，只通过改变文件检查方法，例如设置为使用 MD5 摘要比较
+文件状态甚至设置为全文比较，这样，相同内容的文件，文件状态成为 current！
+如果还不行，看看是是由于不同的计算机具有同一个workstation id（例如在用
+ghost克隆时造成），是否是同一个用户名在不同机器或者同一机器上的路径冲突，
+在或者是否由于服务器端设置导致服务器端数据库保存的文件状态表（MD5摘要）
+被清空。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5289792"></a><a name="idp5290048"></a><b>B.3.</b>
+</td>
+<td align="left" valign="top"><p>
+当前缺陷控制，都放在根视图，通过手工输入Category来分类，很容易出现分类
+错误，怎么办？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+除了我们讨论的 Development, Test , Document, 等目录外，应该建立一个
+Defect tracing目录，并根据需要缺陷控制的模块建立子目录。原因是不应该对所有人
+开放源码目录，但可以开放 Defect tracing目录。建立缺陷控制目录的好处是方便共享
+和组织。
+</p>
+<p>
+修改查看change request的filter，使能够按照目录名分类，这样就一目了然。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5293168"></a><a name="idp5293424"></a><b>B.4.</b>
+</td>
+<td align="left" valign="top"><p>
+是否所有工程都放在同一个服务器配置中？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+这是一个两难的问题。
+</p>
+<p>
+Starteam的一个 server configuration 所包含的所有工程的需要进行版本控制的文件都在同一个目录中存放，通过数据库控制。如果多个工程在同一个server configuration 中，文件会混杂在一起。
+</p>
+<p>
+但是如果将公司各个项目作为单独的server configuration，用户权限管理又成问题，
+需要分别建立用户数据库，跨server configuration 的用户同步成问题。也许可以通过
+import 域用户来实现。
+</p>
+<p>考虑到用户数据库和项目共享问题，还是应该将有一定关联的"项目组"文件放在
+同一个服务器配置中（如各个项目组都要共享文档给"文档组"，或者相互"共享代码"）。
+的确文件混在一起，的确感觉不好。还应该注意文件添加，不需要版本控制或者和工程
+相关性不大的文件，不要添加到STARTEAM，因为，现在还没有理想的方法删除文件，
+而且一旦出现分支，该文件可能存在几个拷贝！还应该考虑建立一套好的备份方案每几
+小时一次的增量备份，每周一次的完全备份（备份应包括 1 数据库，2 版本控制文件，
+3 ServerConfig配置文件，缺一不可）。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5297488"></a><a name="idp5297744"></a><b>B.5.</b>
+</td>
+<td align="left" valign="top"><p>
+如何备份？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+Starteam过度依赖数据库，使备份复杂，并且数据库损坏将造成灾难影响。
+</p>
+<p>
+一定要注意备份。关于备份的方案请参照“Starteam 管理 Howto”文档。
+其他可以考虑的方案包括：用Starteam自带工具"Tuning Scripts"维护数据库，
+定期为数据库减肥和增加索引。可以考虑将数据库移植到大型数据库。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5300576"></a><a name="idp5300832"></a><b>B.6.</b>
+</td>
+<td align="left" valign="top"><p>
+如何在UNIX平台使用starteam？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+方案一是使用Starteam的命令行。但Starteam的命令行功能弱，参数长，并且由于
+没有登录的概念，使得每次运行命令都要通过提供参数通过身份验证。命令行复杂
+造成易误操作，如错误添加文件、误删除。并且不能方便实现rollback.
+</p>
+<p>
+关于命令行的不便，没有办法，还是自己写些SHELL脚本吧，这是STARTEAM中国代理
+回答的所有问题中唯一有用的建议 ：-（
+</p>
+<p>
+方案二是：工作在WINDOWS平台的用户可以考虑通过在UNIX上安装SAMBA，映射驱动器给
+WORKSTATION，再用Windows的STARTEAM客户端在Unix上建立工作目录。但要注意多
+人工作模式下，SAMBA的优化。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5304768"></a><a name="idp5305024"></a><b>B.7.</b>
+</td>
+<td align="left" valign="top"><p>
+请比较一下CVS, STARTEAM?
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+还要提到另一种商业版SCM软件：Perforce。Perforce功能亦很强大，且目前有用户从 
+starteam 转移至Perforce的例子。Perforce 支持 CVS的转换，而starteam在CVS转换
+上很傻。Perforce比 starteam 优越么？
+</p>
+<p>CVS,Perforce以文件为核心，即面向文件的管理方式，文件可以方便的重新组合
+以及移植。原子化的Check In、二进制文件的版本控制是更Perforce的优势。但是缺点
+是很难完成一个工程中，文件的移动及文件改名给前后不同版本/分支带来问题；不当
+处理或者丢掉以前版本控制中的文件部署，或者增加由于文件冗余增加占用空间。但
+Perforce由于原理上同CVS, 可以看成是图形界面的CVS.
+</p>
+<p>STARTEAM以数据库为核心，是面向工程的管理方式。版本控制文件的文件名由
+数据库管理，文件名不过是"指针"。方便文件在一个工程甚至同一个
+Server Configuration的不同工程中的共享，以及任意移动和组织。但是不利因素是
+很难将一个工程或者Server Configure中的文件分离、组合、单独移植。其数据仓库
+Repository像一个黑盒子，目前缺乏良好的控制工具，是一个缺憾。
+</p>
+<p>对于个人或小项目的组织，需要轻量级的管理，和灵活的文件导入、导出，
+以及和自由代码的交互，则CVS，PVCS，SourceSafe等面向文件的版本控制占优势。
+对于公司、大项目，面向工程的管理方式，更多考虑多样的用户权限控制，灵活的
+配置，易用性，STARTEAM是好的选择。如何权衡自己判断吧。但是STARTEAM的缺陷
+控制是最好的。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5310592"></a><a name="idp5310848"></a><b>B.8.</b>
+</td>
+<td align="left" valign="top"><p>
+关于缺陷控制？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+OPEN SOURCE: CVS+GNU GNATS(gnu bug tracking system) . GNATS补充了CVS
+欠缺的bug tracking功能。是否可以代替商业版本的缺陷控制？
+</p>
+<p>
+GNATS安装在UNIX上，以来Email完成，没有好的图形界面。好象现在还没有
+超过Starteam的缺陷控制软件。
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5313552"></a><a name="idp5313808"></a><b>B.9.</b>
+</td>
+<td align="left" valign="top"><p>关键字扩展问题
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top"><p>
+如果想仍然使用cvs（毕竟CVS的文件格式可移植性更好），想同步cvs 与
+starteam，要考虑 关键字扩展，如果都关掉 starteam , cvs 的关键字扩展，
+就可以了。关键字扩展问题只是提醒，如果想要在CVS和STARTEAM同步更新
+（转型期间可能需要），一定要注意关键字扩展，因为一个系统中提交，文件中关键字
+便更改了，另外一个系统也认为更改，需要提交，再另一个系统中提交，关键字又被
+另外一个系统更改，。。。。。。很难让CVS和STARTEAM同时满足 8-)
+</p></td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5316080"></a><a name="idp5316336"></a><b>B.10.</b>
+</td>
+<td align="left" valign="top"><p>
+如何重建server configuration file？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>重建过程复杂，最好备份。
+</p>
+<p>参见: 
+<a href="http://www.fox.se/english/starteam/faq.htm#installation_8" target="_top">
+http://www.fox.se/english/starteam/faq.htm#installation_8</a>
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5319152"></a><a name="idp5319408"></a><b>B.11.</b>
+</td>
+<td align="left" valign="top"><p>
+如何建立代码分支？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+Question 1: I made a mistake, the new branch view I setup is a variant view.  it will 
+change (variant) with it's parient view, ie, it still reflect is parient 
+view, until change is made. Pleast tell me how to change the branch view's 
+behavior not be a float branch view?
+</p>
+<p>
+You can force check in all the files in the variant view and this 
+will branch all the files (you can do all the files at once). Once you 
+change the property of any starteam object, the  object will branch in 
+a branch all/floating view. 
+</p>
+<p>
+Question 2: I know another way to branch is to share 
+folder in to another view, and change the behavior 
+of the share folder and all files to "Branch on Change". 
+But the "Branch on Change" share is alway a floating branch. 
+How can I create a "Branch on change" share, branching on 
+the first time it is shared, not the time it is changed. 
+</p>
+<p>
+Once you share a folder and set it to branch on change, you do the
+same thing as above. Choose all files in the folder, set them to "branch
+on change" and force check them in. You also would need to modify the 
+folder's property (i.e. enter/change a description) to branch the folder.
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5323472"></a><a name="idp5323728"></a><b>B.12.</b>
+</td>
+<td align="left" valign="top">
+<p>
+StarBase 公司关于 working file status "Unknow" 问题的回复
+</p>
+<a name="faq-reply-status-unknown"></a>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+Following is my Email to Starbase and their reply.
+</p>
+<p>
+Question: Sometimes status of files in starteam repository is Unknown!
+Then choose Update Status, and select MD5 or even full compare,
+sometimes file status change back to modify or current. But
+still status of some files still is Unknown! even these files
+in working dir are identical to files in repository. 
+</p>
+<p>Jiang,
+</p>
+<p>I have enclosed an FAQ for you that covers the file Status's 
+that seem incorrect, please let me know if this brings up any further
+questions.
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>Overview
+</p>
+<p>Occasionally, StarTeam may report file statuses that seem incorrect.
+  This problem has several causes, as well as several resolutions.  
+  Causes range from shared working folders to common Workstation ID numbers.
+</p>
+</li>
+<li>
+<p>Details
+</p>
+<p>Below is a list of possible causes for seemingly incorrect status
+ reporting:
+</p>
+<div class="table">
+<a name="idp5330176"></a><p class="title"><b>表 B.1.  </b></p>
+<div class="table-contents"><table summary=" " border="1">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="center">Cause</th>
+<th align="center">Action</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">More than one StarTeam folder share the same local working folder 
+location</td>
+<td align="left">Change the folder properties to allow each StarTeam folder to have
+ its own unique working folder path.</td>
+</tr>
+<tr>
+<td align="left">More than one StarTeam view or project share the same local working
+ folder location</td>
+<td align="left">Change the view properties to allow each StarTeam view to have its
+ own unique working folder path.</td>
+</tr>
+<tr>
+<td align="left">More than one StarTeam user/workstation share the same working folder
+ (i.e. shared network drives)</td>
+<td align="left">Make necessary changes so that each StarTeam user/workstation is using
+ a unique working folder path (i.e. local path or unique network path).
+</td>
+</tr>
+<tr>
+<td align="left">More than one StarTeam workstation with the same workstation ID 
+number (ConnectionManager.ini)</td>
+<td align="left">For each client installation with this problem: 
+<div class="orderedlist"><ol type="1">
+<li><p>Close the client 
+</p></li>
+<li><p>Delete the ConnectionManager.ini file 
+</p></li>
+<li><p>Open the client 
+</p></li>
+<li><p>Click OK to allow StarTeam to recreate this file. 
+</p></li>
+</ol></div>
+</td>
+</tr>
+<tr>
+<td align="left">StarTeam clients have been installed via disk image 
+(i.e. Norton Ghost) or SMS.  (This can lead to the previously listed condition)
+</td>
+<td align="left">Follow the same steps as above.  To continue installing StarTeam via 
+image or SMS, remove the ConnectionManager.ini file from the source image or 
+deployment package.</td>
+</tr>
+<tr>
+<td align="left">The file status info table has been set to purge after a certain 
+number of days, and has elapsed for the file(s) in question.
+</td>
+<td align="left">Update the status for the given files, which will repopulate the 
+file status info table. </td>
+</tr>
+<tr>
+<td align="left">The file(s) in question were checked out to an alternate location
+ (or acquired in a non-StarTeam function) and then moved or copied to 
+ the local working folder.</td>
+<td align="left">Update the status for the given files.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break">
+</li>
+</ul></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="cvs-faq.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> </td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">A. CVS FAQ </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> </td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

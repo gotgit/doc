@@ -1,0 +1,349 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>10.2. 项目日志</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="DocBook 助你完成传世之作">
+<link rel="up" href="docbook-apply.html" title="10. DocBook在实际中的应用">
+<link rel="prev" href="ar01s10s01.html" title="10.1. 测试用例">
+<link rel="next" href="ar01s10s03.html" title="10.3. 版本变更说明">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">10.2. 项目日志</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s10s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">10. DocBook在实际中的应用</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s10s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5703136"></a>10.2. 项目日志</h3></div></div></div>
+<p>
+目前介绍软件工程和项目管理的书是越来越多了。遍历各家之说，体会最深的是两个字：“沟通”。没有沟通，开发人员单枪匹马，重复着“前辈们”走过的路，缓慢的成长着。没有沟通，测试和开发团队就在没完没了的争吵中迎接项目的延期。没有沟通，部门之间的鸿沟足可以吓退客户。没有沟通，公司的决策人还在期盼着项目的成功的那一天，而不知道危险已经临近。沟通是这么样的重要，而项目经理就是这些沟通途径的交汇点。
+</p>
+<p>
+每个公司都会对项目经理有着这样或者那样的沟通上的要求，比如常见的周计划、月计划。它们是是项目经理分解任务以及向直接上级汇报工作的重要工具。自从南开大学毕业以来的几年间，我做得最多的职位就是项目经理，已经不记得写了多少计划。很长一段时间，一旦写完计划，发出邮件便了事，计划也就在本地磁盘中不知去向。后来，在做项目总结时，有些里程碑事件实在是想不起来，只是依稀记得在某个项目计划中曾经提到过。于是，从邮件的故纸堆中查找，经常是费了半天劲一无所获。从此就有了把项目总结和项目日志积累起来的习惯。最开始的文档管理手段是比较落后的，直接放到文件服务器中，对于项目日志，就是每天在 Word 文档后面追加，直到有一天，一个不留神把项目日志整个覆盖掉了，那是可真是后悔不迭。有什么技术，可以对文档像对代码一样的版本控制呢？我发现了 DocBook，从此便用 DocBook 开始我的新的项目日志。
+</p>
+<p>
+项目日志的文件格式是以一周为一个章节，每章节分为两个部分，日志部分是每天的“流水账”（记录比较重要的事件），周计划部分，是上周的项目总结和下一个星期的工作计划。如<a href="ar01s10s02.html#g-9-2">图9-2</a>。用 DocBook 维护你的项目日志，让你的领导对你刮目相看。
+</p>
+<div class="mediaobject">
+<img src="images/sample-diary.png" alt="项目日志"><div class="caption"><p>
+<a name="g-9-2"></a>图9-2. 用DocBook编写项目日志
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/sample-weekly.png" alt="项目周计划"><div class="caption"><p>
+<a name="g-9-3"></a>图9-3. 用DocBook编写项目周计划
+</p></div>
+</div>
+<p>
+以下是DocBook 源代码：
+</p>
+<pre class="programlisting">
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&lt;!ENTITY yourname "&lt;ulink url='mailto:yourname@email.address'&gt;Your Name&lt;/ulink&gt;"&gt;
+]&gt;
+&lt;article&gt;
+&lt;articleinfo&gt;
+  &lt;title&gt;项目日志&lt;/title&gt;
+  &lt;author&gt;&lt;firstname&gt;作者姓名&lt;/firstname&gt;&lt;/author&gt;
+  &lt;abstract&gt;
+    &lt;para&gt;
+    项目日志和项目计划，为项目组同志提供参考。
+    &lt;/para&gt;
+    &lt;para&gt;
+    &amp;yourname;, $Revision$, $Date$
+    &lt;/para&gt;
+  &lt;/abstract&gt;
+&lt;/articleinfo&gt;
+
+&lt;sect1 id="w021028"&gt;&lt;title&gt;1028--1101&lt;/title&gt; <a name="co.diary.w021028"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+
+&lt;sect2 id="daily021028"&gt;&lt;title&gt;日志&lt;/title&gt;
+&lt;itemizedlist&gt;
+  &lt;listitem&gt;	<a name="co.diary.1030"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+    &lt;para&gt;
+    2002/10/30, 3
+    &lt;/para&gt;
+    &lt;orderedlist&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        完成任务：******
+        &lt;/para&gt;
+        &lt;para&gt;
+        David
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        完成任务：******
+        &lt;/para&gt;
+        &lt;para&gt;
+        Johnson
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+    &lt;/orderedlist&gt;
+  &lt;/listitem&gt;
+  
+  &lt;listitem&gt;
+    &lt;para&gt;
+    2002/10/29, 2
+    &lt;/para&gt;
+    &lt;orderedlist&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        Seminar: ******
+        &lt;/para&gt;
+        &lt;para&gt;
+        yzw
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+    &lt;/orderedlist&gt;
+  &lt;/listitem&gt;
+  
+  &lt;listitem&gt;
+    &lt;para&gt;
+    2002/10/28, 1
+    &lt;/para&gt;
+    &lt;orderedlist&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        讨论需求：******
+        &lt;/para&gt;
+        &lt;para&gt;
+        Mahui
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+    &lt;/orderedlist&gt;
+  &lt;/listitem&gt;
+&lt;/itemizedlist&gt;
+&lt;/sect2&gt;
+
+&lt;sect2 id="weekly021028"&gt;&lt;title&gt;周报&lt;/title&gt; <a name="co.diary.weekly021028"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+
+&lt;segmentedlist&gt;
+  &lt;segtitle&gt;填表日期&lt;/segtitle&gt;&lt;segtitle&gt;填表人&lt;/segtitle&gt;&lt;segtitle&gt;时 间&lt;/segtitle&gt;&lt;segtitle&gt;主要工作&lt;/segtitle&gt;
+  &lt;seglistitem&gt;
+    &lt;seg&gt;2002/10/28&lt;/seg&gt;
+    &lt;seg&gt;Johnson&lt;/seg&gt;
+    &lt;seg&gt;2002/10/28－2002/11/01&lt;/seg&gt;
+    &lt;seg&gt;******&lt;/seg&gt;
+  &lt;/seglistitem&gt;
+&lt;/segmentedlist&gt;
+
+&lt;orderedlist&gt;
+  &lt;listitem&gt;                              <a name="co.diary.weekplan"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+    &lt;table frame='all'&gt;&lt;title&gt;本周工作计划表&lt;/title&gt;
+    &lt;tgroup cols='2' align='left' colsep='1' rowsep='1'&gt;
+    &lt;colspec colname='c1' colwidth="300pt" &gt;
+    &lt;colspec colname='c2' colwidth="80pt" &gt;
+    &lt;thead&gt;
+    &lt;row&gt;
+    &lt;entry&gt;本周工作任务&lt;/entry&gt;
+    &lt;entry&gt;相关人员&lt;/entry&gt;
+    &lt;/row&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    &lt;para&gt;
+    工作任务1...
+    &lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员1
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    &lt;para&gt;
+    工作任务1...
+    &lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员2
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    工作任务3...
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员3
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;/tbody&gt;
+    &lt;/tgroup&gt;
+    &lt;/table&gt;
+    &lt;note&gt;
+    &lt;title&gt;备注&lt;/title&gt;
+    &lt;para&gt;
+    &lt;/para&gt;
+    &lt;/note&gt;
+  &lt;/listitem&gt;
+  
+  &lt;listitem&gt;               <a name="co.diary.weeksummery"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+    &lt;table frame='all'&gt;&lt;title&gt;上周项目进展&lt;/title&gt;
+    &lt;tgroup cols='2' align='left' colsep='1' rowsep='1'&gt;
+    &lt;colspec colname='c1' colwidth="300pt" &gt;
+    &lt;colspec colname='c2' colwidth="80pt" &gt;
+    &lt;thead&gt;
+    &lt;row&gt;
+    &lt;entry&gt;任务名称&lt;/entry&gt;
+    &lt;entry&gt;负责人&lt;/entry&gt;
+    &lt;/row&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    完成上周任务1...
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员1
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    完成上周任务2...
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员2
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    完成上周任务3...
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员3
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;/tbody&gt;
+    &lt;/tgroup&gt;
+    &lt;/table&gt;
+    &lt;note&gt;
+    &lt;title&gt;备注&lt;/title&gt;
+    &lt;para&gt;
+    &lt;/para&gt;
+    &lt;/note&gt;
+  &lt;/listitem&gt;
+&lt;/orderedlist&gt;
+
+&lt;/sect2&gt;
+&lt;/sect1&gt;
+
+&lt;sect1 id="w021021"&gt;&lt;title&gt;1021--1025&lt;/title&gt;  <a name="co.diary.weeklast"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+&lt;sect2 id="daily021021"&gt;&lt;title&gt;日志&lt;/title&gt;
+&lt;para&gt;
+...
+&lt;para&gt;
+&lt;/sect2&gt;
+&lt;sect2 id="weekly021021"&gt;&lt;title&gt;周报&lt;/title&gt;
+&lt;para&gt;
+...
+&lt;para&gt;
+&lt;/sect2&gt;
+&lt;/sect1&gt;
+
+&lt;/article&gt;
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.w021028"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+10月28日到11月1日的一个星期的日志和周计划。每周开始一个新的章节。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.1030"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+10月30日（星期三）的项目日志。最新的日期总是在最前。每天的项目日志只需要重复拷贝一下前一天日志的结构即可。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weekly021028"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+周计划开始，包括本周计划和上周项目进展。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weekplan"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+本周工作计划。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weeksummery"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+上周项目进展。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weeksummery"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+上周项目进展。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weeklast"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+上一个星期的项目日志和工作计划。
+</p></td>
+</tr>
+</table></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s10s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="docbook-apply.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s10s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">10.1. 测试用例 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 10.3. 版本变更说明</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

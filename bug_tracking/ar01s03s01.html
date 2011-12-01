@@ -1,0 +1,148 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.1. GNATS 特点</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="缺陷追踪系统 HOWTO">
+<link rel="up" href="gnats.html" title="3. GNATS">
+<link rel="prev" href="gnats.html" title="3. GNATS">
+<link rel="next" href="ar01s03s02.html" title="3.2. GNATS PR 流程示例">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.1. GNATS 特点</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="gnats.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. GNATS</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s03s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4551696"></a>3.1. GNATS 特点</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+GNATS 特点
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+将通过 Email 或者 Web 界面提交的问题报告管理起来，并通过 Email 报告给责任人；
+</p></li>
+<li><p>
+GNATS 通过设置 PR 的分类（category）和分类的负责人，实现当一个 PR 提交后，自动向负责人发送邮件通知。而且，GNATS 也可以配置当一个 PR 在设定的时间没有响应的时候，自动向负责人再次发送邮件询问；
+</p></li>
+<li><p>
+可以通过界面对问题报告进行后续的变更，也提供了查询问题报告的界面；
+</p></li>
+<li><p>
+通过文件而不是数据库来存储和管理问题报告，因此更可靠；
+</p></li>
+<li><p>
+开放源码，没有版权问题；
+</p></li>
+<li><p>
+提供了扩充接口，并且用户可以进行二次开放，以扩充功能。
+</p></li>
+</ul></div>
+</li>
+<li>
+<p>
+GNATS 确省使用如下术语语描述 PR （问题报告）的状态：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+open
+</p>
+<p>
+初始状态是 "Open"，表明一个 PR 已经提交但尚未处理，相关的负责人会收到 Email 通知；
+</p>
+</li>
+<li>
+<p>
+analyzed
+</p>
+<p>
+当一个 PR 被提交之后，负责人收到通知，将 PR 状态设置为 "analyzed"，开始着手处理该 PR；
+</p>
+</li>
+<li>
+<p>
+feedback
+</p>
+<p>
+当责任人找到相应的解决方案后，将该 PR 的状态设置为 "feedback"，并回填 PR 中解决方案（solution）字段；
+</p>
+</li>
+<li>
+<p>
+closed
+</p>
+<p>
+当 PR 的提交者，确认该 PR 描述的问题已经解决，就将该 PR 的状态设置为 "closed"。
+</p>
+</li>
+<li>
+<p>
+suspended
+</p>
+<p>
+当一个 PR 没有时间或者当前存在困难，可以设置为 "suspended"，意为延期。
+</p>
+</li>
+</ul></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+上面描述的是 GNATS 的确省的状态和工作方式，最新版本的 GNATS 4 已经支持用户定制 PR 的状态，后面我们将举例说明；
+</p>
+<p>
+GNATS 不像 Starteam 那么直观的对缺陷进行版本控制，而是通过 PR 的一个名为 "Audit-Trail" 的字段跟踪修改记录。
+</p>
+</td></tr>
+</table></div>
+</li>
+</ol></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="gnats.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="gnats.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s03s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3. GNATS </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3.2. GNATS PR 流程示例</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

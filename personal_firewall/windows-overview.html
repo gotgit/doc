@@ -1,0 +1,124 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1.1. Windows平台个人防火墙综述</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="网络安全的最后一道屏障">
+<link rel="up" href="windows.html" title="1. Windows平台的个人防火墙">
+<link rel="prev" href="windows.html" title="1. Windows平台的个人防火墙">
+<link rel="next" href="nis.html" title="1.2. NIS 配置">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1.1. Windows平台个人防火墙综述</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="windows.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">1. Windows平台的个人防火墙</th>
+<td width="20%" align="right"> <a accesskey="n" href="nis.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="windows-overview"></a>1.1. Windows平台个人防火墙综述</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+个人防火墙的特点
+</p>
+<p>
+个人防火墙安装在个人PC机之上，而非网络边界设备，因此关心的不是此网到彼网的安全，而是本机和外部的安全策略。再由于木马等malware的存在，使得我们不能够对本机的应用程序盲目的信任，因此除了网络访问策略设置外，大部分个人防火墙软件都具有应用程序控制的选项。
+</p>
+</li>
+<li>
+<p>
+BlackIce Defender
+</p>
+<p>
+BlackIce Defender的实现有些特殊，并不对应用程序的网络访问进行控制，而是监测可疑的、恶意的数据包，从而实现最少的用户配置，智能的安全防护，用户也不会遇到象配置其它防火墙那样受到过多的弹出对话框的骚扰。
+</p>
+<p>
+它的配置实在太容易了，实在是没有我们过多干预的余地。
+</p>
+</li>
+<li>
+<p>
+Norton Internet Security 2002
+</p>
+<p>
+个人防火墙中功能最齐全的产品，集成了安全策略配置、应用程序控制、隐私控制（Cookie禁止）、禁止广告、父母控制的功能。
+</p>
+<p>
+利用访问策略配置、应用程序控制，建立个人防火墙，防止您的PC和数据遭受因好奇或蓄意破坏侵入的入侵者或黑客，以及不良网站的攻击。
+</p>
+<p>
+合理的配置隐私控制，当访问网站时，禁止cookie和参考者字段可降低泄露您隐私的风险。
+</p>
+<p>
+禁止广告可以禁止旗帜广告以及网页上其它分散注意力的内容。
+</p>
+</li>
+<li>
+<p>
+ZoneAlarm
+</p>
+<p>
+具有和 NIS 类似的功能。
+</p>
+<p>
+ZoneAlarm 对应用程序的控制要比 NIS 更安全。
+</p>
+</li>
+<li>
+<p>
+NIS 和 ZoneAlarm 配置的异同
+</p>
+<p>
+两者都具有网络访问控制配置和应用程序控制。NIS通过“配置系统范围的设置”进入网络访问控制，配置出站/入站的策略；ZoneAlerm通过“Firewall--&gt;custom”，配置策略；
+</p>
+<p>
+对于 NIS 来说，如果一个网络访问匹配了系统范围的策略配置，将不再进行应用程序扫描和检查，如果配置了非常宽松的访问策略，恶意应用程序入木马将不能被发现；
+</p>
+<p>
+对于 ZoneAlarm 来说，也是先检查系统范围的策略配置，如果被策略拒绝，可以选择弹出警告或者忽略，如果策略允许通过，也要检查应用程序设置，如果没有相应的
+应用程序访问控制，则弹出配置对话框。显然ZoneAlarm的这种工作模式更加安全，当然也需要更多次的交互。
+</p>
+</li>
+</ul></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="windows.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="windows.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="nis.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">1. Windows平台的个人防火墙 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 1.2. NIS 配置</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

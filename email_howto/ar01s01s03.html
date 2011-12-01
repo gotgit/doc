@@ -1,0 +1,154 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1.3. 别名 aliases 和 .forward 文件</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="sendmail.html" title="1. Sendmail">
+<link rel="prev" href="ar01s01s02.html" title="1.2. mail relay 规则详解">
+<link rel="next" href="ar01s01s04.html" title="1.4. 用 virtusertable 管理虚拟域">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1.3. 别名 aliases 和 .forward 文件</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s01s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">1. Sendmail</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s01s04.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4572064"></a>1.3. 别名 aliases 和 .forward 文件</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="ar01s01s03.html#idp4572576">1.3.1. /etc/mail/aliases</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s03.html#idp4585952">1.3.2. ~/.forward</a></span></dt>
+</dl></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4572576"></a>1.3.1. /etc/mail/aliases</h4></div></div></div>
+<p>
+一个重要的邮件重写规则。root 用户可以通过对该文件的配置，建立邮件组、重定向本地用户等等。别名文件会循环检查，直到影射到的邮件地址不在本机接收之列（参见配置文件<a href="ar01s01s02.html#a.local-host-names"><code class="filename">/etc/mail/local-host-names</code></a>）。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+user1:        me@otherdomain.com,user2,user3    <a name="co.alias.mult"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+user2:        user2@otherdomain.com
+alises:       :include:/etc/mail/filealiases    <a name="co.alias.file"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+list-request: |/usr/local/bin/auto_reply        <a name="co.alias.pipe"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+nobody:       /dev/null                         <a name="co.alias.dev"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.alias.mult"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+逗号分隔多个地址。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.alias.file"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+对于经常变化的邮件列表，可以采用外部文件方式。一个邮件一行。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.alias.pipe"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+管道
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.alias.dev"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设备文件
+</p></td>
+</tr>
+</table></div>
+<p>
+更改别名文件后使用newaliases或sendmail -bi建立邮件别名文件的二进制数据文件。
+</p>
+<p>
+特殊的别名
+</p>
+<div class="orderedlist"><ol type="1"><li>
+<p>
+owner-aliasname : address
+</p>
+<p>
+设置该别名后，退信将退回到owner-xxx 别名下。
+</p>
+</li></ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4585952"></a>1.3.2. ~/.forward</h4></div></div></div>
+<p>
+别名文件一般由root用户管理，而普通用户则可以通过用户主目录下的 .forward 文件，实现邮件别名、转发等一系列处理功能。
+</p>
+<p>
+当一个别名解析成一个本地用户地址后，sendmail 察看该用户主目录是否存在 .forward 文件，如果存在，读取该文件中的内容，决定进一步的处理方式。
+</p>
+<p>
+.forward 文件可以通过三种不同的处理方式，对接受的邮件进行处理：定义存储邮件的邮箱文件名(以字符“/”开始的文件名)、进行转发的目的地址、管道（以字符“|”开始，对电子邮件进行处理的外部应用程序）。可以使用第三种方法“管道”，来启动 <a href="ar01s01s10.html#procmail" title="1.10.2. procmail">Procmail</a>。 该文件格式类似 aliases 文件，但是省略了冒号之前的部分，毕竟.forward只针对一个特定的本地用户么。
+</p>
+<p>
+例如：用户 johnson，需要将其邮件拷贝一份给 jiangxin，再回复给发信人说本人正在度假（通过 vocation 程序实现），但仍然保留给自己一份。如果 .forward 内容如下，则会造成死循环：
+</p>
+<pre class="screen">
+jiangxin
+"|/usr/ucb/vacation johnson"
+johnson
+</pre>
+<p>
+解决办法是在 johnson 前面加上斜线 \，则再次发送给 johnson 时，则不会再次处理 .forward 文件。修改后如下：
+</p>
+<pre class="screen">
+jiangxin,"|/usr/ucb/vacation johnson",\johnson
+</pre>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s01s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="sendmail.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s01s04.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">1.2. mail relay 规则详解
+
+ </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 1.4. 用 virtusertable 管理虚拟域</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

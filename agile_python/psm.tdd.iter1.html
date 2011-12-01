@@ -1,0 +1,334 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.1. 迭代1：测试框架的建立</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="敏捷 Web 开发实践">
+<link rel="up" href="psm.tdd.html" title="2. 模型的敏捷开发">
+<link rel="prev" href="psm.tdd.html" title="2. 模型的敏捷开发">
+<link rel="next" href="psm.tdd.continued.html" title="2.2. 持续迭代">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.1. 迭代1：测试框架的建立</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="psm.tdd.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. 模型的敏捷开发</th>
+<td width="20%" align="right"> <a accesskey="n" href="psm.tdd.continued.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.tdd.iter1"></a>2.1. 迭代1：测试框架的建立</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="psm.tdd.iter1.html#psm.tdd.iter1.goal">2.1.1. 假想任务目标</a></span></dt>
+<dt><span class="sect3"><a href="psm.tdd.iter1.html#psm.tdd.iter1.unittest.failed">2.1.2. 建立测试用例</a></span></dt>
+<dt><span class="sect3"><a href="psm.tdd.iter1.html#psm.tdd.iter1.unittest.pass">2.1.3. 编写模组，使测试用例通过</a></span></dt>
+<dt><span class="sect3"><a href="psm.tdd.iter1.html#psm.tdd.iter1.code.coverage">2.1.4. 完善测试用例</a></span></dt>
+<dt><span class="sect3"><a href="psm.tdd.iter1.html#psm.tdd.iter1.nosetests">2.1.5. 用例管理和 nosetests</a></span></dt>
+</dl></div>
+<p>首先搭建单元测试框架，并完成一个最小的功能集合。</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.goal"></a>2.1.1. 假想任务目标</h4></div></div></div>
+<p>首先为我们的模型起个名字：<code class="filename">svnauthz</code>。</p>
+<p>Subversion路径授权中，用户对象（用户/别名/组）显然是最重要的基本单位，
+        每一条授权策略都包含一个用户对象。那么我们第一个迭代就实现用户对象：
+        <code class="classname">User</code> 类，<code class="classname">Alias</code> 类，
+        <code class="classname">Group</code> 类。</p>
+<p>假设 <span class="package">svnauthz</span> 的 <code class="classname">User</code>, 
+        <code class="classname">Alias</code>, <code class="classname">Group</code> 类已经完成，
+        我们期望他们实现的功能是什么呢？于是在纸上写下假想任务目标（模拟python交互式命令行）：</p>
+<pre class="programlisting">
+&gt;&gt;&gt; <span class="emphasis"><em>from svnauthz import User, Group, Alias</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>user1=User('Tom')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>user2=User("Jerry")</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>print user1</em></span>
+Tom # 显示 user1 内容（字符串化）
+
+&gt;&gt;&gt; <span class="emphasis"><em>alias1=Alias('admin')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>alias1.user = user1</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>print alias1</em></span>
+admin = Tom # 显示 alias1 内容（字符串化）
+
+&gt;&gt;&gt; <span class="emphasis"><em>group1 = Group('team1')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>group2 = Group('team2')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>group1.append(group2, user2, alias1, user1)</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>print group1</em></span>
+team1 = &amp;admin, @team2, Jerry, Tom # group1 的成员列表要进行排序
+&gt;&gt;&gt; <span class="emphasis"><em>group2.append(group1, user1)</em></span>
+Exception: ... # 抛出异常! group1 引起了组间的循环引用
+&gt;&gt;&gt; <span class="emphasis"><em>group2.append(group1, user1, autodrop=True)</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>print group2</em></span>
+team2 = Tom # 使用 autodrop 参数，自动抛弃冲突的组成员，而不引发异常。（即容错性）
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.unittest.failed"></a>2.1.2. 建立测试用例</h4></div></div></div>
+<p>将假想的任务目标翻译为测试用例。建立单元测试文件 <code class="filename">test_svnauthz.py</code> 如下：</p>
+<pre class="programlisting">
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import unittest
+from svnauthz import *
+
+class TestStage1(unittest.TestCase):
+
+    def testUser(self):
+        user1 = User('Tom')
+        self.assert_(str(user1) == 'Tom')
+    
+    def testAlias(self):
+        user1 = User('Tom')
+        alias1=Alias('admin')
+        alias1.user = user1
+        self.assert_(str(alias1) == 'admin = Tom', str(alias1))
+    
+    def testGroup(self):
+        user1 = User('Tom')
+        user2 = User('Jerry')
+        alias1=Alias('admin')
+        alias1.user = user1
+        group1 = Group('team1')
+        group2 = Group('team2')
+        group1.append(group2, user2, alias1, user1)
+        self.assert_(str(group1) == 'team1 = &amp;admin, @team2, Jerry, Tom')
+        self.assertRaises(Exception, group2.append, group1, user1)
+        group2.append(group1, user1, autodrop=True)
+        self.assert_(str(group2) == 'team2 = Tom')
+
+if __name__ == '__main__': unittest.main()
+</pre>
+<p>执行测试用例：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python test_svnauthz.py</em></span>
+Traceback (most recent call last):
+  File "test_svnauthz.py", line 8, in &lt;module&gt;
+    from svnauthz import *
+ImportError: No module named svnauthz
+</pre>
+<p>测试失败！不要紧，因为我们还没有写代码呢。</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.unittest.pass"></a>2.1.3. 编写模组，使测试用例通过</h4></div></div></div>
+<p>之前执行测试用例失败，报告：找不到 <code class="classname">svnauthz</code> 模组。因为模组还没有创建，当然找不到了。
+        于是创建一个空的模组文件 <code class="filename">svnauthz.py</code>。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>touch svnauthz.py</em></span>
+</pre>
+<p>执行测试用例：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python test_svnauthz.py</em></span>
+EEE
+======================================================================
+ERROR: testAlias (__main__.TestStage1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+File "test_svnauthz.py", line 17, in testAlias
+user1 = User('Tom')
+NameError: global name 'User' is not defined
+...
+</pre>
+<p>太棒了，我们前进了一步，因为失败的原因已经不同了。错误报告说：
+        <code class="classname">User</code>类未定义。于是我们写一些代码，
+        让测试用例通过。</p>
+<p><code class="filename">svnauthz.py</code> 第一个版本的代码如下：</p>
+<pre class="programlisting">
+1 #!/usr/bin/env python
+2 # -*- coding: utf-8 -*-
+3 
+4 """Subversion authz config file management.
+5 
+6 Basic classes used for Subversion authz management.
+7 """
+8 
+9 class User(object):
+10 
+11     def __init__(self, name):
+12         name = name.strip()
+13 
+14         if not name:
+15             raise Exception, 'Username is not provided'
+16 
+17         self.__name = name
+18 
+19     def __str__(self):
+20         return self.__name
+</pre>
+<p>再次执行测试用例：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python test_svnauthz.py -v</em></span>
+testAlias (__main__.TestStage1) ... ERROR
+testGroup (__main__.TestStage1) ... ERROR
+testUser (__main__.TestStage1) ... ok
+
+======================================================================
+ERROR: testAlias (__main__.TestStage1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+File "test_svnauthz.py", line 18, in testAlias
+alias1=Alias('admin')
+NameError: global name 'Alias' is not defined
+...
+</pre>
+<p>好的，我们已经有一个测试用例（<code class="classname">testUser</code>）通过了！
+        其他的测试用例呢？先把他们注释掉，以便提前感受一下完全通过测试的滋味。</p>
+<p>注意：我所说的注释掉不是删除代码，也不是把每一行变为注释，
+        而是非常简单的将暂不考虑的测试用例改名。</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>将 <code class="code">def testAlias(self)</code> 改为 <code class="code">def _testAlias(self)</code></p></li>
+<li><p>将 <code class="code">def testGroup(self)</code> 改为 <code class="code">def _testGroup(self)</code></p></li>
+</ul></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>注：只要不是以 <code class="literal">test</code> 开头都好。</p></td></tr>
+</table></div>
+<p>再次执行测试用例，太棒了完全通过！</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python test_svnauthz.py -v</em></span>
+testUser (__main__.TestStage1) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.code.coverage"></a>2.1.4. 完善测试用例</h4></div></div></div>
+<p>检查代码覆盖度，在 Python 下有 <span class="package">coverage</span> 包可用。
+        用 <span><strong class="command">easy_install</strong></span> 安装之后，
+        就可以使用 <span><strong class="command">coverage</strong></span> 命令了。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>coverage -x test_svnauthz.py</em></span>
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
+$ ls .coverage
+.coverage
+$ coverage -r -m svnauthz.py
+Name       Stmts   Exec  Cover   Missing
+----------------------------------------
+svnauthz       8      7    87%   15
+</pre>
+<p>哦，看来我们离完美还是差了一点。从 <span><strong class="command">coverage</strong></span> 
+        的输出中可以看出，我们的测试用例并没有对 <code class="filename">svnauthz.py</code> 
+        的代码测试完全：第15行没有测试到。也就是用<span class="emphasis"><em>空的用户名</em></span>创建 
+        <code class="classname">User</code> 对象，应该抛出异常。</p>
+<p>我们在 <code class="methodname">testUser</code> 用例的最后补充一条断言：</p>
+<pre class="programlisting">
+def testUser(self):
+    user1 = User('Tom')
+    self.assert_(str(user1) == 'Tom')
+    <span class="emphasis"><em>self.assertRaises(Exception, User, " ")</em></span>
+</pre>
+<p>再次检查一下测试用例对代码的覆盖度。哇，100% 通过！</p>
+<pre class="screen">
+$ <span class="emphasis"><em>coverage -x test_svnauthz.py</em></span>
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+OK
+$ <span class="emphasis"><em>coverage -r -m svnauthz.py</em></span>
+Name       Stmts   Exec  Cover   Missing
+----------------------------------------
+svnauthz       8      8   100%
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.nosetests"></a>2.1.5. 用例管理和 nosetests</h4></div></div></div>
+<p>目前来讲，代码和测试用例共存于同一个目录。我们重构一下，将模组代码放在 
+        <code class="filename">src</code> 目录，将测试用例放在 <code class="filename">tests</code>
+        目录。</p>
+<p>执行测试用例：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python tests/test_svnauthz.py</em></span>
+Traceback (most recent call last):
+  File "tests/test_svnauthz.py", line 8, in &lt;module&gt;
+    from svnauthz import *
+ImportError: No module named svnauthz
+</pre>
+<p>在 <code class="filename">test_svnauthz.py</code> 文件头增加如下语句，
+        设置 Python 模组查询路径：</p>
+<pre class="programlisting">
+import sys
+sys.path.insert(0,'src')
+</pre>
+<p>测试用例又可以成功执行了。</p>
+<p>目录 <code class="filename">tests</code> 下如果有多个测试用例文件，
+        难道要一个一个去调用么？或者用 <code class="classname">unittest.TestSuite</code> 
+        去组织测试用例？其实不用这么麻烦，<span class="application">nosetests</span>
+        可以自动发现目录下的测试用例，并执行。</p>
+<p>鼻子测试（<span class="application">nosetests</span>）是一个主动发现测试用例的
+        unittest 扩展。可以用 <span><strong class="command">easy_install</strong></span> 来安装:</p>
+<pre class="screen">
+$ <span class="emphasis"><em>easy_install nose</em></span>
+$ <span class="emphasis"><em>nosetests</em></span>
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+OK
+</pre>
+<p>代码覆盖度测试</p>
+<pre class="screen">
+$ <span class="emphasis"><em>nosetests --with-coverage --cover-package=svnauthz</em></span>
+.
+Name       Stmts   Exec  Cover   Missing
+----------------------------------------
+svnauthz       8      8   100%
+----------------------------------------------------------------------
+Ran 1 test in 0.030s
+
+OK
+</pre>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="psm.tdd.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="psm.tdd.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="psm.tdd.continued.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2. 模型的敏捷开发 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2.2. 持续迭代</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

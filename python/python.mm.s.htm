@@ -1,0 +1,2154 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Python 学习笔记//mm2html.xsl FreemindVersion:0.9.0_Beta_8</title><style>
+                body{
+                font-size:10pt;
+                color:rgb(0,0,0);
+                backgound-color:rgb(255,255,255);
+                font-family:sans-serif;
+                }
+                p.info{
+                font-size:8pt;
+                text-align:right;
+                color:rgb(127,127,127);
+                }
+                </style></head><body><script type="text/javascript" src="/docbook/includes/js/header.js"></script><script type="text/javascript">
+              write_header("/docbook");
+            </script><h1>Python 学习笔记</h1><p>
+
+
+
+<ul><li><a name="Freemind_Link_5063362"></a><span style="">Python 学习笔记</span>
+<ul><li><a name="Freemind_Link_1676261912"></a><span style="">参考</span>
+<ul><li><a name="Freemind_Link_384758686"></a><span style="">diveintopython.org</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_14359071"></a><span style="">    Python 的语法特点
+（Something strange ……）</span>
+<ul><li><a name="Freemind_Link_1326128661"></a><a style="" href="#Freemind_Link_6385624">代码缩进不再是美观的需要，而称为语法的一部分！</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1159745883"></a><a style="" href="#Freemind_Link_1735733607">函数的参数传递：支持关键字参数传递使参数顺序不再重要！</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_853358091"></a><a style="" href="#Freemind_Link_232415690">内嵌代码中的帮助文档: DocStrings</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1151022864"></a><a style="" href="#Freemind_Link_1685393530">三引号的字符串</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_595730581"></a><a style="" href="#Freemind_Link_1810326334">while 循环和 for 循环可以带 else 语句块</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1551054408"></a><a style="" href="#Freemind_Link_1776152631">交换赋值：a,b = b,a</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1555681612"></a><a style="" href="#Freemind_Link_27513138">Class 中 method（方法）的第一个参数非常特殊：需要声明（self），调用时却不提供（Python 自动添加）。</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_189034568"></a><a style="" href="#Freemind_Link_680072536">类的构造函数名称为 __init__(self, ...)</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_468584149"></a><a style="" href="#Freemind_Link_898202331">类的 Class 变量 和 Object 变量</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_813960083"></a><a style="" href="#Freemind_Link_767102022">一切皆是对象：甚至字符串，变量，函数，都是对象</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="_"></a><span style="">获得帮助</span>
+<ul><li><a name="Freemind_Link_16677714"></a><span style="">如何获得帮助？</span></li></ul>
+<ul><li><a name="Freemind_Link_1475585246"></a><span style="">1. 进入 python 命令行</span></li></ul>
+<ul><li><a name="Freemind_Link_1440292726"></a><span style="">2. 包含要查询的模组。如： import sys</span></li></ul>
+<ul><li><a name="Freemind_Link_1878584703"></a><span style="">3. 显示该模组包含的属性。命令： dir(sys)</span></li></ul>
+<ul><li><a name="Freemind_Link_340870475"></a><span style="">4. 获取该模组的帮助。如： help(sys)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1471460438"></a><span style="">源文件的字符集设置</span>
+<ul><li><a name="Freemind_Link_605232114"></a><span style="">为支持中文，需要在源码的第一行或第二行（一般是第二行）添加特殊格式的注释，声明源文件的字符集。默认为  7-bit ASCII</span></li></ul>
+<ul><li><a name="Freemind_Link_63794267"></a><span style="">格式为：  # -*- coding: &lt;encoding-name&gt; -*-</span>
+<ul><li><a name="Freemind_Link_1082990071"></a><span style="">参见: http://www.python.org/dev/peps/pep-0263/</span></li></ul>
+<ul><li><a name="Freemind_Link_753434116"></a><span style="">如：设置 gbk 编码：
+
+#!/usr/bin/python
+# -*- coding: gbk -*-
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1475190418"></a><span style="">如： 设置 utf-8 编码
+
+#!/usr/bin/python
+# -*- coding: utf-8 -*-</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_466786807"></a><span style="">注： emacs 能够也能识别该语法。而 VIM 通过 # vim:fileencoding=&lt;encoding-name&gt; 来识别</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1960349888"></a><span style="">常量和变量</span>
+<ul><li><a name="Freemind_Link_501043280"></a><span style="">变量</span>
+<ul><li><a name="Freemind_Link_1064733922"></a><span style="">变量名规则和 C 的相类似</span>
+<ul><li><a name="Freemind_Link_215999424"></a><span style="">合法的变量名，如：  __my_name, name_23,  a1b2_c3 等</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_452323229"></a><span style="">保留关键字（不能与之重名）</span>
+<ul><li><a name="Freemind_Link_499745067"></a><span style="">and　　　　　 def　　　　 exec　　　　 if　　　　　not　　　　 return
+assert　　　    del　　　　 finally　　　   import　　　or　　　　　try
+break　　　　 elif　　　　  for　　　　　in　　　　　pass　　　　while
+class　　　　 else　　　　from　　　　 is　　　　　print　　　   yield
+continue　　    except　　　global　　　 lambda　　　raise</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1704092418"></a><span style="">没有类型声明，直接使用</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_291658553"></a><span style="">类型综述 / 查看类型</span>
+<ul><li><a name="Freemind_Link_568393487"></a><span style="">int</span>
+<ul><li><a name="Freemind_Link_555801952"></a><span style="">&gt;&gt;&gt; type(17)
+&lt;type 'int'&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_654892393"></a><span style="">float</span>
+<ul><li><a name="Freemind_Link_852207875"></a><span style="">&gt;&gt;&gt; type(3.2)
+&lt;type 'float'&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_739162824"></a><span style="">long</span>
+<ul><li><a name="Freemind_Link_1458004094"></a><span style="">&gt;&gt;&gt; type(1L)
+&lt;type 'long'&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_1581630263"></a><span style="">&gt;&gt;&gt; type(long(1))
+&lt;type 'long'&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1372493022"></a><span style="">bool</span>
+<ul><li><a name="Freemind_Link_1963555462"></a><span style="">True 和 False，注意大小写</span></li></ul>
+<ul><li><a name="Freemind_Link_878456331"></a><span style="">&gt;&gt;&gt; type(True)
+&lt;type 'bool'&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_1021462562"></a><span style="">&gt;&gt;&gt; type(1&gt;2)
+&lt;type 'bool'&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1844116283"></a><span style="">string</span>
+<ul><li><a name="Freemind_Link_641666901"></a><span style="">&gt;&gt;&gt; type("Hello, World!")
+&lt;type 'str'&gt;
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1232675237"></a><span style="">&gt;&gt;&gt; type("WorldHello"[0])
+&lt;type 'str'&gt;</span>
+<ul><li><a name="Freemind_Link_1056246980"></a><span style="">即 Python 没有 Char 类型</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_833350630"></a><span style="">list</span>
+<ul><li><a name="Freemind_Link_1050612002"></a><span style="">&gt;&gt;&gt; type(['a','b','c'])
+&lt;type 'list'&gt;
+</span></li></ul>
+<ul><li><a name="Freemind_Link_811492287"></a><span style="">&gt;&gt;&gt; type([])
+&lt;type 'list'&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_470676304"></a><span style="">tuple</span>
+<ul><li><a name="Freemind_Link_98499586"></a><span style="">&gt;&gt;&gt; type(('a','b','c'))
+&lt;type 'tuple'&gt;
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1230546777"></a><span style="">&gt;&gt;&gt; type(())
+&lt;type 'tuple'&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1896767557"></a><span style="">dict</span>
+<ul><li><a name="Freemind_Link_1353372326"></a><span style="">&gt;&gt;&gt; type({'color1':'red','color12':'blue'})
+&lt;type 'dict'&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_285338547"></a><span style="">&gt;&gt;&gt; type({})
+&lt;type 'dict'&gt;</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1556810064"></a><span style="">字符串</span>
+<ul><li><a name="Freemind_Link_1685393530"></a><span style="">三引号</span>
+<ul><li><a name="Freemind_Link_1868237005"></a><span style="">三引号：''' 或者 """ 是 python 的发明。三引号可以包含跨行文字，其中的引号不必转义。（即内容可以包含的换行符和引号）</span></li></ul>
+<ul><li><a name="Freemind_Link_880381431"></a><span style="">如</span>
+<ul><li><a name="Freemind_Link_917870371"></a><span style="">'''This is a multi-line string. This is the first line.
+This is the second line.
+"What's your name?," I asked.
+He said "Bond, James Bond."
+'''</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_796524761"></a><span style="">单引号和双引号都可以用于创建字符串。</span>
+<ul><li><a name="Freemind_Link_1358408962"></a><span style="">注意，单引号和双引号没有任何不同，不像 PHP, PERL</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1370961192"></a><span style="">\ 作为转义字符，\ 用在行尾作为续行符</span></li></ul>
+<ul><li><a name="Freemind_Link_1426256562"></a><span style="">r 或者 R 作为前缀，引入 Raw String</span>
+<ul><li><a name="Freemind_Link_1050879486"></a><span style="">例如:  r"Newlines are indicated by \n."</span></li></ul>
+<ul><li><a name="Freemind_Link_1157669723"></a><span style="">在处理常规表达式，尽量使用 Raw String，免得增加反斜线。例如 r'\1' 相当于 '\\1'。</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_327171220"></a><span style="">u 或者 U 作为前缀，引入 Unicode</span>
+<ul><li><a name="Freemind_Link_1546360476"></a><span style="">例如:  u"This is a Unicode string."</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1396339757"></a><span style="">u， r 可以一起使用，u在r前</span>
+<ul><li><a name="Freemind_Link_612402216"></a><span style="">例如 ur"\u0062\n" 包含三个字符</span>
+<ul><li><a name="Freemind_Link_425092761"></a><span style="">\u0062</span></li></ul>
+<ul><li><a name="Freemind_Link_120860978"></a><span style="">\\</span></li></ul>
+<ul><li><a name="Freemind_Link_206673594"></a><span style="">n</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1320252991"></a><span style="">字符串连接：两个字符串并排，则表示两个字符串连接在一起</span>
+<ul><li><a name="Freemind_Link_1490219006"></a><span style="">'What\'s ' "your name?" 自动转换为 "What's your name?" .</span></li></ul>
+<ul><li><a name="Freemind_Link_935941926"></a><span style="">作用一：减少 \ 作为续行符的使用。</span></li></ul>
+<ul><li><a name="Freemind_Link_587526031"></a><span style="">作用二：可以为每段文字添加注释。如：</span>
+<ul><li><a name="Freemind_Link_810102773"></a><span style="">re.compile("[A-Za-z_]"       # letter or underscore
+           "[A-Za-z0-9_]*"   # letter, digit or underscore
+          )</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_522710781"></a><span style="">用括号包含多行字串</span>
+<ul><li><a name="Freemind_Link_678514138"></a><span style="">&gt;&gt;&gt; test= ("case 1: something;" # test case 1
+... "case 2: something;" #test case 2
+... "case 3: something." #test case 3
+... )
+&gt;&gt;&gt; test
+'case 1: something;case 2: something;case 3: something.'
+
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1357940396"></a><span style="">类似于 sprintf 的字符串格式化</span>
+<ul><li><a name="Freemind_Link_1658963897"></a><span style="">header1 = "Dear %s," % name</span></li></ul>
+<ul><li><a name="Freemind_Link_760684249"></a><span style="">header2 = "Dear %(title)s %(name)s," % vars()</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1656319230"></a><span style="">字符串操作</span>
+<ul><li><a name="Freemind_Link_42868540"></a><span style="">String slices</span>
+<ul><li><a name="Freemind_Link_1674466518"></a><span style="">[n] : 字符串的第 n+1 个字符</span>
+<ul><li><a name="Freemind_Link_1211559553"></a><span style="">print "WorldHello"[0]</span></li></ul>
+<ul><li><a name="Freemind_Link_565827773"></a><span style="">str="WorldHello"
+print str[len(str)-1]</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_719419458"></a><span style="">[n:m] : 返回从 n 开始到 m 结束的字符串，包括 n， 不包括 m</span>
+<ul><li><a name="Freemind_Link_634227633"></a><span style="">&gt;&gt;&gt; s = "0123456789"
+&gt;&gt;&gt; print s[0:5]
+01234
+&gt;&gt;&gt; print s[3:5]
+34
+&gt;&gt;&gt; print s[7:21]
+789
+&gt;&gt;&gt; print s[:5]
+01234
+&gt;&gt;&gt; print s[7:]
+789
+&gt;&gt;&gt; print s[21:]
+    </span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1777436412"></a><span style="">len : 字符串长度</span>
+<ul><li><a name="Freemind_Link_1314938153"></a><span style="">len("WorldHello")</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_103636926"></a><span style="">字符串比较</span>
+<ul><li><a name="Freemind_Link_629376077"></a><span style="">==, &gt;, &lt;   可以用于字符串比较</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_621426919"></a><a style="" href="#Freemind_Link_320268457">string 模组</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_192780845"></a><span style="">警告： python 中字符串不可更改，属于常量</span>
+<ul><li><a name="Freemind_Link_1009645963"></a><span style=""># 错误！字符串不可更改
+greeting = "Hello, world!"
+greeting[0] = 'J' # ERROR!
+print greeting</span>
+<ul><li><a name="Freemind_Link_844908099"></a><span style=""># 可改写为：
+greeting = "Hello, world!"
+newGreeting = 'J' + greeting[1:]
+print newGreeting</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_605120719"></a><span style="">数字</span>
+<ul><li><a name="Freemind_Link_536889162"></a><span style="">整形和长整形</span>
+<ul><li><a name="Freemind_Link_67068972"></a><span style="">longinteger  	::=  	integer ("l" | "L")
+integer 	::= 	decimalinteger | octinteger | hexinteger
+decimalinteger 	::= 	nonzerodigit digit* | "0"
+octinteger 	::= 	"0" octdigit+
+hexinteger 	::= 	"0" ("x" | "X") hexdigit+
+nonzerodigit 	::= 	"1"..."9"
+octdigit 	::= 	"0"..."7"
+hexdigit 	::= 	digit | "a"..."f" | "A"..."F"</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_756744108"></a><span style="">浮点数</span>
+<ul><li><a name="Freemind_Link_656040110"></a><span style=""></span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_853247141"></a><span style="">类型转换</span>
+<ul><li><a name="Freemind_Link_1552925507"></a><span style="">int("32")</span></li></ul>
+<ul><li><a name="Freemind_Link_1934367608"></a><span style="">int(-2.3)</span></li></ul>
+<ul><li><a name="Freemind_Link_589906303"></a><span style="">float(32)</span></li></ul>
+<ul><li><a name="Freemind_Link_8286506"></a><span style="">float("3.14159")</span></li></ul>
+<ul><li><a name="Freemind_Link_632169018"></a><span style="">str(3.14149)</span></li></ul>
+<ul><li><a name="Freemind_Link_1412767913"></a><span style="">ord('A') ： 返回 字母'A' 的 ASCII 值</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_914635131"></a><a style="" href="#Freemind_Link_1001023586">复杂类型，如 list, tuple, dict 参见后面章节</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1225594099"></a><span style="">局部变量与全局变量</span>
+<ul><li><a name="Freemind_Link_635919846"></a><span style="">函数中可以直接引用全局变量的值，无须定义。但如果修改，影响只限于函数内部。</span></li></ul>
+<ul><li><a name="Freemind_Link_1819989092"></a><span style="">函数中没有用 global 声明的变量是局部变量，不影响全局变量的取值</span></li></ul>
+<ul><li><a name="Freemind_Link_1035114588"></a><span style="">global 声明全局变量</span>
+<ul><li><a name="Freemind_Link_895575044"></a><span style="">#!/usr/bin/python
+
+def func1():
+    print "func1: local x is", x
+
+def func2():
+    x = 2
+    print 'func2: local x is', x
+
+def func3():
+    global x
+    print "func3: before change, x is", x
+    x = 2
+    print 'func3: changed x to', x
+
+x = 1
+
+print 'Global x is', x
+func1()
+print 'Global x is', x
+func2()
+print 'Global x is', x
+func3()
+print 'Global x is', x
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1493152098"></a><span style="">locals() 和 globals() 是两个特殊函数，返回局部变量和全局变量</span>
+<ul><li><a name="Freemind_Link_131256040"></a><span style="">locals() 返回局部变量的 copy，不能修改</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_559848498"></a><span style="">globals() 返回全局变量的 namespace, 可以通过其修改全局变量本身</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_432095969"></a><span style="">vars() 等同于 locales()，可以用 vars()['key'] = 'value' 动态添加局部变量</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1001023586"></a><span style="">复杂类型</span>
+<ul><li><a name="Freemind_Link_1204636251"></a><a style="" href="#Freemind_Link_1556810064">string/unicode（字符串）</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1296385109"></a><span style="">list （列表）</span>
+<ul><li><a name="Freemind_Link_1583327550"></a><span style="">方括号建立的列表</span>
+<ul><li><span style="">[10, 20, 30, 40]</span></li></ul>
+<ul><li><span style="">["spam", "bungee", "swallow"]</span></li></ul>
+<ul><li><span style="">["hello", 2.0, 5, [10, 20]]</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1792961010"></a><span style="">range 函数建立的列表</span>
+<ul><li><a name="Freemind_Link_24270249"></a><span style="">&gt;&gt;&gt; range(1,5)
+[1, 2, 3, 4]</span>
+<ul><li><a name="Freemind_Link_41394544"></a><span style="">从1 到 5，包括1，但不包括5。（隐含步长为1）</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1499902432"></a><span style="">&gt;&gt;&gt; range(10)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+<ul><li><a name="Freemind_Link_388625296"></a><span style="">从 0 到 10，包括 0，但不包括 10。（隐含步长为1）</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1310006747"></a><span style="">&gt;&gt;&gt; range(1, 10, 2)
+[1, 3, 5, 7, 9]</span>
+<ul><li><a name="Freemind_Link_1939634560"></a><span style="">步长为2</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_63913274"></a><span style="">访问列表中的元素</span>
+<ul><li><a name="Freemind_Link_384323944"></a><span style="">类似数组下标</span></li></ul>
+<ul><li><span style="">print numbers[0]</span></li></ul>
+<ul><li><span style="">numbers[1] = 5</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_966151305"></a><span style="">print 语句显示列表</span>
+<ul><li><a name="Freemind_Link_501291536"></a><span style="">vocabulary = ["ameliorate", "castigate", "defenestrate"]
+numbers = [17, 123]
+empty = []
+print vocabulary, numbers, empty
+['ameliorate', 'castigate', 'defenestrate'] [17, 123] []</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1893117093"></a><span style="">列表操作</span>
+<ul><li><a name="Freemind_Link_1279897229"></a><span style="">列表长度</span>
+<ul><li><a name="Freemind_Link_889633405"></a><span style="">len() 函数</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_956761636"></a><span style="">+ （相加）</span>
+<ul><li><a name="Freemind_Link_136141168"></a><span style="">&gt;&gt;&gt; a = [1, 2, 3]
+&gt;&gt;&gt; b = [4, 5, 6]
+&gt;&gt;&gt; c = a + b
+&gt;&gt;&gt; print c
+[1, 2, 3, 4, 5, 6]</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_462250105"></a><span style="">* （重复）</span>
+<ul><li><a name="Freemind_Link_502363907"></a><span style="">&gt;&gt;&gt; [0] * 4
+[0, 0, 0, 0]
+&gt;&gt;&gt; [1, 2, 3] * 3
+[1, 2, 3, 1, 2, 3, 1, 2, 3]</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_349687345"></a><span style="">List slices</span>
+<ul><li><a name="Freemind_Link_32630403"></a><a style="" href="#Freemind_Link_42868540">参见 String slices</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1126198878"></a><span style="">列表是变量，可以更改</span>
+<ul><li><a name="Freemind_Link_22886970"></a><span style="">不像字符串 str， List 是可以更改的</span></li></ul>
+<ul><li><a name="Freemind_Link_219318666"></a><span style="">&gt;&gt;&gt; fruit = ["banana", "apple", "quince"]
+&gt;&gt;&gt; fruit[0] = "pear"
+&gt;&gt;&gt; fruit[-1] = "orange"
+&gt;&gt;&gt; print fruit
+['pear', 'apple', 'orange']</span></li></ul>
+<ul><li><a name="Freemind_Link_450947306"></a><span style="">&gt;&gt;&gt; list = ['a', 'b', 'c', 'd', 'e', 'f']
+&gt;&gt;&gt; list[1:3] = ['x', 'y']
+&gt;&gt;&gt; print list
+['a', 'x', 'y', 'd', 'e', 'f']</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1306401486"></a><span style="">列表中增加元素</span>
+<ul><li><a name="Freemind_Link_1186982872"></a><span style="">&gt;&gt;&gt; list = ['a', 'd', 'f']
+&gt;&gt;&gt; list[1:1] = ['b', 'c']
+&gt;&gt;&gt; print list
+['a', 'b', 'c', 'd', 'f']
+&gt;&gt;&gt; list[4:4] = ['e']
+&gt;&gt;&gt; print list
+['a', 'b', 'c', 'd', 'e', 'f']</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1305131912"></a><span style="">删除列表中元素</span>
+<ul><li><a name="Freemind_Link_216398146"></a><span style="">通过清空而删除</span>
+<ul><li><a name="Freemind_Link_1187524898"></a><span style="">&gt;&gt;&gt; list = ['a', 'b', 'c', 'd', 'e', 'f']
+&gt;&gt;&gt; list[1:3] = []
+&gt;&gt;&gt; print list
+['a', 'd', 'e', 'f']</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1003001875"></a><span style="">使用 del 关键字</span>
+<ul><li><a name="Freemind_Link_805953430"></a><span style="">&gt;&gt;&gt; a = ['one', 'two', 'three']
+&gt;&gt;&gt; del a[1]
+&gt;&gt;&gt; a
+['one', 'three']</span></li></ul>
+<ul><li><a name="Freemind_Link_5464909"></a><span style="">&gt;&gt;&gt; list = ['a', 'b', 'c', 'd', 'e', 'f']
+&gt;&gt;&gt; del list[1:5]
+&gt;&gt;&gt; print list
+['a', 'f']</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1814012406"></a><span style="">查看列表的id</span>
+<ul><li><a name="Freemind_Link_239306544"></a><span style="">&gt;&gt;&gt; a = [1, 2, 3]
+&gt;&gt;&gt; b = [1, 2, 3]
+&gt;&gt;&gt; print id(a), id(b)
+418650444 418675820
+&gt;&gt;&gt; b = a
+&gt;&gt;&gt; print id(a), id(b)
+418650444 418650444
+&gt;&gt;&gt; b = a[:]
+&gt;&gt;&gt; print id(a), id(b)
+418650444 418675692</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1396269033"></a><span style="">引用和Copy/Clone</span>
+<ul><li><a name="Freemind_Link_1604582092"></a><a style="" href="#Freemind_Link_239306544">b = a，则两个变量指向同一个对象，两个变量的值一起变动</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_179748630"></a><a style="" href="#Freemind_Link_239306544">b = a[:]，则建立克隆，b 和 a 指向不同对象，互不相干</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1634832746"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">list 作为函数的参数，是引用调用，即函数对 list 所做的修改会影响 list 对象本身</span>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1795601085"></a><span style="">列表嵌套和矩阵</span>
+<ul><li><a name="Freemind_Link_740323607"></a><span style="">嵌套</span>
+<ul><li><a name="Freemind_Link_525930143"></a><span style="">&gt;&gt;&gt; list = ["hello", 2.0, 5, [10, 20]]
+&gt;&gt;&gt; list[3][1]
+20</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1078190733"></a><span style="">矩阵</span>
+<ul><li><a name="Freemind_Link_1065974369"></a><span style="">&gt;&gt;&gt; matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+&gt;&gt;&gt; matrix[1]
+[4, 5, 6]
+&gt;&gt;&gt; matrix[1][1]
+5</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1216168788"></a><span style="">字符串和列表</span>
+<ul><li><a name="Freemind_Link_524201632"></a><span style="">string.split 方法</span>
+<ul><li><a name="Freemind_Link_316747077"></a><span style="">&gt;&gt;&gt; import string
+&gt;&gt;&gt; song = "The rain in Spain..."
+&gt;&gt;&gt; string.split(song)
+['The', 'rain', 'in', 'Spain...']</span></li></ul>
+<ul><li><a name="Freemind_Link_711145241"></a><span style="">&gt;&gt;&gt; string.split(song, 'ai')
+['The r', 'n in Sp', 'n...']</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1886704563"></a><span style="">string.join 方法</span>
+<ul><li><a name="Freemind_Link_1990677488"></a><span style="">&gt;&gt;&gt; list = ['The', 'rain', 'in', 'Spain...']
+&gt;&gt;&gt; string.join(list)
+'The rain in Spain...'
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1282919966"></a><span style="">&gt;&gt;&gt; string.join(list, '_')
+'The_rain_in_Spain...'</span></li></ul>
+<ul><li><a name="Freemind_Link_712016162"></a><span style="">&gt;&gt;&gt; list = ['The', 'rain', 'in', 'Spain...']
+&gt;&gt;&gt; '|'.join(list)
+'The|rain|in|Spain...'
+</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1587932357"></a><span style="">Tuples</span>
+<ul><li><a name="Freemind_Link_195371697"></a><span style="">圆括号建立 Tuple</span>
+<ul><li><a name="Freemind_Link_1747406413"></a><span style="">在最外面用圆括号括起来</span>
+<ul><li><a name="Freemind_Link_867739234"></a><span style="">&gt;&gt;&gt; type((1,2,3))
+&lt;type 'tuple'&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1825214363"></a><span style="">必需是逗号分隔的多个值</span>
+<ul><li><a name="Freemind_Link_1703810150"></a><span style="">&gt;&gt;&gt; type((1))
+&lt;type 'int'&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_922539349"></a><span style="">&gt;&gt;&gt; type((1,))
+&lt;type 'tuple'&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_453025333"></a><span style="">&gt;&gt;&gt; type(('WorldHello'))
+&lt;type 'str'&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_433984030"></a><span style="">&gt;&gt;&gt; type(('WorldHello',))
+&lt;type 'tuple'&gt;</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_828661787"></a><span style="">Tuple vs list</span>
+<ul><li><a name="Freemind_Link_1376321032"></a><span style="">Tuple 和 list 的区别就是: Tuple 是不可更改的，而 list 是可以更改的</span></li></ul>
+<ul><li><a name="Freemind_Link_570828533"></a><span style="">一个元素也可以构成 list，但 tuple 必需为多个元素</span>
+<ul><li><a name="Freemind_Link_959801769"></a><span style="">&gt;&gt;&gt; type([1])
+&lt;type 'list'&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_674322060"></a><span style="">&gt;&gt;&gt; type((1))
+&lt;type 'int'&gt;</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_39327180"></a><span style="">Dictionaries （哈希表）</span>
+<ul><li><a name="Freemind_Link_278202182"></a><span style="">花括号建立 哈希表</span>
+<ul><li><a name="Freemind_Link_1081839252"></a><span style="">Perl 管这种类型叫做 哈希表 或者关联数组。即下标可以是字符串的数组</span></li></ul>
+<ul><li><a name="Freemind_Link_603033014"></a><span style="">&gt;&gt;&gt; eng2sp = {}
+&gt;&gt;&gt; eng2sp['one'] = 'uno'
+&gt;&gt;&gt; eng2sp['two'] = 'dos'
+&gt;&gt;&gt; print eng2sp
+{'one': 'uno', 'two': 'dos'}</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1710683289"></a><span style="">访问哈希表中元素：下标为字符串</span>
+<ul><li><a name="Freemind_Link_1970163437"></a><span style="">&gt;&gt;&gt; print eng2sp
+{'one': 'uno', 'three': 'tres', 'two': 'dos'}
+&gt;&gt;&gt; print eng2sp['two']
+'dos'</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_449232503"></a><span style="">哈希表操作</span>
+<ul><li><a name="Freemind_Link_340388765"></a><span style="">keys() 方法，返回 keys 组成的列表</span>
+<ul><li><a name="Freemind_Link_697687692"></a><span style="">&gt;&gt;&gt; eng2sp.keys()
+['one', 'three', 'two']</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1264192324"></a><span style="">values() 方法，返回由 values 组成的列表</span>
+<ul><li><a name="Freemind_Link_1119393686"></a><span style="">&gt;&gt;&gt; eng2sp.values()
+['uno', 'tres', 'dos']</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1265692897"></a><span style="">items() 方法，返回由 key-value tuple 组成的列表</span>
+<ul><li><a name="Freemind_Link_505345599"></a><span style="">&gt;&gt;&gt; eng2sp.items()
+[('one','uno'), ('three', 'tres'), ('two', 'dos')]</span></li></ul>
+<ul><li><a name="Freemind_Link_489577525"></a><span style="">from MoinMoin.util.chartypes import _chartypes
+for key, val in _chartypes.items():
+    if not vars().has_key(key):
+        vars()[key] = val</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1203353972"></a><span style="">haskey() 方法，返回布尔值</span>
+<ul><li><a name="Freemind_Link_1026628099"></a><span style="">&gt;&gt;&gt; eng2sp.has_key('one')
+True
+&gt;&gt;&gt; eng2sp.has_key('deux')
+False</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1643935887"></a><span style="">get() 方法</span>
+<ul><li><a name="Freemind_Link_790438190"></a><span style="">返回哈希表某个 key 对应的 value</span>
+<ul><li><a name="Freemind_Link_1302653264"></a><span style="">如 eng2sp.get('one')</span></li></ul>
+<ul><li><a name="Freemind_Link_988318105"></a><span style="">等同于 eng2sp['one']</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_941960050"></a><span style="">get() 可以带缺省值，即如果没有定义该 key，返回缺省值</span>
+<ul><li><a name="Freemind_Link_429559394"></a><span style="">如 eng2sp.get('none', 0)，如果没有定义 none, 返回 0，而不是空</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_768156914"></a><span style="">引用和 copy/clone</span>
+<ul><li><a name="Freemind_Link_501868669"></a><span style="">哈希表的克隆：copy() 方法</span>
+<ul><li><a name="Freemind_Link_1369347561"></a><span style="">&gt;&gt;&gt; opposites = {'up': 'down', 'right': 'wrong', 'true': 'false'}
+&gt;&gt;&gt; copy = opposites.copy()</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1533713627"></a><span style="">Iterators</span></li></ul>
+<ul><li><a name="Freemind_Link_1769682321"></a><span style="">type 函数返回变量类型</span>
+<ul><li><a name="Freemind_Link_1536036296"></a><span style="">isinstance(varname, type({}))</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1365349575"></a><span style="">语句</span>
+<ul><li><a name="Freemind_Link_60119158"></a><span style="">每一行语句，不需要分号作为语句结尾！</span></li></ul>
+<ul><li><a name="Freemind_Link_1247710324"></a><span style="">如果多个语句写在一行，则需要 分号 分隔；</span></li></ul>
+<ul><li><a name="Freemind_Link_33689050"></a><span style="">用 “\” 显示连接行</span>
+<ul><li><a name="Freemind_Link_828490025"></a><span style="">如：
+i=10
+print \
+i</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_595347029"></a><span style="">默认连接行</span>
+<ul><li><a name="Freemind_Link_1810581253"></a><span style="">方括号，圆括号，花括号中的内容可以多行排列，不用 \ 续行，默认续行</span></li></ul>
+<ul><li><a name="Freemind_Link_261022264"></a><span style="">例如：
+month_names = ['Januari', 'Februari', 'Maart',      # These are the
+               'April',   'Mei',      'Juni',       # Dutch names
+               'Juli',    'Augustus', 'September',  # for the months
+               'Oktober', 'November', 'December']   # of the year</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_6385624"></a><span style="font-family:sansserif;font-size:12;font-weight:bold;">缩进</span>
+
+<ul><li><a name="Freemind_Link_404494015"></a><span style="">一条语句前的空白（空格、TAB）是有意义的！</span></li></ul>
+<ul><li><a name="Freemind_Link_1601465610"></a><span style="">相同缩进的语句成为一个逻辑代码块</span></li></ul>
+<ul><li><a name="Freemind_Link_1535759566"></a><span style="">错误的缩进，将导致运行出错！</span></li></ul>
+<ul><li><a name="Freemind_Link_1371677406"></a><span style="">缩进的单位是空格。Tab 转换为1-8个空格，转换原则是空格总数是 8 的倍数。</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_831185267"></a><span style="">空语句 pass</span>
+<ul><li><a name="Freemind_Link_694287989"></a><span style="">def someFunction():
+        pass</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1543044680"></a><span style="">操作符和表达式</span>
+<ul><li><a name="Freemind_Link_1927711213"></a><span style="">** 代表幂</span>
+
+<ul><li><span style="">3 ** 4 gives 81 (i.e. 3 * 3 * 3 * 3)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1739713472"></a><span style="">// 代表 floor</span>
+
+<ul><li><span style="">4 // 3.0 gives 1.0</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_28924284"></a><span style="">% 代表取余</span>
+<ul><li><span style="">-25.5 % 2.25 gives 1.5 .</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1717682575"></a><span style="">&lt;&lt; 左移位</span></li></ul>
+<ul><li><a name="Freemind_Link_83080874"></a><span style="">&gt;&gt; 右移位</span></li></ul>
+<ul><li><a name="Freemind_Link_426512977"></a><span style="">&lt;, &gt;, &lt;=, &gt;=, ==, != 和 C 类似</span></li></ul>
+<ul><li><a name="Freemind_Link_958177671"></a><span style="">比较可以级联。如：</span>
+
+<ul><li><a name="Freemind_Link_870455838"></a><a style="" href="#Freemind_Link_731363591">if 0 &lt; x &lt; 10:
+        print "x is a positive single digit."</a>
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1694180142"></a><span style="">~, &amp;, |, ^ 和 c 语言相同</span>
+<ul><li><span style="">5 &amp; 3 gives 1.</span></li></ul>
+<ul><li><span style="">5 | 3 gives 7.</span></li></ul>
+<ul><li><span style="">5 ^ 3 gives 6</span></li></ul>
+<ul><li><a name="Freemind_Link_1185382508"></a><span style="">~5 gives -6</span>
+<ul><li><a name="Freemind_Link_555505399"></a><span style="">取反。 ~x 相当于 -(x+1)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1843040085"></a><span style="">and, or, not 代表逻辑与或非</span>
+<ul><li><a name="Freemind_Link_731363591"></a><span style="">if 0 &lt; x and x &lt; 10:
+        print "x is a positive single digit."</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_892976439"></a><span style="">is 和 is not，用于 比较 两个 object 是否为同一个对象</span>
+
+<ul><li><a name="Freemind_Link_553882075"></a><span style="">实际上两个对象的 ID 相同，才代表同一个对象。</span></li></ul>
+<ul><li><a name="Freemind_Link_1028723383"></a><span style="">is:  id(obj1) == id(obj2)</span></li></ul>
+<ul><li><a name="Freemind_Link_1987476898"></a><span style="">is not:  id(obj1) != id(obj2)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_986476276"></a><span style="">in, not in 用于测试成员变量</span>
+
+<ul><li><a name="Freemind_Link_1428270092"></a><span style="">'a' in ['a', 'b', 'c'] # True</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1776152631"></a><span style="">交换赋值 a,b = b,a</span>
+
+<ul><li><a name="Freemind_Link_1793879479"></a><span style="">为交换变量 a, b 的值，其它语言可能需要一个中间变量</span>
+<ul><li><a name="Freemind_Link_622120638"></a><span style="">temp=a
+a=b
+b=temp</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_924810649"></a><span style="">python 有一个交换赋值的写法： a,b = b,a</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1641023166"></a><span style="">控制语句</span>
+<ul><li><a name="Freemind_Link_931226703"></a><span style="">if 语句</span>
+<ul><li><a name="Freemind_Link_1334978245"></a><span style="">if ... elif ... else ， 示例：（注意冒号和缩进）</span>
+<ul><li><a name="Freemind_Link_808151229"></a><span style="">#!/usr/bin/python
+# Filename : if.py
+number = 23
+guess = int(raw_input('Enter an integer : '))
+if guess == number:
+    print 'Congratulations, you guessed it.' # new block starts here
+    print "(but you don't win any prizes!)" # new block ends here
+elif guess &lt; number:
+    print 'No, it is a little higher than that.' # another block
+    # You can do whatever you want in a block ...
+else:
+    print 'No, it is a little lower than that.'
+    # you must have guess &gt; number to reach here
+print 'Done'
+# This last statement is always executed, after the if statement
+# is executed.
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_149755571"></a><span style="">注意: 没有 switch... case 语句！</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1810326334"></a><span style="">while 循环语句</span>
+<ul><li><a name="Freemind_Link_1542371088"></a><span style="">while ... [else ...] ，示例：（else 可选）</span>
+<ul><li><a name="Freemind_Link_103455237"></a><span style="">#!/usr/bin/python
+# Filename : while.py
+number = 23
+stop = False
+while not stop:
+        guess = int(raw_input('Enter an integer : '))
+        if guess == number:
+                print 'Congratulations, you guessed it.'
+                stop = True # This causes the while loop to stop
+        elif guess &lt; number:
+             print 'No, it is a little higher than that.'
+        else: # you must have guess &gt; number to reach here
+               print 'No, it is a little lower than that.'
+else:
+      print 'The while loop is over.'
+      print 'I can do whatever I want here.'
+print 'Done.'</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_492688627"></a><span style="">break 和 continue 语句</span>
+<ul><li><a name="Freemind_Link_453109879"></a><span style="">break 语句跳出循环，且不执行 else 语句</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_150569154"></a><span style="">for 循环语句</span>
+<ul><li><a name="Freemind_Link_329191971"></a><span style="">for... else... ，示例：（else 可选）</span>
+<ul><li><a name="Freemind_Link_1441272892"></a><span style="">#!/usr/bin/python
+# Filename : for.py
+for i in range(1, 5):
+        print i
+else:
+        print 'The for loop is over.'</span>
+<ul><li><a name="Freemind_Link_1575548173"></a><a style="" href="#Freemind_Link_1792961010">range(1,5) 相当于 range(1,5,1) 第三个参数为步长</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_336876758"></a><span style="">range 止于第二个参数，但不包括第二个参数</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1008518702"></a><span style="">break 和 continue 语句</span>
+<ul><li><a name="Freemind_Link_573155847"></a><span style="">break 语句跳出循环，且不执行 else 语句</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_760129679"></a><span style="">后置 for 语句</span>
+<ul><li><a name="Freemind_Link_1709285067"></a><span style="">[ name for name in wikiaction.__dict__ ]</span></li></ul>
+<ul><li><a name="Freemind_Link_507474462"></a><span style="">actions = [name[3:] for name in wikiaction.__dict__ if name.startswith('do_')]</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_901828705"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_1544519838"></a><span style="">字符串中的字符</span>
+<ul><li><a name="Freemind_Link_524558808"></a><span style="">prefixes = "JKLMNOPQ"
+suffix = "ack"
+for letter in prefixes:
+        print letter + suffix</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_369268204"></a><span style="">函数</span>
+<ul><li><a name="Freemind_Link_313967808"></a><span style="">函数声明</span>
+<ul><li><a name="Freemind_Link_1463873622"></a><span style="">def 关键字</span>
+<ul><li><a name="Freemind_Link_834232186"></a><span style="">函数名</span></li></ul>
+<ul><li><a name="Freemind_Link_111575197"></a><span style="">括号和参数</span></li></ul>
+<ul><li><a name="Freemind_Link_1296719879"></a><span style="">冒号</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1038999284"></a><span style="">如：</span>
+<ul><li><a name="Freemind_Link_629656501"></a><span style="">#!/usr/bin/python
+# Filename : func_param.py
+def printMax(a, b):
+    if a &gt; b:
+        print a, 'is maximum'
+    else:
+        print b, 'is maximum'
+printMax(3, 4) # Directly give literal values</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_80259112"></a><span style="">参数的缺省值</span>
+<ul><li><a name="Freemind_Link_449718724"></a><span style="">如同 C++ 那样</span>
+<ul><li><a name="Freemind_Link_379383958"></a><span style="">#!/usr/bin/python
+# Filename : func_default.py
+def say(s, times = 1):
+        print s * times
+say('Hello')
+say('World', 5)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1735733607"></a><span style="">关键字参数</span>
+<ul><li><a name="Freemind_Link_1225513965"></a><span style="">在 C++ 等语言中遇到如下困扰：有一长串参数，虽然都有缺省值，但只为了修改后面的某个参数，还需要把前面的参数也赋值。这种方式，在 python 中称为顺序参数赋值。</span></li></ul>
+<ul><li><a name="Freemind_Link_1717677462"></a><span style="">Python 的一个特色是关键字参数赋值</span></li></ul>
+<ul><li><a name="Freemind_Link_1106354373"></a><span style="">例如：</span>
+<ul><li><a name="Freemind_Link_374204463"></a><span style="">#!/usr/bin/python
+# Filename : func_key.py
+
+def func(a, b=5, c=10):
+        print 'a is', a, 'and b is', b, 'and c is', c
+
+func(3, 7)
+func(25, c=24)
+func(c=50, a=100)</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_348975810"></a><span style="">可变参数</span>
+<ul><li><a name="Freemind_Link_880637622"></a><span style="">参数前加 * 或者 **，则读取的是 list 或者 dictionary</span></li></ul>
+<ul><li><a name="Freemind_Link_1091270703"></a><span style="">示例1</span>
+<ul><li><a name="Freemind_Link_556730719"></a><span style="">#!/usr/bin/python
+
+def sum(*args):
+	'''Return the sum the number of args.'''
+	total = 0
+	for i in range(0, len(args)):
+		total += args[i]
+	return total
+
+print sum(10, 20, 30, 40, 50)
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_322720763"></a><span style="">函数返回值</span>
+<ul><li><a name="Freemind_Link_1256400413"></a><span style="">return 语句提供函数返回值</span></li></ul>
+<ul><li><a name="Freemind_Link_1136654223"></a><span style="">没有 return，则返回 None</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_232415690"></a><span style="">DocStrings</span>
+<ul><li><a name="Freemind_Link_1153186371"></a><span style="">DocStrings 提供函数的帮助</span>
+<ul><li><a name="Freemind_Link_1851020318"></a><span style="">函数内部的第一行开始的字符串为 DocStrings</span></li></ul>
+<ul><li><a name="Freemind_Link_1744011447"></a><span style="">DocStrings 一般为多行</span>
+<ul><li><a name="Freemind_Link_1946098680"></a><span style="">DocString 为三引号扩起来的多行字符串</span></li></ul>
+<ul><li><a name="Freemind_Link_78033570"></a><span style="">第一行为概述</span></li></ul>
+<ul><li><a name="Freemind_Link_527601372"></a><span style="">第二行为空行</span></li></ul>
+<ul><li><a name="Freemind_Link_590473791"></a><span style="">第三行开始是详细描述</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_164260588"></a><span style="">DocStrings 的存在证明了函数也是对象</span>
+<ul><li><a name="Freemind_Link_1934728369"></a><span style="">函数的 __doc__ 属性为该 DocStrings</span></li></ul>
+<ul><li><a name="Freemind_Link_172463186"></a><span style="">例如 print printMax.__doc__ 为打印 printMax 函数的 DocStrings</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_863121919"></a><span style="">help( ) 查看帮助就是调用函数的 DocStrings</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_114874931"></a><span style="">Lambda Forms</span>
+<ul><li><a name="Freemind_Link_1104898213"></a><span style="">Lambda Forms 用于创建并返回新函数，即是一个函数生成器</span></li></ul>
+<ul><li><a name="Freemind_Link_1961114309"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_1568810173"></a><span style=""></span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1644687456"></a><span style="">内置函数和对象</span>
+<ul><li><a name="Freemind_Link_608439435"></a><span style="">帮助： import __builtin__; help (__builtin__)</span></li></ul>
+<ul><li><a name="Freemind_Link_815931800"></a><span style="">函数</span>
+<ul><li><a name="Freemind_Link_1010797027"></a><span style="">数学／逻辑／算法</span>
+<ul><li><a name="Freemind_Link_844090006"></a><span style="">abs(number) :  绝对值</span></li></ul>
+<ul><li><a name="Freemind_Link_1403961589"></a><span style="">cmp(x,y) ： 比较x y 的值。返回 1,0,-1</span></li></ul>
+<ul><li><a name="Freemind_Link_1417115589"></a><span style="">divmod(x, y) -&gt; (div, mod) ： 显示除数和余数</span></li></ul>
+<ul><li><a name="Freemind_Link_532218549"></a><span style="">pow(x, y[, z]) -&gt; number </span></li></ul>
+<ul><li><a name="Freemind_Link_1808518987"></a><span style="">round(number[, ndigits]) -&gt; floating point number ： 四舍五入，保留 n 位小数</span></li></ul>
+<ul><li><a name="Freemind_Link_578115438"></a><span style="">sum(sequence, start=0) -&gt; value ： 取 sequence 的和</span></li></ul>
+<ul><li><a name="Freemind_Link_489975198"></a><span style="">hex(number) -&gt; string ： 返回十六进制</span></li></ul>
+<ul><li><a name="Freemind_Link_1423212475"></a><span style="">oct(number) -&gt; string ： 八进制</span></li></ul>
+<ul><li><a name="Freemind_Link_1342489019"></a><span style="">len(object) -&gt; integer</span></li></ul>
+<ul><li><a name="Freemind_Link_257893748"></a><span style="">max(sequence) -&gt; value </span></li></ul>
+<ul><li><a name="Freemind_Link_1403294775"></a><span style="">min(sequence) -&gt; value </span></li></ul>
+<ul><li><a name="Freemind_Link_1299597519"></a><span style="">range([start,] stop[, step]) -&gt; list of integers</span>
+<ul><li><a name="Freemind_Link_875579997"></a><span style="">&gt;&gt;&gt; range(10)
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_807785839"></a><span style="">filter(function or None, sequence) -&gt; list, tuple, or string </span>
+<ul><li><a name="Freemind_Link_117571335"></a><span style="">function 作用于 sequence 的每一个元素，返回 true 的元素。返回类型同 sequence 类型。</span></li></ul>
+<ul><li><a name="Freemind_Link_1805342917"></a><span style="">如果 function 为 None，返回本身为 true 的元素</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_176392019"></a><span style="">map(function, sequence[, sequence, ...]) -&gt; list </span>
+<ul><li><a name="Freemind_Link_305211959"></a><span style="">将函数作用于 sequence 每个元素，生成 list</span></li></ul>
+<ul><li><a name="Freemind_Link_139007413"></a><span style="">&gt;&gt;&gt; map(lambda x : x*2, [1,2,3,4,5])
+[2, 4, 6, 8, 10]
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_621454365"></a><span style="">reduce(function, sequence[, initial]) -&gt; value</span>
+<ul><li><a name="Freemind_Link_460319754"></a><span style="">从左至右，将函数作用在 sequence 上，最终由 sequence 产生一个唯一值。</span></li></ul>
+<ul><li><a name="Freemind_Link_1299319407"></a><span style="">&gt;&gt;&gt; reduce(lambda x, y: x+y, [1, 2, 3, 4, 5])
+15
+相当于 ((((1+2)+3)+4)+5)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1476462878"></a><span style="">sorted(iterable, cmp=None, key=None, reverse=False) ： 排序</span></li></ul>
+<ul><li><a name="Freemind_Link_651273622"></a><span style="">zip(seq1 [, seq2 [...]]) -&gt; [(seq1[0], seq2[0] ...), (...)] </span>
+<ul><li><a name="Freemind_Link_1395703689"></a><span style="">&gt;&gt;&gt; zip('1234','789')
+[('1', '7'), ('2', '8'), ('3', '9')]
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_587947093"></a><span style="">coerce(x, y) -&gt; (x1, y1)</span>
+<ul><li><a name="Freemind_Link_1667576360"></a><span style="">Return a tuple consisting of the two numeric arguments converted to a common type, using the same rules as used by arithmetic operations. If coercion is not possible, raise TypeError.</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1099093588"></a><span style="">字符串</span>
+<ul><li><a name="Freemind_Link_1035800657"></a><span style="">chr(i) ： 0&lt;=i&lt;256, 返回 ascii 码为 i 的字符</span></li></ul>
+<ul><li><a name="Freemind_Link_1671440023"></a><span style="">unichr(i) -&gt; Unicode character ： 返回 unicode 。 0 &lt;= i &lt;= 0x10ffff</span></li></ul>
+<ul><li><a name="Freemind_Link_1814350040"></a><span style="">ord(c) ： 返回字符 c 的 ascii 码</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_584617607"></a><span style="">对象相关</span>
+<ul><li><a name="Freemind_Link_1675953670"></a><span style="">delattr(object,name) ： 在对象 object 中删除属性 name</span>
+<ul><li><a name="Freemind_Link_1067983932"></a><span style="">delattr(x, 'y') 相当于 del x.y</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_796851325"></a><span style="">getattr(object, name[, default]) -&gt; value</span>
+<ul><li><a name="Freemind_Link_340017370"></a><span style="">getattr(x, 'y') 相当于 x.y</span></li></ul>
+<ul><li><a name="Freemind_Link_75126563"></a><span style="">缺省值，是当对象不包含时的取值</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1319742900"></a><span style="">hasattr(object, name) -&gt; bool</span></li></ul>
+<ul><li><a name="Freemind_Link_396739839"></a><span style="">id(object) -&gt; integer ： 返回对象 ID，相当于内存中地址</span></li></ul>
+<ul><li><a name="Freemind_Link_851352814"></a><span style="">hash(object) -&gt; integer ： 两个对象具有相同的值，就有相当的 hash。但反之未必。</span></li></ul>
+<ul><li><a name="Freemind_Link_73191417"></a><span style="">setattr(object, name, value) ： 相当于赋值  x.y = v</span></li></ul>
+<ul><li><a name="Freemind_Link_771015132"></a><span style="">isinstance(object, class-or-type-or-tuple) -&gt; bool</span></li></ul>
+<ul><li><a name="Freemind_Link_1607994498"></a><span style="">issubclass(C, B) -&gt; bool </span></li></ul>
+<ul><li><a name="Freemind_Link_321037734"></a><span style="">globals() -&gt; dictionary</span></li></ul>
+<ul><li><a name="Freemind_Link_1869206614"></a><span style="">locals() -&gt; dictionary</span></li></ul>
+<ul><li><a name="Freemind_Link_551264097"></a><span style="">vars([object]) -&gt; dictionary</span>
+<ul><li><a name="Freemind_Link_156700221"></a><span style="">没有参数相当于 locals()</span></li></ul>
+<ul><li><a name="Freemind_Link_1128174315"></a><span style="">以对象为参数，相当于 object.__dict__</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1331380059"></a><span style="">dir([object]) ： 显示对象属性列表</span></li></ul>
+<ul><li><a name="Freemind_Link_1767397604"></a><span style="">repr(object) -&gt; string ： 对象 object 的正式名称</span></li></ul>
+<ul><li><a name="Freemind_Link_105224559"></a><span style="">reload(module) -&gt; module ： 重新加载 module</span></li></ul>
+<ul><li><a name="Freemind_Link_160026950"></a><span style="">iter</span>
+<ul><li><a name="Freemind_Link_1351984748"></a><span style="">iter(collection) -&gt; iterator</span>
+<ul><li><a name="Freemind_Link_42808916"></a><span style="">Get an iterator from an object.  In the first form, the argument must
+        supply its own iterator, or be a sequence.</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1707136942"></a><span style="">iter(callable, sentinel) -&gt; iterator</span>
+<ul><li><a name="Freemind_Link_844025746"></a><span style="">In the second form, the callable is called until it returns the sentinel. </span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1758299833"></a><span style="">输入输出</span>
+<ul><li><a name="Freemind_Link_1503593057"></a><span style="">input([prompt]) -&gt; value ： 输入。相当于 eval(raw_input(prompt))。</span></li></ul>
+<ul><li><a name="Freemind_Link_904707967"></a><span style="">raw_input([prompt]) -&gt; string ： 输入内容不做处理，作为字符串</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_31853012"></a><span style="">其他</span>
+<ul><li><a name="Freemind_Link_236254953"></a><span style="">__import__(name, globals, locals, fromlist) -&gt; module ： 动态加载模块</span>
+<ul><li><a name="Freemind_Link_637695214"></a><span style="">import module 中的 module 不能是变量。如果要使用变量动态加载模块，使用下面的方法。</span></li></ul>
+<ul><li><a name="Freemind_Link_57613519"></a><span style="">def importName(modulename, name):
+    """ Import name dynamically from module
+
+    Used to do dynamic import of modules and names that you know their
+    names only in runtime.
+
+    Any error raised here must be handled by the caller.
+    
+    @param modulename: full qualified mudule name, e.g. x.y.z
+    @param name: name to import from modulename
+    @rtype: any object
+    @return: name from module
+    """
+    module = __import__(modulename, globals(), {}, [name])
+    return getattr(module, name)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_223911742"></a><span style="">callable(object) ： 是否可调用，如函数。对象也可以调用。</span></li></ul>
+<ul><li><a name="Freemind_Link_1887428785"></a><span style="">compile(source, filename, mode[, flags[, dont_inherit]]) -&gt; code object </span></li></ul>
+<ul><li><a name="Freemind_Link_1238246051"></a><span style="">eval(source[, globals[, locals]]) -&gt; value</span>
+<ul><li><a name="Freemind_Link_1001865670"></a><span style="">执行代码，source 可以是字符串表达的代码，或者 compile 返回的 code object</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_160640916"></a><span style="">execfile(filename[, globals[, locals]]) </span></li></ul>
+<ul><li><a name="Freemind_Link_1102349147"></a><span style="">intern(string) -&gt; string </span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1934446701"></a><span style="">对象</span>
+<ul><li><span style="">basestring</span>
+<ul><li><span style="">str</span></li></ul>
+<ul><li><span style="">unicode</span></li></ul>
+</li></ul>
+<ul><li><span style="">buffer</span></li></ul>
+<ul><li><span style="">classmethod</span></li></ul>
+<ul><li><span style="">complex</span></li></ul>
+<ul><li><span style="">dict</span></li></ul>
+<ul><li><span style="">enumerate</span></li></ul>
+<ul><li><span style="">file</span></li></ul>
+<ul><li><span style="">file</span></li></ul>
+<ul><li><span style="">float</span></li></ul>
+<ul><li><span style="">frozenset</span></li></ul>
+<ul><li><span style="">int</span>
+<ul><li><span style="">bool</span></li></ul>
+</li></ul>
+<ul><li><span style="">list</span></li></ul>
+<ul><li><span style="">long</span></li></ul>
+<ul><li><span style="">property</span></li></ul>
+<ul><li><span style="">reversed</span></li></ul>
+<ul><li><span style="">set</span></li></ul>
+<ul><li><span style="">slice</span></li></ul>
+<ul><li><span style="">staticmethod</span></li></ul>
+<ul><li><span style="">super</span></li></ul>
+<ul><li><span style="">tuple</span></li></ul>
+<ul><li><span style="">type</span></li></ul>
+<ul><li><span style="">xrange</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_18705921"></a><span style="">输入和输出</span>
+<ul><li><a name="Freemind_Link_1127908765"></a><span style="">输入：raw_input vs input</span>
+<ul><li><a name="Freemind_Link_1893889538"></a><span style="">最好用 raw_input</span>
+<ul><li><a name="Freemind_Link_1700867214"></a><span style="">name = raw_input ("What...is your name? ")</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1242921470"></a><span style="">input 只能用于输入数字</span>
+<ul><li><a name="Freemind_Link_548999226"></a><span style="">age = input ("How old are you? ")</span></li></ul>
+<ul><li><a name="Freemind_Link_461294008"></a><span style="">如果输入的不是数字，直接报错退出！</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_98352049"></a><span style="">文件</span>
+<ul><li><a name="Freemind_Link_1223501385"></a><span style="">打开文件</span>
+<ul><li><a name="Freemind_Link_318439085"></a><span style="">读</span>
+<ul><li><span style="">&gt;&gt;&gt; f = open("test.dat","r")</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1880180089"></a><span style="">写</span>
+<ul><li><a name="Freemind_Link_1142998771"></a><span style="">&gt;&gt;&gt; f = open("test.dat","w")
+&gt;&gt;&gt; print f
+&lt;open file 'test.dat', mode 'w' at fe820&gt;</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_197507228"></a><span style="">write("content")：写文件</span>
+<ul><li><a name="Freemind_Link_820816486"></a><span style="">&gt;&gt;&gt; f.write("Now is the time")
+&gt;&gt;&gt; f.write("to close the file")</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1385237992"></a><span style="">read(count)：读文件</span>
+<ul><li><a name="Freemind_Link_206614980"></a><span style="">读取全部数据</span>
+<ul><li><a name="Freemind_Link_1040391951"></a><span style="">&gt;&gt;&gt; text = f.read()
+&gt;&gt;&gt; print text
+Now is the timeto close the file</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1307896961"></a><span style="">读取定长数据</span>
+<ul><li><a name="Freemind_Link_52716446"></a><span style="">&gt;&gt;&gt; f = open("test.dat","r")
+&gt;&gt;&gt; print f.read(5)
+Now i</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1589961102"></a><span style="">判断是否到文件尾：读取内容为空</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1122344756"></a><span style="">readline()：读取一行内容，包括行尾换行符</span></li></ul>
+<ul><li><a name="Freemind_Link_1618601065"></a><span style="">readlines()：读取每行内容到一个列表</span></li></ul>
+<ul><li><a name="Freemind_Link_1436923171"></a><span style="">关闭文件</span>
+<ul><li><span style="">&gt;&gt;&gt; f.close()</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_209215648"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_126147857"></a><span style="">def copyFile(oldFile, newFile):
+f1 = open(oldFile, "r")
+f2 = open(newFile, "w")
+while True:
+        text = f1.read(50)
+        if text == "":
+                break
+        f2.write(text)
+f1.close()
+f2.close()
+return</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1774460735"></a><span style="">% 格式化输出</span>
+<ul><li><a name="Freemind_Link_1121969412"></a><span style="">% 用在数字中，是取余数。</span></li></ul>
+<ul><li><a name="Freemind_Link_604832794"></a><span style="">% 前面如果是字符串，则类似 C 的 printf 格式化输出。</span></li></ul>
+<ul><li><a name="Freemind_Link_928217962"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_518022768"></a><span style="">&gt;&gt;&gt; cars = 52
+&gt;&gt;&gt; "In July we sold %d cars." % cars
+'In July we sold 52 cars.'</span></li></ul>
+<ul><li><a name="Freemind_Link_1974170487"></a><span style="">&gt;&gt;&gt; "In %d days we made %f million %s." % (34,6.1,'dollars')
+'In 34 days we made 6.100000 million dollars.'</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_805302942"></a><span style="">pickle 和 cPickle</span>
+<ul><li><a name="Freemind_Link_1501817850"></a><span style="">相当于 C++ 中的序列化</span></li></ul>
+<ul><li><a name="Freemind_Link_16748314"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_1345476048"></a><span style="">&gt;&gt;&gt; import pickle
+&gt;&gt;&gt; f = open("test.pck","w")
+&gt;&gt;&gt; pickle.dump(12.3, f)
+&gt;&gt;&gt; pickle.dump([1,2,3], f)
+&gt;&gt;&gt; f.close()
+
+&gt;&gt;&gt; f = open("test.pck","r")
+&gt;&gt;&gt; x = pickle.load(f)
+&gt;&gt;&gt; x
+12.3
+&gt;&gt;&gt; type(x)
+&lt;type 'float'&gt;
+&gt;&gt;&gt; y = pickle.load(f)
+&gt;&gt;&gt; y
+[1, 2, 3]
+&gt;&gt;&gt; type(y)
+&lt;type 'list'&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1867827574"></a><span style="">使用 cPickle</span>
+<ul><li><a name="Freemind_Link_1031173763"></a><span style="">cPickle 是用 C 语言实现的，速度更快</span></li></ul>
+<ul><li><a name="Freemind_Link_996120407"></a><span style="">比较两者时间</span>
+<ul><li><a name="Freemind_Link_1659930493"></a><span style="">bash$ x=1; time while [ $x -lt 20 ]; do x=`expr $x + 1`;  ./pickle.py ; done
+real    0m5.743s
+user    0m2.368s
+sys     0m2.932s
+
+bash$ x=1; time while [ $x -lt 20 ]; do x=`expr $x + 1`;  ./cpickle.py ; done
+real    0m3.826s
+user    0m2.194s
+sys     0m1.958s</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1578853529"></a><span style="">cPickle 示例</span>
+<ul><li><a name="Freemind_Link_1954743131"></a><span style="">#!/usr/bin/python
+# Filename: pickling.py
+
+import cPickle
+
+shoplistfile = 'shoplist.data' # The name of the file we will use
+
+shoplist = ['apple', 'mango', 'carrot']
+
+# Write to the storage
+f = file(shoplistfile, 'w')
+cPickle.dump(shoplist, f) # dump the data to the file
+f.close()
+
+del shoplist # Remove shoplist
+
+# Read back from storage
+f = file(shoplistfile)
+storedlist = cPickle.load(f)
+print storedlist
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_477403093"></a><span style="">管道(pipe)</span>
+<ul><li><a name="Freemind_Link_1470597183"></a><span style="">os.popen('ls /etc').read()</span></li></ul>
+<ul><li><a name="Freemind_Link_933757208"></a><span style="">os.popen('ls /etc').readlines()</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_598163207"></a><span style="">关于 Python</span>
+<ul><li><a name="Freemind_Link_1039000636"></a><span style="">Python 链接</span>
+<ul><li><a name="Freemind_Link_1164594854"></a><span style="">http://www.python.org</span></li></ul>
+<ul><li><a name="Freemind_Link_1528732963"></a><span style="">wxPython</span></li></ul>
+<ul><li><a name="Freemind_Link_1891024819"></a><span style="">Boa</span></li></ul>
+<ul><li><a name="Freemind_Link_159196161"></a><span style="">Eclipse</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1095417466"></a><span style="">Python 版本</span>
+<ul><li><span style="">2.4.3</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1436348282"></a><span style="">关于本文</span>
+<ul><li><a name="Freemind_Link_452334831"></a><span style="">作者</span>
+<ul><li><a name="Freemind_Link_1545358139"></a><span style="">J</span>
+<ul><li><a name="Freemind_Link_1880872410"></a><span style="">Jiang Xin</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1128278540"></a><span style="">等待你的加入...</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1919660892"></a><span style="">参考资料</span>
+<ul><li><a name="Freemind_Link_562143718"></a><span style="">《A Byte of Python》, by Swaroop C H</span></li></ul>
+<ul><li><a name="Freemind_Link_404286845"></a><span style="">《How to Think Like a Computer Scientist ——Learning with Python》</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_426858047"></a><span style="">面向对象：类的编程</span>
+<ul><li><a name="Freemind_Link_767102022"></a><span style="">甚至字符串，变量，函数，都是对象</span></li></ul>
+<ul><li><a name="Freemind_Link_1935652908"></a><span style="">概念</span>
+<ul><li><a name="Freemind_Link_847129716"></a><span style="">class 和 object</span>
+<ul><li><a name="Freemind_Link_755517910"></a><span style="">class 是用 class 关键字创建的一个新类型</span></li></ul>
+<ul><li><a name="Freemind_Link_1408760060"></a><span style="">object 是该 class 的一个实例</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1301181815"></a><span style="">fields 和 methods</span>
+<ul><li><a name="Freemind_Link_156625122"></a><span style="">class 中定义的变量称为 field</span></li></ul>
+<ul><li><a name="Freemind_Link_83150406"></a><span style="">class 中定义的函数称为 method</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_93259456"></a><span style="">fields 的两种类型</span>
+<ul><li><a name="Freemind_Link_503301735"></a><span style="">instance variables</span>
+<ul><li><a name="Freemind_Link_139675182"></a><span style="">属于该类的每一个对象实例</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1815524879"></a><span style="">class variables</span>
+<ul><li><a name="Freemind_Link_1461436062"></a><span style="">属于class 本身的</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_544097652"></a><span style="">method（方法） 与函数的区别</span>
+<ul><li><a name="Freemind_Link_27513138"></a><span style="">method 的第一个参数比较特殊</span>
+<ul><li><a name="Freemind_Link_1250725245"></a><span style="">在 method 声明时必须提供，但是调用时又不能提供该参数</span></li></ul>
+<ul><li><a name="Freemind_Link_1414120336"></a><span style="">这个参数指向对象本身，一般命名为 self</span></li></ul>
+<ul><li><a name="Freemind_Link_506978382"></a><span style="">python 在调用时会自动提供该参数</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1472549935"></a><span style="">例如：调用 MyClass 的一个实例 MyObject：
+MyObject.method(arg1, arg2) ，Python 自动调用 MyClass.method(MyObject, arg1,arg2).</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_898202331"></a><span style="">class 变量和 object 变量</span>
+<ul><li><a name="Freemind_Link_1323148618"></a><span style="">在 Class ChassName 中定义的变量 var1 和 var2</span></li></ul>
+<ul><li><a name="Freemind_Link_156955273"></a><span style="">如果 ClassName.var1 方式调用，则该变量为 Class 变量，在该 Class 的各个实例中共享</span></li></ul>
+<ul><li><a name="Freemind_Link_1184817784"></a><span style="">如果 var2 以 self.var2 方式调用，则该变量为 Object 变量，与其他 Object 隔离</span></li></ul>
+<ul><li><a name="Freemind_Link_1184627937"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_197018142"></a><span style="">类 Person, 每新增一人，类变量 population 加一</span></li></ul>
+<ul><li><a name="Freemind_Link_1697186420"></a><span style="">代码</span>
+<ul><li><a name="Freemind_Link_1044172006"></a><span style="">#!/usr/bin/python
+# Filename: objvar.py
+class Person:
+    '''Represents a person.'''
+    population = 0
+    def __init__(self, name):
+        '''Initializes the person.'''
+        self.name = name
+        print '(Initializing %s)' % self.name
+        # When this person is created,
+        # he/she adds to the population
+        Person.population += 1
+
+    def sayHi(self):
+        '''Greets the other person.
+        Really, that's all it does.'''
+        print 'Hi, my name is %s.' % self.name
+
+    def howMany(self):
+        '''Prints the current population.'''
+        # There will always be atleast one person
+        if Person.population == 1:
+            print 'I am the only person here.'
+        else:
+            print 'We have %s persons here.' % \
+            Person.population
+
+swaroop = Person('Swaroop')
+swaroop.sayHi()
+swaroop.howMany()
+
+kalam = Person('Abdul Kalam')
+kalam.sayHi()
+kalam.howMany()
+
+swaroop.sayHi()
+swaroop.howMany()
+</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1387499583"></a><span style="">构造和析构函数</span>
+<ul><li><a name="Freemind_Link_680072536"></a><span style="">__init__ 构造函数</span>
+<ul><li><a name="Freemind_Link_1099619371"></a><span style="">在对象建立时，该函数自动执行。</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1857005340"></a><span style="">__del__ 构造函数</span>
+<ul><li><a name="Freemind_Link_511967024"></a><span style="">在用 del 删除对象时，该函数自动执行。</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1910977763"></a><span style="">其他类的方法</span>
+<ul><li><a name="Freemind_Link_295925977"></a><span style="">大多和操作符重载相关</span></li></ul>
+<ul><li><a name="Freemind_Link_960806366"></a><span style="">__lt__(self, other)</span>
+<ul><li><a name="Freemind_Link_1569619982"></a><span style="">重载 &lt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_804383051"></a><span style=""> __getitem__(...)
+      x.__getitem__(y) &lt;==&gt; x[y]
+</span>
+<ul><li><a name="Freemind_Link_472554242"></a><span style="">重载 [key]</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_986424351"></a><span style="">__len__(self)</span>
+<ul><li><a name="Freemind_Link_949054829"></a><span style="">重载 len() 函数</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_243516447"></a><span style="">__str__(self)</span>
+<ul><li><a name="Freemind_Link_1109071433"></a><span style="">当 print object 时，打印的内容</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_710126935"></a><span style="">__iter__(self)</span>
+<ul><li><a name="Freemind_Link_1854900998"></a><span style="">支持 iterator, 返回一个包含 next() 方法的对象。或者如果类定义了 next(), __iter__ 可以直接返回 self</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1019314041"></a><span style="">__getattribute__(...)
+      x.__getattribute__('name') &lt;==&gt; x.name
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_353312013"></a><span style="">类的继承</span>
+<ul><li><a name="Freemind_Link_1641763681"></a><span style="">语法，在子类声明中用括号将基类扩在其中</span></li></ul>
+<ul><li><a name="Freemind_Link_290656089"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_1140943958"></a><span style=""># Filename: inheritance.py
+class SchoolMember:
+    '''Represents any school member.'''
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        print '(Initialized SchoolMember: %s)' % self.name
+
+    def tell(self):
+        print 'Name:"%s" Age:"%s" ' % (self.name, self.age),
+
+
+class Teacher(SchoolMember):
+    '''Represents a teacher.'''
+    def __init__(self, name, age, salary):
+        SchoolMember.__init__(self, name, age)
+        self.salary = salary
+        print '(Initialized Teacher: %s)' % self.name
+
+    def tell(self):
+        SchoolMember.tell(self)
+        print 'Salary:"%d"' % self.salary
+
+
+class Student(SchoolMember):
+    '''Represents a student.'''
+    def __init__(self, name, age, marks):
+        SchoolMember.__init__(self, name, age)
+        self.marks = marks
+        print '(Initialized Student: %s)' % self.name
+    def tell(self):
+        SchoolMember.tell(self)
+        print 'Marks:"%d"' % self.marks
+
+t = Teacher('Mrs. Abraham', 40, 30000)
+s = Student('Swaroop', 21, 75)
+
+print # prints a blank line
+
+members = [t, s]
+for member in members:
+    member.tell()
+    # Works for instances of Student as well as Teacher
+
+
+</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_85241298"></a><span style="">异常处理</span>
+<ul><li><a name="Freemind_Link_1598398653"></a><span style="">Try..Except</span>
+<ul><li><a name="Freemind_Link_1222811409"></a><span style="">在 python 解析器中输入 s = raw_input('Enter something --&gt; ')，
+按 Ctrl-D ， Ctrl-C 看看如何显示？</span></li></ul>
+<ul><li><a name="Freemind_Link_160634338"></a><span style="">用 Try..Except 捕获异常输入。示例</span>
+<ul><li><a name="Freemind_Link_1291037359"></a><span style="">#!/usr/bin/python
+# Filename: try_except.py
+
+import sys
+
+try:
+    s = raw_input('Enter something --&gt; ')
+except EOFError:
+    print '\nWhy did you do an EOF on me?'
+    sys.exit() # Exit the program
+except:
+    print '\nSome error/exception occurred.'
+    # Here, we are not exiting the program
+
+print 'Done'</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_31515403"></a><span style="">Try..Finally</span>
+<ul><li><a name="Freemind_Link_1432127554"></a><span style="">finally: 代表无论如何都要执行的语句块</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1429359698"></a><span style="">Raising Exceptions</span>
+<ul><li><a name="Freemind_Link_924019790"></a><span style="">建立自己的异常事件，需要创建一个 Exception 的子类</span></li></ul>
+<ul><li><a name="Freemind_Link_15449914"></a><span style="">创建自己的异常类 ShortInputException 示例</span>
+<ul><li><a name="Freemind_Link_1460631986"></a><span style="">#!/usr/bin/python
+# Filename: raising.py
+
+class ShortInputException(Exception):
+    '''A user-defined exception class.'''
+    def __init__(self, length, atleast):
+        self.length = length
+        self.atleast = atleast
+
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_352112866"></a><span style="">产生异常和捕获异常</span>
+<ul><li><a name="Freemind_Link_1708803837"></a><span style="">try:
+    s = raw_input('Enter something --&gt; ')
+    if len(s) &lt; 3:
+        raise ShortInputException(len(s), 3)
+        # Other work can go as usual here.
+except EOFError:
+    print '\nWhy did you do an EOF on me?'
+except ShortInputException, x:
+    print '\nThe input was of length %d, it should be at least %d'\
+        % (x.length, x.atleast)
+else:
+    print 'No exception was raised.'
+</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1036321041"></a><span style="">模组和包</span>
+<ul><li><a name="Freemind_Link_1516364023"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_1291450975"></a><span style="">a.py 示例</span>
+<ul><li><a name="Freemind_Link_867464669"></a><span style=""># -*- python -*-
+
+version=0.1.a</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1521602036"></a><span style="">b.py 以模组调用 a.py</span>
+<ul><li><a name="Freemind_Link_51371852"></a><span style="">a.py 与 b.py 在同一目录下</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1575204633"></a><span style="">直接 import</span>
+<ul><li><a name="Freemind_Link_1108905325"></a><span style="">a.py 中定义的变量和函数的引用属于模块 a 的命名空间</span></li></ul>
+<ul><li><a name="Freemind_Link_1813873929"></a><span style="">import a
+print "version:%s, author:%s" % (a.version, a.author)
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1633548939"></a><span style="">使用 from module import 语法</span>
+<ul><li><a name="Freemind_Link_1791855382"></a><span style="">a.py 中定义的变量和函数就像在 b.py 中定义的一样</span></li></ul>
+<ul><li><a name="Freemind_Link_1215287448"></a><span style="">from a import *
+print "version:%s, author:%s" % (version, author)
+</span></li></ul>
+<ul><li><a name="Freemind_Link_359396278"></a><span style="">from a import author
+# 只 import 模块a中一个变量
+print "author:", author
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_35924976"></a><span style="">将 a.py 拷贝到目录 dir_a 中</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_935713552"></a><span style="">修改 sys.path, 将 dir_a 包含其中</span>
+<ul><li><a name="Freemind_Link_844679394"></a><span style="">import sys
+sys.path.insert(0, "dir_a")
+
+import a
+print "author:", a.author
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1327950118"></a><span style="">import sys
+sys.path.insert(0, "dir_a")
+
+from a import *
+print "version:%s, author:%s" % (version, author)
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1098948786"></a><span style="">将 dir_a 作为 package</span>
+<ul><li><a name="Freemind_Link_365920956"></a><span style="">参见： python.org &gt; Doc &gt; Essays &gt; Packages</span></li></ul>
+<ul><li><a name="Freemind_Link_448456111"></a><span style="">在 dir_a 目录下创建文件 __init__.py (空文件即可)</span></li></ul>
+<ul><li><a name="Freemind_Link_1206748724"></a><span style="">from dir_a import a
+# 只 import 模块a中一个变量
+print "author:", a.author
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1348598281"></a><span style=""># b.py
+from dir_a.a import *
+print "version:%s, author:%s" % (version, author)
+</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_51277616"></a><span style="">说明</span>
+<ul><li><a name="Freemind_Link_35278766"></a><span style="">模组文件为 *.py 文件</span></li></ul>
+<ul><li><a name="Freemind_Link_4311502"></a><span style="">模组文件位于 PYTHONPATH 指定的目录中，可以用 print sys.path 查看</span>
+<ul><li><a name="Freemind_Link_655063843"></a><span style="">import sys
+print sys.path</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1414953669"></a><span style="">模组引用一次后，会编译为 *.pyc 二进制文件，以提高效率</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1071274592"></a><span style="">import 语句，引用模组</span>
+<ul><li><a name="Freemind_Link_852174356"></a><span style="">语法1： "import" module ["as" name] ( "," module ["as" name] )*</span></li></ul>
+<ul><li><a name="Freemind_Link_1066186635"></a><span style="">语法2： "from" module "import" identifier ["as" name]     ( "," identifier ["as" name] )*</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1163493951"></a><span style="">__name__ 变量</span>
+<ul><li><a name="Freemind_Link_1111913416"></a><span style="">每个模组都有一个名字，模组内语句可以通过 __name__ 属性得到模组名字。</span></li></ul>
+<ul><li><a name="Freemind_Link_1595819755"></a><span style="">当模组被直接调用， __name__ 设置为 __main__</span></li></ul>
+<ul><li><a name="Freemind_Link_1770643789"></a><span style="">例如模组中的如下语句</span>
+<ul><li><a name="Freemind_Link_1303659746"></a><span style="">#!/usr/bin/python
+# Filename: using_name.py
+
+if __name__ == '__main__':
+	print 'This program is being run by itself'
+else:
+	print 'I am being imported from another module'</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_928439861"></a><span style="">__dict__ </span>
+<ul><li><a name="Freemind_Link_364063696"></a><span style="">Modules, classes, and class instances all have __dict__ attributes that holds the namespace contents for that object.</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_794626197"></a><span style="">dir() 函数</span>
+<ul><li><a name="Freemind_Link_1770476625"></a><span style="">可以列出一个模组中定义的变量</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_732556438"></a><span style="">关于包（package）</span>
+<ul><li><a name="Freemind_Link_1741947369"></a><span style="">package 可以更有效的组织 modules。</span></li></ul>
+<ul><li><a name="Freemind_Link_1436859778"></a><span style="">__init__.py 文件，决定了一个目录不是不同目录，而是作为 python package</span>
+<ul><li><a name="Freemind_Link_874583617"></a><span style="">__init__.py 可以为空</span></li></ul>
+<ul><li><a name="Freemind_Link_535119459"></a><span style="">__init__.py 可以包含 __all__变量</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_433111998"></a><span style="">package 就是一个目录，包含 *.py 模组文件，同时包含一个 __init__.py 文件</span></li></ul>
+<ul><li><a name="Freemind_Link_1207875740"></a><span style="">一个问题： 由于 Mac, windows 等对于文件名大小写不区分，当用 from package import * 的时候，难以确定文件名到模组名的对应</span></li></ul>
+<ul><li><a name="Freemind_Link_915556806"></a><span style="">__all__ 变量是一个解决方案</span>
+<ul><li><a name="Freemind_Link_1663791296"></a><span style="">已如对于上例，在 __init__.py 中定义
+__all__ = ["a"]
+
+即当 from dir_a import * 的时候，import 的模组是 __all__ 中定义的模组</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_983781445"></a><span style="">sys, os: Python 核心库</span></li></ul>
+<ul><li><a name="Freemind_Link_1605165470"></a><span style="">Python 函数库</span>
+<ul><li><a name="Freemind_Link_105677817"></a><span style="">sys</span>
+<ul><li><a name="Freemind_Link_442828745"></a><span style="">查看系统信息  sys.platform, sys.version_info, sys.maxint</span>
+<ul><li><a name="Freemind_Link_1206042612"></a><span style="">&gt;&gt;&gt; import sys
+&gt;&gt;&gt; sys.version
+'2.4.1 (#1, May 27 2005, 18:02:40) \n[GCC 3.3.3 (cygwin special)]'
+&gt;&gt;&gt; sys.version_info
+(2, 4, 1, 'final', 0)
+&gt;&gt;&gt; sys.platform, sys.maxint
+('linux2', 9223372036854775807)
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_568549164"></a><span style="">Python 模组的查询路径： sys.path</span>
+<ul><li><a name="Freemind_Link_871192969"></a><span style="">显示 python 查询路径： sys.path</span></li></ul>
+<ul><li><a name="Freemind_Link_1981797608"></a><span style="">设置 Python 模组包含路径： sys.path.append( '/home/user')</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_710940234"></a><span style="">Exception 例外信息： sys.exc_type</span>
+<ul><li><a name="Freemind_Link_30286857"></a><span style="">&gt;&gt;&gt; try:
+...     raise IndexError
+... except:
+...     print sys.exc_info()</span></li></ul>
+<ul><li><a name="Freemind_Link_1673856286"></a><span style="">try:
+    raise TypeError, "Bad Thing"
+except:
+    print sys.exc_info()
+    print sys.exc_type, sys.exc_value</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_148724091"></a><span style="">命令行参数： sys.argv</span>
+<ul><li><a name="Freemind_Link_1459558922"></a><span style="">命令行参数数目： len(sys.argv) ， 包含程序本身名称</span></li></ul>
+<ul><li><a name="Freemind_Link_1725072681"></a><span style="">sys.argv[0] 为程序名称， sys.argv[1] 为第一个参数，依此类推</span></li></ul>
+<ul><li><a name="Freemind_Link_479737229"></a><span style="">示例1</span>
+<ul><li><a name="Freemind_Link_1900788965"></a><span style="">def main(arg1, arg2):
+    """main entry point"""
+    
+    ... ...
+
+
+if __name__ == '__main__':
+    if len(sys.argv) &lt; 3:
+        sys.stderr.write("Usage: %s ARG1 ARG2\n" % (sys.argv[0]))
+    else:
+        main(sys.argv[1], sys.argv[2])
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_152952397"></a><span style="">示例2</span>
+<ul><li><a name="Freemind_Link_1514956815"></a><span style="">#!/usr/bin/python
+# Filename : using_sys.py
+
+import sys
+
+print 'The command line arguments used are:'
+for i in sys.argv:
+        print i
+print '\n\nThe PYTHONPATH is', sys.path, '\n'
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_366917783"></a><span style="">系统退出： sys.exit</span></li></ul>
+<ul><li><a name="Freemind_Link_1282642521"></a><span style="">标准输入输出等： sys.stdin, sys.stdout, sys.stderr</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_104677131"></a><span style="">os</span>
+<ul><li><a name="Freemind_Link_621349062"></a><span style="">分隔符等：os.sep, os.pathsep, os.linesep</span></li></ul>
+<ul><li><a name="Freemind_Link_859154419"></a><span style="">获取进程ID： os.getpid()</span></li></ul>
+<ul><li><a name="Freemind_Link_1827178551"></a><span style="">得到当前路径： os.getcwd()</span></li></ul>
+<ul><li><a name="Freemind_Link_993901640"></a><span style="">切换路径： os.chdir(r'c:\temp')</span></li></ul>
+<ul><li><a name="Freemind_Link_548514188"></a><span style="">将路径分解为目录和文件名：os.path.split(), os.path.dirname()</span>
+<ul><li><a name="Freemind_Link_1607728142"></a><span style="">&gt;&gt;&gt; os.path.split('/home/swaroop/poem.txt')
+('/home/swaroop', 'poem.txt')</span></li></ul>
+<ul><li><a name="Freemind_Link_1702591789"></a><span style="">os.path.dirname('/etc/init.d/apachectl')</span></li></ul>
+<ul><li><a name="Freemind_Link_33994863"></a><span style="">os.path.basename('/etc/init.d/apachectl')</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_926453234"></a><span style="">判断是文件还是目录： os.path.isdir(r'c:\temp'), os.path.isfile(r'c:\temp') ， 返回值 1,0</span></li></ul>
+<ul><li><a name="Freemind_Link_1423188966"></a><span style="">判断文件/目录是否存在 os.path.exists('/etc/passwd')</span></li></ul>
+<ul><li><a name="Freemind_Link_1221600523"></a><span style="">执行系统命令： os.system('ls -l /etc')</span></li></ul>
+<ul><li><a name="Freemind_Link_999611206"></a><span style="">执行系统命令并打开管道： os.popen(command [, mode='r' [, bufsize]]) </span>
+<ul><li><a name="Freemind_Link_1177096501"></a><span style="">os.popen('ls /etc').read()</span></li></ul>
+<ul><li><a name="Freemind_Link_394702067"></a><span style="">os.popen('ls /etc').readlines()</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_320268457"></a><span style="">string （字符串处理）</span>
+<ul><li><a name="Freemind_Link_1358868034"></a><span style="">帮助： help('string')</span></li></ul>
+<ul><li><a name="Freemind_Link_1933078418"></a><span style="">示例</span>
+<ul><li><a name="Freemind_Link_1856424881"></a><span style="">import string
+fruit = "banana"
+index = string.find(fruit, "a")
+print index</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_669007656"></a><span style="">math （数学函数）</span>
+<ul><li><a name="Freemind_Link_1342499423"></a><span style="">例如</span>
+<ul><li><a name="Freemind_Link_1043605905"></a><span style="">import math
+
+x = math.cos(angle + math.pi/2)
+x = math.exp(math.log(10.0))</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1594093952"></a><span style="">re</span>
+<ul><li><a name="Freemind_Link_678261736"></a><span style="">帮助</span>
+<ul><li><a name="Freemind_Link_1280960713"></a><span style="">常规表达式。参考： http://docs.python.org/lib/module-re.html</span></li></ul>
+<ul><li><a name="Freemind_Link_1665279567"></a><span style="">&gt;&gt;&gt; help('sre')</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1984768997"></a><span style="">正则表达式语法</span>
+<ul><li><a name="Freemind_Link_1848594337"></a><span style="">^, $ 指代 字符串开始，结束。对于 re.MULTILINE 模式，^,$ 除了指代字符串开始和结尾，还指代一行的开始和结束</span></li></ul>
+<ul><li><a name="Freemind_Link_1578438260"></a><span style="">[ ] 字符列表，其中的 ^ 含义为“非”</span></li></ul>
+<ul><li><a name="Freemind_Link_578048247"></a><span style="">*, +, ?, {m,n}  ： 量词（默认贪婪模式，尽量多的匹配）</span>
+<ul><li><a name="Freemind_Link_682235016"></a><span style="">例如：表达式 "&lt;.*&gt;" 用于匹配字符串  '&lt;H1&gt;title&lt;/H1&gt;'，会匹配整个字串，而非 '&lt;H1&gt;'</span></li></ul>
+<ul><li><a name="Freemind_Link_1625132105"></a><span style="">&gt;&gt;&gt; re.match('&lt;.*&gt;', '&lt;H1&gt;titile&lt;/H1&gt;').group()
+'&lt;H1&gt;titile&lt;/H1&gt;'
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_348096491"></a><span style="">*?, +?, ?? ： 避免贪婪模式的量词</span>
+<ul><li><a name="Freemind_Link_1783406171"></a><span style="">例如：表达式 "&lt;.*?&gt;" 用于匹配字符串  '&lt;H1&gt;title&lt;/H1&gt;'，只匹配 '&lt;H1&gt;'</span></li></ul>
+<ul><li><a name="Freemind_Link_95432027"></a><span style="">&gt;&gt;&gt; re.match('&lt;.*?&gt;', '&lt;H1&gt;titile&lt;/H1&gt;').group()
+'&lt;H1&gt;'
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1560261743"></a><span style="">{m,n}? ： 同样尽量少的匹配（非贪婪模式）</span>
+<ul><li><a name="Freemind_Link_683700227"></a><span style="">&gt;&gt;&gt; re.match('&lt;.{,20}&gt;', '&lt;H1&gt;titile&lt;/H1&gt;').group()
+'&lt;H1&gt;titile&lt;/H1&gt;'</span></li></ul>
+<ul><li><a name="Freemind_Link_1307133421"></a><span style="">&gt;&gt;&gt; re.match('&lt;.{,20}?&gt;', '&lt;H1&gt;titile&lt;/H1&gt;').group()
+'&lt;H1&gt;'</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1984891449"></a><span style="">[(] [)]</span>
+<ul><li><a name="Freemind_Link_894215001"></a><span style="">( 和 )，用于组合pattern，如果要匹配括号，可以使用 \(, \) 或者 [(] , [)]</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1435010317"></a><span style="">( ) ： 组合表达式，可以在后面匹配</span></li></ul>
+<ul><li><a name="Freemind_Link_1912342277"></a><span style="">(?iLmsux)</span>
+<ul><li><a name="Freemind_Link_778716223"></a><span style="">(? 之后跟 iLmsux 任意字符，相当于设置了 re.I, re.L, re.M, re.S, re.U, re.X</span></li></ul>
+<ul><li><a name="Freemind_Link_761572797"></a><a style="" href="#Freemind_Link_1614204460">参见 re 选项</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_198568408"></a><span style="">&gt;&gt;&gt; re.search('(?i)(T[A-Z]*)','&lt;h1&gt;title&lt;/h1&gt;').groups()
+('title',)
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_798927944"></a><span style="">(?P&lt;name&gt;pattern) ： 用名称指代匹配</span>
+<ul><li><a name="Freemind_Link_435242639"></a><span style="">&gt;&gt;&gt; re.match('(?P&lt;p&gt;.*?)(?::\s*)(?P&lt;msg&gt;.*)', 'prompt: enter your name').group('p')
+'prompt'
+&gt;&gt;&gt; re.match('(?P&lt;p&gt;.*?)(?::\s*)(?P&lt;msg&gt;.*)', 'prompt: enter your name').group('msg')
+'enter your name'
+&gt;&gt;&gt; re.match('(?P&lt;p&gt;.*?)(?::\s*)(?P&lt;msg&gt;.*)', 'prompt: enter your name').group(0)
+'prompt: enter your name'
+&gt;&gt;&gt; re.match('(?P&lt;p&gt;.*?)(?::\s*)(?P&lt;msg&gt;.*)', 'prompt: enter your name').group(1)
+'prompt'
+&gt;&gt;&gt; re.match('(?P&lt;p&gt;.*?)(?::\s*)(?P&lt;msg&gt;.*)', 'prompt: enter your name').group(2)
+'enter your name'
+</span></li></ul>
+<ul><li><a name="Freemind_Link_459788692"></a><span style="">用 r'\1' 指代匹配
+&gt;&gt;&gt; re.sub ( 'id:\s*(?P&lt;id&gt;\d+)', 'N:\\1', 'userlist\nid:001,user001:jiangxin\nid:002,user003:tom\nid:003,user003:jerry\n')
+'userlist\nN:001,user001:jiangxin\nN:002,user003:tom\nN:003,user003:jerry\n'
+&gt;&gt;&gt; re.sub ( 'id:\s*(?P&lt;id&gt;\d+)', r'N:\1', 'userlist\nid:001,user001:jiangxin\nid:002,user003:tom\nid:003,user003:jerry\n')
+'userlist\nN:001,user001:jiangxin\nN:002,user003:tom\nN:003,user003:jerry\n'
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1455038878"></a><span style="">用 r'\g&lt;name&gt;' 指代匹配
+&gt;&gt;&gt; re.sub ( 'id:\s*(?P&lt;id&gt;\d+)', r'N:\g&lt;id&gt;', 'userlist\nid:001,user001:jiangxin\nid:002,user003:tom\nid:003,user003:jerry\n')
+'userlist\nN:001,user001:jiangxin\nN:002,user003:tom\nN:003,user003:jerry\n'
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_863111768"></a><span style="">(?P=name) ： 指代前面发现的命名匹配</span>
+<ul><li><a name="Freemind_Link_1977842379"></a><span style="">&gt;&gt;&gt; re.findall ( 'id:\s*(?P&lt;id&gt;\d+)', 'userlist\nid:001,user001:jiangxin\nid:002,user003:tom\nid:003,user003:jerry\n')
+['001', '002', '003']
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1891022168"></a><span style="">&gt;&gt;&gt; re.findall ( 'id:\s*(?P&lt;id&gt;\d+),\s*user(?P=id):', 'userlist\nid:001,user001:jiangxin\nid:002,user003:tom\nid:003,user003:jerry\n')
+['001', '003']
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_149284877"></a><span style="">(?#...) ： 为注释</span></li></ul>
+<ul><li><a name="Freemind_Link_357060819"></a><span style="">(?:pattern)</span>
+<ul><li><a name="Freemind_Link_676208385"></a><span style="">组合表达式，但并不计入分组</span></li></ul>
+<ul><li><a name="Freemind_Link_107925428"></a><span style="">对比下面的两个例子：
+&gt;&gt;&gt; re.match('(.*?:\s*)(.*)', 'prompt: enter your name').group(1)
+'prompt: '
+&gt;&gt;&gt; re.match('(?:.*?:\s*)(.*)', 'prompt: enter your name').group(1)
+'enter your name'
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1537799053"></a><span style="">(?=pattern) 正向前断言</span>
+<ul><li><a name="Freemind_Link_754145952"></a><span style="">Matches if pattern matches next, but doesn't consume any of the string. </span></li></ul>
+<ul><li><a name="Freemind_Link_1526998348"></a><span style="">例如：
+</span>
+<ul><li><span style="">只改动出现在 foobar 中的 foo, 不改变如 fool, foolish 中出现的 foo</span></li></ul>
+<ul><li><a name="Freemind_Link_1858179750"></a><span style="">
+$line="foobar\nfool";
+
+## foo后面出现bar，且 bar 的内容不再替换之列。
+$line =~ s/foo(?=bar)/something/gm;
+
+print "$line\n";
+
+显示 
+
+somethingbar
+fool
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1573848628"></a><span style="">(?!pattern)  负向前断言</span>
+<ul><li><a name="Freemind_Link_342741595"></a><span style="">则和 (?=pattern) 相反。 Matches if ... doesn't match next. This is a negative lookahead assertion.</span></li></ul>
+<ul><li><a name="Freemind_Link_715481235"></a><span style="">例如: 改动除了 foobar 外单词中的 foo, 如 fool, foolish 中出现的 foo。  </span>
+<ul><li><a name="Freemind_Link_939655795"></a><span style="">
+
+
+$line="foobar\nfool";
+
+## foo后面不是bar，且 (?!..) 中的内容不再替换之列。
+$line =~ s/foo(?!bar)/something/gm;
+
+print "$line\n";
+
+显示 
+
+foobar
+somethingl
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1190136496"></a><span style="">(?&lt;=pattern) 正向后断言</span>
+<ul><li><a name="Freemind_Link_1068314943"></a><span style="">正向后断言。Matches if the current position in the string is preceded by a match for ... that ends at the current position.</span></li></ul>
+<ul><li><a name="Freemind_Link_815003890"></a><span style="">如下例:</span>
+<ul><li><a name="Freemind_Link_1142899811"></a><span style="">$line="foobar\nbarfoo\nbar foo\na fool";
+
+## 替换 bar 后面的 foo，(bar) 不再替换之列。
+$line =~ s/(?&lt;=bar)foo/something/gm;
+
+print "$line\n";
+
+显示 
+
+foobar
+barsomething
+bar foo
+a fool
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1595727605"></a><span style="">(?&lt;!pattern)  负向后断言</span>
+<ul><li><a name="Freemind_Link_491677147"></a><span style="">负向后断言。 Matches if the current position in the string is not preceded by a match for .... This is called a negative lookbehind assertion. </span></li></ul>
+<ul><li><a name="Freemind_Link_1294280859"></a><span style="">如下例:</span>
+<ul><li><a name="Freemind_Link_1777875725"></a><span style="">$line="foobar\nbarfoo\nbar foo\na fool";
+
+## 替换 foo，但之前不能是 bar。
+$line =~ s/(?&lt;!bar)foo/something/gm;
+
+print "$line\n";
+
+显示 
+
+somethingbar
+barfoo
+bar something
+a somethingl
+</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1515114123"></a><span style="">正则表达式特殊字符</span>
+<ul><li><a name="Freemind_Link_906764446"></a><span style="">\A     Matches only at the start of the string.</span></li></ul>
+<ul><li><a name="Freemind_Link_514460334"></a><span style="">\b     Matches the empty string, but only at the beginning or end of a word</span></li></ul>
+<ul><li><a name="Freemind_Link_1276794634"></a><span style="">\B     Matches the empty string, but only when it is not at the beginning or end of a word.</span></li></ul>
+<ul><li><a name="Freemind_Link_472028588"></a><span style="">\d     When the UNICODE flag is not specified, matches any decimal digit; this is equivalent to the set [0-9]. With UNICODE, it will match whatever is classified as a digit in the Unicode character properties database.</span></li></ul>
+<ul><li><a name="Freemind_Link_1023791358"></a><span style="">\D     When the UNICODE flag is not specified, matches any non-digit character; this is equivalent to the set [^0-9]. With UNICODE, it will match anything other than character marked as digits in the Unicode character properties database.</span></li></ul>
+<ul><li><a name="Freemind_Link_861669468"></a><span style="">\s     When the LOCALE and UNICODE flags are not specified, matches any whitespace character; this is equivalent to the set [ \t\n\r\f\v]. With LOCALE, it will match this set plus whatever characters are defined as space for the current locale. If UNICODE is set, this will match the characters [ \t\n\r\f\v] plus whatever is classified as space in the Unicode character properties database.</span></li></ul>
+<ul><li><a name="Freemind_Link_1156623175"></a><span style="">\S     When the LOCALE and UNICODE flags are not specified, matches any non-whitespace character; this is equivalent to the set [^ \t\n\r\f\v] With LOCALE, it will match any character not in this set, and not defined as space in the current locale. If UNICODE is set, this will match anything other than [ \t\n\r\f\v] and characters marked as space in the Unicode character properties database.</span></li></ul>
+<ul><li><a name="Freemind_Link_769433491"></a><span style="">\w     When the LOCALE and UNICODE flags are not specified, matches any alphanumeric character and the underscore; this is equivalent to the set [a-zA-Z0-9_]. With LOCALE, it will match the set [0-9_] plus whatever characters are defined as alphanumeric for the current locale. If UNICODE is set, this will match the characters [0-9_] plus whatever is classified as alphanumeric in the Unicode character properties database.</span></li></ul>
+<ul><li><a name="Freemind_Link_469170488"></a><span style="">\W     When the LOCALE and UNICODE flags are not specified, matches any non-alphanumeric character; this is equivalent to the set [^a-zA-Z0-9_]. With LOCALE, it will match any character not in the set [0-9_], and not defined as alphanumeric for the current locale. If UNICODE is set, this will match anything other than [0-9_] and characters marked as alphanumeric in the Unicode character properties database.  </span></li></ul>
+<ul><li><a name="Freemind_Link_1017215840"></a><span style="">\Z     Matches only at the end of the string.</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1614204460"></a><span style="">re 选项</span>
+<ul><li><a name="Freemind_Link_984006274"></a><span style="">re.I, re.IGNORE ： 忽略大小写</span></li></ul>
+<ul><li><a name="Freemind_Link_727655425"></a><span style="">re.L, re.LOCALE ： \w, \W, \b, \B, \s and \S 参考当前 locale</span></li></ul>
+<ul><li><a name="Freemind_Link_929128427"></a><span style="">re.M, re.MULTILINE ： 将字符串视为多行，^ 和 $ 匹配字符串中的换行符。缺省只匹配字符串开始和结束。</span></li></ul>
+<ul><li><a name="Freemind_Link_1882526118"></a><span style="">re.S, re.DOTALL ： . 匹配任意字符包括换行符。缺省匹配除了换行符外的字符</span></li></ul>
+<ul><li><a name="Freemind_Link_1560601747"></a><span style="">re.U, re.UNICODE ： \w, \W, \b, \B, \d, \D, \s and \S 参考 Unicode 属性</span>
+<ul><li><a name="Freemind_Link_838451568"></a><span style="">&gt;&gt;&gt; re.compile(ur'----(-)*\r?\n.*\b(网页类)\b',re.U).search("--------\r\nCategoryX 网页类 CategoryY".decode('utf-8')).groups()
+(u'-', u'\u7f51\u9875\u7c7b')
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1823378996"></a><span style="">&gt;&gt;&gt; re.compile(ur'----(-)*\r?\n.*\b(网页类)\b',re.U).search(u"--------\r\nCategoryX 网页类 CategoryY").groups()
+(u'-', u'\u7f51\u9875\u7c7b')
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1729036409"></a><span style="">re.X, re.VERBOSE ： 可以添加 # 注释，以增强表达式可读性。</span>
+<ul><li><a name="Freemind_Link_1150851830"></a><span style="">空格被忽略。＃为注释</span></li></ul>
+<ul><li><a name="Freemind_Link_1229288843"></a><span style="">例如：
+page_invalid_chars_regex = re.compile(
+    ur"""
+    \u0000 | # NULL
+
+    # Bidi control characters
+    \u202A | # LRE
+    \u202B | # RLE
+    \u202C | # PDF
+    \u202D | # LRM
+    \u202E   # RLM
+    """,
+    re.UNICODE | re.VERBOSE
+    )</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_752016082"></a><span style="">注意 match 和 search 的差异</span>
+<ul><li><a name="Freemind_Link_1220125134"></a><span style="">re.match(  	pattern, string[, flags]) 仅在字符串开头匹配。 相当于在 pattern 前加上了一个'^'！</span>
+<ul><li><a name="Freemind_Link_884530055"></a><span style="">&gt;&gt;&gt; p.match("")
+&gt;&gt;&gt; print p.match("")
+None
+
+p = re.compile( ... )
+m = p.match( 'string goes here' )
+if m:
+    print 'Match found: ', m.group()
+else:
+    print 'No match'
+
+
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_450144760"></a><span style="">re.search(  	pattern, string[, flags]) 在整个字符串中查询</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1420229928"></a><span style="">re.compile(  	pattern[, flags])</span>
+<ul><li><a name="Freemind_Link_1518970803"></a><span style="">使用 re.compile，对于需要重复使用的表达式，更有效率</span></li></ul>
+<ul><li><a name="Freemind_Link_1120219349"></a><span style="">prog = re.compile(pat)
+result = prog.match(str)
+相当于
+result = re.match(pat, str)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_118808800"></a><span style="">re.split(  	pattern, string[, maxsplit = 0]) 分割字符串</span>
+<ul><li><a name="Freemind_Link_33434162"></a><span style="">&gt;&gt;&gt; re.split('\W+', 'Words, words, words.')
+['Words', 'words', 'words', '']
+&gt;&gt;&gt; re.split('(\W+)', 'Words, words, words.')
+['Words', ', ', 'words', ', ', 'words', '.', '']
+&gt;&gt;&gt; re.split('\W+', 'Words, words, words.', 1)
+['Words', 'words, words.']</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_123147453"></a><span style="">re.findall(  	pattern, string[, flags])</span>
+<ul><li><a name="Freemind_Link_527820707"></a><span style="">查询所有匹配，返回 list</span></li></ul>
+<ul><li><a name="Freemind_Link_1871621797"></a><span style="">&gt;&gt;&gt; p = re.compile('\d+')
+&gt;&gt;&gt; p.findall('12 drummers drumming, 11 pipers piping, 10 lords a-leaping')
+['12', '11', '10']</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_632173064"></a><span style="">re.finditer(  	pattern, string[, flags])</span>
+<ul><li><a name="Freemind_Link_1706712107"></a><span style="">查询所有匹配，返回 iterator</span></li></ul>
+<ul><li><a name="Freemind_Link_1473489212"></a><span style="">&gt;&gt;&gt; p = re.compile('\d+')
+&gt;&gt;&gt; iterator = p.finditer('12 drummers drumming, 11 ... 10 ...')
+&gt;&gt;&gt; iterator
+&lt;callable-iterator object at 0x401833ac&gt;
+&gt;&gt;&gt; for match in iterator:
+...     print match.span()
+...
+(0, 2)
+(22, 24)
+(29, 31)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1625159514"></a><span style="">re.sub(pattern, repl, string[, count])</span>
+<ul><li><a name="Freemind_Link_1969484918"></a><span style="">&gt;&gt;&gt; re.sub ( 'id:\s*(?P&lt;id&gt;\d+)', 'N:\\1', 'userlist\nid:001,user001:jiangxin\nid:002,user003:tom\nid:003,user003:jerry\n')
+'userlist\nN:001,user001:jiangxin\nN:002,user003:tom\nN:003,user003:jerry\n'
+&gt;&gt;&gt; re.sub ( 'id:\s*(?P&lt;id&gt;\d+)', r'N:\1', 'userlist\nid:001,user001:jiangxin\nid:002,user003:tom\nid:003,user003:jerry\n')
+'userlist\nN:001,user001:jiangxin\nN:002,user003:tom\nN:003,user003:jerry\n'
+</span></li></ul>
+<ul><li><a name="Freemind_Link_449814446"></a><span style="">&gt;&gt;&gt; re.sub ( 'id:\s*(?P&lt;id&gt;\d+)', r'N:\g&lt;id&gt;', 'userlist\nid:001,user001:jiangxin\nid:002,user003:tom\nid:003,user003:jerry\n')
+'userlist\nN:001,user001:jiangxin\nN:002,user003:tom\nN:003,user003:jerry\n'
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_118477699"></a><span style="">re.subn( pattern, repl, string[, count]) 和 re.sub 类似，返回值不同</span>
+<ul><li><a name="Freemind_Link_1137663261"></a><span style="">返回值为： a tuple (new_string, number_of_subs_made).</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_765351664"></a><span style="">re.escape(string) ： 对字符串预处理，以免其中特殊字符对正则表达式造成影响</span></li></ul>
+<ul><li><a name="Freemind_Link_499222618"></a><span style="">compile 对象</span>
+
+<ul><li><a name="Freemind_Link_1888294807"></a><span style="">re.compile 返回 的 compile 对象 的方法都有 re 类似方法对应，只是参数不同</span></li></ul>
+<ul><li><a name="Freemind_Link_1323843007"></a><span style="">re 相关对象有 flags 参数，而 compile 对象因为在建立之初已经提供了 flags，
+在 compile 相应方法中，用 pos, endpos 即开始位置和结束位置参数取代 flags 参数</span></li></ul>
+<ul><li><a name="Freemind_Link_1833982851"></a><span style="">match(  string[, pos[, endpos]])</span></li></ul>
+<ul><li><a name="Freemind_Link_152399644"></a><span style="">search( string[, pos[, endpos]])</span></li></ul>
+<ul><li><a name="Freemind_Link_338230136"></a><span style="">split( string[, maxsplit = 0])</span></li></ul>
+<ul><li><a name="Freemind_Link_230982905"></a><span style="">findall( string[, pos[, endpos]])</span></li></ul>
+<ul><li><a name="Freemind_Link_168004261"></a><span style="">finditer( string[, pos[, endpos]])</span></li></ul>
+<ul><li><a name="Freemind_Link_19406002"></a><span style="">sub( repl, string[, count = 0])</span></li></ul>
+<ul><li><a name="Freemind_Link_1530206109"></a><span style="">subn( repl, string[, count = 0])</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_585308176"></a><span style="">match 对象</span>
+
+<ul><li><a name="Freemind_Link_1331098911"></a><span style="">expand(  	template)</span>
+<ul><li><a name="Freemind_Link_437428858"></a><span style="">利用匹配结果展开模板 template</span></li></ul>
+<ul><li><a name="Freemind_Link_829993635"></a><span style="">支持 "\1", "\2", "\g&lt;1&gt;", "\g&lt;name&gt;"</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_587687336"></a><span style="">group( [group1, ...])</span>
+<ul><li><a name="Freemind_Link_484515281"></a><span style="">示例
+m = re.match(r"(?P&lt;int&gt;\d+)\.(\d*)", '3.14')
+结果
+m.group(1) is '3', as is m.group('int'), and m.group(2) is '14'.</span></li></ul>
+<ul><li><a name="Freemind_Link_312132460"></a><span style="">&gt;&gt;&gt; p = re.compile('(a(b)c)d')
+&gt;&gt;&gt; m = p.match('abcd')
+&gt;&gt;&gt; m.group(0)
+'abcd'
+&gt;&gt;&gt; m.group(1)
+'abc'
+&gt;&gt;&gt; m.group(2)
+'b'
+
+&gt;&gt;&gt; m.groups()
+('abc', 'b')
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1352750112"></a><span style="">groups(  	[default])</span>
+<ul><li><a name="Freemind_Link_505598492"></a><span style="">返回一个 tuple， 包含从 1 开始的所有匹配</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_33130658"></a><span style="">groupdict(  	[default])</span>
+<ul><li><a name="Freemind_Link_1662243489"></a><span style="">返回一个 dictionary，包含所有的命名匹配</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_522814490"></a><span style="">start( [group]) 和 end( [group])</span>
+<ul><li><a name="Freemind_Link_414559152"></a><span style="">分别代表第 group 组匹配在字符串中的开始和结束位置</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_184405783"></a><span style="">span(  	[group])</span>
+<ul><li><a name="Freemind_Link_353336934"></a><span style="">返回由 start, end 组成的 二值 tuple</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_678551142"></a><span style="">getopt（命令行处理）</span>
+<ul><li><a name="Freemind_Link_1441498317"></a><span style="">getopt.getopt(	args, options[, long_options])</span>
+<ul><li><a name="Freemind_Link_1738337068"></a><span style="">args 是除了应用程序名称外的参数，相当于： sys.argv[1:]</span></li></ul>
+<ul><li><a name="Freemind_Link_156036270"></a><span style="">options 是短格式的参数支持。如果带有赋值的参数后面加上冒号":"。参见 Unix getopt()</span></li></ul>
+<ul><li><a name="Freemind_Link_1005714251"></a><span style="">long_options 是长格式的参数支持。如果是带有赋值的参数，参数后面加上等号“="。</span></li></ul>
+<ul><li><a name="Freemind_Link_1146047050"></a><span style="">返回值： 返回两个元素</span>
+<ul><li><a name="Freemind_Link_782470969"></a><span style="">一：返回包含 (option, value) 键值对的列表</span></li></ul>
+<ul><li><a name="Freemind_Link_1727718458"></a><span style="">二：返回剩余参数</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1593166682"></a><span style="">异常：GetoptError ，又作 error</span></li></ul>
+<ul><li><a name="Freemind_Link_1624347125"></a><span style="">示例：</span>
+<ul><li><a name="Freemind_Link_880785726"></a><span style="">&gt;&gt;&gt; import getopt
+&gt;&gt;&gt; args = '-a -b -cfoo -d bar a1 a2'.split()
+&gt;&gt;&gt; args
+['-a', '-b', '-cfoo', '-d', 'bar', 'a1', 'a2']
+&gt;&gt;&gt; optlist, args = getopt.getopt(args, 'abc:d:')
+&gt;&gt;&gt; optlist
+[('-a', ''), ('-b', ''), ('-c', 'foo'), ('-d', 'bar')]
+&gt;&gt;&gt; args
+['a1', 'a2']</span></li></ul>
+<ul><li><a name="Freemind_Link_1644049541"></a><span style="">"""Module docstring.
+
+This serves as a long usage message.
+"""
+import sys
+import getopt
+
+def main():
+    # parse command line options
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], "hp:", ["help", "port="])
+    except getopt.error, msg:
+        print msg
+        print "for help use --help"
+        sys.exit(2)
+    # process options
+    for o, a in opts:
+        if o in ("-h", "--help"):
+            print __doc__
+            sys.exit(0)
+        elif o in ("-p", "--port"):
+            print "port is %d" % a
+
+    # process arguments
+    for arg in args:
+        process(arg) # process() is defined elsewhere
+
+if __name__ == "__main__":
+    main()</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1457964795"></a><span style="">数据库</span>
+<ul><li><a name="Freemind_Link_1759282105"></a><span style="">参见： http://mysql-python.sourceforge.net/MySQLdb.html</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1295934551"></a><span style="">LDAP</span></li></ul>
+<ul><li><a name="Freemind_Link_443746961"></a><span style="">time（时间函数）</span>
+<ul><li><a name="Freemind_Link_1027657014"></a><span style="">time.time() ： 返回 Unix Epoch 时间（秒），符点数</span></li></ul>
+<ul><li><a name="Freemind_Link_1445903211"></a><span style="">time.clock() ： 进程启动后的秒数（符点数）</span></li></ul>
+<ul><li><a name="Freemind_Link_302419168"></a><span style="">gmtime() ： 返回 UTC 时间，格式为 tuple</span></li></ul>
+<ul><li><a name="Freemind_Link_792034827"></a><span style="">localtime() ： 返回本地时间，格式为 tuple</span></li></ul>
+<ul><li><a name="Freemind_Link_6754316"></a><span style="">asctime() ： 将 tuple 时间转换为字符串</span></li></ul>
+<ul><li><a name="Freemind_Link_1474459722"></a><span style="">ctime() ： 将秒转换为字符串</span></li></ul>
+<ul><li><a name="Freemind_Link_646494086"></a><span style="">mktime() ： 将本地时间 tuple 转换为 Epoch 秒数</span></li></ul>
+<ul><li><a name="Freemind_Link_1983613173"></a><span style="">strftime() ： 将 tuple time 依照格式转换</span></li></ul>
+<ul><li><a name="Freemind_Link_1154551862"></a><span style="">strptime() ： 将字符串按格式转换为 tuple time</span></li></ul>
+<ul><li><a name="Freemind_Link_1101721498"></a><span style="">tzset() ：设置时区</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1098357290"></a><span style="">logging</span>
+<ul><li><a name="Freemind_Link_165953604"></a><span style="">logging 级别</span>
+<ul><li><a name="Freemind_Link_1779875659"></a><span style="">Level  	Numeric value
+CRITICAL 	50
+ERROR 	40
+WARNING 	30
+INFO 	20
+DEBUG 	10
+NOTSET 	0</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1048306355"></a><span style="">getLogger()</span>
+<ul><li><a name="Freemind_Link_1553143244"></a><span style="">缺省为 root logger, 通过 getLogger 设置新的 logger 和名称</span></li></ul>
+<ul><li><a name="Freemind_Link_1616537427"></a><span style="">    logging.basicConfig()
+    logging.getLogger("").setLevel(logging.DEBUG)
+    ERR = logging.getLogger("ERR")
+
+    ERR = logging.getLogger("ERR")
+    ERR.setLevel(logging.ERROR)
+
+    #These should log
+    logging.log(logging.CRITICAL, nextmessage())
+    logging.debug(nextmessage())
+    ERR.log(logging.CRITICAL, nextmessage())
+    ERR.error(nextmessage())
+
+    #These should not log
+    ERR.debug(nextmessage())</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_153652969"></a><span style="">basicConfig  用于设置日志级别和格式等</span>
+<ul><li><a name="Freemind_Link_934812249"></a><span style="">logging.basicConfig(level=logging.DEBUG,
+        format="%(levelname)s : %(asctime)-15s &gt; %(message)s")
+</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_957233669"></a><span style="">Python 实战</span>
+
+<ul><li><a name="Freemind_Link_260521551"></a><span style="">帮助框架</span>
+<ul><li><a name="Freemind_Link_253432660"></a><span style="">__doc__</span>
+<ul><li><a name="Freemind_Link_1148280429"></a><span style="">'''PROGRAM INTRODUCTION
+
+Usage: %(PROGRAM)s [options]
+
+Options:
+
+    -h|--help
+        Print this message and exit.
+'''
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_847066778"></a><span style="">函数 usage</span>
+<ul><li><a name="Freemind_Link_1034302311"></a><span style="">def usage(code, msg=''):
+    if code:
+        fd = sys.stderr
+    else:
+        fd = sys.stdout
+    print &gt;&gt; fd, _(__doc__)
+    if msg:
+        print &gt;&gt; fd, msg
+    sys.exit(code)
+</span></li></ul>
+<ul><li><a name="Freemind_Link_192722296"></a><span style="">说明： code 是返回值，msg 是附加的错误消息</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_229719948"></a><span style="">命令行处理</span>
+<ul><li><a name="Freemind_Link_1561064809"></a><span style="">命令行框架</span>
+<ul><li><a name="Freemind_Link_192275508"></a><span style="">#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import sys
+import getopt
+
+def main(argv=None):
+    if argv is None:
+        argv = sys.argv
+    try:
+        opts, args = getopt.getopt(
+            argv[1:], "hn:", 
+            ["help", "name="])
+    except getopt.error, msg:
+         return usage(1, msg)
+
+    for opt, arg in opts:
+        if opt in ('-h', '--help'):
+            return usage(0)
+        #elif opt in ('--more_options'):
+
+if __name__ == "__main__":
+    sys.exit(main())</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1139157907"></a><span style="">说明</span>
+<ul><li><a name="Freemind_Link_269629791"></a><a style="" href="#Freemind_Link_1163493951">利用 __name__ 属性，封装代码</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1278061299"></a><a style="" href="#Freemind_Link_148724091">sys.argv 参见</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1874297203"></a><span style="">之所以为 main 添加缺省参数，是为了可以在交互模式调用 main 来传参</span>
+<ul><li><a name="Freemind_Link_610357231"></a><span style="">def main(argv=None):
+    if argv is None:
+        argv = sys.argv
+    # etc., replacing sys.argv with argv in the getopt() call.</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_801352190"></a><span style="">为防止 main 中调用 sys.exit()，导致交互模式退出，在 main 中使用 return 语句，而非  sys.exit</span>
+<ul><li><a name="Freemind_Link_446215482"></a><span style="">if __name__ == "__main__":
+    sys.exit(main())</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_954736302"></a><span style="">文件读写</span></li></ul>
+<ul><li><a name="Freemind_Link_705967840"></a><span style="">unicode</span>
+<ul><li><a name="Freemind_Link_464029007"></a><span style="">Python 里面的编码和解码也就是 unicode 和 str 这两种形式的相互转化。
+编码是 unicode -&gt; str，相反的，解码就 &gt; 是 str -&gt; unicode</span></li></ul>
+<ul><li><a name="Freemind_Link_684209137"></a><span style="">认识 unicode</span>
+<ul><li><a name="Freemind_Link_1669059984"></a><span style=""># 因为当前 locale 是 utf-8 编码，因此字符串默认编码为 utf-8
+
+&gt;&gt;&gt; '中文'
+'\xe4\xb8\xad\xe6\x96\x87'
+&gt;&gt;&gt; isinstance('中文', unicode)
+False
+&gt;&gt;&gt; isinstance('中文', str)
+True
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1204464540"></a><span style=""># decode 是将 str 转换为 unicode
+
+&gt;&gt;&gt; '中文'.decode('utf-8')
+u'\u4e2d\u6587'
+&gt;&gt;&gt; isinstance('中文'.decode('utf-8'), unicode)
+True
+&gt;&gt;&gt; isinstance('中文'.decode('utf-8'), str)
+False
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1100117807"></a><span style=""># 前缀 u 定义 unicode 字串
+
+&gt;&gt;&gt; u'中文'
+u'\u4e2d\u6587'
+&gt;&gt;&gt; isinstance(u'中文', unicode)
+True
+&gt;&gt;&gt; isinstance(u'中文', str)
+False
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1223320298"></a><span style=""># encode 将 unicode 转换为 str
+
+&gt;&gt;&gt; u'中文'.encode('utf-8')
+'\xe4\xb8\xad\xe6\x96\x87'
+&gt;&gt;&gt; isinstance(u'中文'.encode('utf-8'), unicode)
+False
+&gt;&gt;&gt; isinstance(u'中文'.encode('utf-8'), str)
+True
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1936298720"></a><span style="">&gt;&gt;&gt; len(u'中文')
+2
+&gt;&gt;&gt; len(u'中文'.encode('utf-8'))
+6
+&gt;&gt;&gt; len(u'中文'.encode('utf-8').decode('utf-8'))
+2
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_854324166"></a><span style="">Unicode 典型错误1</span>
+<ul><li><a name="Freemind_Link_1341805819"></a><span style="">&gt;&gt;&gt; "str1: %s, str2: %s" % ('中文', u'中文')
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xe4 in position 6: ordinal not in range(128)
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1860347565"></a><span style="">解决方案</span>
+<ul><li><a name="Freemind_Link_1811612857"></a><span style="">&gt;&gt;&gt; "str1: %s, str2: %s" % ('中文', '中文')
+'str1: \xe4\xb8\xad\xe6\x96\x87, str2: \xe4\xb8\xad\xe6\x96\x87'
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1432598874"></a><span style="">&gt;&gt;&gt; "str1: %s, str2: %s" % (u'中文', u'中文')
+u'str1: \u4e2d\u6587, str2: \u4e2d\u6587'
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1468934295"></a><span style="">Unicode 典型错误2</span>
+<ul><li><a name="Freemind_Link_1084592210"></a><span style="">mystr = '中文'
+mystr.encode('gb18030') 
+
+报错：
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in ?
+UnicodeDecodeError: 'ascii' codec can't decode byte 0xe4 in position 0: ordinal not in range(128)
+</span></li></ul>
+<ul><li><a name="Freemind_Link_414250713"></a><span style="">错误解析：
+mystr.encode('gb18030') 这句代码将 mystr 重新编码为 gb18030 的格式，即进行 unicode -&gt; str 的转换。因为 mystr 本身就是 str 类型的，因此 Python 会自动的先将 mystr 解码为 unicode ，然后再编码成 gb18030。
+
+因为解码是python自动进行的，我们没有指明解码方式，python 就会使用 sys.defaultencoding 指明的方式来解码。很多情况下 sys.defaultencoding 是 ANSCII，如果 mystr 不是这个类型就会出错。
+
+拿上面的情况来说，缺省 sys.defaultencoding 是 anscii，而 mystr 的编码方式和文件的编码方式一致，是 utf8 的，所以出错了。
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1245470747"></a><span style="">通过 sys.setdefaultencoding 设置字符串缺省编码</span>
+<ul><li><a name="Freemind_Link_293862900"></a><span style="">#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import sys
+reload(sys) # Python2.5 初始化后会删除 sys.setdefaultencoding 这个方法，我们需要重新载入
+sys.setdefaultencoding('utf-8')
+
+mystr = '中文'
+
+# 缺省先用定义的缺省字符集将 str 解码为  unicode，
+# 之后编码为 gb18030
+mystr.encode('gb18030') </span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_321128759"></a><span style="">显式将 str 转换为 unicode, 再编码</span>
+<ul><li><a name="Freemind_Link_1030728748"></a><span style="">#! /usr/bin/env python
+# -*- coding: gb2312 -*-
+
+s = '中文'
+s.decode('gb2312').encode('big5')
+</span></li></ul>
+<ul><li><a name="Freemind_Link_1295964751"></a><span style="">#! /usr/bin/env python
+# -*- coding: utf-8 -*-
+
+s = '中文'
+
+# 即使文件编码为 utf-8，sys 的缺省字符编码仍为 ascii，需要显式设置解码的字符集为 utf-8
+print s.decode('utf-8')
+print s.decode('utf-8').encode('gb18030')</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1577453535"></a><span style="">unicode 函数</span>
+<ul><li><a name="Freemind_Link_1167420175"></a><span style="">是 python 内置函数。将字符串由'charset' 字符集转换为 unicode</span></li></ul>
+<ul><li><a name="Freemind_Link_406394169"></a><span style="">unicode (message, charset)</span></li></ul>
+<ul><li><a name="Freemind_Link_1653381799"></a><span style="">unicode('中文字符串', 'gbk')</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_444729065"></a><span style="">encode 负责 uicode --&gt; str</span>
+<ul><li><a name="Freemind_Link_1544645543"></a><span style="">unicode('中文字符串', 'gbk').encode('gb18030')</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_185874714"></a><span style="">调试</span>
+<ul><li><a name="Freemind_Link_202546526"></a><span style="">手动调试函数</span>
+<ul><li><a name="Freemind_Link_86653723"></a><span style="">运行命令行 python</span></li></ul>
+<ul><li><a name="Freemind_Link_1246587162"></a><span style="">用 import 加载程序，模块名为程序名</span></li></ul>
+<ul><li><a name="Freemind_Link_1834294390"></a><span style="">以 程序名.函数名(参数) 方式调试函数</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1027143563"></a><span style="">语法检查</span>
+<ul><li><a name="Freemind_Link_1285707603"></a><span style="">PyLint 除了语法错误检查外，还能提供很多修改建议。诸如：发现 Tab 和空格混用进行缩进，……</span></li></ul>
+<ul><li><a name="Freemind_Link_1221437806"></a><span style="">PyLint 网址: http://www.logilab.org/projects/pylint</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_103453658"></a><span style="">Python IDE</span>
+<ul><li><a name="Freemind_Link_1389243951"></a><span style="">Eclipse</span>
+<ul><li><a name="Freemind_Link_757073833"></a><span style="">http://www.eclipse.org/</span></li></ul>
+<ul><li><a name="Freemind_Link_1529032839"></a><span style="">http://www.javasoft.com/</span></li></ul>
+<ul><li><a name="Freemind_Link_659522761"></a><span style="">Pydev</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_889819658"></a><span style="">Boa</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</p><p class="info">Python 学习笔记//mm2html.xsl FreemindVersion:0.9.0_Beta_8</p></body></html>

@@ -1,0 +1,137 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.1. 基础概念</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="DocBook 助你完成传世之作">
+<link rel="up" href="sgml-primary.html" title="4. SGML/XML入门">
+<link rel="prev" href="sgml-primary.html" title="4. SGML/XML入门">
+<link rel="next" href="ar01s04s02.html" title="4.2. 关于标记语言">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.1. 基础概念</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="sgml-primary.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. SGML/XML入门</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s04s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5068336"></a>4.1. 基础概念</h3></div></div></div>
+<p>
+SGML/XML有着陡峭的学习曲线，主要是因为一开始就要面对铺天盖地的新概念。学习DocBook，虽然并不需要对SGML/XML的所有概念都去透彻了解，但是需要掌握的也仍是够怕人的。下面的这些概念都熟悉么？如果答案是肯定的，那么你可以轻松的跳过这一章。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+什么是标记语言？
+</p>
+<p>
+传统意义上的标记（markup），我们都应该不会陌生。当我们还在读书的时候，老师改过的试卷，经常是满篇的红色的醒目的对号、错号、问号、波浪线，或者意味深长的评语，这些都是标记。广义上来说，一篇文章中的标点符号、空格也都可以称作是标记。看看韩愈是怎么说的，“句读之不知，惑之不解也”，就是这些语法标记对于帮助我们读懂文章，实在是太重要了。
+</p>
+<p>
+标记语言（markup language），则特指用一系列约定好的标记来对电子文档进行标记，来实现对电子文档的语义、结构、格式的定义。这些标记必须能够和容易的和内容相区分，易于识别。标记语言必须定义什么样的标记是允许的，什么样的标记是必须的，标记是如何与文档的内容向区分的，以及标记的含义是什么？
+</p>
+</li>
+<li>
+<p>
+什么是SGML？
+</p>
+<p>
+标准通用标记语言（Standard Generalized Markup Language ，SGML）,它是用来描述电子文档标记的国际标准，SGML 通过这些标记来描述文档结构，以便于存储、提取、处理文档中的数据。更准确地说，SGML 是一种元语言——关于语言的语言。为我们熟知的HTML就是源自SGML的一种语言，或者说方言。
+</p>
+</li>
+<li>
+<p>
+什么是元素？
+</p>
+<p>
+元素（Elements），就是SGML/XML文档中的具有一定结构的文字片断，是标记语言的基本组成部分。大多数元素的开头和结尾分别由一对相匹配的起始标签和结束标签构成，例如：HTML中的段落标记“&lt;p&gt;”和“&lt;/p&gt;”和所标记的内容构成了一个段落元素。也有一些元素可以是空标签，没有结束标签和它相匹配，就像HTML中的断行标签“&lt;br&gt;”。
+</p>
+<p>
+还要说明的是，不同类型的元素被赋予了不同的名称，但SGML本身并不关心这些元素的含义，而是关心这些元素的语法、相互之间的嵌套等。具体对这些元素的理解，则交给应用程序去完成，这就如同不同浏览器对于同一个网页可能有不同的表现形式。
+</p>
+</li>
+<li>
+<p>
+什么是实体？
+</p>
+<p>
+实体（Entities），就是一个被命名了的标记数据块，可以是一个字符串，也可以是一个完整的文件。实体可以包含已析（parsed）数据或未析（unparsed）数据。已析数据由字符组成，其中一些字符组成字符数据，另一些字符组成标记。未析数据则是那些不进行语法解析的数据，如图形文件等。
+</p>
+<p>
+引用一个已经定义的实体的格式为：&amp;实体名称;，即在实体名称前面加上“&amp;”符号，在实体名称后面加上分号“;”。如HTML中的“&amp;lt;” 即代表小于号“&lt;”。
+</p>
+</li>
+<li>
+<p>
+什么是DTD？
+</p>
+<p>
+SGML引入了文档类型的概念，并由此引入了文档类型定义（Document Type Definition: DTD）。文档按照其内容和结构可能分属于不同的类，如数学家能够用文档来记录数学公式，化学家用SGML文档来描述分子结构式，DocBook被用来撰写文档，等等，这些都是不同的文档类型的例子。
+</p>
+<p>
+每种不同类型的文档，遵守各自的DTD规范。例如，一个DocBook文档，需要包含一个标题、作者信息、摘要、和由段落组成的文章内容。而缺少标题的文档，便不符合DocBook的DTD，不是合格的DocBook文档。具有标题，但是标题放在了正文的最后，也不符合DocBook DTD，也不是合格的DocBook文档。
+</p>
+<p>
+文档类型定义 (DTD) 实际上就是一套关于标记符的语法规则，它包含了对元素的定义，指出可以在文档中使用哪些标记符, 它们应该按什么次序出现, 哪些标记符可以出现于其它标记符中, 哪些标记符有属性, 等等。属于某种类型的文档，可以通过一个应用程序来解析，检查是否所有的元素都被定义以及元素出现的次序是否正确。属于同一种类别的文档可以按照一致的方式来处理。
+</p>
+<p>
+并不存在一个通用的DTD，想使用SGML/XML进行数据交换的行业或组织可以定义它们自己的DTD。HTML，DocBook都仅仅是DTD的一种，SGML的一个实例。
+</p>
+<p>
+我们所熟知的HTML是SGML的一个实例，它的DTD作为标准被固定下来，因此，HTML不能作为定义其它置标语言的元语言。而目前的热点XML则是SGML的一个子集，严格地讲，XML也还是SGML。与HTML不同的是，XML有DTD，因而也可以象SGML那样，作为元语言，来定义其它文件系统，或称其它标记语言。
+</p>
+</li>
+<li>
+<p>
+什么是XML？
+</p>
+<p>
+可扩展标记语言（Extensible Markup Language，XML），它是标准通用标记语言（Standard Generic Markup Language，SGML）的一个子集。其目的在于使得在 Web 上能以现有超文本标记语言（Hypertext Markup Language，HTML）的使用方式提供，接收和处理通用的 SGML 成为可能。XML 的设计既考虑了实现的方便性，同时也顾及了与 SGML 和 HTML 的互操作性。
+</p>
+<p>
+SGML的相关概念，对于 XML 也是有效的，虽然有着细微的差别。我们在本章的讨论，没有特殊说明，对于SGML和XML来说都是有效的，并且我们会在本章的最后，用单独的章节比较SGML和XML的异同。
+</p>
+</li>
+</ol></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="sgml-primary.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="sgml-primary.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s04s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4. SGML/XML入门 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.2. 关于标记语言</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

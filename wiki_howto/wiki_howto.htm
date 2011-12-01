@@ -1,0 +1,1999 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>知识管理</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="一般来说公司内部都会有一个内部的WEB网站，甚至MIS系统，在上面发布各项规章制度，以及作为知识共享的平台。谁来维护它呢？如果是您在维护，我非常同情您，这的确是一个非常烦琐的工作。何不看看 Wiki，也许会让你眼前一亮。 （编译自版本: 0e4b93d，最后更新时间: 2007-06-19）">
+<link rel="start" href="#index" title="知识管理">
+<link rel="next" href="#wikiphilosophy" title="2. Wiki 哲学">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>知识管理</h1></div>
+<div><h3 class="subtitle"><i>Wiki Howto</i></h3></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.3</td>
+<td align="left">2003/11/17</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">修正了两个 UseMod Wiki 的 Bug: <a href="#AnchorsInFreeLinkBugFix">AnchorsInFreeLinkBugFix</a>, <a href="#UseNamedAnchorInTOC">UseNamedAnchorInTOC</a>
+</td></tr>
+<tr>
+<td align="left">修订 0.2</td>
+<td align="left">2003/09/16</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">UseModWiki 1.0 发布，补充<a href="#wiki" title="1. 认识 Wiki">相关内容</a>。</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2003/07/08</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+<a href="#wiki" title="1. 认识 Wiki">WikiHowto: UseModWiki</a>。</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+一般来说公司内部都会有一个内部的WEB网站，甚至MIS系统，在上面发布各项规章制度，以及作为知识共享的平台。谁来维护它呢？如果是您在维护，我非常同情您，这的确是一个非常烦琐的工作。何不看看 Wiki，也许会让你眼前一亮。
+</p>
+<p>
+（编译自版本: 0e4b93d，最后更新时间: 2007-06-19）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#wiki">1. 认识 Wiki</a></span></dt>
+<dt><span class="sect1"><a href="#wikiphilosophy">2. Wiki 哲学</a></span></dt>
+<dt><span class="sect1"><a href="#choosingawiki">3. Wiki 的选择</a></span></dt>
+<dt><span class="sect1"><a href="#usemod">4. UseModWiki</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#installusemod">4.1. UseModWiki 的安装</a></span></dt>
+<dt><span class="sect2"><a href="#configusemod">4.2. UseModWiki 的配置</a></span></dt>
+<dt><span class="sect2"><a href="#usemodl0n">4.3. UseModWiki 的汉化</a></span></dt>
+<dt><span class="sect2"><a href="#usemodchinese">4.4. 解决中文乱码问题</a></span></dt>
+<dt><span class="sect2"><a href="#writeinusemod">4.5. 学写 UseModWiki 网页</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#usemodbasicformat">4.5.1. 基础格式化规则</a></span></dt>
+<dt><span class="sect3"><a href="#newusemodpage">4.5.2. 添加新的 UseModWiki 网页</a></span></dt>
+<dt><span class="sect3"><a href="#usemodpaggroup">4.5.3. 页面分组</a></span></dt>
+<dt><span class="sect3"><a href="#usemodfeeelink">4.5.4. 创建 UseModWiki 页面的其它方法</a></span></dt>
+<dt><span class="sect3"><a href="#usemodurl">4.5.5. 在 UseModWiki 页面中嵌入 URL</a></span></dt>
+<dt><span class="sect3"><a href="#usemodintermap">4.5.6. intermap 的使用</a></span></dt>
+<dt><span class="sect3"><a href="#numberedheadings">4.5.7. 带编号的标题和目录</a></span></dt>
+<dt><span class="sect3"><a href="#useanchors">4.5.8. 建立文内链接</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#usemodadmin">4.6. UseModWiki 的管理</a></span></dt>
+<dt><span class="sect2"><a href="#usemodpatches">4.7. UseModWiki 补丁</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4699888">4.7.1. UseModWiki Bug 修正</a></span></dt>
+<dt><span class="sect3"><a href="#idp4735104">4.7.2. UseModWiki 功能扩展</a></span></dt>
+</dl></dd>
+</dl></dd>
+<dt><span class="sect1"><a href="#wikiclone">5. Another Wiki Clone?</a></span></dt>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="wiki"></a>1. 认识 Wiki</h2></div></div></div>
+<p>
+打开 Google，搜索 "WIKI"，可以找到 1,340,000 个网页（截止至2003.07.07）。什么是 WIKI？
+</p>
+<p>
+让我们到 WIKI 的老家去看看：<a href="http://c2.com/cgi/wiki" target="_top">http://c2.com/cgi/wiki</a>。
+</p>
+<div class="mediaobject">
+<img src="images/wiki-1-c2-footer.gif" alt="Wiki FrontPage"><div class="caption"><p>
+Wiki FrontPage
+</p></div>
+</div>
+<p>
+哇，如此平淡无奇，一个新手也会做出比这漂亮百倍的网页。且慢，你是否注意了网页下面的 "EditText of this page" （修改此网页）？
+</p>
+<p>
+想尝试一下如何修改么？建议你到 Wiki 的沙箱去，那里是专门提供新手测试的：<a href="http://c2.com/cgi/wiki?WikiWikiSandbox" target="_top">http://c2.com/cgi/wiki?WikiWikiSandbox</a>。如果看英文头大，到这里看一看：
+<a href="http://wiki.newzilla.org/WiKi" target="_top">http://wiki.newzilla.org/WiKi</a>。
+</p>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="wikiphilosophy"></a>2. Wiki 哲学</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+Wiki 是什么
+</p>
+<p>
+Wiki 是一个协同著作平台或称开放编辑系统。所谓协同工作，即它能够让浏览网页的人都能够去修订网页，其简介的语法和基于浏览器的编辑界面，能够让非技术人员也能够参与进来。所谓开放编辑，就是开放编辑权限，可以允许任何人在任何时间、任何地点不受限制的编辑网页。有人可能会问？如此开放，岂不将整个网站至于混乱的万劫不复的深渊？出人意料的是：“不”，恰恰相反，一切都组织的井然有序，看看 Wiki 平台搭建起来的百科全书：<a href="http://www.wikipedia.org/" target="_top">http://www.wikipedia.org/</a>，完全是志愿者组织起来的，信息是多么丰富。
+</p>
+</li>
+<li>
+<p>
+历史悠久
+</p>
+<p>
+第一个 Wiki 网站诞生于 1995 年，Ward Cunningham 创建的，作为波特兰的模式仓库的模式定义和讨论的交互性场所: <a href="http://c2.com/ppr/" target="_top">http://c2.com/ppr/</a>；
+</p>
+<p>
+而其根源可以上述到 1972 年卡耐基－梅隆大学的 ZOG 数据库系统。
+</p>
+</li>
+<li>
+<p>
+Wiki 是什么做到的
+</p>
+<p>
+Wiki 使用了简化的语法，替代复杂的 HTML，加上 WEB 界面的编辑工具，降低内容维护的门槛；
+</p>
+<p>
+Wiki 通过文本数据库或者关系型数据库实现了版本控制，可以随时找回以前的版本，也可以和以前的版本进行对比，版本控制使多人协作成为可能，又保护了内容不会丢失；
+</p>
+<p>
+任何信息都可以被任何人修改和删除，页面内容保持了一致性，因为清除垃圾文字、广告是那么的容易，最终剩下的是最有意义的内容；任何人都可以参与，但是最后剩下的是最好的参与者；
+</p>
+<p>
+Wiki 通过协作精神，实现了快速的信息整合；"Wiki" 这个单词本身来自于夏威夷语，就是快速的意思，"WikiWiki"自然就是极快的意思了。
+</p>
+</li>
+<li>
+<p>
+Wiki 的缺陷美
+</p>
+<p>
+用 Wiki 搭建信息交互平台的初衷，不就是为了让更多的人参与维护这个少数人难于完成的使命（Mission Impossible）么？与其易用性和协作性相比，Wiki 存在的格式上的单调、安全管理的缺乏就构成了 Wiki 的“缺陷美”；
+</p>
+<p>
+Wiki 搭建起来的信息交互平台上从来都不是完美的终极版。今天一个人的只言片语开启一片未知，明天就可能被一群人丰富成鸿篇巨制；
+</p>
+</li>
+<li>
+<p>
+Wiki 的应用
+</p>
+<p>
+需要协同工作的地方，Wiki 都可以派上用场，出版管理、沟通平台、公司内网的信息平台、知识管理系统框架...
+</p>
+<p>
+看看 Hammarskjold Information 公司是如何使用 Wiki 来作出版管理的：<a href="http://wiki.newzilla.org/WikiCases/Publishing" target="_top">http://wiki.newzilla.org/WikiCases/Publishing</a>；
+</p>
+<p>
+看看 Motorola 公司是如何使用 Wiki 作为项目管理的：<a href="http://wiki.newzilla.org/WikiCases/Motorola" target="_top">http://wiki.newzilla.org/WikiCases/Motorola</a>；
+</p>
+<p>
+看看因特网上的开源的百科全书：<a href="http://www.wikipedia.org" target="_top">http://www.wikipedia.org</a>。
+</p>
+<p>
+难道这些不让你跃跃欲试么？
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="choosingawiki"></a>3. Wiki 的选择</h2></div></div></div>
+<p>
+通过上面的赘述，Wiki 是什么已经心知肚明，但是要配置一个自己的 Wiki 服务器，该从何入手呢？要从 Google 的关于 Wiki 的一百多万的网页中查找线索，恐怕是太难了。上面介绍的 Wiki 站点，还是有很多的线索：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Choosing a Wiki Stories （选择 Wiki 的故事）
+</p>
+<p>
+<a href="http://c2.com/cgi/wiki?ChoosingaWikiStories" target="_top">http://c2.com/cgi/wiki?ChoosingaWikiStories</a>
+</p>
+</li>
+<li>
+<p>
+Choosing a Wiki（Wiki 的选择）
+</p>
+<p>
+<a href="http://c2.com/cgi/wiki?ChoosingaWiki" target="_top">http://c2.com/cgi/wiki?ChoosingaWiki</a>
+</p>
+</li>
+<li>
+<p>
+Wiki Engines（Wiki 引擎）
+</p>
+<p>
+<a href="http://c2.com/cgi/wiki?WikiEngines" target="_top">http://c2.com/cgi/wiki?WikiEngines</a>
+</p>
+</li>
+</ul></div>
+<p>
+我挑选了一些，列了如下名单，这绝对是挂一漏万：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+基于 Perl 的实现
+</p>
+<p>
+UseModWiki: <a href="http://www.usemod.com/cgi-bin/wiki.pl" target="_top">http://www.usemod.com/cgi-bin/wiki.pl</a>；
+</p>
+<p>
+TWiki: <a href="http://www.twiki.org/" target="_top">http://www.twiki.org/</a>；
+</p>
+<p>
+AtisWiki: <a href="http://www.ira.uka.de/~marcus/AtisWiki.html" target="_top">http://www.ira.uka.de/~marcus/AtisWiki.html</a>；
+</p>
+</li>
+<li>
+<p>
+基于 PHP 的实现
+</p>
+<p>
+PHPWiki: <a href="http://phpwiki.sourceforge.net/" target="_top">http://phpwiki.sourceforge.net/</a>；
+</p>
+<p>
+PmWiki: <a href="http://www.pmichaud.com/pmwiki" target="_top">http://www.pmichaud.com/pmwiki</a>；
+</p>
+<p>
+WikiWikiTavi: <a href="http://tavi.sourceforge.net/" target="_top">http://tavi.sourceforge.net/</a>；
+</p>
+<p>
+WikiPedia: <a href="http://sourceforge.net/projects/wikipedia" target="_top">http://sourceforge.net/projects/wikipedia</a>；
+</p>
+</li>
+<li>
+<p>
+基于 Python 的实现
+</p>
+<p>
+MoinMoin: <a href="http://moin.sourceforge.net/" target="_top">http://moin.sourceforge.net/</a>；
+</p>
+<p>
+ZWiki and ZOPE: <a href="http://zwiki.org" target="_top">http://zwiki.org</a>；
+</p>
+</li>
+<li>
+<p>
+基于 ASP 的实现
+</p>
+<p>
+OPENWIKI: <a href="http://www.openwiki.com/" target="_top">http://www.openwiki.com/</a>；
+</p>
+</li>
+<li>
+<p>
+基于 Java 的实现
+</p>
+<p>
+JSPWiki: <a href="http://www.jspwiki.org/" target="_top">http://www.jspwiki.org/</a>；
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="usemod"></a>4. UseModWiki</h2></div></div></div>
+<p>
+UseModWiki 是 Wiki 的创始者 Ward Cunningham 的实现，是最原汁原味的 Wiki，也是最易安装的 Wiki。它用 Perl 实现，采用文本数据库作版本控制。
+</p>
+<p>
+在开始撰写本文档时，UseModWiki 的发布版本是 0.92 版，在 2003/09/12 终于发布了 1.0 版本。下面的内容有些是针对 0.92 版的，请对号入座。
+</p>
+<p>
+网址：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+UseModWiki 主页
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl" target="_top">http://www.usemod.com/cgi-bin/wiki.pl</a>
+</p>
+</li>
+<li>
+<p>
+下载 UseModWiki
+</p>
+<p>
+<a href="http://www.usemod.com/wikicode/usemod10.tar.gz%20" target="_top">http://www.usemod.com/wikicode/usemod10.tar.gz</a>
+</p>
+</li>
+</ul></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="installusemod"></a>4.1. UseModWiki 的安装</h3></div></div></div>
+<p>
+UseModWiki 的安装难以致信的简洁，一个 Perl 脚本和一个数据存储目录，就构成了 UseModWiki 的全部。下面的安装步骤显得有些罗嗦，但是我要承认在 UseModWiki（0.92）汉化上浪费了不少时间，因此在此赘还请原谅。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+配置 Apache
+</p>
+<p>
+以 Apache 作为 Web 服务器，需要事先配置好 CGI 的支持，可能的配置如下：
+</p>
+<pre class="screen">
+
+AddHandler cgi-script .cgi .pl
+ScriptAlias /cgi-bin/ /PATH/TO/cgi-bin/
+
+</pre>
+</li>
+<li><p>
+解开软件包 usemod***.tar.gz；
+</p></li>
+<li>
+<p>
+将其中的脚本 "wiki.pl" 拷贝至网站的 cgi-bin 目录；
+</p>
+<pre class="screen">
+bash# cp wiki.pl /PATH/TO/cgi-bin
+bash# chmod 775  /PATH/TO/cgi-bin/wiki.pl
+</pre>
+</li>
+<li>
+<p>
+创建 UseModWiki 数据目录
+</p>
+<p>
+UseModWiki 以文本数据库方式存储数据，该存储目录应该可写，且该路径要在 wiki.pl 脚本中指定。
+</p>
+<pre class="screen">
+bash# mkdir /opt/UseModWiki
+bash# mkdir /opt/UseModWiki/temp
+bash# chmod -R 775  /opt/UseModWiki
+</pre>
+<p>
+确认 wiki.pl 脚本第58行指定的 $DataDir 和我们上面创建的一致：
+</p>
+<pre class="screen">
+
+$DataDir     = "/opt/UseModWiki"; # Main wiki directory
+
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+如果 UseModWiki 安装在 Windows 上，则需要将 $DataDir 设置为Windows可识别的路径，如: $DataDir = "E:/REPOS/UseModWiki";
+</p></td></tr>
+</table></div>
+<p>
+当然，还要确认 perl 在系统中的位置是否和 wiki.pl 第一行指定的一样：
+</p>
+<pre class="screen">
+
+#!/usr/bin/perl
+
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+如果 UseModWiki 安装在 Windows 上，可能需要这样来指定 perl 的位置: #!C:/cygwin/bin/perl.exe
+</p></td></tr>
+</table></div>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="configusemod"></a>4.2. UseModWiki 的配置</h3></div></div></div>
+<p>
+定制 UseModWiki，直接修改 wiki.pl 显然不是一个好的主意，因为这将加大 Wiki 升级的难度。UseModWiki 提供了另外的一个配置文件 <code class="filename">config</code>，提供对 UseModWiki 的定制。
+</p>
+<p>
+将安装包中的 <code class="filename">config</code> 文件，拷贝到刚刚创建的数据目录：$DataDir。
+</p>
+<pre class="screen">
+bash# cp config /opt/UseModWiki/
+</pre>
+<p>
+编辑 <code class="filename">config</code> 文件，进行对 UseModWiki 的定制。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+标题文字
+</p>
+<pre class="screen">
+
+$SiteName    = "Wiki";          # Name of site (used for titles)
+
+</pre>
+</li>
+<li>
+<p>
+LOGO 图片位置
+</p>
+<p>
+将安装包中的LOGO图片 wiki.gif 拷贝到 Web服务器合适的目录下，要和 config 文件中的配置一致。确省设置如下：
+</p>
+<pre class="screen">
+
+$LogoUrl     = "/wiki.gif";     # URL for site logo ("" for no logo)
+
+</pre>
+</li>
+<li>
+<p>
+Cookie 名称
+</p>
+<p>
+如果一个站点配置了多个 UseModWiki，每个独立的 UseModWiki 需要配置不同的 Cookie 名称。该 Cookie 主要是保存用户的登录信息等。确省设置如下：
+</p>
+<pre class="screen">
+
+$CookieName  = "Wiki";          # Name for this wiki (for multi-wiki sites)
+
+</pre>
+</li>
+<li>
+<p>
+设置字符集
+</p>
+<p>
+要让页面确省的编码为简体中文，如下配置：
+</p>
+<pre class="screen">
+
+$HttpCharset = "gb2312";              # Charset for pages, like "iso-8859-2"
+
+</pre>
+</li>
+<li>
+<p>
+使用样式表 CSS
+</p>
+<p>
+使用样式表，定制页面显示：
+</p>
+<pre class="screen">
+
+$StyleSheet  = "/inc/css/wiki.css";              # URL for CSS stylesheet (like "/wiki.css")
+
+</pre>
+</li>
+<li>
+<p>
+配置 intermap
+</p>
+<p>
+可选配置。拷贝压缩包中的配置文件 intermap 至UseModWiki数据目录。intermap 文件记录了常用的 Wiki 链接，可以直接引用。
+</p>
+</li>
+<li>
+<p>
+设置保留时间 KeptPages
+</p>
+<pre class="screen">
+$KeepDays    = 14;              # Days to keep old revisions
+</pre>
+<p>
+确省 $KeptPages 设置为两周（14天），含义为清除14天以前的改动历史。对于更新不频繁的 Wiki 网站，这个值显然要设置的大一些为好。
+</p>
+<p>
+该配置在进行维护操作（?action=maintain）时被读入，并进行相应的清理过期版本等操作。参见：<a href="#usemodadmin" title="4.6. UseModWiki 的管理">UseMod 管理</a>。
+</p>
+</li>
+<li>
+<p>
+1.0 版本开始支持文件上传，需要在 config 文件中进行设置
+</p>
+<pre class="screen">
+$UploadDir   = 'E:/REPOS/UseModWiki/upload';   # Full path (like /foo/www/uploads) for files
+$UploadUrl   = '/upload';                      # Full URL (like http://foo.com/uploads)
+...
+$UseUpload   = 1;                              # 1 = allow uploads,      0 = no uploads
+...
+$AllUpload    = 1;                             # 1 = anyone can upload,   0 = only editor/admins
+</pre>
+<p>
+其中的 $UploadDir 为上传文件的物理路径；$UploadUrl 为在网站上映射的目录名；$AllUpload 是允许任何用户都可以上传文件，否则只有具有编辑权限和管理员才能上传文件。
+</p>
+</li>
+<li>
+<p>
+开启邮件通知功能
+</p>
+<p>
+1.0 版本开始支持邮件通知功能，用户只要在“个性设置”中配置接收邮件通知的邮箱，则在 Wiki 页面修改后，会收到邮件通知。
+</p>
+<pre class="screen">
+$EmailNotify = 1;           # 1 = use email notices,  0 = no email on changes
+</pre>
+</li>
+<li>
+<p>
+开启页面缓存
+</p>
+<p>
+如果开启了页面缓存，将在数据目录 $DataDir 下建立页面缓存目录 $DataDir/html，该目录下保存最新的页面缓存，不必在每次浏览 Wiki 页面时，靠 cgi 重新生成，提高响应速度。
+</p>
+<pre class="screen">
+$UseCache    = 1;           # 1 = cache HTML pages,   0 = generate every page
+</pre>
+<p>
+但是，发现一个问题，缓存页面中的链接指向的是 cgi脚本的文件名（不带路径），对于配置了可以用多种 URL 访问wiki页面，会出现问题。例如: 可以用 "/cgi-bin/wiki.pl" 和 "/wiki" 访问 wiki，缓存页面中的链接可能是 &lt;a href="wiki.pl?... 也可能是 &lt;a href="wiki?... ，在页面跳转过程中，就会出现去访问根本访问不到的 URL，如 "/cgi-bin/wiki", "/wiki.pl"。解决办法是修改 Wiki 脚本中生成页面链接部分的代码：
+</p>
+<pre class="screen">
+
+my @ScriptPath = split('/', "$ENV{SCRIPT_NAME}");
+... ...
+#$ScriptName = pop(@ScriptPath);  # Name used in links
+$ScriptName = "";     # Set $ScriptName to blank to generate common links in cached htmls
+
+</pre>
+<p>
+即简单的将 $ScriptName 设置为空即可。
+</p>
+</li>
+<li>
+<p>
+其他
+</p>
+<pre class="screen">
+$NewFS       = 1; <a name="co.wiki.conf.newfs"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+$ThinLine    = 1; <a name="co.wiki.conf.thinline"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.wiki.conf.newfs"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+使用多字节的分隔符，避免出现在中文页面中出现乱码；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.wiki.conf.thinline"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+水平分隔符功能扩展支持；
+</p></td>
+</tr>
+</table></div>
+</li>
+</ul></div>
+<p>
+现在已经可以访问我们搭建起来的 Wiki 平台了，用浏览器访问我们建好的 UseModWiki 平台，可以发现界面是英文界面，有什么办法将界面汉化么？
+</p>
+<div class="mediaobject">
+<img src="images/wiki-2-usemod-en.gif" alt="英文界面的 UseModWiki"><div class="caption"><p>
+英文界面的 UseModWiki
+</p></div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="usemodl0n"></a>4.3. UseModWiki 的汉化</h3></div></div></div>
+<p>
+从 0.92 版本开始，UseModWiki 就引入了一个翻译对照表，实现界面的汉化。wiki.pl 中用函数 T 实现该功能：
+</p>
+<pre class="screen">
+
+sub T {
+  my ($text) = @_;
+
+  if (1) {   # Later make translation optional?
+    if (defined($Translate{$text}) &amp;&amp; ($Translate{$text} ne ''))  {
+      return $Translate{$text};
+    }
+  }
+  return $text;
+}
+
+</pre>
+<p>
+问题的关键是构建一个哈希表：%Translate。UseModWiki 软件包自带的工具 <code class="filename">misc/umtrans.pl</code> 即是完成此功能的工具。
+</p>
+<pre class="screen">
+bash% umtrans.pl wiki.pl &gt; trans.pl
+</pre>
+<p>
+该命令的作用是提取 wiki.pl 脚本中函数 T 的所有调用，并提取相应的字符串生成翻译对照表文件 <code class="filename">trans.pl</code>。打开文件 <code class="filename">trans.pl</code>，我们可以看到如下的内容：
+</p>
+<pre class="screen">
+
+%Translate = split('\n',&lt;&lt;END_OF_TRANSLATION);
+Could not create %s
+
+Showing revision %s
+
+Revision %s not available
+
+showing current revision instead
+
+Updates since %s
+
+Updates in the last %s day
+
+Updates in the last %s days
+
+... ...
+... ...
+END_OF_TRANSLATION
+
+</pre>
+<p>
+翻译过程无非是将文字对照的写在相应英文的下一行。
+</p>
+<p>
+在 UseModWiki 的网站上已经有了已经翻译好的对照表，去上面抓一个即可。如果对翻译的不满意，还可以自己去修改，其本身就是用 Wiki 维护的。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+UseModWiki 的界面翻译主页：
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?UseModWiki/Translations" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?UseModWiki/Translations</a>
+</p>
+</li>
+<li>
+<p>
+UseModWiki 的简体中文翻译页面：
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?ChineseSimplifiedTranslation" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?ChineseSimplifiedTranslation</a>
+</p>
+</li>
+</ul></div>
+<p>
+将制作（下载）好的翻译词表拷贝至 UseModWiki 的数据目录，修改 config 文件，加上如下一行代码:
+</p>
+<pre class="screen">
+do "/opt/UseModWiki/trans_cn.pl";
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+如果 UseModWiki 安装在 Windows 上，可能需要用 Windows 格式的路径，如：do "E:/REPOS/UseModWiki/trans_cn.pl";
+</p></td></tr>
+</table></div>
+<p>
+即加载翻译词表文件，初始化哈希表 %Translate。
+</p>
+<p>
+这时再打开浏览器，看看我们构建好的 Wiki 网站。界面汉化是成功了，但是中间的内容怎么出现了乱码？（UseModWiki 0.92 版本）
+</p>
+<div class="mediaobject">
+<img src="images/wiki-3-usemod-cn-bad.gif" alt="中文界面中有乱码"><div class="caption"><p>
+中文界面中有乱码
+</p></div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="usemodchinese"></a>4.4. 解决中文乱码问题</h3></div></div></div>
+<p>
+在 UseModWiki 0.92 版中使用中文会出现乱码问题，如前面刚刚提到的，本来应该显示为：“在这里添加新的页面。”，结果显示成了“在这里添加新的颐妗?”。UseModWiki 1.0 基本解决了这个问题，如果使用 1.0 版本的 UseModWiki 可以忽略本节。
+</p>
+<p>
+仔细对照两段文字的编码，发现是"页"字的编码为 "0xD2 0xB3"，而后一个字节 "0xB3" 被 UseModWiki 给过滤掉了。
+</p>
+<p>
+我们无需重造车轮，这个问题其它人一定已经遇到，去网上查一查，看看有没有解决方案。远在天边，近在眼前，UseModWiki 网站即有解决之道：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+WikiPaches: UseModWiki 的扩展
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches</a>
+</p>
+</li>
+<li>
+<p>
+UtfEight: 解决 Utf8 编码的乱码问题
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/UtfEight" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/UtfEight</a>
+</p>
+</li>
+<li>
+<p>
+EscapeFS: 解决编码的乱码问题
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/EscapeFS" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/EscapeFS</a>
+</p>
+</li>
+</ul></div>
+<p>
+我们查看一下 UseModWiki 的脚本，可以看出罪魁祸首：
+</p>
+<pre class="screen">
+
+ 166:  # Field separators are used in the URL-style patterns below.
+ 167:  $FS  = "\xb3";      # The FS character is a superscript "3"
+ 168:  $FS1 = $FS . "1";   # The FS values are used to separate fields
+ 169:  $FS2 = $FS . "2";   # in stored hashtables and other data structures.
+ 170:  $FS3 = $FS . "3";   # The FS character is not allowed in user data.
+1160:  $pageText =~ s/$FS//g;              # Remove separators (paranoia)
+... ...
+... ...
+
+</pre>
+<p>
+由于 UseModWiki 采用字符 '0xB3' 作为数据存储的字段分隔符，为了防止用户输入该字符破坏文件的结构，因此过滤该字符。"UtfEight" 的修改方法，是只替换 $F1, $F2, $F3 定界符，而不替换 $F 定界符。对 wiki.pl 代码的修改如下：
+</p>
+<pre class="screen">
+
+--- wiki_92.pl	2002-12-22 12:01:49.000000000 -0600
++++ wiki_utf8.cgi	2002-12-23 10:44:38.000000000 -0600
+@@ -82,7 +82,7 @@
+ $EditNote    = "";              # HTML notice above buttons on edit page
+ $MaxPost     = 1024 * 210;      # Maximum 210K posts (about 200K for pages)
+ $NewText     = "";              # New page text ("" for default message)
+-$HttpCharset = "";              # Charset for pages, like "iso-8859-2"
++$HttpCharset = "UTF-8";         # Charset for pages, like "iso-8859-2"
+ $UserGotoBar = "";              # HTML added to end of goto bar
+
+ # Major options:
+@@ -986,6 +986,7 @@
+     return $q-&gt;header(-cookie=&gt;$cookie);
+   }
+   if ($HttpCharset ne '') {
++    $q-&gt;charset($HttpCharset);
+     return $q-&gt;header(-type=&gt;"text/html; charset=$HttpCharset");
+   }
+   return $q-&gt;header();
+@@ -1157,7 +1157,7 @@
+   %SaveNumUrl = ();
+   $SaveUrlIndex = 0;
+   $SaveNumUrlIndex = 0;
+-  $pageText =~ s/$FS//g;              # Remove separators (paranoia)
++  $pageText =~ s/$FS[123]//g;              # Remove separators (paranoia)
+   if ($RawHtml) {
+     $pageText =~ s/&lt;html&gt;((.|\n)*?)&lt;\/html&gt;/&amp;StoreRaw($1)/ige;
+   }
+@@ -1678,7 +1678,7 @@
+   %SaveNumUrl = ();
+   $SaveUrlIndex = 0;
+   $SaveNumUrlIndex = 0;
+-  $diff =~ s/$FS//g;
++  $diff =~ s/$FS[123]//g;
+   $diff =  &amp;CommonMarkup($diff, 0, 1);      # No images, all patterns
+   $diff =~ s/$FS(\d+)$FS/$SaveUrl{$1}/ge;   # Restore saved text
+   $diff =~ s/$FS(\d+)$FS/$SaveUrl{$1}/ge;   # Restore nested saved text
+@@ -3214,8 +3214,8 @@
+     &amp;ReportError(Ts('[[%s]] cannot be defined.', $id));
+     return;
+   }
+-  $string =~ s/$FS//g;
+-  $summary =~ s/$FS//g;
++  $string =~ s/$FS[123]//g;
++  $summary =~ s/$FS[123]//g;
+   $summary =~ s/[\r\n]//g;
+   # Add a newline to the end of the string (if it doesn't have one)
+   $string .= "\n"  if (!($string =~ /\n$/));
+@@ -3820,7 +3820,7 @@
+   # Much of this is taken from the common markup
+   %SaveUrl = ();
+   $SaveUrlIndex = 0;
+-  $text =~ s/$FS//g;              # Remove separators (paranoia)
++  $text =~ s/$FS[123]//g;              # Remove separators (paranoia)
+   if ($RawHtml) {
+     $text =~ s/(&lt;html&gt;((.|\n)*?)&lt;\/html&gt;)/&amp;StoreRaw($1)/ige;
+   }
+
+</pre>
+<p>
+修改的好处是，保持了和原有数据的兼容性，原有的 Wiki 页面能够正常显示；缺点是修改不彻底，如果输入字符 "页1"、 "页2" 或 "页3"，还会出现乱码。但毕竟这样的机会比较少，而且在汉字"页"和数字1,2,3 之间加上空格，就可以避免这种情况下的乱码。
+</p>
+<p>
+采用用多个字符来代替 UseModWiki 的确省分隔符 '0xB3'，虽然能够比较好的解决乱码问题，但是可能会造成原有数据内容的解码错误。具体参见: <a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/EscapeFS" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/EscapeFS</a>。
+</p>
+<p>
+修改好后，我们再次打开我们搭建好的 Wiki 网站，可以看到乱码问题已经解决：
+</p>
+<div class="mediaobject">
+<img src="images/wiki-4-usemod-cn-good.gif" alt="汉化后的 UseModWiki 界面"><div class="caption"><p>
+汉化后的 UseModWiki 界面
+</p></div>
+</div>
+<p>
+UseModWiki 1.0 版本默认采用上面所述的方法来支持8比特的字符集。但是我们从上面描述的修改方法可以看出来仍然有出现乱码的可能，例如输入"页1页2"等就会显示为乱码。为了尽最大可能的不出现乱码，还可以将字段分隔符定义为多字节。下面代码摘自 wiki.pl（1.0版）：
+</p>
+<pre class="screen">
+
+...
+
+$NewFS       = 0;           # 1 = new multibyte $FS,  0 = old $FS
+
+...
+
+  if ($NewFS) {
+    $FS  = "\x1e\xff\xfe\x1e";    # An unlikely sequence for any charset
+  } else {
+    $FS  = "\xb3";    # The FS character is a superscript "3"
+  }
+  $FS1 = $FS . "1";   # The FS values are used to separate fields
+  $FS2 = $FS . "2";   # in stored hashtables and other data structures.
+  $FS3 = $FS . "3";   # The FS character is not allowed in user data.
+
+...
+
+</pre>
+<p>
+在 <code class="filename">config</code> 中定义 $NewFS 为 1, 则用多字节的分隔符，但是以前采用 0xb3 为分隔符的 wiki 服务器端数据需要进行转换，否则不能使用。用如下命令就可以完成转换：<span><strong class="command">sed -e "s/\xb3\([1-3]\)/\x1e\xff\xfe\x1e\1/g"</strong></span>。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="writeinusemod"></a>4.5. 学写 UseModWiki 网页</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="usemodbasicformat"></a>4.5.1. 基础格式化规则</h4></div></div></div>
+<p>
+学写 Wiki 页面，最重要的是要实践，用下面这段测试文字为内容创建一个 Wiki 页面：
+</p>
+<pre class="screen">
+
+连续的   空格		和制表符(TAB)被忽略；
+一个空行用来分割两个段落。
+
+可以用 &lt;nowiki&gt;'''&lt;/nowiki&gt; 和 &lt;nowiki&gt;'''&lt;/nowiki&gt; 标记'''粗体字'''；\
+用 &lt;nowiki&gt;''&lt;/nowiki&gt; 和 &lt;nowiki&gt;''&lt;/nowiki&gt; 标记''斜体字''；\
+用 &lt;nowiki&gt;''''&lt;/nowiki&gt; 和 &lt;nowiki&gt;''''&lt;/nowiki&gt; 标记''''粗体且斜体字''''；\
+亦可以用 &lt;nowiki&gt;&lt;b&gt;&lt;/nowiki&gt; 和 &lt;nowiki&gt;&lt;/b&gt;&lt;/nowiki&gt; 标记&lt;b&gt;粗体字&lt;/b&gt;；\
+用 &lt;nowiki&gt;&lt;i&gt;&lt;/nowiki&gt; 和 &lt;nowiki&gt;&lt;/i&gt;&lt;/nowiki&gt; 标记&lt;i&gt;斜体字&lt;/i&gt;；\
+用 &lt;nowiki&gt;&lt;tt&gt;&lt;/nowiki&gt; 和&lt;nowiki&gt;&lt;/tt&gt;&lt;/nowiki&gt; 标记&lt;tt&gt;等度字&lt;/tt&gt;；\
+用 &lt;&lt;nowiki&gt;nowiki&gt;WikiWiki&lt;/nowiki&lt;/nowiki&gt;&gt;。
+
+一行的第一个字符比较特殊，可以用来控制格式（连续的特殊字符，使效果加倍）：
+ 空格启示，本行文字显示为等宽字体；
+:冒号":"开头，使本行缩进；
+::越多的冒号":"，缩进越多；
+= "= "开头和" ="结尾，使本行成为标题 =
+== 重复的等号如，以"== "开头和" =="结尾，使本行成为低级别标题 ==
+*星号"*"，使本行显示为符号列表；
+#井号"#"，使本行显示为带编号的列表；
+;分号";"，开启一个定义，在名词和其概念解释之间用冒号":"分隔；
+----四个连续的减号&lt;nowiki&gt;"----"&lt;/nowiki&gt;，画出一个水平分隔线。
+
+&lt;pre&gt;
+  和 HTML 中对应的标记一样
+  可以用 &lt;nowiki&gt;&lt;pre&gt; 和 &lt;/pre&gt;&lt;/nowiki&gt;，保持段落
+的格式。
+&lt;/pre&gt;
+
+</pre>
+<p>
+显示在浏览器中：
+</p>
+<div class="mediaobject">
+<img src="images/wiki-5-usemod-format.gif" alt="学写 Wiki 页面"><div class="caption"><p>
+学写 Wiki 页面
+</p></div>
+</div>
+<p>
+以上文字是自解释的，不再赘述。UseModWiki 网站上有一个补丁，可以在 UseModWiki 中实现其它 Wiki 实现（WikiClone）中的表格功能，参见<a href="#usemod-table">后面的 UseMod 功能扩充章节</a>。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="newusemodpage"></a>4.5.2. 添加新的 UseModWiki 网页</h4></div></div></div>
+<p>
+如果只能提供唯一的一个页面供大家涂鸦，恐怕这样的系统是没人喜欢，也没有什么用处的。Wiki 却可以自如的创建新的页面，这个页面又叫链接。
+</p>
+<p>
+Wiki 通过识别页面中的关键字，并为关键字创建新的页面。Wiki 的关键字的定义是：两个或者多个单词的各自首字母大写，并将这几个单词拼接在一起，就构成了关键字。
+Wiki 关键字就是大小写混合拼写的单词，Wiki 会识别并准备为之开启一个新的页面，就会在这个混合拼写的单词后面加上一个问号"?"，点击问号"?"，就开始为这个新的名词创建页面。如：如下文字，将会生成新的页面：
+</p>
+<pre class="screen">
+
+Welcome to my &lt;nowiki&gt;HomePage&lt;/nowiki&gt;: WorldHello
+
+</pre>
+<p>
+以上文字将产生如下效果的页面：
+</p>
+<pre class="screen">
+Welcome to my HomePage: WorldHello<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=edit&amp;id=WorldHello" target="_top">?</a>
+</pre>
+<p>
+点击文字 "WorldHello" 后面的问号 "?"，将开始创建新的页面，当完成新页面的创建之后，本页面将显示如下：
+</p>
+<pre class="screen">
+Welcome to my HomePage: <a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?WorldHello" target="_top">WorldHello</a>
+</pre>
+<p>
+下面的例子展示了什么样的字母组合是正确的 Wiki 关键字：
+</p>
+<div class="mediaobject">
+<img src="images/wiki-8-usemod-wikiname.gif" alt="Wiki 页面链接示例"><div class="caption"><p>
+Wiki 页面链接示例
+</p></div>
+</div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="usemodpaggroup"></a>4.5.3. 页面分组</h4></div></div></div>
+<p>
+UseModWiki 支持页面分组。即可以使用符号"/"，分隔两个Wiki关键字。前一个关键字就是后一个关键字的分组。例如：已经创建了关键字"HomePage"的页面，又创建了"HomePage/Test1", 和"HomePage/Test2" 页面。那么可以到服务器端查看Wiki数据目录的 page 子目录，其相关文件和位置为：
+</p>
+<pre class="screen">
+bash# tree /opt/UseModWiki/page/
+
+/opt/UseModWiki/page/
+|-- H
+|   |-- HomePage
+|   |   |-- Test1.db
+|   |   `-- Test2.db
+|   `-- HomePage.db
+`-- J
+    `-- Johnson's_Homepage.db
+</pre>
+<p>
+亦可以在浏览器的地址栏输入 URL： <a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=index" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=index</a>，显示如下：
+</p>
+<pre class="screen">
+发现　4 个页面：
+HomePage
+.... HomePage/Test1
+.... HomePage/Test2
+Johnson's Homepage
+</pre>
+<p>
+页面分组的显而易见的好处是扩大了关键字的命名空间，比如可以存在多个关键字名称为 "Test1" 的页面，它们处于不同的页面分组中（物理上同名的 .db 文件处于不同的目录中）。要注意的是 UseModWiki 只支持一级分组，否则就会报错：“页面包含太多的 "/" 字符”。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="usemodfeeelink"></a>4.5.4. 创建 UseModWiki 页面的其它方法</h4></div></div></div>
+<p>
+Wiki 还有更灵活的方式创建新链接。比如想以 "Johnson's homepage" 为名称创建新的 Wiki 页面，或者为中文词汇如 "我的主页" 创建新的 Wiki 页面，这些关键字本身没有遵守 Wiki 链接关键字的规则，但是可以用下面的方法灵活的创建。
+</p>
+<p>
+将链接文字用<span class="emphasis"><em>双方括号</em></span>扩起来，也可以在<span class="emphasis"><em>双方括号</em></span>用竖线"|"分隔链接关键字和说明，更灵活的创建新的 Wiki 链接。如下：
+</p>
+<pre class="screen">
+
+: Welcome to [[Johnson's homepage]]
+: 欢迎访问 [[Johnson's homepage|我的主页]]
+: 双方括号也可以用在普通的 Wiki 链接上：[[WorldHello]]
+
+</pre>
+<p>
+将显示为：
+</p>
+<pre class="screen">
+Welcome to <a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?Johnson's_Homepage" target="_top">Johnson's homepage</a>
+欢迎访问 <a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?Johnson's_Homepage" target="_top">我的主页</a>
+双方括号也可以用在普通的 Wiki 链接上：<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?WorldHello" target="_top">WorldHello</a>
+</pre>
+<p>
+也可以不通过在页面中定义关键字，而直接键入 URL，创建新的 Wiki 页面。如想要创建名为 "NewPage" 的页面，在浏览器中输入：<span class="emphasis"><em>http://foobar.worldhello.net/cgi-bin/wiki.pl?action=edit&amp;id=NewPage</em></span>。完成新页面的构建之后，就可以用 URL <span class="emphasis"><em>http://foobar.worldhello.net/cgi-bin/wiki.pl?NewPage</em></span> 来引用。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="usemodurl"></a>4.5.5. 在 UseModWiki 页面中嵌入 URL</h4></div></div></div>
+<p>
+Wiki 可以识别形如：http://www.worldhello.net, mailto:johnson.AT.worldhello.net, news://news.newsfan.net, ftp://ftp.gnu.org 的URL，并以 URL 链接形式显示在页面中。
+</p>
+<p>
+有时候，想用说明文字代替 URL 本身显示出来，可以将 URL 和该 URL 的说明用<span class="emphasis"><em>单方括号</em></span>扩起来，URL 和其说明之间用空格分隔，这样可以更灵活的显示 URL 链接。如下：
+</p>
+<pre class="screen">
+
+: 访问 http://foobar.worldhello.net/cgi-bin/wiki.pl?action=edit&amp;id=WorldHello 编辑新页面
+: 访问 [http://foobar.worldhello.net/cgi-bin/wiki.pl?action=edit&amp;id=WorldHello 此处] 编辑新页面
+
+</pre>
+<p>
+将显示为：
+</p>
+<pre class="screen">
+访问 <a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=edit&amp;id=WorldHello" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=edit&amp;id=WorldHello</a> 编辑新页面 
+访问 <a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=edit&amp;id=WorldHello" target="_top">[此处]</a> 编辑新页面
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="usemodintermap"></a>4.5.6. intermap 的使用</h4></div></div></div>
+<p>
+另外一种就是引用由 intermap 预先定义的关键字。如：在 UseModWiki 的数据目录下的 intermap 文件可能有如下几行（如果没有，手工添加）：
+</p>
+<pre class="screen">
+
+UseMod http://www.usemod.com/cgi-bin/wiki.pl?
+Searchmysite http://www.google.com/search?as_sitesearch=www.worldhello.net&amp;as_q=
+
+</pre>
+<p>
+如果在编辑框中直接输入：<span class="emphasis"><em>UseMod:InterWiki</em></span>，将显示为：<a href="http://www.usemod.com/cgi-bin/wiki.pl?InterWiki" target="_top">UseMod:InterWiki</a>，其链接则指向 <a href="http://www.usemod.com/cgi-bin/wiki.pl?InterWiki" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?InterWiki</a>；
+</p>
+<p>
+如果编辑框中直接输入：<span class="emphasis"><em>[Searchmysite:wiki Search wiki in WorldHello!]</em></span>，将显示为：<a href="http://www.google.com/search?as_sitesearch=www.worldhello.net&amp;as_q=wiki" target="_top">[Search wiki in WorldHello!]</a>，其链接则指向 <a href="http://www.google.com/search?as_sitesearch=www.worldhello.net&amp;as_q=wiki" target="_top">http://www.google.com/search?as_sitesearch=www.worldhello.net&amp;as_q=wiki</a>；
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="numberedheadings"></a>4.5.7. 带编号的标题和目录</h4></div></div></div>
+<p>
+UseMod Wiki 1.0 可以使用如下语法建立带编号的标题:
+</p>
+<pre class="screen">
+== # heading1 ==
+=== # heading2 ===
+==== # heading3 ====
+</pre>
+<p>
+对于已经使用上述语法建立了分级结构的页面，可以输入 <span class="emphasis"><em>&lt;toc&gt;</em></span>, 建立目录索引。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="useanchors"></a>4.5.8. 建立文内链接</h4></div></div></div>
+<p>
+网页可以通过 <span class="emphasis"><em>http://url#anchor</em></span> 跳转到文内链接。Wiki 页面亦可以使用文内链接。
+</p>
+<p>
+先建立文内链接。使用语法：
+</p>
+<pre class="screen">
+[#AnchorName]
+</pre>
+<p>
+在通过在链接后面加上 "#链接名" 格式的方式访问文内链接，如下：
+</p>
+<pre class="screen">
+*** LinkName#NamedAnchors
+*** [[LinkName#NamedAnchors|跳转到文内链接]]
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="usemodadmin"></a>4.6. UseModWiki 的管理</h3></div></div></div>
+<p>
+协同工作有的时候需要限制在一定的范围之内，甚至有的时候需要只读访问。当然这违背了 Wiki 的精神，参见：<a href="#wikiphilosophy" title="2. Wiki 哲学">Wiki 哲学</a>。但是 UseModWiki 也提供了一定程度的权限控制和管理，在此做一简要介绍。
+</p>
+<p>
+在 Wiki 的数据目录下的配置文件 <code class="filename">config</code>，其中有如下两行：
+</p>
+<pre class="screen">
+$AdminPass   = "admin1234 johnson";              # Set to non-blank to enable password(s)
+$EditPass    = "edit1234";       # Like AdminPass, but for editing only
+</pre>
+<p>
+$AdminPass 确省没有口令，任何人都具有管理权限，如禁止某页的编辑权限，禁止整个站点的编辑权限。$EditPass 确省没有口令，任何人都具有编辑权限。也可以在 $AdminPass 和 $EditPass 中设置口令，上面的 <code class="filename">config</code> 配置文件中，我们已经分别设置了口令，该口令是一个明文口令，也可以是多个明文口令用空格分开。
+</p>
+<p>
+那么如何输入口令呢？在页首的"个性设置（Preferences）" 中，用户设置自己的"管理者口令"（如果是第一次进入个性设置页面，可能没有这个选项，再次进入就会出现）。如果用户的"管理者口令"和 $AdminPass 中的口令相同，则用户具有管理员权限，如果和 $EditPass 中的设置相同，则具有编辑权限。
+</p>
+<p>
+UseModWiki 的管理功能都是通过 wiki.pl 这个脚本完成的，向这个脚本传递不同的 action 参数，行使不同的管理功能，如下：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+为整个网站加上编辑锁定
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlock&amp;set=1" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlock&amp;set=1</a>
+</pre>
+<p>
+加上整个网站的编辑锁定之后，只有用户配置了"管理口令"，并且当用户通过认证具有编辑权限（用户管理口令和配置文件中的编辑口令匹配）或者管理权限（用户管理口令和配置文件中的管理口令匹配），才能够编辑 Wiki 页面。否则 Wiki 页面是只读的。
+</p>
+</li>
+<li>
+<p>
+解除整个网站的编辑锁定
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlock&amp;set=0" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlock&amp;set=0</a>
+</pre>
+<p>
+解除锁定后，用户可以编辑 Wiki 页面，即使用户没有编辑权限。
+</p>
+</li>
+<li>
+<p>
+为某个页面添加编辑锁
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=pagelock&amp;set=1&amp;id=HomePage" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=pagelock&amp;set=1&amp;id=HomePage</a>
+</pre>
+<p>
+为某页（这里是 HomePage 页）设置了编辑锁定之后，既限制没有认证的用户，也限制具有编辑权限的用户编辑页面。只有对通过认证且具有管理权限的用户，才能够编辑 Wiki 页面；
+</p>
+<p>
+对一个页面的编辑锁，并不能限制下级页面。如对 "HomePage" 建立编辑锁，并不影响 "HomePage/Test1" 页面；
+</p>
+<p>
+用 action=editlock&amp;set=0 解除整个 Wiki 网站的编辑锁定，并不影响某一个页面的锁定设置，即单独页面的锁定依然有效。
+</p>
+</li>
+<li>
+<p>
+为某个页面（这里是 HomePage 页）解开编辑锁
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=pagelock&amp;set=0&amp;id=HomePage" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=pagelock&amp;set=0&amp;id=HomePage</a>
+</pre>
+<p>
+为某页解除编辑锁定。
+</p>
+</li>
+<li>
+<p>
+限制某些 IP 地址对 Wiki 站点的修改
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editbanned" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editbanned</a>
+</pre>
+<p>
+按照帮助输入想要封锁的IP地址，对于这些 IP 地址的机器，禁止其编辑 Wiki 页面的功能。
+</p>
+</li>
+<li>
+<p>
+删除 Wiki 页面和修改关键字链接名称
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlinks" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlinks</a>
+</pre>
+<p>
+按照帮助输入想要封锁的IP地址，对于这些 IP 地址的机器，禁止其编辑 Wiki 页面的功能。
+</p>
+</li>
+<li>
+<p>
+维护：清除过期版本等
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=maintain" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=maintain</a>
+</pre>
+<p>
+该命令进行不定期的维护，读取 config 文件中的 $KeepDays 设置（确省14天），将超过此期限的版本清除。如果安装了 DeletedPage 补丁的话，彻底删除标记为 DeletedPage 的页面。
+</p>
+<p>
+普通用户亦可执行此命令，但是限制12小时只能运行一次。可以将此命令加入的 crontab 中，每周运行一次。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="usemodpatches"></a>4.7. UseModWiki 补丁</h3></div></div></div>
+<p>
+在开始撰写本文档时，UseModWiki 的发布版本是 0.92 版，下面的内容有些是针对 0.92 版的，1.0 版本已经修正，因此请对号入座。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4699888"></a>4.7.1. UseModWiki Bug 修正</h4></div></div></div>
+<p>
+BUG 修正：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p><a name="AnchorsInFreeLinkBugFix"></a>
+修正在 FreeLinks 中使用内部链接的显示错误
+</p>
+<p>
+适用于 1.0 版本。参见：<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/AnchorsInFreeLinkBugFix" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/AnchorsInFreeLinkBugFix</a>。
+</p>
+<p>
+如果在 FreeLinks 中使用了 Anchor，即页面内部链接，显示不正常。例如：如下代码
+</p>
+<pre class="screen">
+* [[WikiPatches/AnchorsInFreeLinkBugFix#bottom|Goto bottom]]
+* [[WikiPatches/AnchorsInFreeLinkBugFix#bottom]]
+</pre>
+<p>
+在 1.0 版本的Wiki中显示为
+</p>
+<pre class="screen">
+* [[<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/AnchorsInFreeLinkBugFix#bottom" target="_top">WikiPatches/AnchorsInFreeLinkBugFix#bottom</a>|Goto bottom]]
+* [[<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/AnchorsInFreeLinkBugFix#bottom" target="_top">WikiPatches/AnchorsInFreeLinkBugFix#bottom</a>]]
+</pre>
+<p>
+如果应用了如下修正，则能正常显示：
+</p>
+<pre class="screen">
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/AnchorsInFreeLinkBugFix#bottom" target="_top">Goto bottom</a>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/AnchorsInFreeLinkBugFix#bottom" target="_top">WikiPatches/AnchorsInFreeLinkBugFix#bottom</a>
+</pre>
+<p>
+修正如下：
+</p>
+<pre class="screen">
+
+--- wiki.pl	2003-09-11 20:21:02.000000000 +0800
++++ wiki.pl.freelink	2003-11-16 22:36:36.468750000 +0800
+@@ -301,9 +301,17 @@
+       $AnyLetter = "[-,.()' _0-9A-Za-z]";
+     }
+   }
+-  $FreeLinkPattern = "($AnyLetter+)";
++  $FreeLinkPattern = "($AnyLetter+";
+   if ($UseSubpage) {
+-    $FreeLinkPattern = "((?:(?:$AnyLetter+)?\\/)?$AnyLetter+)";
++    $FreeLinkPattern = "((?:(?:$AnyLetter+)?\\/)?$AnyLetter+";
++  }
++  if ($NamedAnchors)
++  {
++    $FreeLinkPattern .= "(?:#(?:\\w+))?)";
++  }
++  else
++  {
++    $FreeLinkPattern .= ")";
+   }
+   $FreeLinkPattern .= $QDelim;
+   # Url-style links are delimited by one of:
+@@ -1157,6 +1165,7 @@
+ sub GetPageOrEditAnchoredLink {
+   my ($id, $anchor, $name) = @_;
+   my (@temp, $exists);
++  my $NamedFreeLink = 0;
+ 
+   if ($name eq "") {
+     $name = $id;
+@@ -1164,6 +1173,10 @@
+       $name =~ s/_/ /g;
+     }
+   }
++  else
++  {
++    $NamedFreeLink = 1;
++  }
+   $id =~ s|^/|$MainPage/|;
+   if ($FreeLinks) {
+     $id = &amp;FreeToNormal($id);
+@@ -1179,7 +1192,7 @@
+   }
+   if ($exists) {
+     $id = "$id#$anchor"  if $anchor;
+-    $name = "$name#$anchor"  if $anchor &amp;&amp; $NamedAnchors != 2;
++    $name = "$name#$anchor"  if $anchor &amp;&amp; $NamedAnchors != 2 &amp;&amp; !$NamedFreeLink;
+     return &amp;GetPageLinkText($id, $name);
+   }
+   if ($FreeLinks &amp;&amp; !$EditNameLink) {
+@@ -1196,7 +1209,8 @@
+ 
+ sub GetPageOrEditLink {
+     my ($id, $name) = @_;
+-    return &amp;GetPageOrEditAnchoredLink($id, "", $name);
++    my ($link, $anchor) = split( /#/, $id, 2);
++    return &amp;GetPageOrEditAnchoredLink($link, $anchor, $name);
+ }
+ 
+ sub GetBackLinksSearchLink {
+
+</pre>
+</li>
+<li>
+<p><a name="UseNamedAnchorInTOC"></a>
+使用编号作为目录索引的链接名称
+</p>
+<p>
+适用于 1.0 版本。参见：<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/UseNamedAnchorInTOC" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/UseNamedAnchorInTOC</a>。
+</p>
+<p>
+上面介绍过，可以使用如下方式为文章建立索引和带编号的标题。
+</p>
+<pre class="screen">
+
+&lt;toc&gt;
+
+== # heading1 ==
+...
+
+=== # heading2 ===
+...
+
+==== # heading3 ====
+...
+
+</pre>
+<p>
+建立好的目录索引可以跳转到相应的文内链接。建立文内链接的方法是提取相应标题中英文字母进行组合。这就产生了一个问题，如果是相同内容的标题，则会造成重复的文内链接，对于中英文混合的标题，这个内容更加严重。通过应用下面的这个补丁，强制使用数字编号作为目录索引指向的文内链接的名称。
+</p>
+<pre class="screen">
+
+--- wiki.pl	2003-09-11 20:21:02.000000000 +0800
++++ wiki.pl.numanchor	2003-11-16 22:37:38.515625000 +0800
+@@ -53,7 +53,7 @@
+   @IsbnNames @IsbnPre @IsbnPost $EmailFile $FavIcon $RssDays $UserHeader
+   $UserBody $StartUID $ParseParas $AuthorFooter $UseUpload $AllUpload
+   $UploadDir $UploadUrl $LimitFileUrl $MaintTrimRc $SearchButton 
+-  $EditNameLink $UseMetaWiki @ImageSites $BracketImg );
++  $EditNameLink $UseMetaWiki @ImageSites $UseNumberedAnchor);
+ # Note: $NotifyDefault is kept because it was a config variable in 0.90
+ # Other global variables:
+ use vars qw(%Page %Section %Text %InterSite %SaveUrl %SaveNumUrl
+@@ -175,6 +175,8 @@
+ $EditNameLink = 0;      # 1 = edit links use name (CSS), 0 = '?' links
+ $UseMetaWiki  = 0;      # 1 = add MetaWiki search links, 0 = no MW links
+ $BracketImg   = 1;      # 1 = [url url.gif] becomes image link, 0 = no img
++$UseNumberedAnchor = 1;	# 1 = use numbered anchor in NumberedHeadings, 
++			# 0 = cook anchor by canonicalizing text
+ 
+ # Names of sites.  (The first entry is used for the number link.)
+ @IsbnNames = ('bn.com', 'amazon.com', 'search');
+@@ -2116,12 +2118,15 @@
+     $text =~ s/\&lt;a\s[^\&gt;]*?\&gt;\?\&lt;\/a\&gt;//si; # No such page syntax
+     $text =~ s/\&lt;a\s[^\&gt;]*?\&gt;(.*?)\&lt;\/a\&gt;/$1/si;
+     # Cook anchor by canonicalizing $text.
+-    $anchor = $text;
+-    $anchor =~ s/\&lt;.*?\&gt;//g; 
+-    $anchor =~ s/\W/_/g;   
+-    $anchor =~ s/__+/_/g;
+-    $anchor =~ s/^_//;
+-    $anchor =~ s/_$//;
++    if (!$UseNumberedAnchor)
++    {
++        $anchor = $text;
++        $anchor =~ s/\&lt;.*?\&gt;//g; 
++        $anchor =~ s/\W/_/g;   
++        $anchor =~ s/__+/_/g;
++        $anchor =~ s/^_//;
++        $anchor =~ s/_$//;
++    }
+     # Last ditch effort
+     $anchor = '_' . (join '_', @HeadingNumbers) unless $anchor;
+     $TableOfContents .= $number . &amp;ScriptLink("$OpenPageName#$anchor",$text)
+
+</pre>
+</li>
+<li>
+<p>
+禁止页面缓存
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 可以参照进行类似修改。
+</p></td></tr>
+</table></div>
+<p>
+页面缓存会引起网页浏览者不能及时看到更新的网页。在 <a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/PageCacheBugFix" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/PageCacheBugFix</a> 上面有一个补丁。
+</p>
+<pre class="screen">
+
+--- usemod092/wiki.pl   Sun Apr 22 00:44:10 2001
++++ wiki.cgi    Sun Apr 29 00:01:57 2001
+@@ -973,6 +973,8 @@
+ sub GetHttpHeader {
+   my $cookie;
++  my $now;
++  $now = gmtime;
+   if (defined($SetCookie{'id'})) {
+     $cookie = "$CookieName="
+             . "rev&amp;" . $SetCookie{'rev'}
+@@ -981,12 +983,20 @@
+     $cookie .= ";expires=Fri, 08-Sep-2010 19:48:23 GMT";
+     if ($HttpCharset ne '') {
+       return $q-&gt;header(-cookie=&gt;$cookie,
++                        -pragma=&gt;"no-cache",
++                        -cache_control=&gt;"no-cache",
++                        -last_modified=&gt;"$now",
++                        -expires=&gt;"+10s",
+                         -type=&gt;"text/html; charset=$HttpCharset");
+     }
+     return $q-&gt;header(-cookie=&gt;$cookie);
+   }
+   if ($HttpCharset ne '') {
+-    return $q-&gt;header(-type=&gt;"text/html; charset=$HttpCharset");
++    return $q-&gt;header(-type=&gt;"text/html; charset=$HttpCharset",
++                      -pragma=&gt;"no-cache",
++                      -cache_control=&gt;"no-cache",
++                      -last_modified=&gt;"$now",
++                      -expires=&gt;"+10s");
+   }
+   return $q-&gt;header();
+ }
+
+</pre>
+</li>
+<li>
+<p>
+解决 $ThinLine 和 $UseHeadings 引起的冲突
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 可以参照进行类似修改。
+</p></td></tr>
+</table></div>
+<p>
+如下的解决方案来自：<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/ThinLineHeadingsConflict" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/ThinLineHeadingsConflict</a>。更严格的匹配 ==== ，避免了误将第四级的标题处理成为两条水平线。
+</p>
+<pre class="screen">
+
+--- usemod092/wiki.pl
++++ wiki.cgi    
+@@ -1223,7 +1233,7 @@
+     s/$ISBNPattern/&amp;StoreISBN($1)/geo;
+     if ($ThinLine) {
+       s/----+/&lt;hr noshade size=1&gt;/g;
+-      s/====+/&lt;hr noshade size=2&gt;/g;
++      s/^\s*====+\s*$/&lt;hr noshade size=2&gt;/gmx;
+     } else {
+       s/----+/&lt;hr&gt;/g;
+     }
+
+</pre>
+<p>
+有另外一种解决方案，即用减号"-"的多少来决定分隔线的粗细，而不是用易于混淆的等号。
+</p>
+<pre class="screen">
+
+--- usemod092/wiki.pl
++++ wiki.cgi    
+@@ -1222,8 +1222,11 @@
+     s/$RFCPattern/&amp;StoreRFC($1)/geo;
+     s/$ISBNPattern/&amp;StoreISBN($1)/geo;
+     if ($ThinLine) {
+-      s/----+/&lt;hr noshade size=1&gt;/g;
+-      s/====+/&lt;hr noshade size=2&gt;/g;
++      s/--------+/&lt;hr noshade style="height:5px"&gt;/g;
++      s/-------+/&lt;hr noshade style="height:4px"&gt;/g;
++      s/------+/&lt;hr noshade style="height:3px"&gt;/g;
++      s/-----+/&lt;hr noshade style="height:2px"&gt;/g;
++      s/----+/&lt;hr noshade style="height:1px"&gt;/g;
+     } else {
+       s/----+/&lt;hr&gt;/g;
+     }
+
+</pre>
+</li>
+<li>
+<p>
+引用相对 URL 的补丁
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 已支持。
+</p></td></tr>
+</table></div>
+<p>
+UseModWiki 0.92 版本处理文本中的 URL 有一个缺陷。即没法使用相对或者决定路径来引用本网站的内容，如果需要引用本网站的内容，也必须把 URL 写成如：http://foobar.worldhello.net/images/usemod.gif。这是多么的不方便，而且如果网站名称修改，那么文中的链接就都出错了。UseMod 网站上有一个补丁可以解决这个问题，即允许通过写 URL片断（非正规URL格式）达到引用本网站链接的目的：<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/PartialUrlFix" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/PartialUrlFix</a>。
+</p>
+<p>
+修改如下：
+</p>
+<pre class="screen">
+*** usemod092/wiki.pl	Sat Apr 21 17:44:10 2001
+--- wiki.pl	Fri Jan 18 11:36:25 2002
+***************
+*** 1417,1422 ****
+--- 1417,1423 ----
+    }
+    # Restricted image URLs so that mailto:foo@bar.gif is not an image
+    if ($useImage &amp;&amp; ($name =~ /^(http:|https:|ftp:).+\.$ImageExtensions$/)) {
++     $name = $1 if ($name =~ /^https?:(.*)/ &amp;&amp; $1 !~ /^\/\//); <a name="co.usemod.patch.parturl1"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+      return ("&lt;img src=\"$name\"&gt;", $punct);
+    }
+    return ("&lt;a href=\"$name\"&gt;$name&lt;/a&gt;", $punct);
+***************
+*** 1425,1430 ****
+--- 1426,1432 ----
+  sub StoreBracketUrl {
+    my ($url, $text) = @_;
+  
++   $url = $1 if ($url =~ /^https?:(.*)/ &amp;&amp; $1 !~ /^\/\//); <a name="co.usemod.patch.parturl2"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+    if ($text eq "") {
+      $text = &amp;GetBracketUrlIndex($url);
+    }
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.parturl1"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+对于形如 http:/images/usemod.gif 的非正规 URL，如果不加修正，返回 &lt;img src="http:/images/usemod.gif"&gt;，这是不正确的。对于此情况，将 $name 修改为: "/images/usemod.gif"，返回的链接为 &lt;img src="/images/usemod.gif"&gt; 是正确的。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.parturl2"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+同上
+</p></td>
+</tr>
+</table></div>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4735104"></a>4.7.2. UseModWiki 功能扩展</h4></div></div></div>
+<p>
+功能扩展
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p><a name="usemod-table"></a>
+添加支持表格语法的功能
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 已支持。
+</p></td></tr>
+</table></div>
+<p>
+当一行以双竖线"||"开始，表示开始绘制表格的语法，例如：
+</p>
+<pre class="screen">
+||align=center border=1 width=50%
+||居左    ||  居中  ||    居右||
+||  测试  ||    测试||测试    ||
+||||  跨越多栏      ||    测试||
+</pre>
+<p>
+将显示如下：
+</p>
+<div class="mediaobject">
+<img src="images/wiki-9-usemod-table.gif" alt="Wiki 绘制表格"><div class="caption"><p>
+Wiki 绘制表格
+</p></div>
+</div>
+<p>
+其补丁可以在 <a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/TableSyntax" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/TableSyntax</a> 上找到。这个页面上可以看到许多开发者对这个功能的补充，充分展示了 Wiki 的协作精神。
+</p>
+<pre class="screen">
+--- wiki_92.pl
++++ wiki.pl
+@@ -45,7 +45,7 @@
+   $UrlProtocols $UrlPattern $ImageExtensions $RFCPattern $ISBNPattern
+   $FS $FS1 $FS2 $FS3 $CookieName $SiteBase $StyleSheet $NotFoundPg
+   $FooterNote $EditNote $MaxPost $NewText $NotifyDefault $HttpCharset
+-  $UserGotoBar);
++  $UserGotoBar $TableMode $TableSyntax); <a name="co.usemod.patch.tab.var"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+ # Note: $NotifyDefault is kept because it was a config variable in 0.90
+ # Other global variables:
+ use vars qw(%Page %Section %Text %InterSite %SaveUrl %SaveNumUrl
+@@ -98,6 +98,7 @@
+ $RunCGI      = 1;       # 1 = Run script as CGI,  0 = Load but do not run
+ $EmailNotify = 0;       # 1 = use email notices,  0 = no email on changes
+ $EmbedWiki   = 0;       # 1 = no headers/footers, 0 = normal wiki pages
++$TableSyntax = 1;       # 1 = wiki syntax tables, 0 = no magic table syntax <a name="co.usemod.patch.tab.init"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+ 
+ # Minor options:
+ $LogoLeft    = 0;       # 1 = logo on left,       0 = logo on right
+@@ -1152,6 +1153,7 @@
+ # ==== Common wiki markup ====
+ sub WikiToHTML {
+   my ($pageText) = @_;
++  $TableMode = 0; #PATCH
+ 
+   %SaveUrl = ();
+   %SaveNumUrl = ();
+@@ -1236,18 +1238,29 @@
+     if ($UseHeadings) {
+       s/(^|\n)\s*(\=+)\s+([^\n]+)\s+\=+/&amp;WikiHeading($1, $2, $3)/geo;
+     }
++    if ($TableMode) {
++      while (/(\|\|)+([^\|&lt;]+)/) {
++        my $align = $2;
++        $align = $align =~/^  / ? ($align =~/  $/ ? 'CENTER' : 'RIGHT') : ($align =~/  $/ ? 'LEFT' : 'CENTER'); <a name="co.usemod.patch.tab.align"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
++        s/((\|\|)+)/"&lt;\/TD&gt;&lt;TD ALIGN='$align' COLSPAN=\"" . (length($1)\/2) . "\"&gt;"/e;
++      }
++    }
+   }
+   return $_;
+ }
+ 
+ sub WikiLinesToHtml {
+   my ($pageText) = @_;
+-  my ($pageHtml, @htmlStack, $code, $depth, $oldCode);
++  my ($pageHtml, @htmlStack, $code, $codeAttributes, $depth, $oldCode); #PATCH
++
+ 
+   @htmlStack = ();
+   $depth = 0;
+   $pageHtml = "";
+-  foreach (split(/\n/, $pageText)) {  # Process lines one-at-a-time
++  $codeAttributes = '';  <a name="co.usemod.patch.tab.codeattr"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
++  foreach (split(/\r?\n/, $pageText)) {  # Process lines one-at-a-time
++    $code = '';           #PATCH
++    $TableMode = 0;
+     $_ .= "\n";
+     if (s/^(\;+)([^:]+\:?)\:/&lt;dt&gt;$2&lt;dd&gt;/) {
+       $code = "DL";
+@@ -1261,12 +1274,25 @@
+     } elsif (s/^(\#+)/&lt;li&gt;/) {
+       $code = "OL";
+       $depth = length $1;
++    } elsif ($TableSyntax &amp;&amp; s/^\|\|\s*(.*[^\|])\n\z//) {   <a name="co.usemod.patch.tab.matchtblattr"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
++      $TableMode = 1;
++      $codeAttributes = $1;
++    } elsif ($TableSyntax &amp;&amp; /^(\|\|)+.*\|\|\s*$/) { <a name="co.usemod.patch.tab.matchrow"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
++      /^(\|\|)+([^\|]+)/;
++      my $align = $2;
++      $align =  $align =~/^  / ? ($align =~/  $/ ? 'CENTER' : 'RIGHT') : ($align =~/  $/ ? 'LEFT' : 'CENTER');
++      s/^((\|\|)+)(.*)\|\|\s*$/"&lt;TR VALIGN='CENTER'&gt;&lt;TD ALIGN='$align' COLSPAN='" . (length($1)\/2) . "'&gt;$3&lt;\/TD&gt;&lt;\/TR&gt;\n"/e;
++      $code = "TABLE";
++      $codeAttributes ||= "BORDER=\"1\"";
++      $TableMode = 1;
++      $depth = 1;
+     } elsif (/^[ \t].*\S/) {
+       $code = "PRE";
+       $depth = 1;
+     } else {
+       $depth = 0;
+     }
++    $codeAttributes = '' unless $TableMode;
+     while (@htmlStack &gt; $depth) {   # Close tags as needed
+       $pageHtml .=  "&lt;/" . pop(@htmlStack) . "&gt;\n";
+     }
+@@ -1281,7 +1307,7 @@
+       }
+       while (@htmlStack &lt; $depth) {
+         push(@htmlStack, $code);
+-        $pageHtml .= "&lt;$code&gt;\n";
++        $pageHtml .= "&lt;$code $codeAttributes&gt;\n"; #PATCH
+       }
+     }
+     s/^\s*$/&lt;p&gt;\n/;                        # Blank lines become &lt;p&gt; tags
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.tab.var"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加全局变量：$TableMode, $TableSyntax
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.tab.init"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+打开表格语法功能的开关
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.tab.align"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+根据包含在两个双竖线"||"中文字的左右是否包含空格，确定一个表格单元格中文字的对齐方式。对于 "||居左  ||" 设置为居左，"||  居中  ||" 设置为居中，"||  居右||" 设置为居右。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.tab.codeattr"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+$codeAttributes 将保存整个表格的格式信息
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.tab.matchtblattr"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+匹配表格属性行，设置表格格式信息 $codeAttributes。例如匹配：“||align=center border=1 width=50%”。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.tab.matchrow"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+匹配表格内容描述行，将内容转换为对应的 HTML 表格。例如匹配：“||居左    ||  居中  ||    居右||”。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+TaviStyleHistory
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 已支持。
+</p></td></tr>
+</table></div>
+<p>
+Taiv 是以 PHP 实现的另一种著名的 WikiClone，其版本比较的界面功能比较强，可以选择某两个版本进行比较，它的功能已经被移植到 UseModWiki。参见：
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/TaviStyleHistory" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/TaviStyleHistory</a>
+</p>
+</li>
+<li>
+<p>
+为管理员添加工具箱
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 已支持。
+</p></td></tr>
+</table></div>
+<p>
+当用户以管理员身份登录后，在页面的最低端，显示出管理功能的链接。代码参见：<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/GetAdminBar" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/GetAdminBar</a>。
+</p>
+</li>
+<li>
+<p>
+删除页面功能
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 已支持。
+</p></td></tr>
+</table></div>
+<p>
+UseModWiki 的管理员可以通过 action=editlinks 删除页面，而普通用户则不能。下面的这个功能扩展，允许用户将页面的第一行插入 "DeletedPage"，将页面标记为待删除，在下次系统维护时，将标记为删除且过期的页面删除。参见: <a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/PageDeletion" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/PageDeletion</a>
+</p>
+<pre class="screen">
+*** usemod092/wiki.pl	Sat Apr 21 17:44:10 2001
+--- wiki.pl
+@@ -45,7 +45,7 @@
+   $UrlProtocols $UrlPattern $ImageExtensions $RFCPattern $ISBNPattern
+   $FS $FS1 $FS2 $FS3 $CookieName $SiteBase $StyleSheet $NotFoundPg
+   $FooterNote $EditNote $MaxPost $NewText $NotifyDefault $HttpCharset
+-  $UserGotoBar);
++  $UserGotoBar $DeletedPage);
+ # Note: $NotifyDefault is kept because it was a config variable in 0.90
+ # Other global variables:
+ use vars qw(%Page %Section %Text %InterSite %SaveUrl %SaveNumUrl
+@@ -98,6 +98,7 @@
+ $RunCGI      = 1;       # 1 = Run script as CGI,  0 = Load but do not run
+ $EmailNotify = 0;       # 1 = use email notices,  0 = no email on changes
+ $EmbedWiki   = 0;       # 1 = no headers/footers, 0 = normal wiki pages
++$DeletedPage = "DeletedPage";   # 0 = disable page deletion; "string" for page  deletion marker text
+ 
+ # Minor options:
+ $LogoLeft    = 0;       # 1 = logo on left,       0 = logo on right
+@@ -3497,6 +3558,28 @@
+   close(OUT);
+ }
+ 
++# Actions are vetoable if someone edits the page before
++# the keep expiry time. For example, page deletion. If
++# no one edits the page by the time the keep expiry time
++# elapses, then no one has vetoed the last action, and the
++# action is accepted.
++# See http://www.usemod.com/cgi-bin/mb.pl?PageDeletion
++#
++# returns ' (deleted)' if the page has been deleted, 0 otherwise.
++sub ProcessVetos {
++  my ($expirets);
++  $expirets = $Now - ($KeepDays * 24 * 60 * 60);
++  return 0 unless $Page{'ts'} &lt; $expirets;  <a name="co.usemod.patch.delpage.expir"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
++
++  if( $DeletedPage &amp;&amp; $Text{'text'} =~ /^\s*$DeletedPage\W*?(\n|$)/o ) <a name="co.usemod.patch.delpage.match"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
++  {
++    &amp;DeletePage($OpenPageName, 1, 1);
++    return ' (deleted)'; <a name="co.usemod.patch.delpage.returntxt"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
++  }
++
++  return 0;
++}
++
+ sub DoMaintain {
+   my ($name, $fname, $data);
+   print &amp;GetHeader('', T('Maintenance on all pages'), '');
+@@ -3515,9 +3598,11 @@
+   foreach $name (&amp;AllPagesList()) {
+     &amp;OpenPage($name);
+     &amp;OpenDefaultText();
+-    &amp;ExpireKeepFile();
++    my $message = &amp;ProcessVetos();
++    &amp;ExpireKeepFile() unless $message eq ' (deleted)';
+     print ".... "  if ($name =~ m|/|);
+-    print &amp;GetPageLink($name), "&lt;br&gt;\n";
++    print &amp;GetPageLink($name);
++    print "$message&lt;br&gt;\n";
+   }
+   &amp;WriteStringToFile($fname, "Maintenance done at " . &amp;TimeToText($Now));
+   &amp;ReleaseLock();
+]]&gt;
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.delpage.expir"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+如果文件没有过期，不进行下面的判断。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.delpage.match"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+仅在文件的第一行进行匹配，$DeletedPage 前面可以有空格，后面可以有任意非单词字符（[^_0-9a-zA-Z]），符合这样的规则的文件标记为删除。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.usemod.patch.delpage.returntxt"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+返回的文字，将显示在维护页面上。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+BetterEditPage
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 可以参照进行类似修改。
+</p></td></tr>
+</table></div>
+<p>
+在编辑页面加入语法提示，对 Wiki 新手非常有帮助。参见：
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/BetterEditPage" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/BetterEditPage</a>
+</p>
+</li>
+<li>
+<p>
+定制导航条
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 可以参照进行类似修改。
+</p></td></tr>
+</table></div>
+<p>
+在导航条添加新的选项，如 Login（登录）, Index（页面索引），亦即调用 "action=login" 和 "action=index"。参见:
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/Login" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/Login</a>
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/Index" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/Index</a>
+</p>
+</li>
+<li>
+<p>
+SaveButtonAtBottomOfPreview
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 可以参照进行类似修改。
+</p></td></tr>
+</table></div>
+<p>
+在预览之后加上保存的按钮，不用再将窗口滚动到上面来保存内容。参见：
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/SaveButtonAtBottomOfPreview" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiPatches/SaveButtonAtBottomOfPreview</a>
+</p>
+</li>
+<li>
+<p>
+添加样式表支持
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 0.92 版，1.0 已支持。
+</p></td></tr>
+</table></div>
+<p>
+参照如下网址，修改 wiki.pl，使生成的页面支持样式表。
+</p>
+<p>
+<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiWithCascadingStyleSheet/CSSClasses" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiWithCascadingStyleSheet/CSSClasses</a>
+</p>
+<p>
+写一个相应的样式表。UseModWiki 网站上有示例：<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiWithCascadingStyleSheet/WikiStyleSheet" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiWithCascadingStyleSheet/WikiStyleSheet</a>。
+</p>
+<p>
+设置 config 配置文件中的 $StyleSheet，使之指向我们定制好的样式表文件，示例如下：
+</p>
+<pre class="screen">
+$StyleSheet  = "/inc/css/usemodwiki.css";
+</pre>
+</li>
+<li>
+<p>
+设置网页编辑确省发送邮件
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+适用于 1.0 版本。
+</p></td></tr>
+</table></div>
+<p>
+网页编译中的发送邮件选项确省关闭，如果想要修改该确省值，参照如下方式修改：
+</p>
+<pre class="screen">
+
+  if ($EmailNotify) {
+    print "&amp;nbsp;&amp;nbsp;&amp;nbsp;" .
+-           $q-&gt;checkbox(-name=&gt; 'do_email_notify',
++           $q-&gt;checkbox(-name=&gt; 'do_email_notify', -checked=&gt;1,
+      -label=&gt;Ts('Send email notification that %s has been changed.', $id));
+  }
+
+</pre>
+</li>
+</ul></div>
+<p>
+更多的 UseModWiki 功能扩充参见：<a href="http://www.usemod.com/cgi-bin/wiki.pl?WikiSuggestions" target="_top">http://www.usemod.com/cgi-bin/wiki.pl?WikiSuggestions</a>。
+</p>
+</div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="wikiclone"></a>5. Another Wiki Clone?</h2></div></div></div>
+<p>
+欢迎您来补充...
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

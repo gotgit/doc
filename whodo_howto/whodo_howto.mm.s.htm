@@ -1,0 +1,473 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>//mm2html.xsl FreemindVersion:0.9.0_Beta_8</title><style>
+                body{
+                font-size:10pt;
+                color:rgb(0,0,0);
+                backgound-color:rgb(255,255,255);
+                font-family:sans-serif;
+                }
+                p.info{
+                font-size:8pt;
+                text-align:right;
+                color:rgb(127,127,127);
+                }
+                </style></head><body><script type="text/javascript" src="/docbook/includes/js/header.js"></script><script type="text/javascript">
+              write_header("/docbook");
+            </script><h1>
+    
+      Whodo Howto 
+    
+    
+      (版本号: 0.3.F-$Rev$)
+    
+  </h1><p>
+
+
+
+<ul><li><a name="Freemind_Link_1738528425"></a><span style="color:#990033;font-family:sansserif;font-size:13;font-weight:bold;"></span>
+
+  
+    
+      
+    
+    
+  
+  
+    
+      Whodo Howto 
+    
+    
+      (版本号: 0.3.F-$Rev$)
+    
+  
+
+
+
+<ul><li><a name="_"></a><span style="">Whodo 是什么？</span>
+<ul><li><a name="Freemind_Link_1644624127"></a><span style="">Whodo 不是 Solaris 上的 whodo 命令，而是一个中文开放文档计划。</span></li></ul>
+<ul><li><a name="Freemind_Link_173292206"></a><span style="">Whodo 是“WorldHello Open Document Origin ”，即 “WorldHello 开放文档之源” 的缩写。
+是使用 Freemind + DocBook + Wiki + SVN 进行技术文档撰写的开放平台，这里的所有文档遵从GNU 的自由文档许可证(Free Document License)的条款，人人皆可提交更改。</span></li></ul>
+<ul><li><a name="Freemind_Link_1178194788"></a><span style="">WHODO = Freemind + DocBook + Wiki + Subversion</span>
+<ul><li><a name="Freemind_Link_1754209837"></a><span style="">FreeMind 特色</span>
+<ul><li><a name="Freemind_Link_1796988518"></a><span style="">组织结构符合人的思维习惯；</span></li></ul>
+<ul><li><a name="Freemind_Link_1054572351"></a><span style="">便于信息的整理和重组；</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1441160087"></a><span style="">DocBook 特色</span>
+<ul><li><a name="Freemind_Link_24615660"></a><span style="">DocBook 的输出格式多样；</span></li></ul>
+<ul><li><a name="Freemind_Link_819025193"></a><span style="">DocBook 用于详尽阐述，图文并茂；</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_352359152"></a><span style="">Whodo 文档的几种存在模式</span>
+<ul><li><span style="">FreeMind Only</span></li></ul>
+<ul><li><span style="">DocBook Only</span></li></ul>
+<ul><li><span style="">FreeMind + DocBook</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_140699578"></a><span style="">Whodo 文档的版本控制</span>
+<ul><li><a name="Freemind_Link_719460793"></a><span style="">一个主控文档： FreeMind/DocBook/Wiki 的代号分别为 F/D/W。</span></li></ul>
+<ul><li><a name="Freemind_Link_1269220354"></a><span style="">版本号格式为：  &lt;主版本号&gt;.&lt;副版本号&gt;.&lt;主控文档标志&gt;-&lt;主控文档修订号&gt;.&lt;文档修订号&gt; 
+ 1. 主控文档有 &lt;主控文档修订号&gt;没有 &lt;文档修订号&gt; ； 
+ 2. &lt;主控文档标志&gt; 可以为 F,D,W，分别代表 FreeMind, DocBook, Wiki； 
+ 3. 其他文档用 &lt;文档修订号&gt; 来版本控制。一旦将修改合并到主控文档，则归零； 
+ 4. 主控文档的版本号不小于其他附属文档的版本号。</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1671771974"></a><span style="">Whodo 是”北京群英汇信息技术有限公司“支持的，是”群英汇“的知识管理系统的展示。</span>
+
+<ul><li><a name="Freemind_Link_1889246670"></a><span style="">北京群英汇信息技术有限公司：</span>
+
+<ul><li><a name="Freemind_Link_611700593"></a><span style="">http://www.ossxp.com</span></li></ul>
+<ul><li><a name="Freemind_Link_848456031"></a><span style="">http://www.OpenSourceXpress.com</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_612747561"></a><span style="">采用开放格式进行文档管理和知识管理系统搭建，请联系”群英汇“。</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1263641711"></a><span style="">Wiki 难道不够么？</span>
+<ul><li><a name="Freemind_Link_1168664395"></a><span style="">Wiki 又作维客，是协同著作的伟大实践。Wiki 可以作为团队的知识库支撑系统，例如 WHODO 就用 Wiki 技术进行主页的搭建。</span></li></ul>
+<ul><li><a name="Freemind_Link_1155624865"></a><span style="">难道 Wiki 不够么，还要使用 DocBook、Freemind 么？简单的回答就是，Wiki 的文档，不能够本地修改和阅读，必须要在线才能浏览和编辑。</span></li></ul>
+<ul><li><a name="Freemind_Link_1686500000"></a><span style="">在线编辑，受带宽限制。</span>
+<ul><li><a name="Freemind_Link_618925183"></a><span style="">慢</span></li></ul>
+<ul><li><a name="Freemind_Link_531627092"></a><span style="">不可离线编辑</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1383566363"></a><span style="">文档的本地拷贝，可以抗拒服务器断线以及消失的风险。  例如： 
+ * wikipedia.com 网络大百科自 2006 以来惨遭封锁； 
+ * worldhello.net 网站最早在 bluehost.com 托管，由于 bluehost.com 遭封锁而断线；</span></li></ul>
+<ul><li><a name="Freemind_Link_1650119747"></a><span style="">文档有了属主，个人更有成就感</span></li></ul>
+<ul><li><a name="Freemind_Link_386104319"></a><span style="">举个例子，当你的网络出现故障，需要求助时： 
+一、你记得访问过某个 Wiki 网站，其中有关于网络故障如何诊断文章； 
+二、有一个 DocBook/FreeMind 撰写的网络故障诊断的电子书，并且就在硬盘中。
+第一种情况显然是远水救不了近火，网络故障都上不了网，何谈访问 Wiki 页面。
+DocBook 和 FreeMind 技术能够撰写出可本地浏览，可打印的，有作者署名的电子文档，是 Wiki 不可替代的。</span></li></ul>
+<ul><li><a name="Freemind_Link_628890706"></a><span style="">不过 Whodo 中 Wiki 也是重要一环，因为 Wiki 用来构建文档的索引、链接、归类，便于搜索引擎的检索。</span>
+<ul><li><a name="Freemind_Link_928606254"></a><span style="">每一篇文章，都有一个 Wiki 页面与之对应；</span></li></ul>
+<ul><li><a name="Freemind_Link_1135482731"></a><span style="">文档 对应的 Wiki 页面格式：</span>
+<ul><li><a name="Freemind_Link_1554428601"></a><span style="">文章的作者、贡献者列表</span></li></ul>
+<ul><li><a name="Freemind_Link_1900130678"></a><span style="">文档链接</span>
+<ul><li><a name="Freemind_Link_576998872"></a><span style="">可以用简单的 &lt;whodo&gt; 标签 来创建文档的链接</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1693083434"></a><span style="">文档的分类</span>
+<ul><li><a name="Freemind_Link_461833494"></a><span style="">用 Wiki 的 [[Category:***]] 语法为文档归类</span></li></ul>
+<ul><li><a name="Freemind_Link_1789686393"></a><span style="">所有文档均属于 [[Category:doc]] 分类</span></li></ul>
+<ul><li><a name="Freemind_Link_516276974"></a><span style="">DocBook 格式文档，还要加上 [[Category:db]]  分类</span></li></ul>
+<ul><li><a name="Freemind_Link_1937296391"></a><span style="">FreeMind 格式文档，需要加上 [[Category:mm]] 分类</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1622201535"></a><span style="">文档的概述</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1876846164"></a><span style="">Whodo 子系统</span>
+<ul><li><a name="Freemind_Link_1717664074"></a><span style="">账号管理子系统</span>
+<ul><li><a name="Freemind_Link_489012822"></a><span style="">WHODO 用户账号统一使用 LDAP 管理</span></li></ul>
+<ul><li><a name="Freemind_Link_82168925"></a><span style="">账号管理URL： https://www.worldhello.net/members/</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1451982305"></a><span style="">维客</span>
+<ul><li><a name="Freemind_Link_590575442"></a><span style="">如前所述，用 Wiki 用来构建文档的索引、链接、归类，便于搜索引擎的检索。</span></li></ul>
+<ul><li><a name="Freemind_Link_1587826536"></a><span style="">地址：http://whodo.worldhello.net/wiki</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1980101516"></a><span style="">论坛</span>
+<ul><li><a name="Freemind_Link_1509794034"></a><span style="">Whodo 沟通系统</span></li></ul>
+<ul><li><a name="Freemind_Link_799274349"></a><span style="">地址： http://whodo.worldhello.net/forum</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1304826018"></a><span style="">问题追踪系统</span>
+<ul><li><a name="Freemind_Link_995851134"></a><span style="">地址： http://whodo.worldhello.net/bugs</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1536244605"></a><span style="">Subversion 版本控制系统</span>
+<ul><li><a name="Freemind_Link_1566241531"></a><span style="">SVN 版本控制系统，是 WHODO 作者修改和提交文章的支撑系统</span></li></ul>
+<ul><li><a name="Freemind_Link_1585344461"></a><span style="">新注册用户只有只读权限，作者/贡献者拥有 /trunk/doc 目录的完全权限</span></li></ul>
+<ul><li><a name="Freemind_Link_1055499286"></a><span style="">地址： http://svn.worldhello.net/</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1701067644"></a><span style="">FreeMind 编辑、编译系统</span>
+<ul><li><a name="Freemind_Link_1525557108"></a><span style="">本网站的 FreeMind 文档使用增强版的 FreeMind 编辑的。原因参见 http://whodo.worldhello.net/wiki/FreeMind</span></li></ul>
+<ul><li><a name="Freemind_Link_1990517163"></a><span style="">FreeMind 的编译系统，指的是将 *.mm 文件转换为 *.html 文档</span></li></ul>
+<ul><li><a name="Freemind_Link_355193900"></a><span style="">参见： http://whodo.worldhello.net/wiki/FreeMind</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1352002997"></a><span style="">DocBook 编译系统</span>
+<ul><li><a name="Freemind_Link_1426898745"></a><span style="">包括 Whodo 定制的 DocBook XSL</span></li></ul>
+<ul><li><a name="Freemind_Link_1958923491"></a><span style="">包括相应的编译脚本，将 DocBook *.xml 转换为 *.html, *.pdf, *.rtf, *.chm, *.txt 等</span></li></ul>
+<ul><li><a name="Freemind_Link_2250577"></a><span style="">参见： http://whodo.worldhello.net/wiki/DocBook</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1590385114"></a><span style="">邮件列表</span>
+<ul><li><a name="Freemind_Link_21090725"></a><span style="">之所以先提及邮件列表，是因为通过邮件列表，您可以更迅捷的获得  Whodo 的响应</span></li></ul>
+<ul><li><a name="Freemind_Link_601607240"></a><span style="">地址： http://whodo.worldhello.net/list</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_206098046"></a><span style="">Whodo 工作流程</span>
+<ul><li><a name="Freemind_Link_1816335897"></a><span style=""></span>
+
+  
+    
+  
+  
+    
+  
+
+
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_683054111"></a><span style="">如何参与 Whodo？</span>
+<ul><li><a name="Freemind_Link_24001140"></a><span style="">WHODO 是人人皆可参与文档撰写平台。用户可以从读者身份做起，一步一步成为 WHODO 计划的贡献者。</span></li></ul>
+<ul><li><a name="Freemind_Link_1891157461"></a><span style="">读者</span>
+<ul><li><a name="Freemind_Link_541481135"></a><span style="font-family:sansserif;font-size:12;">作为读者，您可以从网站直接访问到 WHODO 文档，可以在线阅读，也可以下载到本地。</span>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1162073510"></a><span style="">WHODO 文档基于 GPL 版权，您可以传播给任何人，您可以在您的文章中任意引用，只要您指明文档的出处以及保留作者的有关声明。</span></li></ul>
+<ul><li><a name="Freemind_Link_1055437023"></a><span style="">如果您读到对您有益的文章，如果您能够给作者发一封 Email，这将会鼓励作者写出更多、更好的文档。</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_822145193"></a><span style="">参与者</span>
+<ul><li><a name="Freemind_Link_1880075388"></a><span style="">通过 Wiki 反馈</span>
+<ul><li><a name="Freemind_Link_775799655"></a><span style="">Wiki 地址: http://whodo.worldhello.net/wiki</span></li></ul>
+<ul><li><a name="Freemind_Link_1719189335"></a><span style="">每一个 Wiki 页面都有一个对应的对话（talk）页，可以在上面发表对文章的评论。</span></li></ul>
+<ul><li><a name="Freemind_Link_11669219"></a><span style="">每一个注册用户都有一个用户页（如 http://whodo.worldhello.net/wiki/User:Jiangxin）。当然有的作者还没有来得及编辑他的用户页。
+
+用户页对应一个对话页。可以通过该用户的对话页给作者留言，作者会受到邮件通知。</span></li></ul>
+<ul><li><a name="Freemind_Link_1134930202"></a><span style="">通过邮件联系作者。 通过如下格式的 URL ，可以向作者发送邮件：
+http://whodo.worldhello.net/wiki/Special:Emailuser/USERNAME</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1296758822"></a><span style="">通过论坛反馈</span>
+<ul><li><a name="Freemind_Link_1219834411"></a><span style="">论坛地址: http://whodo.worldhello.net/forum</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_589177598"></a><span style="">通过问题追踪系统反馈</span>
+<ul><li><a name="Freemind_Link_304884763"></a><span style="">问题追踪系统网址: http://whodo.worldhello.net/bugs</span></li></ul>
+<ul><li><a name="Freemind_Link_1807482865"></a><span style="">当您发现文档中的纰漏或者不足，您可以到问题报告系统上来，提交一个针对该文档的问题报告。</span></li></ul>
+<ul><li><a name="Freemind_Link_1929880754"></a><span style="">或者您希望了解某方面内容，而文档中没有提及或不详细，您也可以通过问题报告系统提出您的需求，作者或者其它贡献者可能会很快加以完善。</span></li></ul>
+<ul><li><a name="Freemind_Link_1223862034"></a><span style="">问题报告系统是对所有用户公开的，您只要在 worldhello.net 网站注册一个账号即可。</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_79757662"></a><span style="">作者/贡献者</span>
+<ul><li><a name="Freemind_Link_1600230012"></a><span style="">作者 或称作 贡献者，他们无私的让大家分享自己的研究成果、自己的所感所想。或者利用自己的业余时间，在自己擅长的领域和他人一起协同工作，撰写传世之作。</span></li></ul>
+<ul><li><a name="Freemind_Link_1835763021"></a><span style="">作者/贡献者 最重要的特征是：拥有 Subversion 版本控制系统的账号，可以修改 Whodo 的所有文章。</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_660504500"></a><span style="">如何获得 Subversion 版本控制系统的账号，成为 Whodo 的贡献者</span>
+
+<ul><li><a name="Freemind_Link_839000388"></a><span style="">注册账号</span>
+<ul><li><a name="Freemind_Link_1715266197"></a><span style="">http://www.worldhello.net/members/</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_979303706"></a><span style="">上传自己的文档，以下任何一种方式均可</span>
+<ul><li><a name="Freemind_Link_1776138327"></a><span style="">通过 Wiki 系统上传</span>
+<ul><li><a name="Freemind_Link_1226847324"></a><span style="">通过 http://whodo.worldhello.net/wiki/Special:Upload 页面上传文档；</span></li></ul>
+<ul><li><span style="">接受的上传文档格式有: *.mm, *.xml, *.gz, *.zip, *.rar 等；</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_497197093"></a><span style="">通过 论坛 系统上传</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_228283979"></a><span style="">撰写一篇 Wiki 页面</span>
+<ul><li><a name="Freemind_Link_417809004"></a><span style="">每个文档对应一个 Wiki 页面，包含文档链接。</span></li></ul>
+<ul><li><a name="Freemind_Link_1732269892"></a><span style="">创建一个页面（页面名称最好为英文，简洁但不失文章主题）。如： http://whodo.worldhello.net/wiki/Curl_howto </span></li></ul>
+<ul><li><a name="Freemind_Link_1171733206"></a><span style="">新创建的页面中除了包含文档名称，提交者，提交时间等信息外，还包括如下内容：</span></li></ul>
+<ul><li><a name="Freemind_Link_703447629"></a><span style="">指向刚刚上传的文档链接，或外部文档链接。 </span>
+<ul><li><span style="">通过 Wiki 上传的文档链接为 [[Media:上传文档名]]。如 [[Media:Curl.mm]]</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1208786372"></a><span style="">在页面最前面插入模板： {{草稿}}</span>
+<ul><li><span style="">模板{{草稿}}，会自动将文档归于 Doc 和草稿分类，并有醒目标识，提醒管理员注意有新用户提交新文档。</span></li></ul>
+<ul><li><a name="Freemind_Link_952113423"></a><span style="">如： http://whodo.worldhello.net/wiki/Curl_howto</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_333471908"></a><span style="">获取 SVN 提交账号</span>
+<ul><li><a name="Freemind_Link_272587221"></a><span style="">在 Whodo 网站注册，已经获得了 SVN 只读账号</span></li></ul>
+<ul><li><a name="Freemind_Link_1740183193"></a><span style="">要想获取 SVN 提交账号，需要向管理员申请提升权限</span>
+<ul><li><a name="Freemind_Link_1212324100"></a><span style="">http://whodo.worldhello.net/wiki/Special:Emailuser/admin</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1701697284"></a><span style="">管理员受到邮件后，会阅读用户上传的文档，根据是否符合 whodo 文档精神，批准或否决账号申请</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_942876632"></a><span style="">用 subversion 账号提交文档</span>
+<ul><li><a name="Freemind_Link_1863743156"></a><span style="">一旦 SVN 权限提升为可读写权限，就可以提交文档</span></li></ul>
+<ul><li><a name="Freemind_Link_831297785"></a><span style="">Whodo 文档提交到 Whodo subversion 路径： http://svn.worldhello.net/svn/whodo/trunk/doc 的子目录下。</span></li></ul>
+<ul><li><a name="Freemind_Link_1776854762"></a><span style="">提交文档，要设定文件的 svn:mime-type 或者 svn:eol-style 属性，还要写 commit log，否则会触发 subversion hooks，导致提交被退回。具体参见附录关于 SVN 的说明</span></li></ul>
+<ul><li><a name="Freemind_Link_175159155"></a><span style="">subversion 除了 /trunk/doc 外，其他目录暂时只读，如果需要修改其他目录，请和管理员联系</span></li></ul>
+<ul><li><a name="Freemind_Link_44875092"></a><span style="">提交文档文件名命名规范</span>
+<ul><li><a name="Freemind_Link_1829259375"></a><span style="">创建子目录</span>
+<ul><li><a name="Freemind_Link_35246687"></a><span style="">在 subversion 的 http://svn.worldhello.net/svn/whodo/trunk/doc 路径下创建子目录</span></li></ul>
+<ul><li><a name="Freemind_Link_1471890737"></a><span style="">子目录名称使用英文名称</span></li></ul>
+<ul><li><a name="Freemind_Link_1784051557"></a><span style="">提交文档位于该目录下</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1298501033"></a><span style="">docbook 文档</span>
+<ul><li><a name="Freemind_Link_1225544067"></a><span style="">首页文档名为  index.xml</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1778744887"></a><span style="">freemind 文档</span>
+<ul><li><a name="Freemind_Link_963867519"></a><span style="">文件名和子目录名同名，扩展名为 .mm</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_557212758"></a><span style="">Whodo 管理员/robot 至少每天编译一次文档，并更新网站</span>
+<ul><li><a name="Freemind_Link_50881547"></a><span style="">网站更新后，文档才能够在网站中出现</span></li></ul>
+<ul><li><a name="Freemind_Link_1657632207"></a><span style="">文档在网站的链接:</span>
+<ul><li><a name="Freemind_Link_1751592501"></a><span style="">http://www.worldhello.net/doc</span></li></ul>
+<ul><li><a name="Freemind_Link_1693700052"></a><span style="">http://whodo.worldhello.net/doc</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1849728766"></a><span style="">之所以有两份拷贝，主要是由于分属不同主机，以及用户可能需要在 Wiki 中嵌入 FreeMind 文档</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_866428643"></a><span style="">修改 Wiki 页面</span>
+<ul><li><a name="Freemind_Link_830104640"></a><span style="">之前建立的 Wiki 页面为草稿。在提交文档到版本控制系统之后，需要更新文档中的链接</span></li></ul>
+<ul><li><a name="Freemind_Link_1780242680"></a><span style="">文档的作者，提交时间等信息</span></li></ul>
+<ul><li><a name="Freemind_Link_92308276"></a><span style="">文档的分类</span>
+<ul><li><a name="Freemind_Link_337380710"></a><span style="">以下分类的组合</span></li></ul>
+<ul><li><a name="Freemind_Link_721221772"></a><span style="">[[Category:doc]]</span></li></ul>
+<ul><li><a name="Freemind_Link_1367924397"></a><span style="">[[Category:db]]</span></li></ul>
+<ul><li><a name="Freemind_Link_249685338"></a><span style="">[[Category:mm]]</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_571212211"></a><span style="">文档的链接</span>
+<ul><li><a name="Freemind_Link_944945422"></a><span style="">使用 &lt;whodo&gt; 标签建立链接</span>
+<ul><li><a name="Freemind_Link_178124360"></a><span style="">id 和 type 属性</span>
+<ul><li><a name="Freemind_Link_442454702"></a><a style="" href="#Freemind_Link_44875092">如果提交文档的名称符合规范，可以采用 id, type 属性显示文档链接</a>
+
+</li></ul>
+<ul><li><a name="Freemind_Link_1227112671"></a><span style="">&lt;whodo id="bcp" type="mm"  /&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_565638229"></a><span style="">&lt;whodo id="email_howto" type="html"/&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_729488808"></a><span style="">&lt;whodo id="docbook_howto" type="htmls"/&gt;</span></li></ul>
+<ul><li><a name="Freemind_Link_1777520809"></a><span style="">&lt;whodo id="bug_tracking" type="htmlz"/&gt;</span></li></ul>
+<ul><li><span style="">&lt;whodo id="bcp" type="htmlsz"/&gt;</span></li></ul>
+<ul><li><span style="">&lt;whodo id="bcp" type="chmz"/&gt;</span></li></ul>
+<ul><li><span style="">&lt;whodo id="bcp" type="pdfz"/&gt;</span></li></ul>
+<ul><li><span style="">&lt;whodo id="bcp" type="rtfz"/&gt;</span></li></ul>
+<ul><li><span style="">&lt;whodo id="bcp" type="txtz"/&gt;</span></li></ul>
+<ul><li><span style="">&lt;whodo id="bcp" type="xml"/&gt;</span></li></ul>
+<ul><li><span style="">&lt;whodo id="bcp" type="svn" /&gt;</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1197241480"></a><span style="">file 属性</span>
+<ul><li><a name="Freemind_Link_84442302"></a><span style="">如果文档名不符规范，可以使用 file 属性，显示文档链接</span></li></ul>
+<ul><li><a name="Freemind_Link_1640928619"></a><span style="">&lt;whodo file="docbook_howto/mindmap/docbook.mm" type="mm"/&gt; </span></li></ul>
+<ul><li><a name="Freemind_Link_1254530701"></a><span style="">&lt;whodo file="computer_exam/computer_exam_zyjs.mm" name="全国专业技术人员计算机应用能力考试" type="svn" text='yes'/&gt;</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_333708480"></a><span style="">使用 &lt;mindmap&gt; 属性在线显示 FreeMind 文档</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_66472527"></a><span style="">具体参照其他文档的 Wiki 页面</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1743143715"></a><span style="">WHODO 文档列表</span>
+<ul><li><a name="Freemind_Link_1933636883"></a><span style="">Wiki 的 doc 分类：http://whodo.worldhello.net/wiki/Category:Doc</span></li></ul>
+<ul><li><a name="Freemind_Link_1742916729"></a><span style="">http://www.worldhello.net/doc/docs.html</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1040339879"></a><span style="">WHODO 贡献者列表</span>
+<ul><li><a name="Freemind_Link_301088751"></a><span style="">Wiki 的 author 列表：http://whodo.worldhello.net/wiki/Category:Author</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_530640213"></a><span style="">题外话： 关注 Whodo 的安全</span>
+<ul><li><a name="Freemind_Link_1781193737"></a><span style="">文档质量标准</span>
+<ul><li><a name="Freemind_Link_1611969907"></a><span style="">适合多人协作的文档</span></li></ul>
+<ul><li><a name="Freemind_Link_1788766792"></a><span style="">文档内容不要违反法律、道德</span></li></ul>
+<ul><li><a name="Freemind_Link_1360787838"></a><span style="">莫谈国事</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_155634165"></a><span style="">禁止权限滥用</span>
+<ul><li><a name="Freemind_Link_1235562209"></a><span style="">Whodo 的各个子系统都和邮件列表联动，能够使得垃圾数据的提交会被及早发现</span></li></ul>
+<ul><li><a name="Freemind_Link_330852728"></a><span style="">一旦发现用户提交垃圾数据或者破坏他人文章的行为，管理员有权封锁直至删除该用户账号</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1870376841"></a><span style="">附录</span>
+
+
+<ul><li><a name="Freemind_Link_191946185"></a><span style="">WHODO 历史</span>
+<ul><li><a name="Freemind_Link_938636007"></a><span style="">http://www.worldhello.net 网站诞生于 2002 年底，最早是蒋鑫的个人网站，那时叫做 Johnson's Homepage</span></li></ul>
+<ul><li><a name="Freemind_Link_1206794608"></a><span style="">那个时候，已经有了一年多 DocBook 使用经验的我，迫不及待的想借用个人网站的形式加以推广。 WorldHello 就这么诞生了。以 DocBook 进行文档的撰写和个人的知识总结，是 WorldHello 的特色，但那个时候，往好听了说是独自耕耘，其实就是自言自语。</span></li></ul>
+<ul><li><a name="Freemind_Link_1917804181"></a><span style="">2004 年开始接触到 MindMap，直到后来发现了 Freemind 这个伟大的处理“思维导图”的开源软件，我的个人文档撰写和知识积累的习惯再一次被颠覆了。</span></li></ul>
+<ul><li><a name="Freemind_Link_1869277930"></a><span style="">2005年中开始筹建公司，主要方向是“开源软件”的商业支持。忽然发现仍然有很多网友关心着我渐已荒废的 文档。为什么不开源呢？一方面将我荒废的文档交由感兴趣的作者继续，另外一方面，推广 Freemind + DocBook + Wiki + SVN 的文档管理、知识管理平台呢？</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1875149244"></a><span style="">Freemind (WorldHello Edition)</span>
+<ul><li><a name="Freemind_Link_1484670243"></a><span style="">UTF-8 以及更好的中文支持</span></li></ul>
+<ul><li><a name="Freemind_Link_1327871183"></a><span style="">版本控制优化</span></li></ul>
+<ul><li><a name="Freemind_Link_1811271933"></a><span style="">参见 jiangxin@Freemind</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_839365805"></a><span style="">DocBook (WorldHello XSL)</span>
+<ul><li><a name="Freemind_Link_547289206"></a><span style="">如何部署 DocBook 编译环境</span></li></ul>
+<ul><li><a name="Freemind_Link_265941213"></a><span style="">如何编译 WHODO 文档</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_37470138"></a><span style="">如何访问 SVN 版本控制系统？</span>
+<ul><li><a name="Freemind_Link_1856824852"></a><span style="">Whodo Subversion 版本库访问</span>
+<ul><li><a name="Freemind_Link_383094301"></a><span style="">http://svn.worldhello.net/svn/whodo/</span></li></ul>
+<ul><li><a name="Freemind_Link_1208461729"></a><span style="">svn ls http://svn.worldhello.net/svn/whodo/</span></li></ul>
+<ul><li><a name="Freemind_Link_435494851"></a><span style="">svn checkout http://svn.worldhello.net/svn/whodo/trunk  localdir</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1615776215"></a><span style="">Whodo Subversion 版本库目录结构 </span>
+<ul><li><a name="Freemind_Link_1986009906"></a><span style="">trunk/doc</span>
+<ul><li><a name="Freemind_Link_894370917"></a><span style="">Whodo 文档</span></li></ul>
+<ul><li><a name="Freemind_Link_232158771"></a><span style="">Whodo 文档就提交到这里。要在该目录下创建子目录。</span></li></ul>
+<ul><li><a name="Freemind_Link_611362235"></a><span style="">目前除了 /trunk/doc 外，其他目录暂时只读，如果需要修改其他目录，请和管理员联系</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1504430532"></a><span style="">trunk/includes</span>
+<ul><li><a name="Freemind_Link_689327570"></a><span style="">样式表、DocBook 文档有关的图标、图片，FreeMind Flash 有关文件</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1616891753"></a><span style="">trunk/tools</span>
+<ul><li><a name="Freemind_Link_561846803"></a><span style="">DocBook、FreeMind 格式转换的样式表</span></li></ul>
+<ul><li><a name="Freemind_Link_1588482225"></a><span style="">编辑脚本</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_728976085"></a><span style="">jiangxin.worldhello.net</span>
+<ul><li><a name="Freemind_Link_2876933"></a><span style="">一个 DocBook Website 站点示例</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1146267030"></a><span style="">新增文件的 svn:mime-type 和/或 svn:eol-stype 属性设置</span>
+<ul><li><a name="Freemind_Link_390781049"></a><span style="">Whodo SVN 的 Hooks 脚本会检查新增文件的属性，没有设置 svn:mime-type 和/或 svn:eol-style 属性，禁止提交</span></li></ul>
+<ul><li><a name="Freemind_Link_718195949"></a><span style="">svn 客户端（命令行或者 TortoiseSVN），都可以通过修改配置文件启用自动属性的功能</span></li></ul>
+<ul><li><a name="Freemind_Link_1860303673"></a><span style="">修改 config 文件</span>
+<ul><li><a name="Freemind_Link_1144844022"></a><span style="">配置文件的位置</span>
+<ul><li><a name="Freemind_Link_1209060690"></a><span style="">Unix</span>
+<ul><li><a name="Freemind_Link_1767950341"></a><span style=""># site-wide configuration:
+    /etc/subversion/config
+
+# per-user configuration:
+    ~/.subversion/config</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_248673441"></a><span style="">Windows</span>
+<ul><li><a name="Freemind_Link_999167604"></a><span style=""># site-wide configuration:
+    %ALLUSERSPROFILE%\Application Data\Subversion\config
+    REGISTRY:HKLM\Software\Tigris.org\Subversion\Config
+
+# per-user configuration:
+    %APPDATA%\Subversion\config
+    REGISTRY:HKCU\Software\Tigris.org\Subversion\Config
+</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1568307173"></a><span style="">启用 auto-props</span>
+<ul><li><a name="Freemind_Link_1109205961"></a><span style="">[miscellany]
+global-ignores = *.o *.lo *.la #*# .*.rej *.rej .*~ *~ .#* .DS_Store .cvsignore Thumbs.db CVS
+use-commit-times = yes
+enable-auto-props = yes
+</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_976672665"></a><span style="">auto-props 设置</span>
+<ul><li><a name="Freemind_Link_1449553554"></a><span style="">### Section for configuring automatic properties.
+[auto-props]
+### The format of the entries is:
+###   file-name-pattern = propname[=value][;propname[=value]...]
+### The file-name-pattern can contain wildcards (such as '*' and
+### '?').  All entries which match will be applied to the file.
+### Note that auto-props functionality must be enabled, which
+### is typically done by setting the 'enable-auto-props' option.
+
+##################################################
+### Binary files
+##################################################
+*.bmp	= svn:mime-type=image/bmp
+*.gif	= svn:mime-type=image/gif
+*.gz	= svn:mime-type=application/x-gzip
+*.ico	= svn:mime-type=image/x-icon
+*.jar	= svn:mime-type=application/zip
+*.jpg	= svn:mime-type=image/jpeg
+*.pdf	= svn:mime-type=application/pdf
+*.png	= svn:mime-type=image/png
+*.ps	= svn:mime-type=application/postscript
+*.tif	= svn:mime-type=image/tiff
+*.vsd	= svn:mime-type=application/octet-stream
+*.zip	= svn:mime-type=application/zip
+
+##################################################
+### Text files, OS dependent eol-style
+##################################################
+*.dsp	= svn:eol-style=CRLF
+*.dsw	= svn:eol-style=CRLF
+
+*.mm	= svn:eol-style=LF;svn:mime-type=text/xml
+*.sh	= svn:eol-style=LF;svn:executable
+Makefile	= svn:eol-style=LF
+
+##################################################
+### Text files, eol-style is native
+##################################################
+*.c		= svn:eol-style=native;svn:mime-type=text/plain
+*.cpp	= svn:eol-style=native;svn:mime-type=text/plain
+*.css	= svn:eol-style=native;svn:mime-type=text/css
+*.diff	= svn:eol-style=native;svn:mime-type=text/plain
+*.dsl	= svn:eol-style=native;svn:mime-type=text/sgml
+*.dtd	= svn:eol-style=native;svn:mime-type=text/plain
+*.ent	= svn:eol-style=native;svn:mime-type=text/plain
+*.gml	= svn:eol-style=native;svn:mime-type=text/sgml
+*.h		= svn:eol-style=native;svn:mime-type=text/plain
+*.htm	= svn:eol-style=native;svn:mime-type=text/html
+*.html	= svn:eol-style=native;svn:mime-type=text/html
+*.java	= svn:eol-style=native;svn:mime-type=text/plain
+*.js	= svn:eol-style=native;svn:mime-type=text/plain
+*.mod	= svn:eol-style=native;svn:mime-type=text/plain
+*.patch	= svn:eol-style=native;svn:mime-type=text/plain
+*.php	= svn:eol-style=native
+*.pl	= svn:eol-style=native
+*.py	= svn:eol-style=native
+*.sgm	= svn:eol-style=native;svn:mime-type=text/sgml
+*.sgml	= svn:eol-style=native;svn:mime-type=text/sgml
+*.svg	= svn:eol-style=native;svn:mime-type=text/xml
+*.txt	= svn:mime-type=text/plain
+*.xml	= svn:eol-style=native;svn:mime-type=text/xml
+*.xsl	= svn:eol-style=native;svn:mime-type=text/xml
+*.xslt	= svn:eol-style=native;svn:mime-type=text/xml
+README	= svn:eol-style=native</span></li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_981056573"></a><span style="">启用“自动属性”之后，通过 svn add 添加文件后，可以通过 svn pl -v 文件名，查看新增文件的属性是否正确设置</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1205208739"></a><span style="">对 Commit Log 的检查</span>
+<ul><li><a name="Freemind_Link_914628041"></a><span style="">目前对 Commit log 的检查只是检查长度要大于 5 个字节，否则会触发 subversion hooks，导致提交被退回</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_162848162"></a><span style="">SVN 客户端</span>
+<ul><li><a name="Freemind_Link_1888663727"></a><span style="">Windows 用户推荐使用 TortoiseSVN 。</span></li></ul>
+<ul><li><a name="Freemind_Link_1835240616"></a><span style="">Windows 安装 Cygwin，提供更强大命令行支持，不过最好使用官方发行的  Windows 平台下的 subversion命令行。</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1387910425"></a><span style="">版本控制</span>
+<ul><li><a name="Freemind_Link_261684618"></a><span style="">0.3</span>
+<ul><li><a name="Freemind_Link_805955338"></a><span style="">添加版本控制</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_550468001"></a><span style="">0.2</span>
+<ul><li><a name="Freemind_Link_1550613595"></a><span style="">补充 svn 说明，Wiki 上载文件以及创建文档草稿的说明。(2006/05/15)</span></li></ul>
+</li></ul>
+<ul><li><a name="Freemind_Link_1604207256"></a><span style="">0.1</span>
+<ul><li><a name="Freemind_Link_1316999849"></a><span style="">初稿。(2006/05/07)</span></li></ul>
+</li></ul>
+</li></ul>
+</li></ul>
+</p><p class="info">//mm2html.xsl FreemindVersion:0.9.0_Beta_8</p></body></html>

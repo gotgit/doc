@@ -1,0 +1,87 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1. 缺陷追踪</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="缺陷追踪系统 HOWTO">
+<link rel="up" href="index.html" title="缺陷追踪系统 HOWTO">
+<link rel="prev" href="index.html" title="缺陷追踪系统 HOWTO">
+<link rel="next" href="starteam.html" title="2. Starteam Change Request Howto">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1. 缺陷追踪</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="index.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="starteam.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="why-bug-tracking"></a>1. 缺陷追踪</h2></div></div></div>
+<p>
+开发人员都希望自己的产品技术领先，好用，没有缺陷（BUG）。但一个能称为产品的软件项目，没有出现过 BUG 是不可以想像的，如果一个项目能够经过较充分的测试，也许可以将绝大多数 BUG 限制在软件发布前，在内部发现并解决，但用户的环境千差万别，总有挂万漏一。即便一时没有发现缺陷，但是需求变更总是有的，客户可能发现软件中有的功能不适用，于是便提出新的需求。这些软件缺陷、需求变更应被看做是软件不断成熟、发展的动力。软件开发中需要对这些缺陷报告、需求变更进行有效的跟踪和控制，这就是我们在这里要讨论的主题：缺陷追踪。
+</p>
+<p>
+缺陷追踪，或称为：Bug Tracking, Defect Tracking，是软件开发和维护过程中重要的辅助软件，用于跟踪记录软件的缺陷、需求变更等，作为沟通开发人员与测试人员、客户的沟通的桥梁，保障软件开发流程更加协调。让我们看一个典型的例子：
+</p>
+<p>
+测试人员、客户将软件的缺陷或称BUG，通过缺陷追踪软件提交给开发人员；开发人员根据测试人员、客户提交的 BUG 的现象、描述、重现条件等数据对该缺陷进行分析，修正完成后，除了将修正的代码提交，编译成产品，还要修改缺陷追踪软件中记录的对应的缺陷的状态，将其状态改为“已经修正”；现在球又传到了测试人员手中，测试人员对新编译的产品进行测试，看是否真的已经修正了这个缺陷，如果没有完成修正，重新将缺陷的状态改为“尚未修正”；如果经过测试发现已经修正，则将缺陷的状态改正为“关闭”。
+</p>
+<p>
+从上面的例子中，我们可以看出，缺陷有自己的生存周期。一般缺陷追踪软件把缺陷的生存周期的各个阶段用“状态”来描述，例如 Starteam 中描述 Change Request 就使用了如下的状态：
+</p>
+<p>
+"New" 代表新提交的 bug；"Open" 代表已经分配了的 bug；"In Progress" 代表已经进入修正阶段；"Fixed" 代表已经修正；"Cannot Reproduce" 代表未能重现的 Bug；"As Designed" 代表依据原设计正常的行为，并非 Bug；"Documented" 代表已经记录；"Is Duplicate" 代表重复提交的 Bug；"Deferred" 代表延期的 Bug；还有相应的确认状态，"Verified Cannot Reproduce", "Verified As Designed", "Verified Fixed", "Verified Documented", "Verified Is Duplicate", "Verified Deferred"；和相应的关闭状态，"Closed(Cannot Reproduce)", "Closed(As Designed)", "Closed(Fixed)", "Closed(Documented)", "Closed(Is Duplicate)", "Closed(Deferred)"。
+</p>
+<p>
+缺陷追踪软件应具有通知功能。Bug 的变更应该能够通过邮件通知相关的负责人。
+</p>
+<p>
+缺陷追踪软件应具有查询功能。例如：查询那些是属于本人负责的缺陷；查询仍处于 open 状态的 bug；
+</p>
+<p>
+缺陷追踪软件应具有统计功能，能够统计一段时期每个人发现的 BUG 数量，BUG 的平均修正时间，一个产品周期发现的 BUG 总数等等。这些统计数字对于软件测量具有重要意义。
+</p>
+<p>
+缺陷追踪的软件非常之多，在 Dave Eaton 的主页上，有一个 Bug Tracking 的软件列表：<a href="http://www.daveeaton.com/scm/PMTools.html" target="_top">http://www.daveeaton.com/scm/PMTools.html</a>，其中大部分我甚至闻所未闻。要在如此众多的缺陷追踪软件中做出选择，实在是困难的事情。Rational 的 ClearQuest，Starbase 的 Starteam （已被 Borland 收购），等是非常知名的商业软件，当然其价格也不菲，我们将先通过对 Starteam 的缺陷追踪流程做一演示，以理解缺陷追踪的概念。GNATS 和 BUGZILLA 是开放源码中的非常好的缺陷追踪软件，将在后面拿来作以详细介绍，因为它们不但功能够用，又没有 Licesnse 上的限制。
+</p>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="index.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="starteam.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">缺陷追踪系统 HOWTO </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2. Starteam Change Request Howto</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

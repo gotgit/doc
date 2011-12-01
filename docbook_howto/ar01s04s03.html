@@ -1,0 +1,259 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.3. SGML/XML语法基础</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="DocBook 助你完成传世之作">
+<link rel="up" href="sgml-primary.html" title="4. SGML/XML入门">
+<link rel="prev" href="ar01s04s02.html" title="4.2. 关于标记语言">
+<link rel="next" href="ar01s04s04.html" title="4.4. 数据模型">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.3. SGML/XML语法基础</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s04s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. SGML/XML入门</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s04s04.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5106048"></a>4.3. SGML/XML语法基础</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5112160">4.3.1. 标记</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5119216">4.3.2. 实体引用</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5121984">4.3.3. 注释</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5123728">4.3.4. 处理指令</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5126576">4.3.5. 文件类型声明</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5132416">4.3.6. CDATA片段</a></span></dt>
+</dl></div>
+<p>
+SGML/XML文件由字符数据和标记组成，下面就是SGML/XML所支持的几种不同的标记：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+元素标记
+</p></li>
+<li><p>
+处理指令
+</p></li>
+<li><p>
+文件类型声明
+</p></li>
+<li><p>
+实体引用
+</p></li>
+<li><p>
+注释
+</p></li>
+<li><p>
+标记片段
+</p></li>
+</ul></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5112160"></a>4.3.1. 标记</h4></div></div></div>
+<p>
+标记（Tag）用来描述元素，是语法中最显而易见的组成部分。例如：在DocBook中段落元素由标记&lt;para&gt;和标记&lt;/para&gt;构成。
+</p>
+<p>
+元素（Elements），这一术语，和标记的概念密不可分。它指的是SGML/XML文档中的具有一定结构的文字片断，大多数元素的开头和结尾分别由一对相匹配的起始标签和结束标签构成，也有一些元素可以是空标签，没有结束标签和它相匹配，就像HTML中的断行标签“&lt;br&gt;”。
+</p>
+<p>
+SGML和XML对于标记的规范略有不同。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+SGML是大小写不敏感的，XML大小写敏感
+</p>
+<p>
+对于SGML，标签&lt;para&gt;和&lt;PAra&gt;是同一个标签，而对于XML则是不同的标签。DocBook中的标签都应该是小写的，因此我们无论在XML还是在SGML中，都应该养成用小写字母书写元素标签的习惯。
+</p>
+</li>
+<li>
+<p>
+SGML允许存在不匹配的标签，而XML必须严格匹配
+</p>
+<p>
+根本原因是，XML省略了SGML中定义DTD的语法中的一些细节，这在后面讲述DTD时，将要谈到。SGML允许出现不匹配的标签，如: &lt;anchor id="..."&gt;用来描述文挡中的内部跳转，可以单独存在。而这样的语法在XML中，是不允许的，即使对于&lt;anchor&gt;这样的空标签，也必须用独特的空标签表示方法表示。如：文内的跳转标志，XML中必须以 &lt;anchor id="..."/&gt;（在大于号的前面加上一个斜杠）表示。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5119216"></a>4.3.2. 实体引用</h4></div></div></div>
+<p>
+实体（Entities），就是一个被命名了的标记数据块，可以是一个字符串，也可以是一个完整的文件。实体可以包含已析（parsed）数据或未析（unparsed）数据。已析数据由字符组成，其中一些字符组成字符数据，另一些字符组成标记。未析数据则是那些不进行语法解析的数据，如图形文件等。
+</p>
+<p>
+引用一个已经定义的实体的格式为：&amp;实体名称;，即在实体名称前面加上“&amp;”符号，在实体名称后面加上分号“;”。如HTML中的“&amp;lt;” 即代表小于号“&lt;”。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5121984"></a>4.3.3. 注释</h4></div></div></div>
+<p>
+注释为文件和数据提供说明，并且被处理程序所忽略。SGML/XML的注释格式和HTML一样，都是以 &lt;!-- 开始，以 --&gt; 结束。对注释的唯一限制就是注释不能嵌套。示例如下：
+</p>
+<pre class="screen">
+
+&lt;!-- 这是一端注释... --&gt;
+
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5123728"></a>4.3.4. 处理指令</h4></div></div></div>
+<p>
+处理指令是向SGML/XML处理程序传递的特殊指令。例如：xml处理指令，必须作为XML文件的第一行存在。
+</p>
+<pre class="screen">
+
+&lt;?xml version="1.0" ?&gt;
+
+</pre>
+<p>
+这条命令对于XML这一发展中的标记语言的向下兼容有着非常重要的作用。当前的XML版本为1.0，但为避免给XML的发展设置历史的障碍，用这条处理指令向XML处理的应用程序提供了带兼容性信息的处理指令。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5126576"></a>4.3.5. 文件类型声明</h4></div></div></div>
+<p>
+文件类型声明位于SGML/XML文件头部，主要有如下作用：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+指定文件的根元素。
+</p></li>
+<li><p>
+指出文件的外部DTD。
+</p></li>
+<li><p>
+内部DTD，为文件定义元素、属性和实体等。
+</p></li>
+</ul></div>
+<p>
+如下的例子即是本书的文件类型声明：
+</p>
+<pre class="screen">
+
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&lt;!ENTITY author "&lt;ulink url='mailto:johnson@worldhello.net'&gt;Johnson&lt;/ulink&gt;"&gt;
+&lt;!ENTITY orgname "&lt;ulink url='http://www.worldhello.net'&gt;worldhello.net&lt;/ulink&gt;"&gt;
+&lt;!ENTITY chap1  system "chap1.sgml"&gt;
+&lt;!ENTITY chap2  system "chap2.sgml"&gt;
+&lt;!ENTITY chap3  system "chap3.sgml"&gt;
+&lt;!ENTITY chap4  system "chap4.sgml"&gt;
+&lt;!ENTITY chap5  system "chap5.sgml"&gt;
+&lt;!ENTITY chap6  system "chap6.sgml"&gt;
+&lt;!ENTITY chap7  system "chap7.sgml"&gt;
+&lt;!ENTITY chap8  system "chap8.sgml"&gt;
+&lt;!ENTITY chap9  system "chap9.sgml"&gt;
+&lt;!ENTITY chap10 system "chap10.sgml"&gt;
+&lt;!ENTITY appendix system "appendix.sgml"&gt;
+]&gt;
+
+</pre>
+<p>
+该文件类型声明指定了文件的根元素是 article 元素，文件的外部DTD是 PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN" 。而且通过内部DTD，定义了诸如作者姓名、各个章节的外部实体等。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5132416"></a>4.3.6. CDATA片段</h4></div></div></div>
+<p>
+CDATA片段，即是未解析字符数据片段。扩在CDATA片段中的内容，将不被XML解析器处理，而直接提供给应用程序。
+</p>
+<p>
+如果不用CDATA片段，想在文中显示上例中的文件类型声名，需要用如下方法表示，非常的不直观。
+</p>
+<pre class="screen">
+
+&lt;screen&gt;
+&amp;lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&amp;lt;!ENTITY author "&amp;lt;ulink url='mailto:johnson@worldhello.net'&amp;gt;Johnson&amp;lt;/ulink&amp;gt;"&amp;gt;
+&amp;lt;!ENTITY orgname "&amp;lt;ulink url='http://www.worldhello.net'&amp;gt;worldhello.net&amp;lt;/ulink&amp;gt;"&amp;gt;
+&amp;lt;!ENTITY chap1  system "chap1.sgml"&amp;gt;
+&amp;lt;!ENTITY chap2  system "chap2.sgml"&amp;gt;
+&amp;lt;!ENTITY chap3  system "chap3.sgml"&amp;gt;
+&amp;lt;!ENTITY chap4  system "chap4.sgml"&amp;gt;
+&amp;lt;!ENTITY chap5  system "chap5.sgml"&amp;gt;
+&amp;lt;!ENTITY chap6  system "chap6.sgml"&amp;gt;
+&amp;lt;!ENTITY chap7  system "chap7.sgml"&amp;gt;
+&amp;lt;!ENTITY chap8  system "chap8.sgml"&amp;gt;
+&amp;lt;!ENTITY chap9  system "chap9.sgml"&amp;gt;
+&amp;lt;!ENTITY chap10 system "chap10.sgml"&amp;gt;
+&amp;lt;!ENTITY appendix system "appendix.sgml"&amp;gt;
+]&amp;gt;
+&lt;/screen&gt;
+
+</pre>
+<p>
+但是采用CDATA段，就非常的简单而直观。
+</p>
+<pre class="screen">
+
+&lt;screen&gt;
+&lt;![CDATA[
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&lt;!ENTITY author "&lt;ulink url='mailto:johnson@worldhello.net'&gt;Johnson&lt;/ulink&gt;"&gt;
+&lt;!ENTITY orgname "&lt;ulink url='http://www.worldhello.net'&gt;worldhello.net&lt;/ulink&gt;"&gt;
+&lt;!ENTITY chap1  system "chap1.sgml"&gt;
+&lt;!ENTITY chap2  system "chap2.sgml"&gt;
+&lt;!ENTITY chap3  system "chap3.sgml"&gt;
+&lt;!ENTITY chap4  system "chap4.sgml"&gt;
+&lt;!ENTITY chap5  system "chap5.sgml"&gt;
+&lt;!ENTITY chap6  system "chap6.sgml"&gt;
+&lt;!ENTITY chap7  system "chap7.sgml"&gt;
+&lt;!ENTITY chap8  system "chap8.sgml"&gt;
+&lt;!ENTITY chap9  system "chap9.sgml"&gt;
+&lt;!ENTITY chap10 system "chap10.sgml"&gt;
+&lt;!ENTITY appendix system "appendix.sgml"&gt;
+]&gt;
+
+]]&gt;
+&lt;/screen&gt;
+</pre>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s04s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="sgml-primary.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s04s04.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.2. 关于标记语言 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.4. 数据模型</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

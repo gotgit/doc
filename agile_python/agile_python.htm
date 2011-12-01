@@ -1,0 +1,1670 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>敏捷 Web 开发实践</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="敏捷也许就是保障项目成功的“银弹”。 笔者通过最近完成的一个小项目切身体验了一下 Python 语言在 Web 敏捷开发上的强大力量，愿与您共享。 （版本号: 0.2.008feb1，最后更新时间: 2008-09-13）">
+<link rel="start" href="#index" title="敏捷 Web 开发实践">
+<link rel="next" href="#psm.tdd" title="2. 模型的敏捷开发">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>敏捷 Web 开发实践</h1></div>
+<div><h3 class="subtitle"><i>—— pySvnManager 项目实战</i></h3></div>
+<div><div class="author"><h3 class="author"><span class="firstname"><a href="http://www.ossxp.com" target="_top">http://www.ossxp.com</a></span></h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.2</td>
+<td align="left">2008/09/12</td>
+<td align="left"><a href="mailto:worldhello.net%20.AT.%20gmail.com" target="_top">蒋鑫</a></td>
+</tr>
+<tr><td align="left" colspan="3">随 Pylons 升级为 0.9.7，pySvnManager 升级为 0.3。修改 WebHelpers 以及 routing 等相关内容。</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2008/07/20</td>
+<td align="left"><a href="mailto:worldhello.net%20.AT.%20gmail.com" target="_top">蒋鑫</a></td>
+</tr>
+<tr><td align="left" colspan="3">创建。</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p><span class="emphasis"><em>敏捷</em></span>也许就是保障项目成功的“银弹”。
+        笔者通过最近完成的一个小项目切身体验了一下 Python 语言在
+        Web 敏捷开发上的强大力量，愿与您共享。</p>
+<p>（版本号: 0.2.008feb1，最后更新时间: 2008-09-13）</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#psm.preface">1. 前言</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#psm.preface.background">1.1. 项目背景</a></span></dt>
+<dt><span class="sect2"><a href="#psm.preface.implement">1.2. 最终的实现</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#psm.preface.implement.install">1.2.1. 软件安装</a></span></dt>
+<dt><span class="sect3"><a href="#psm.preface.implement.deploy">1.2.2. 网站部署</a></span></dt>
+<dt><span class="sect3"><a href="#psm.preface.implement.config">1.2.3. 配置</a></span></dt>
+<dt><span class="sect3"><a href="#psm.preface.implement.start">1.2.4. 运行应用</a></span></dt>
+<dt><span class="sect3"><a href="#psm.preface.implement.snapshot">1.2.5. 软件截屏</a></span></dt>
+</dl></dd>
+</dl></dd>
+<dt><span class="sect1"><a href="#psm.tdd">2. 模型的敏捷开发</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#psm.tdd.iter1">2.1. 迭代1：测试框架的建立</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#psm.tdd.iter1.goal">2.1.1. 假想任务目标</a></span></dt>
+<dt><span class="sect3"><a href="#psm.tdd.iter1.unittest.failed">2.1.2. 建立测试用例</a></span></dt>
+<dt><span class="sect3"><a href="#psm.tdd.iter1.unittest.pass">2.1.3. 编写模组，使测试用例通过</a></span></dt>
+<dt><span class="sect3"><a href="#psm.tdd.iter1.code.coverage">2.1.4. 完善测试用例</a></span></dt>
+<dt><span class="sect3"><a href="#psm.tdd.iter1.nosetests">2.1.5. 用例管理和 nosetests</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#psm.tdd.continued">2.2. 持续迭代</a></span></dt>
+<dt><span class="sect2"><a href="#psm.tdd.final">2.3. 最终完成的 svnauthz</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#psm.pylons">3. 华丽外衣——Pylons造</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#psm.pylons.basic">3.1. 建立 Web 应用框架</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#psm.pylons.basic.controller">3.1.1. 理解控制器</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.basic.routing">3.1.2. 修改控制器映射</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.basic.model">3.1.3. 加入模组和单元测试</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#psm.pylons.controller.check">3.2. 控制器check的实现</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#psm.pylons.framework.workflow">3.2.1. MVC中的数据流</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.page.design">3.2.2. 页面模板布局</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.template.basic">3.2.3. 模板语法示例</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.controller.method.index">3.2.4. 控制器的index方法</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.controller.method.submit">3.2.5. 控制器的submit方法</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#psm.pylons.ajax">3.3. 用AJAX取代传统的form提交</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#psm.pylons.ajax.framework">3.3.1. 启用Prototype的JavaScript框架</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.ajax.cgi">3.3.2. 改造CGI（controller）</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.ajax.webpage">3.3.3. 页面模板充分利用DOM 和JavaScript</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.ajax.sample1">3.3.4. 改造示例一：用Ajax.Updater直接进行区域更新</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.ajax.sample2">3.3.5. 改造示例二：用Ajax.Request获取并处理数据</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#psm.pylons.controller.unittest">3.4. 控制器的单元测试</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#psm.pylons.nosetest">3.4.1. 配置nosetests</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.controller.unittest.sample1">3.4.2. 测试示例一</a></span></dt>
+<dt><span class="sect3"><a href="#psm.pylons.controller.unittest.sample2">3.4.3. 测试示例二</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#psm.pylons.controller.others">3.5. 实现其他的控制器</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#psm.security">4. pySvnManager 本身的认证和授权</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#psm.security.initial">4.1. 为 BaseController 增加 __before__ 方法</a></span></dt>
+<dt><span class="sect2"><a href="#psm.security.enable">4.2. 为控制器中增加授权</a></span></dt>
+<dt><span class="sect2"><a href="#psm.security.controller">4.3. Security 控制器实现</a></span></dt>
+<dt><span class="sect2"><a href="#psm.security.authz">4.4. pySvnManager 授权</a></span></dt>
+<dt><span class="sect2"><a href="#psm.security.unittest">4.5. 添加认证后的单元测试</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#psm.pylons.config">5. 配置文件</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#psm.pylons.config.inifile">5.1. Pylons的ini配置文件</a></span></dt>
+<dt><span class="sect2"><a href="#psm.pylons.config.localconfig">5.2. localconfig.py</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#psm.i18n">6. 国际化</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#psm.i18n.gettext">6.1. 使用_()改写字符串输出</a></span></dt>
+<dt><span class="sect2"><a href="#psm.i18n.default">6.2. 根据浏览器喜好自动选择缺省语种</a></span></dt>
+<dt><span class="sect2"><a href="#psm.i18n.translate">6.3. 本地化翻译</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#psm.pkg">7. 软件集成</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#psm.pkg.template">7.1. 设置 INI 文件模板</a></span></dt>
+<dt><span class="sect2"><a href="#psm.pkg.setup">7.2. 应用部署的定制</a></span></dt>
+<dt><span class="sect2"><a href="#psm.pkg.meta">7.3. 编辑版本号等信息</a></span></dt>
+<dt><span class="sect2"><a href="#psm.pkg.compile">7.4. 编译</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#psm.opensource">8. 开源项目提交</a></span></dt>
+<dt><span class="appendix"><a href="#psm.reference">A. 参考资料</a></span></dt>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="psm.preface"></a>1. 前言</h2></div></div></div>
+<p>本文来自于笔者<a href="http://www.ossxp.com/News/2008-09-02" target="_top">最近完成的一个小项目 pySvnManager</a>，源代码已经贡献到开源社区。
+    项目首页：<a href="http://pySvnManager.sf.net" target="_top">http://pySvnManager.sf.net</a>。该项目从一开始，
+    就采用了测试驱动开发（TDD）技术，通过一系列的迭代最终敏捷的实现了预期的需求。</p>
+<p>在该项目中采用了 Python 最新流行的 MVC 框架：Pylons。并在 Web 页面中大量使用了
+    AJAX 技术。本文涉及到的技术术语有：敏捷, TDD, MVC, 单元测试, 代码覆盖测试, 
+    AJAX, 重构, i18n, 开放源代码。</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.preface.background"></a>1.1. 项目背景</h3></div></div></div>
+<p>Subversion使用配置文件进行基于路径的授权，手工配置易于出错。
+      下面是一个错误百出的配置示例：</p>
+<pre class="programlisting">
+[groups]
+admin = &amp;admin, admin1, admin2
+group1 = @group2, user1
+group2 = user2, @group1
+
+[aliases]
+admin = jiangxin
+
+[/]
+@admin = rw
+
+[/trunk]
+$authenticated = rw
+
+[repos1:/]
+* =
+user1 =
+@group1 = r
+@admin = rw
+
+[repos1:/trunk/src]
+* =
+@group1 = rw
+@visiters = r
+</pre>
+<p>其中的错误或可能的错误有：</p>
+<div class="orderedlist"><ol type="1">
+<li><p><span class="emphasis"><em>组的循环引用：</em></span>
+          
+          group1包含了group2，而group2又反过来包含group1，造成循环引用。</p></li>
+<li><p><span class="emphasis"><em>包含未定义的组或者别名：</em></span>
+          
+          例如在 repos1 版本库的 /trunk/src 的策略中用到了 @visiters 组，
+          而该组没有在[groups]小节中定义；</p></li>
+<li><p><span class="emphasis"><em>潜在的配置错误：</em></span>
+          
+          版本库repos1的根路径，欲限制user1的访问，而实际效果并非如此，
+          因为uer1属于group1组，而group1组被授权。user1实际获得的权限是策略能够给予
+          的最大权限；</p></li>
+<li><p><span class="emphasis"><em>潜在的配置错误：</em></span>
+          
+          访问版本库repos1的 /trunk 目录，会参照缺省的[/trunk]小节设置，
+          这可能跟管理员本意不符。需要对repos1的/trunk重新定义权限以覆盖缺省的
+          [/trunk]小节的设置。</p></li>
+</ol></div>
+<p>其中1和2的错误会造成Subversion服务中断故障！3和4的问题如果不经过测试很难发现！
+      在我们为客户实施Subversion技术支持服务过程中，发现了用户迫切需要容错性强的
+      授权管理工具，于是便有了开发图形化管理界面的打算。选择 Python 是因为 Python
+      语言的魅力以及 Python 开发过程的高效。</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.preface.implement"></a>1.2. 最终的实现</h3></div></div></div>
+<p>我们先来看看如何部署最终的实现。下面的安装配置过程中的命令是在
+      Debian Linux 下完成。至于 Windows 或其他平台，应该与之类似。</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.install"></a>1.2.1. 软件安装</h4></div></div></div>
+<p>理论上最简单的安装模式：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>sudo easy_install pySvnManager</em></span>
+Searching for pySvnManager
+Reading http://pypi.python.org/simple/pySvnManager/
+Reading https://sourceforge.net/projects/pysvnmanager
+</pre>
+<p>理论上很简单的东西，却奈何不了复杂的现实：</p>
+<p>在项目刚刚开发完成，就出现了相当长一段时间的 <code class="uri">SourceForge.net</code> 无法访问！
+        导致 <span><strong class="command">easy_install</strong></span> 为了搜索最新版本，在连接到 
+        <a href="http://pysvnmanager.sourceforge.net" target="_top">http://pysvnmanager.sourceforge.net</a> 时发生了死锁而阻塞。
+        虽然我打算把项目移到别处，但发现一些依赖的包如: <span class="package">python-ldap</span>
+        也是要访问 <code class="uri">SourceForge.net</code> 网站。因此我取消了搬家的打算，耐心且无助的等待解封。
+        同时将代码镜像在网址：<a href="http://svn.worldhello.net/svn/pysvnmanager" target="_top">http://svn.worldhello.net/svn/pysvnmanager</a>
+        上，供不能访问 <a href="http://pysvnmanager.sourceforge.net" target="_top">http://pysvnmanager.sourceforge.net</a> 的用户参考。</p>
+<p>如果遇到阻塞，则需要花费更多的时间，手工下载软件包。<span><strong class="command">easy_install</strong></span>
+        也可以安装已经下载到本地的软件包。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>wget http://pypi.python.org/packages/source/p/pySvnManager/pySvnManager... </em></span>
+$ <span class="emphasis"><em>sudo easy_install pySvnManager-... </em></span>
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>PySvnManager 的软件包有两种格式。一种是二进制的格式：<code class="filename">pysvnmanager-xxx.egg</code>，
+          另外一种是源码包 <code class="filename">pysvnmanager-xxx.tar.gz</code>。</p>
+<p>二进制包，是针对特定的 Python 版本编译的，如果您当前的 Python 版本和二进制包的版本不符，
+          就必须从源码包开始安装过程。无论源码包还是二进制的 Egg 包，都可以方便的使用
+          <span><strong class="command">easy_install</strong></span> 进行安装。</p>
+</td></tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.deploy"></a>1.2.2. 网站部署</h4></div></div></div>
+<p>执行 <span><strong class="command">make-config</strong></span> 和 <span><strong class="command">setup-app</strong></span>
+        完成部署。部署过程的细节参见后面软件集成的相关内容。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>mkdir deploy</em></span>
+$ <span class="emphasis"><em>cd deploy</em></span>
+$ <span class="emphasis"><em>paster make-config pySvnManager config.ini</em></span>
+Distribution already installed:
+pySvnManager 0.1.2dev-r9 from /home/jiangxin/pyenv/lib/python2.5/site-packages/pySvnManager-0.1.2dev_r9-py2.5.egg
+Creating config.ini
+Now you should edit the config files
+config.ini
+$ <span class="emphasis"><em>paster setup-app config.ini</em></span>
+Running setup_config() from pysvnmanager.websetup
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.config"></a>1.2.3. 配置</h4></div></div></div>
+<p>部署目录下的四个配置文件：</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p><span class="emphasis"><em><code class="filename">config.ini</code> ：</em></span>
+            
+            应用默认运行于5000端口，可以在此文件中定制</p></li>
+<li><p><span class="emphasis"><em><code class="filename">config/localconfig.py</code> ：</em></span>
+            
+            设置应用缺省的认证方式，缺省用 “<span class="quote"><code class="filename">config/svn.passwd</code></span>” 口令认证</p></li>
+<li><p><span class="emphasis"><em><code class="filename">config/svn.passwd</code> ：</em></span>
+            
+            缺省该口令文件内所有用户的口令均为 "guess"</p></li>
+<li><p><span class="emphasis"><em><code class="filename">config/svn.access</code> ：</em></span>
+            
+            svn路径授权文件，本应用要处理的文件。注意该文件开头的注释是版本号和版本库管理员帐号设置，
+            不要随意删除！</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.start"></a>1.2.4. 运行应用</h4></div></div></div>
+<p>启动应用，自动开启Web服务于5000端口。用Web浏览器访问。推荐使用 Firefox。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>paster serve config.ini</em></span>
+Starting server in PID 28937.
+serving on 0.0.0.0:5000 view at http://127.0.0.1:5000 
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.snapshot"></a>1.2.5. 软件截屏</h4></div></div></div>
+<p>参见演示网站：<a href="http://demo.ossxp.com/svnadmin/security/submit?username=admin&amp;password=admin" target="_top">http://demo.ossxp.com/svnadmin/</a></p>
+<p>Subversion 的授权机制，可能存在互相冲突的策略，导致用户权限的设置可能并不符合预期。
+        可以通过“权限检查”的功能对用户权限进行检查。参见：
+        <a href="#psm.preface.implement.snapshot.check" title="图 1. 用户权限测试功能">图 1 “用户权限测试功能”</a></p>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<div class="figure">
+<a name="psm.preface.implement.snapshot.check"></a><div class="figure-contents"><div><img src="images/snapshot_check.png" alt="用户权限测试功能"></div></div>
+<p class="title"><b>图 1. 用户权限测试功能</b></p>
+</div>
+<br class="figure-break">
+</div>
+<p>管理员可以用图形界面对用户帐号进行角色管理，可以对版本库的授权进行设置。参见：
+        <a href="#psm.preface.implement.snapshot.acl" title="图 2. 路径授权设置功能">图 2 “路径授权设置功能”</a></p>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<div class="figure">
+<a name="psm.preface.implement.snapshot.acl"></a><div class="figure-contents"><div><img src="images/snapshot_acl.png" alt="路径授权设置功能"></div></div>
+<p class="title"><b>图 2. 路径授权设置功能</b></p>
+</div>
+<br class="figure-break">
+</div>
+<p>PySvnManager 还提供的版本库创建和删除（仅限空版本库），
+        以及版本库钩子脚本的设置界面。参见：
+        <a href="#psm.preface.implement.snapshot.hooks" title="图 3. 版本库创建及钩子脚本扩展">图 3 “版本库创建及钩子脚本扩展”</a></p>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<div class="figure">
+<a name="psm.preface.implement.snapshot.hooks"></a><div class="figure-contents"><div><img src="images/snapshot_hooks.png" alt="版本库创建及钩子脚本扩展"></div></div>
+<p class="title"><b>图 3. 版本库创建及钩子脚本扩展</b></p>
+</div>
+<br class="figure-break">
+</div>
+<p>下面将整个开发过程进行概要的介绍，展示如何用 Python 进行敏捷的 Web 开发。</p>
+</div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="psm.tdd"></a>2. 模型的敏捷开发</h2></div></div></div>
+<p><span class="emphasis"><em>忘记Web吧：</em></span></p>
+<p>我们要开发出一套Web应用，但首先要忘掉Web。这看似矛盾，却正是MVC的要求和精髓。
+    即对核心算法进行抽象，先实现 <code class="literal">Model</code>，之后再去考虑
+    <code class="literal">Controller</code>（控制器）和 
+    <code class="literal">View</code>（Web展现）。</p>
+<p><span class="emphasis"><em>忘记详细设计吧：</em></span></p>
+<p>敏捷开发，可不要等到图纸都出来再按图索骥。而是一种小步快跑的开发模式，
+    将我们伟大的目标分解为一个一个小的目标，小到能够在一天之内就可以完成。</p>
+<p><span class="emphasis"><em>先从测试做起：</em></span></p>
+<p>敏捷开发的一种是测试先行，让我们在第一个迭代中基于一个最简单的目标：实现单元测试框架。</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.tdd.iter1"></a>2.1. 迭代1：测试框架的建立</h3></div></div></div>
+<p>首先搭建单元测试框架，并完成一个最小的功能集合。</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.goal"></a>2.1.1. 假想任务目标</h4></div></div></div>
+<p>首先为我们的模型起个名字：<code class="filename">svnauthz</code>。</p>
+<p>Subversion路径授权中，用户对象（用户/别名/组）显然是最重要的基本单位，
+        每一条授权策略都包含一个用户对象。那么我们第一个迭代就实现用户对象：
+        <code class="classname">User</code> 类，<code class="classname">Alias</code> 类，
+        <code class="classname">Group</code> 类。</p>
+<p>假设 <span class="package">svnauthz</span> 的 <code class="classname">User</code>, 
+        <code class="classname">Alias</code>, <code class="classname">Group</code> 类已经完成，
+        我们期望他们实现的功能是什么呢？于是在纸上写下假想任务目标（模拟python交互式命令行）：</p>
+<pre class="programlisting">
+&gt;&gt;&gt; <span class="emphasis"><em>from svnauthz import User, Group, Alias</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>user1=User('Tom')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>user2=User("Jerry")</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>print user1</em></span>
+Tom # 显示 user1 内容（字符串化）
+
+&gt;&gt;&gt; <span class="emphasis"><em>alias1=Alias('admin')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>alias1.user = user1</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>print alias1</em></span>
+admin = Tom # 显示 alias1 内容（字符串化）
+
+&gt;&gt;&gt; <span class="emphasis"><em>group1 = Group('team1')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>group2 = Group('team2')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>group1.append(group2, user2, alias1, user1)</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>print group1</em></span>
+team1 = &amp;admin, @team2, Jerry, Tom # group1 的成员列表要进行排序
+&gt;&gt;&gt; <span class="emphasis"><em>group2.append(group1, user1)</em></span>
+Exception: ... # 抛出异常! group1 引起了组间的循环引用
+&gt;&gt;&gt; <span class="emphasis"><em>group2.append(group1, user1, autodrop=True)</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>print group2</em></span>
+team2 = Tom # 使用 autodrop 参数，自动抛弃冲突的组成员，而不引发异常。（即容错性）
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.unittest.failed"></a>2.1.2. 建立测试用例</h4></div></div></div>
+<p>将假想的任务目标翻译为测试用例。建立单元测试文件 <code class="filename">test_svnauthz.py</code> 如下：</p>
+<pre class="programlisting">
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import unittest
+from svnauthz import *
+
+class TestStage1(unittest.TestCase):
+
+    def testUser(self):
+        user1 = User('Tom')
+        self.assert_(str(user1) == 'Tom')
+    
+    def testAlias(self):
+        user1 = User('Tom')
+        alias1=Alias('admin')
+        alias1.user = user1
+        self.assert_(str(alias1) == 'admin = Tom', str(alias1))
+    
+    def testGroup(self):
+        user1 = User('Tom')
+        user2 = User('Jerry')
+        alias1=Alias('admin')
+        alias1.user = user1
+        group1 = Group('team1')
+        group2 = Group('team2')
+        group1.append(group2, user2, alias1, user1)
+        self.assert_(str(group1) == 'team1 = &amp;admin, @team2, Jerry, Tom')
+        self.assertRaises(Exception, group2.append, group1, user1)
+        group2.append(group1, user1, autodrop=True)
+        self.assert_(str(group2) == 'team2 = Tom')
+
+if __name__ == '__main__': unittest.main()
+</pre>
+<p>执行测试用例：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python test_svnauthz.py</em></span>
+Traceback (most recent call last):
+  File "test_svnauthz.py", line 8, in &lt;module&gt;
+    from svnauthz import *
+ImportError: No module named svnauthz
+</pre>
+<p>测试失败！不要紧，因为我们还没有写代码呢。</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.unittest.pass"></a>2.1.3. 编写模组，使测试用例通过</h4></div></div></div>
+<p>之前执行测试用例失败，报告：找不到 <code class="classname">svnauthz</code> 模组。因为模组还没有创建，当然找不到了。
+        于是创建一个空的模组文件 <code class="filename">svnauthz.py</code>。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>touch svnauthz.py</em></span>
+</pre>
+<p>执行测试用例：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python test_svnauthz.py</em></span>
+EEE
+======================================================================
+ERROR: testAlias (__main__.TestStage1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+File "test_svnauthz.py", line 17, in testAlias
+user1 = User('Tom')
+NameError: global name 'User' is not defined
+...
+</pre>
+<p>太棒了，我们前进了一步，因为失败的原因已经不同了。错误报告说：
+        <code class="classname">User</code>类未定义。于是我们写一些代码，
+        让测试用例通过。</p>
+<p><code class="filename">svnauthz.py</code> 第一个版本的代码如下：</p>
+<pre class="programlisting">
+1 #!/usr/bin/env python
+2 # -*- coding: utf-8 -*-
+3 
+4 """Subversion authz config file management.
+5 
+6 Basic classes used for Subversion authz management.
+7 """
+8 
+9 class User(object):
+10 
+11     def __init__(self, name):
+12         name = name.strip()
+13 
+14         if not name:
+15             raise Exception, 'Username is not provided'
+16 
+17         self.__name = name
+18 
+19     def __str__(self):
+20         return self.__name
+</pre>
+<p>再次执行测试用例：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python test_svnauthz.py -v</em></span>
+testAlias (__main__.TestStage1) ... ERROR
+testGroup (__main__.TestStage1) ... ERROR
+testUser (__main__.TestStage1) ... ok
+
+======================================================================
+ERROR: testAlias (__main__.TestStage1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+File "test_svnauthz.py", line 18, in testAlias
+alias1=Alias('admin')
+NameError: global name 'Alias' is not defined
+...
+</pre>
+<p>好的，我们已经有一个测试用例（<code class="classname">testUser</code>）通过了！
+        其他的测试用例呢？先把他们注释掉，以便提前感受一下完全通过测试的滋味。</p>
+<p>注意：我所说的注释掉不是删除代码，也不是把每一行变为注释，
+        而是非常简单的将暂不考虑的测试用例改名。</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>将 <code class="code">def testAlias(self)</code> 改为 <code class="code">def _testAlias(self)</code></p></li>
+<li><p>将 <code class="code">def testGroup(self)</code> 改为 <code class="code">def _testGroup(self)</code></p></li>
+</ul></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>注：只要不是以 <code class="literal">test</code> 开头都好。</p></td></tr>
+</table></div>
+<p>再次执行测试用例，太棒了完全通过！</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python test_svnauthz.py -v</em></span>
+testUser (__main__.TestStage1) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.code.coverage"></a>2.1.4. 完善测试用例</h4></div></div></div>
+<p>检查代码覆盖度，在 Python 下有 <span class="package">coverage</span> 包可用。
+        用 <span><strong class="command">easy_install</strong></span> 安装之后，
+        就可以使用 <span><strong class="command">coverage</strong></span> 命令了。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>coverage -x test_svnauthz.py</em></span>
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
+$ ls .coverage
+.coverage
+$ coverage -r -m svnauthz.py
+Name       Stmts   Exec  Cover   Missing
+----------------------------------------
+svnauthz       8      7    87%   15
+</pre>
+<p>哦，看来我们离完美还是差了一点。从 <span><strong class="command">coverage</strong></span> 
+        的输出中可以看出，我们的测试用例并没有对 <code class="filename">svnauthz.py</code> 
+        的代码测试完全：第15行没有测试到。也就是用<span class="emphasis"><em>空的用户名</em></span>创建 
+        <code class="classname">User</code> 对象，应该抛出异常。</p>
+<p>我们在 <code class="methodname">testUser</code> 用例的最后补充一条断言：</p>
+<pre class="programlisting">
+def testUser(self):
+    user1 = User('Tom')
+    self.assert_(str(user1) == 'Tom')
+    <span class="emphasis"><em>self.assertRaises(Exception, User, " ")</em></span>
+</pre>
+<p>再次检查一下测试用例对代码的覆盖度。哇，100% 通过！</p>
+<pre class="screen">
+$ <span class="emphasis"><em>coverage -x test_svnauthz.py</em></span>
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+OK
+$ <span class="emphasis"><em>coverage -r -m svnauthz.py</em></span>
+Name       Stmts   Exec  Cover   Missing
+----------------------------------------
+svnauthz       8      8   100%
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.tdd.iter1.nosetests"></a>2.1.5. 用例管理和 nosetests</h4></div></div></div>
+<p>目前来讲，代码和测试用例共存于同一个目录。我们重构一下，将模组代码放在 
+        <code class="filename">src</code> 目录，将测试用例放在 <code class="filename">tests</code>
+        目录。</p>
+<p>执行测试用例：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python tests/test_svnauthz.py</em></span>
+Traceback (most recent call last):
+  File "tests/test_svnauthz.py", line 8, in &lt;module&gt;
+    from svnauthz import *
+ImportError: No module named svnauthz
+</pre>
+<p>在 <code class="filename">test_svnauthz.py</code> 文件头增加如下语句，
+        设置 Python 模组查询路径：</p>
+<pre class="programlisting">
+import sys
+sys.path.insert(0,'src')
+</pre>
+<p>测试用例又可以成功执行了。</p>
+<p>目录 <code class="filename">tests</code> 下如果有多个测试用例文件，
+        难道要一个一个去调用么？或者用 <code class="classname">unittest.TestSuite</code> 
+        去组织测试用例？其实不用这么麻烦，<span class="application">nosetests</span>
+        可以自动发现目录下的测试用例，并执行。</p>
+<p>鼻子测试（<span class="application">nosetests</span>）是一个主动发现测试用例的
+        unittest 扩展。可以用 <span><strong class="command">easy_install</strong></span> 来安装:</p>
+<pre class="screen">
+$ <span class="emphasis"><em>easy_install nose</em></span>
+$ <span class="emphasis"><em>nosetests</em></span>
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.008s
+
+OK
+</pre>
+<p>代码覆盖度测试</p>
+<pre class="screen">
+$ <span class="emphasis"><em>nosetests --with-coverage --cover-package=svnauthz</em></span>
+.
+Name       Stmts   Exec  Cover   Missing
+----------------------------------------
+svnauthz       8      8   100%
+----------------------------------------------------------------------
+Ran 1 test in 0.030s
+
+OK
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.tdd.continued"></a>2.2. 持续迭代</h3></div></div></div>
+<p>持续迭代，完成 <code class="classname">User</code>, <code class="classname">Group</code>, 
+        <code class="classname">Alias</code>, <code class="classname">Rules</code>, 
+        <code class="classname">Module</code>, <code class="classname">Repos</code>, 
+        <code class="classname">SvnAuthz</code> 等模组。</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.tdd.final"></a>2.3. 最终完成的 svnauthz</h3></div></div></div>
+<p>在 Python 交互模式下测试 <code class="classname">svnauthz</code> 模组：</p>
+<pre class="screen">
+&gt;&gt;&gt; <span class="emphasis"><em>buff = '''# admin: / = administrator</em></span>
+... <span class="emphasis"><em>[groups]</em></span>
+... <span class="emphasis"><em>group1=user1,user2</em></span>
+... <span class="emphasis"><em>[/]</em></span>
+... <span class="emphasis"><em>$authenticated=r</em></span>
+... <span class="emphasis"><em>[/trunk]</em></span>
+... <span class="emphasis"><em>@group1 = r</em></span>
+... <span class="emphasis"><em>user3 = rw'''</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>import StringIO</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>file = StringIO.StringIO(buff)</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>authz=SvnAuthz()</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>authz.load(file)</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>[x.name for x in authz.reposlist]</em></span>
+['/']
+&gt;&gt;&gt; <span class="emphasis"><em>[x.uname for x in authz.userlist]</em></span>
+[u'administrator', u'user1', u'user2', u'user3']
+&gt;&gt;&gt; <span class="emphasis"><em>[x.uname for x in authz.userlist]</em></span>
+[u'administrator', u'user1', u'user2', u'user3']
+&gt;&gt;&gt; <span class="emphasis"><em>[x.uname for x in authz.grouplist]</em></span>
+[u'@group1', u'$authenticated']
+&gt;&gt;&gt; <span class="emphasis"><em>[x.uname for x in authz.aliaslist]</em></span>
+[]
+&gt;&gt;&gt; <span class="emphasis"><em>print authz.grouplist</em></span>
+[groups]
+group1 = user1, user2
+
+&gt;&gt;&gt; <span class="emphasis"><em>print authz.aliaslist</em></span>
+[aliases]
+&gt;&gt;&gt; <span class="emphasis"><em>authz.is_admin('administrator','/')</em></span>
+True
+&gt;&gt;&gt; <span class="emphasis"><em>authz.is_admin('administrator','repos1')</em></span>
+True
+&gt;&gt;&gt; <span class="emphasis"><em>authz.add_rules('/', '/trunk', '&amp;admin=rw; $authenticated=')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>module1 = authz.get_module('/', '/trunk')</em></span>
+&gt;&gt;&gt; <span class="emphasis"><em>[str(x) for x in module1]</em></span>
+['@group1 = r', 'user3 = rw', '$authenticated = ', '&amp;admin = rw']
+</pre>
+<p>现在是时候给 <code class="classname">svnauthz</code> 套上一个华丽一点的外衣了。</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="psm.pylons"></a>3. 华丽外衣——Pylons造</h2></div></div></div>
+<p>在接触 Pylons 和其他 MVC 框架之前，对 Python 的 Web 编程一直感到比较恐惧，
+    因为看过 <span class="application">MoinMoin</span> 的代码，
+    要为每一种协议（CGI, FastCGI, mod_python, WSGI）写相应的处理代码，
+    实在是麻烦透顶。还好有了Pylons等Web编程框架，为我们屏蔽了协议一层的复杂度。</p>
+<p>Pylons 实现了 MVC 架构，在使用习惯上和 ROR 非常类似，因此从学习成本上考虑，
+    我选择了 Pylons。</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.basic"></a>3.1. 建立 Web 应用框架</h3></div></div></div>
+<p>我们的应用定名为 pySvnManager。建立同名的 Pylons 框架：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>paster create -t pylons pySvnManager</em></span>
+Selected and implied templates:
+Pylons#pylons  Pylons application template
+
+Variables:
+egg:      pySvnManager
+package:  pysvnmanager
+project:  pySvnManager
+Enter template_engine (mako/genshi/jinja/etc: Template language) ['mako']:
+Enter sqlalchemy (True/False: Include SQLAlchemy 0.4 configuration) [False]:
+Creating template pylons
+Creating directory ./pySvnManager
+…
+$ <span class="emphasis"><em>cd pySvnManager</em></span>
+$ <span class="emphasis"><em>ls -F</em></span>
+development.ini  ez_setup.py  pysvnmanager/           README.txt  setup.py
+docs/            MANIFEST.in  pySvnManager.egg-info/  setup.cfg   test.ini
+</pre>
+<p>启动Web应用：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>paster serve --reload development.ini</em></span>
+Starting subprocess with file monitor
+Starting server in PID 817.
+serving on http://127.0.0.1:5000
+</pre>
+<p>用浏览器访问 http://127.0.0.1:5000 会看到一个网页。这个网页实际上调用的是 
+      <code class="filename">public/index.html</code> 文件。如果删除该文件，则浏览器显示
+      404错误（网页未找到）。</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.basic.controller"></a>3.1.1. 理解控制器</h4></div></div></div>
+<p>下面用命令创建控制器 check，会产生两个文件，一个是控制器文件本身：
+        <code class="filename">controllers/check.py</code>，另外一个是单元测试文件：
+        <code class="filename">tests/functional/test_check.py</code>。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>paster controller check</em></span>
+Creating /home/jiangxin/pyenv/pySvnManager/pysvnmanager/controllers/check.py
+Creating /home/jiangxin/pyenv/pySvnManager/pysvnmanager/tests/functional/test_check.py
+</pre>
+<p>用浏览器访问URL：http://127.0.0.1:5000/check/ 会看到Hello World。
+        我们追根溯源，会看到 <code class="filename">controllers/check.py</code> 中的代码：</p>
+<pre class="programlisting">
+class CheckController(BaseController):
+
+    def index(self):
+        return 'Hello World'
+</pre>
+<p>哦，原来如此。Pylons 已经将 URL到代码的映射搞定！就是将浏览器对 URL
+        的访问映射到控制器代码，再由控制器处理后将结果显示给浏览器。
+        控制器调用实现逻辑（即Model），然后把从Model获取的结果填充到模板（View）中，
+        于是 MVC 便实现了逻辑和展现分离。Pylons 框架实现的将URL映射到控制器代码，
+        和 Windows 下 VC/Delphi 等GUI编程中将事件（鼠标、按钮等）映射到对应的代码是多么的近似。</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.basic.routing"></a>3.1.2. 修改控制器映射</h4></div></div></div>
+<p>还记得我们已经删除了 <code class="filename">public/index.html</code> 文件么？
+        我们现在通过修改控制器映射，将 Web 应用的缺省首页指向我们新建立的 controller。
+        要修改的文件就是： <code class="filename">config/routing.py</code></p>
+<pre class="programlisting">
+18     map.connect('/error/{action}', controller='error')
+19     map.connect('/error/{action}/{id}', controller='error')
+20
+21     # CUSTOM ROUTES HERE
+22     <span class="emphasis"><em>map.connect('/', controller='check', action='index')</em></span>
+23
+24     <span class="emphasis"><em>map.connect('/{controller}')</em></span>
+25     map.connect('/{controller}/{action}')
+26     map.connect('/{controller}/{action}/{id}')
+</pre>
+<p>第22行是我们新增的，告诉Pylons，将缺省的主页定位到名为 check 的控制器的
+        <code class="methodname">index</code> 方法（动作）。</p>
+<p>我们打开浏览器访问 <code class="uri">http://127.0.0.1:5000/</code> 会自动定位到 
+        <code class="uri">http://127.0.0.1:5000/check/index</code> 。</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.basic.model"></a>3.1.3. 加入模组和单元测试</h4></div></div></div>
+<p>把我们已经开发完毕的 <span class="package">svnauthz</span> 模组及其单元测试放到
+        <span class="package">pySvnManager</span> 的代码树中，因为 <code class="classname">svnauthz</code>
+        和 <span class="package">pySvnManager</span> 的耦合很紧，没有必要单独维护 
+        <span class="package">svnauthz</span> 模组。</p>
+<p><code class="filename">pySvnManager/model</code> 目录是放置模组的地方，
+        将 <span class="package">svnauthz</span> 的模组放在该目录下。</p>
+<p>至于单元测试用例，则应该拷贝到 <code class="filename">pysvnmanager/tests</code> 
+        目录下。该目录下有文件 <code class="filename">test_models.py</code>，就是用于测试模组的。
+        我们可以用 <code class="filename">test_svnauthz.py</code> 覆盖
+        空文件 <code class="filename">test_models.py</code> ，并在该文件中设置 Python 包含路径，
+        以便能成功包含要测试的模组：</p>
+<pre class="programlisting">
+1 #!/usr/bin/env python
+2 # -*- coding: utf-8 -*-
+… 
+20 import os
+21 import sys
+22 sys.path.insert(0,os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+23
+24 from pysvnmanager.tests import *
+25 from pysvnmanager import model
+26 from pysvnmanager.model.svnauthz import *
+</pre>
+<p>实验一下 <span><strong class="command">nosetests</strong></span> 是否依然可靠运行。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>nosetests</em></span>
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.546s
+
+OK
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.controller.check"></a>3.2. 控制器check的实现</h3></div></div></div>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<div class="figure">
+<a name="psm.pylons.controller.check.fig1"></a><div class="figure-contents"><div><img src="images/check_controller.png" alt="控制器 check 的 MVC 框架示意图"></div></div>
+<p class="title"><b>图 4. 控制器 check 的 MVC 框架示意图</b></p>
+</div>
+<br class="figure-break">
+</div>
+<div class="orderedlist"><ol type="1">
+<li><p>路由：用户访问URL或提交表单，由 Pylons 负责将请求路由至控制器中的同名方法；</p></li>
+<li><p>调用模组：控制器访问模组 <span class="package">svnauthz</span> 的相关调用，调用结果返回给控制器；</p></li>
+<li><p>调用视图：调用视图模板，并向其传递参数用于填充模板；</p></li>
+<li><p>模板展现：最终填充后的模板发向浏览器，最终展现给用户；</p></li>
+</ol></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.framework.workflow"></a>3.2.1. MVC中的数据流</h4></div></div></div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="psm.pylons.user.to.controller"></a>3.2.1.1. 控制器获取用户请求</h5></div></div></div>
+<p>无论用户使用POST或者GET方式传递请求，都可以用 
+          <code class="varname">request.params</code> 获取。</p>
+<pre class="programlisting">
+d = request.params  # request.params 是包含用户传参的dict
+
+if d.get('userinput') == 'manual':
+    username = d.get('username')     # 从文本框获取用户手工输入的用户名
+else:
+    username = d.get('userselector') # 从下拉框选择的用户名
+</pre>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="psm.pylons.controller.to.template"></a>3.2.1.2. 控制器向视图模板传参</h5></div></div></div>
+<pre class="programlisting">
+c.access_map_msg ="&lt;pre&gt;"
+c.access_map_msg+="\n\n".join(self.authz.get_access_map_msgs(username, repos))
+c.access_map_msg+="&lt;/pre&gt;"
+return render('/check/index.mako')
+</pre>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="psm.pylons.template.var"></a>3.2.1.3. 视图模板用参数填充</h5></div></div></div>
+<pre class="programlisting">
+&lt;input type="submit" name="submit" value="提交"&gt;
+${h.end_form()}
+  
+&lt;hr&gt;
+${c.access_right_msg}
+&lt;pre&gt;
+  ${c.access_map_msg}
+&lt;/pre&gt;
+</pre>
+</div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.page.design"></a>3.2.2. 页面模板布局</h4></div></div></div>
+<p>Check页面的布局参见：<a href="#psm.pylons.page.design.fig1" title="图 5. 控制器check的MVC框架示意图">图 5 “控制器check的MVC框架示意图”</a></p>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<div class="figure">
+<a name="psm.pylons.page.design.fig1"></a><div class="figure-contents"><div><img src="images/html_design.png" alt="控制器check的MVC框架示意图"></div></div>
+<p class="title"><b>图 5. 控制器check的MVC框架示意图</b></p>
+</div>
+<br class="figure-break">
+</div>
+<p>各个部分的含义为：</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+            用户选择/输入框：选择或输入用户对象名称，可以为组、别名或用户名；
+          </p></li>
+<li><p>
+            版本库选择/输入框：当选定一个版本库后，会更新③部分的授权路径列表；
+          </p></li>
+<li><p>
+            授权路径选择/输入框：列表内容和版本库（②）相关；
+          </p></li>
+<li><p>
+            权限检查按钮
+          </p></li>
+<li><p>
+            结果输出
+          </p></li>
+</ol></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>其中：③和⑤是动态内容，②和④会触发表单提交。</p></td></tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.template.basic"></a>3.2.3. 模板语法示例</h4></div></div></div>
+<p>Pylons缺省使用mako格式的模板。mako文件相当于ASP,PHP,JSP,
+        不过是Python语言的。模板文件的主体依旧是HTML，可以在模板中用“&lt;% %&gt;”
+          语法嵌入Python代码。例如：</p>
+<pre class="programlisting">
+&lt;%
+userlist = [[u'请选择...', '...'],
+            [u'所有用户（含匿名）', '*'],
+            [u'注册用户', '$authenticated'],
+            [u'匿名用户', '$anonymous'],]
+for i in c.userlist:
+    if i == '*' or i =='$authenticated' or i == '$anonymous':
+        continue
+    if i[0] == '@':
+        userlist.append([u'团队:'+i[1:], i])
+    elif i[0] == '&amp;':
+        userlist.append([u'别名:'+i[1:], i])
+    else:
+        userlist.append([i, i])
+
+reposlist = [[u'请选择...', '...'], [u'所有版本库', '*'], [u'缺省', '/'],]
+for i in c.reposlist:
+    if i == '/':
+        continue
+    reposlist.append([i, i])
+
+pathlist = [[u'所有路径...', '*'],]
+for i in c.pathlist:
+    pathlist.append([i, i])
+%&gt;
+</pre>
+<p>可以用“${expression}”将页面Python代码的或者Controller
+        传递的变量/表达式的值直接嵌入到模板中输出。例如：</p>
+<pre class="programlisting">
+&lt;input type="radio" name="reposinput" value="select" 
+       ${c.checked_reposinput_select}&gt; 选择代码库
+  &lt;select name="reposselector" size="0" onFocus="select_repos(this.form)"&gt;
+    ${h.options_for_select(reposlist, c.selected_repos)}
+  &lt;/select&gt;
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.controller.method.index"></a>3.2.4. 控制器的index方法</h4></div></div></div>
+<pre class="programlisting">
+class CheckController(BaseController):
+    
+    def __init__(self):
+        self.authz = SvnAuthz(cfg.authz_file)
+        c.reposlist = map(lambda x:x.name, self.authz.reposlist)
+        c.userlist = map(lambda x:x.uname, self.authz.grouplist)
+        c.userlist.extend(map(lambda x:x.uname, self.authz.aliaslist))
+        c.userlist.extend(map(lambda x:x.uname, self.authz.userlist))
+        c.pathlist = []
+    
+    def index(self):
+        return render('/check/index.mako')
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.controller.method.submit"></a>3.2.5. 控制器的submit方法</h4></div></div></div>
+<pre class="screen">
+class CheckController(BaseController):
+    ...
+    def submit(self):
+        d=request.params
+        # 从 request.params 中获取用户名、版本库名、路径等
+        if d['reposinput'] == 'manual':
+            repos = d['reposname']
+        else:
+            repos = d['reposselector']
+        # 略去参数解析
+        ...
+        # 通过上下文对象传递Model返回值
+        c.access_map_msg ="&lt;pre&gt;"
+        c.access_map_msg+="\n\n".join(self.authz.get_access_map_msgs(username, repos))
+        c.access_map_msg+="&lt;/pre&gt;"
+        # 调用并返回填充后的视图模板
+        return render('/check/index.mako')
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.ajax"></a>3.3. 用AJAX取代传统的form提交</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+          为什么用AJAX？
+        </p>
+<p>
+          使用AJAX，用户对Web的体验会更“敏捷”：数据提交页面不会闪屏；页面局部更新速度快；网络带宽占用低。
+        </p>
+</li>
+<li>
+<p>
+          AJAX开发相较传统模式的简单之处：
+        </p>
+<p>
+          传统模式下，表单提交则整个页面重绘，为了维持页面用户对表单的状态改变，要多些不少代码。
+          要在控制器和模板之间传递更多参数以保持页面状态。而AJAX不然，因为页面只是局部更新，
+          不关心也不会影响页面其他部分的内容。
+        </p>
+</li>
+<li>
+<p>
+          AJAX开发相较传统模式的难度：
+        </p>
+<p>
+          需要了解、精通JavaScript，而JavaScript存在调试麻烦、浏览器兼容性等很多障碍。
+        </p>
+</li>
+</ol></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.framework"></a>3.3.1. 启用Prototype的JavaScript框架</h4></div></div></div>
+<p>Prototype是一个JavaScript框架，可以更加容易的使用AJAX实现动态Web。
+        Pylons内置了prototype脚本。如果想要启用Pylons自带prototype 
+        的JavaScript框架，只要在模板中嵌入如下WebHelpers语句：</p>
+<pre class="screen">
+&lt;html&gt;
+  &lt;head&gt;
+    ${h.javascript_include_tag(builtins=True)}
+</pre>
+<p>实际上会在页面中产生下面两个JavaScrip包含语句：</p>
+<pre class="screen">
+    &lt;script src="/javascripts/prototype.js" type="text/javascript"&gt;&lt;/script&gt; 
+    &lt;script src="/javascripts/scriptaculous.js" type="text/javascript"&gt;&lt;/script&gt;
+</pre>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<p>最新版本的 Pylons 使用 0.6 版本的 <span class="package">WebHelpers</span>，
+          不建议使用 <span class="package">webhelpers.rails</span>，甚至在未来版本去掉
+          <span class="package">webhelpers.rails</span>。也不再自动 import 
+          <span class="package">webhelpers.rails</span>。对于要用到的 webhelpers 方法，
+          需要显示的声明。参见文件 <code class="filename">lib/helpers.py</code>。</p>
+<pre class="programlisting">
+from routes import url_for, redirect_to
+from webhelpers.html import escape, HTML, literal, url_escape
+from webhelpers.html.tags import *
+from webhelpers.rails.prototype import link_to_remote, form_remote_tag
+from webhelpers.rails.scriptaculous import visual_effect
+from webhelpers.rails.asset_tag import javascript_include_tag, stylesheet_link_tag
+</pre>
+<p>相关的 prototype 和 scriptaculous JavaScript 脚本，在新版的 Pylons
+           中也不提供，需要从相关站点下载，复制到 <code class="filename">public/javascripts/</code>
+           目录下。</p>
+<p>建议逐步将 webhelpers.rails 调用替换。建议使用 Fork JavaScript 框架
+           取代 Prototype 的 JavaScript 框架。</p>
+</div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.cgi"></a>3.3.2. 改造CGI（controller）</h4></div></div></div>
+<p>改造之后的CGI（controller的action）不再返回整个页面，
+        而是返回局部的需要动态更新的内容，或者是返回一段数据供页面中的
+        JavaScript解析使用。</p>
+<p>需要把原来返回一个整个页面的CGI(一个controller的一个方法)改造成多个CGI
+        （多个方法）以针对不同情况返回不同的动态内容。</p>
+<p>例如：pySvnManager的check控制器的submit方法实际上要处理两种情况：
+        一个是当选定一个版本库时要更新页面中的路径列表项（因为不同的版本库定义了不同的授权路径），
+        另外一个是按下“检查权限”按钮要进行的表单提交，显示用户授权信息。
+        将check控制器的submit方法改造为AJAX实现，就需要一分为二。</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.webpage"></a>3.3.3. 页面模板充分利用DOM 和JavaScript</h4></div></div></div>
+<p>页面要动态更新的内容封装在一个DOM容器中；</p>
+<p>页面提交修改为执行一个JavaScript函数，该函数调用Ajax.Updater或者Ajax.Request函数；</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.sample1"></a>3.3.4. 改造示例一：用Ajax.Updater直接进行区域更新</h4></div></div></div>
+<p>当点击权限检查（④）按钮，原来的实现是直接进行表单的提交，
+        修改之后为执行一段JavaScript代码。</p>
+<p>文件 check/index.mako 中用WebHelpers.rails的form_remote_tag
+        快速创建了一个Ajax Form。</p>
+<pre class="screen">
+## AJAX Form
+&lt;%
+  context.write( 
+      h.form_remote_tag(
+          html={'id':'main_form'}, 
+          url=h.url(action='access_map'), 
+          update=dict(success="acl_msg", failure="acl_error"), 
+          method='post', before='showNoticesPopup()',
+          complete='hideNoticesPopup();'+h.visual_effect("Highlight", "acl_msg", duration=1),
+      )
+  )
+%&gt;
+</pre>
+<p>出现在页面中，则是如下的代码：</p>
+<pre class="screen">
+&lt;form action="/check/access_map" id="main_form" method="POST" onsubmit="showNoticesPopup(); 
+      new Ajax.Updater({success:'acl_msg', failure:'acl_error'}, '/check/access_map', 
+        {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request) 
+          {hideNoticesPopup(); new Effect.Highlight(&amp;quot;acl_msg&amp;quot;,{duration:1}); }, 
+          parameters:Form.serialize(this)}); 
+      return false;"&gt;
+</pre>
+<p>说明</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+            当Form提交会执行onSubmit部分的代码，而不去执行Form action，因为onSubmit返回false;
+          </p></li>
+<li><p>
+            Ajax.Updater的参数success，是成功执行后用返回信息填充的DOM容器；failure则相反；
+          </p></li>
+<li><p>
+            '/check/access_map'是Ajax要执行的服务器CGI，其返回结果将用于填充相应的DOM容器；
+          </p></li>
+<li><p>
+            onComplete是成功执行Ajax.Updater代码后要执行的JavaScript代码；
+          </p></li>
+<li><p>
+            showNoticesPopup()：弹出窗口，提示用户Ajax正在执行过程中，避免用户重复点击；
+          </p></li>
+<li><p>
+            hideNoticesPopup()：在Ajax执行完毕，关闭Ajax正在运行的提示窗口；
+          </p></li>
+<li><p>
+            Effect.Highlight()是 scriptaculous.js提供的特效，闪烁更新的区域以引起注意；
+          </p></li>
+<li><p>
+            parameters是用于传递参数，这里把整个表单的数据提交；
+          </p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.sample2"></a>3.3.5. 改造示例二：用Ajax.Request获取并处理数据</h4></div></div></div>
+<p>当从版本库下拉框(②)选择时，将触发更新授权路径的列表(③)。
+        原来的实现是提交整个表单并刷新整个页面，用AJAX改造后，
+        只更新授权路径的列表(③)部分。</p>
+<p>虽然也可以用Ajax.Updater来更新整个授权路径列表，但为了演示另外一种Ajax处理方式，
+        以及获得更少的带宽占用和更快的响应，使用Ajax.Request来实现。</p>
+<p>版本库下拉框(②)更新时，执行JavaScript函数：update_path()，而非提交表单：</p>
+<pre class="screen">
+&lt;input type="radio" name="reposinput" value="select" Checked onClick="update_path(this.form)"&gt;
+</pre>
+<p>函数update_path()，执行Ajax.Request，从"get_auth_path"这个action获取信息，
+        并用返回值(request.reponseText)为参数调用JavaScript函数ajax_update_path。</p>
+<pre class="screen">
+function update_path(form)
+{
+    var repos = "";
+    if (form.reposinput[0].checked) {
+        repos = form.reposselector.options[form.reposselector.selectedIndex].value;
+    } else {
+        repos = form.reposname.value;
+    }
+    var params = {repos:repos};
+    showNoticesPopup();
+    new Ajax.Request(
+        '${h.url_for(controller="check", action="get_auth_path")}', 
+        {asynchronous:true, evalScripts:true, method:'post',
+            onComplete:
+                function(request) 
+                { hideNoticesPopup();
+                  ajax_update_path(request.responseText);},
+            parameters:params
+        });
+}
+</pre>
+<p>函数ajax_update_path()，解析参数code，更新授权路径的下拉列表框。
+        本例非常简单，直接将参数(code)当作JavaScript代码并执行(eval函数)，
+        这是因为Ajax.Request获取到的内容是字符串格式的JavaScript代码。
+        最终这些JavaScript代码在函数ajax_update_path中被执行，
+        并用相应的数据更新了授权路径的列表(③)。</p>
+<pre class="screen">
+function ajax_update_path(code)
+{
+    var id = new Array();
+    var name = new Array();
+    var total = 0;
+    
+    pathselector = document.forms[0].pathselector;
+    lastselect = pathselector.value;
+    pathselector.options.length = 0;
+    
+    try {
+        eval(code);
+        for (var i=0; i &lt; total; i++)
+            {
+                pathselector.options[i] = new Option(name[i], id[i]);
+                if (id[i]==lastselect)
+                pathselector.options[i].selected = true;
+            }
+    }
+    catch(exception) {
+      alert(exception);
+    }
+}
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.controller.unittest"></a>3.4. 控制器的单元测试</h3></div></div></div>
+<p>每一个控制器，在tests/functional 目录下都一个对应的单元测试文件。
+      Pylons的单元测试是使用 paste.fixture 来模拟浏览器对Web服务器的访问，
+      通过对返回结果的检查实现测试。</p>
+<p>测试用例的运行，还是使用nosetests，nosetests能够主动到tests目录下发现测试用例，
+      并运行。</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.nosetest"></a>3.4.1. 配置nosetests</h4></div></div></div>
+<p>在setup.cfg文件中，对nosetests进行设置。可以设置采用不同的pylons配置文件。</p>
+<pre class="screen">
+[nosetests]
+verbose=True
+verbosity=2
+with-pylons=test.ini # 使用test.ini作为pylons的配置文件
+detailed-errors=1
+#with-doctest=1      # 不进行 doctest测试，因为依赖的confobj包的doctest不通过
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.controller.unittest.sample1"></a>3.4.2. 测试示例一</h4></div></div></div>
+<pre class="screen">
+res = self.app.get(url_for(controller='check')) 
+assert res.status == 200 
+assert '''&lt;input type="submit" name="submit" value='Check Permissions'&gt;''' in res.body 
+assert res.c.reposlist == ['/', u'repos1', u'repos2', u'repos3', u'document']
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.controller.unittest.sample2"></a>3.4.3. 测试示例二</h4></div></div></div>
+<pre class="screen">
+params = {
+         'userinput':'select', 
+         'userselector':'user1',
+         'reposinput':'select', 
+         'reposselector':'repos1',
+         'pathinput':'manual',
+         'pathname':'/trunk/src/test',
+         'abbr':'True',
+         }
+res = self.app.get(url_for(controller='check', action='access_map'), params)
+assert res.status == 200
+assert '''&lt;div id='acl_path_msg'&gt;[repos1:/trunk/src/test] user1 =&lt;/div&gt;''' in res.body, res.body
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.controller.others"></a>3.5. 实现其他的控制器</h3></div></div></div>
+<p>Check控制器完成之后，进而对role和authz控制器进行开发，
+      分别实现角色控制和授权管理的功能。在开发新的控制器过程中，我们还依然采取：
+      模板(视图)设计，控制器设计，单元测试的流程。</p>
+<p>当完成所有的三个控制器之后，会发现似乎少了些什么？
+      难道要任何人都可以查看 SVN 版本库的授权甚至修改版本库授权么？
+      我们需要为 pySvnManager 增加认证和授权管理。</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="psm.security"></a>4. pySvnManager 本身的认证和授权</h2></div></div></div>
+<p>pySvnManager 作为 Subversion 授权管理的软件，如果本身没有认证和授权机制，
+    就会成为系统最大的漏洞。为此我们迫切需要为我们的应用增加认证和授权。还好，
+    这实现起来并不是很困难。</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.security.initial"></a>4.1. 为 BaseController 增加 __before__ 方法</h3></div></div></div>
+<p>__before__ 是 WSGIController 特有的方法，在 Action 执行之前执行，
+      可以用于初始化变量，以及做权限控制。</p>
+<p>BaseController 是所有控制器的基类，在该基类增加授权功能，
+      会自动为其他控制器所使用。BaseController 的代码在文件 <code class="filename">lib/base.py</code> 中。</p>
+<pre class="programlisting">
+class BaseController(WSGIController):
+    requires_auth = []
+
+    def __before__(self, action):
+        if isinstance(self.requires_auth, bool) and not self.requires_auth:
+            pass
+        elif isinstance(self.requires_auth, (list, tuple)) and \
+            not action in self.requires_auth:
+            pass
+        else:
+            if 'user' not in session:
+                session['path_before_login'] = request.path_info
+                session.save()
+                return redirect_to(h.url_for(controller='security'))
+</pre>
+<p>从BaseController 继承的类，可以设置 requires_auth 来增加授权。
+      requires_auth 可以为 True 或者是一个包含要进行授权的动作列表。如果需要授权，
+      会检查 session 中是否包含登录信息否则跳转到登录页面（security控制器）。</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.security.enable"></a>4.2. 为控制器中增加授权</h3></div></div></div>
+<p>在需要增加授权的控制器中增加requires_auth的属性。</p>
+<pre class="programlisting">
+class CheckController(BaseController):
+    requires_auth = True
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.security.controller"></a>4.3. Security 控制器实现</h3></div></div></div>
+<p>Security控制器用于实现用户的登录和退出。要为Security控制器增加
+      login 和 logout方法，并且增加登录视图模板。流程见：<a href="#psm.security.controller.fig1" title="图 6. 控制器check的MVC框架示意图">图 6 “控制器check的MVC框架示意图”</a></p>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<div class="figure">
+<a name="psm.security.controller.fig1"></a><div class="figure-contents"><div><img src="images/security_controller.png" alt="控制器check的MVC框架示意图"></div></div>
+<p class="title"><b>图 6. 控制器check的MVC框架示意图</b></p>
+</div>
+<br class="figure-break">
+</div>
+<p>具体实现参见代码。</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.security.authz"></a>4.4. pySvnManager 授权</h3></div></div></div>
+<p>在 SvnAuthz 类的实现中，在 svnauthz 文件中为版本库增加了管理员设置，
+      来进行管理员的身份验证。我们就利用同样的代码对 pySvnManager 进行授权验证。</p>
+<p>具体实现参见代码。</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.security.unittest"></a>4.5. 添加认证后的单元测试</h3></div></div></div>
+<p>添加授权后，执行nosetests，会发现控制器的单元测试报错。
+      因为没有经过授权所有页面的输出都是“尚未授权”。实际上，
+      只要在每一个测试用例运行之前，访问 security控制器的login方法，
+      以实现登录，设置正确的session，则后续访问会自动带上cookie，
+      得到正确的授权页面。</p>
+<p>在控制器的测试用例基类TestController中加上login方法，以简化登录调用：</p>
+<pre class="programlisting">
+class TestController(TestCase):
+    ...
+    def login(self, username, password=""):
+        res = self.app.get(url_for(controller='security'))
+        form = res.forms[0]
+        form['username'] = username
+        if not password:
+            d = eval(config.get('test_users', {}))
+            password = d.get(username,'')
+        form['password'] = password
+        form.submit()
+</pre>
+<p>在测试用例中调用login方法：</p>
+<pre class="programlisting">
+self.login('root')
+res = self.app.get(url_for(controller='check')) 
+assert res.status == 200 
+assert '''&lt;input type="submit" name="submit" value='Check Permissions'&gt;''' in res.body 
+assert res.c.reposlist == ['/', u'repos1', u'repos2', u'repos3', u'document']
+</pre>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="psm.pylons.config"></a>5. 配置文件</h2></div></div></div>
+<p>为了我们的程序更灵活，就要允许用户对某些设置进行定制，
+    这就是我们这里要探讨的配置文件。</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.config.inifile"></a>5.1. Pylons的ini配置文件</h3></div></div></div>
+<p>在前面我们提到TestController中加入login方法，实现测试用例中的模拟登录。
+      其中代码中出现了 "config.get()"，这是什么呢？</p>
+<pre class="programlisting">
+if not password:
+    d = eval(config.get('test_users', {}))
+    password = d.get(username,'')
+</pre>
+<p>其实，config是Pylons读取ini文件创建的数据结构。在test.ini
+      （用于单元测试的Pylons配置）中，包含test_users的配置，
+      为单元测试的用户登录帐号提供默认口令：</p>
+<pre class="programlisting">
+[app:main]
+...
+# Login test: user account and password
+test_users = {'root':'guess', 'jiangxin':'guess', 'nobody':'guess'}
+...
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>注：test.ini的[app:main]小节和[server:main]小节中的设置，
+        代码中可以通过config.get()获取到。</p></td></tr>
+</table></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.config.localconfig"></a>5.2. localconfig.py</h3></div></div></div>
+<p>Pylons的ini配置文件固然可以囊括程序中的所有可配置信息，
+      但是还是觉得将配置文件写入一个Python文件直接import来得简单。
+      这就是为什么我们程序中还出现了 <code class="filename">localconfig.py</code> 配置文件。</p>
+<p> <code class="filename">localconfig.py</code> 包含从 DefaultConfig 派生的类，
+      用户的修改保存在 <code class="filename">localconfig.py</code> 中。</p>
+<pre class="programlisting">
+# -*- coding: utf-8 -*-
+
+from pysvnmanager.config.DefaultConfig import DefaultConfig
+
+class LocalConfig(DefaultConfig):
+    from pysvnmanager.model.auth.http import htpasswd_login
+    auth = [htpasswd_login]
+</pre>
+<p>这里我们定义了 pySvnManager 的需要用到的认证插件。</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="psm.i18n"></a>6. 国际化</h2></div></div></div>
+<p>要将软件开源，就需要它能说多种语言。让程序支持多语种，Pylons实现非常简单，
+    用Python的gettext模组实现国际化。</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.i18n.gettext"></a>6.1. 使用_()改写字符串输出</h3></div></div></div>
+<p>函数_()实际上是gettext模组的 ugettext方法别名。将程序中出现的字符串输出改为
+      _()调用。例如，在模板文件中：</p>
+<pre class="programlisting">
+&lt;tr&gt;
+    &lt;th&gt;Account&lt;/th&gt;
+    &lt;th&gt;Repository&lt;/th&gt;
+    &lt;th&gt;Modules&lt;/th&gt;
+&lt;/tr&gt;
+</pre>
+<p>修改为</p>
+<pre class="programlisting">
+&lt;tr&gt;
+    &lt;th&gt;${_("Account")}&lt;/th&gt;
+    &lt;th&gt;${_("Repository")}&lt;/th&gt;
+    &lt;th&gt;${_("Modules")}&lt;/th&gt;
+&lt;/tr&gt;
+</pre>
+<p>控制器代码中：</p>
+<pre class="programlisting">
+def get_auth_path(self, repos=None, type=None, path=None):
+    ..
+    msg += 'id[0]="%s";' % '...'
+    msg += 'name[0]="%s";\n' % "Please choose..."
+</pre>
+<p>修改为：</p>
+<pre class="programlisting">
+def get_auth_path(self, repos=None, type=None, path=None):
+    ..
+    msg += 'id[0]="%s";' % '...'
+    msg += 'name[0]="%s";\n' % _("Please choose...")
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.i18n.default"></a>6.2. 根据浏览器喜好自动选择缺省语种</h3></div></div></div>
+<pre class="programlisting">
+from pylons.i18n import set_lang, add_fallback
+
+class BaseController(WSGIController):
+    def __before__(self, action):
+
+        if 'lang' in session:
+            set_lang(session['lang'])
+        for lang in request.languages:
+            if lang in ['zh', 'en']:
+                add_fallback(lang)
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.i18n.translate"></a>6.3. 本地化翻译</h3></div></div></div>
+<div class="table">
+<a name="psm.i18n.translate.tbl-1"></a><p class="title"><b>表 1. 本地化翻译相关命令</b></p>
+<div class="table-contents"><table summary="本地化翻译相关命令" border="1">
+<colgroup>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th>任务</th>
+<th>命令</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>提取待翻译字符串，保存为模板文件(*.pot)</td>
+<td>$ python setup.py extract_messages</td>
+</tr>
+<tr>
+<td>根据模板文件，创建本地语种文件(*.po)</td>
+<td>$ python setup.py init_catalog -l zh_CN</td>
+</tr>
+<tr>
+<td>翻译*.po文件（工具: kbabel）</td>
+<td>$ kbabel pySvnManager/i18n/zh/LC_MESSAGES/pysvnmanager.po</td>
+</tr>
+<tr>
+<td>编译*.po文件为*.mo文件</td>
+<td>$ python setup.py compile_catalog</td>
+</tr>
+<tr>
+<td>代码中字符串改变，重新提取模板文件(*.pot)</td>
+<td>$ python setup.py extract_messages</td>
+</tr>
+<tr>
+<td>用模板(*.pot)更新各语种的*.po文件</td>
+<td>$ python setup.py update_catalog</td>
+</tr>
+<tr>
+<td>翻译完毕，别忘了编译新的*.mo文件</td>
+<td>$ python setup.py compile_catalog</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break">
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="psm.pkg"></a>7. 软件集成</h2></div></div></div>
+<p>Pylons框架开发出来的Web应用，一般是编译成egg包发布。
+    Egg包就像是Java世界里的Jar包。Egg包的编译和管理用到了 
+    Python Enterprise Application Kit（PEAK）的setuptools。
+    setuptools可以视为更好的distutils。</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pkg.template"></a>7.1. 设置 INI 文件模板</h3></div></div></div>
+<p>当Pylons应用的Egg包安装以后，就可以进行部署了。
+      部署第一步是在部署目录中创建一个INI文件：</p>
+<pre class="screen">
+~/deploy$ <span class="emphasis"><em>paster make-config pySvnManager config.ini</em></span>
+...
+~/deploy$ <span class="emphasis"><em>ls</em></span>
+config.ini
+</pre>
+<p>文件 config.ini从何而来？代码树中的文件：
+      wiki.egg-info/paste_deploy_config.ini_tmpl 就是作为创建新的应用的模板。
+      定制该文件，使其包含pySvnManager应用特有的配置选项。</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pkg.setup"></a>7.2. 应用部署的定制</h3></div></div></div>
+<p>当在部署目录中创建INI文件后，还要执行setup-app命令，以完成应用的部署。</p>
+<pre class="screen">
+~/deploy$ <span class="emphasis"><em>paster setup-app config.ini</em></span>
+Running setup_config() from pysvnmanager.websetup
+~/deploy$ <span class="emphasis"><em>ls -F</em></span>
+config/  config.ini
+~/deploy$ <span class="emphasis"><em>find config -type f</em></span>
+config/localconfig.py
+config/svn.access
+config/svn.passwd
+</pre>
+<p>执行setup-app命令创建的config目录以及文件是从何而来？
+      实际上setup-app命令会执行pySvnManager中的websetup.py文件相应的方法。
+      我们对websetup.py的setup_config方法进行设置，
+      用以初始化应用（拷贝三个配置文件到config目录）。示例如下：</p>
+<pre class="programlisting">
+def setup_config(command, filename, section, vars):
+    """Place any commands to setup pysvnmanager here"""
+    conf = appconfig('config:' + filename)
+    load_environment(conf.global_conf, conf.local_conf)
+
+    here = config['here']
+
+    if not os.path.exists(here+'/config'):
+        os.mkdir(here+'/config')
+    for f in ['svn.access', 'svn.passwd', 'localconfig.py']:
+        src  = resource_filename('pysvnmanager', 'config/' + f+'.in')
+        dest = here+'/config/' + f
+        if os.path.exists(dest):
+            log.warning("Warning: %s already exist, ignored." % f)
+        else:
+            copyfile(src, dest)
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pkg.meta"></a>7.3. 编辑版本号等信息</h3></div></div></div>
+<p>版本号等信息保存于文件setup.py。</p>
+<pre class="programlisting">
+setup(
+    name='pySvnManager',
+    version="0.1.2",
+    description='SVN authz web management tools.',
+    author='Jiang Xin',
+    author_email='jiangxin@ossxp.com',
+    url='https://sourceforge.net/projects/pysvnmanager',
+</pre>
+<p>如果代码是保存在SVN中，编译时，还会将SVN的全局版本号作为软件的
+      Build号添加在版本号的后面。</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pkg.compile"></a>7.4. 编译</h3></div></div></div>
+<p>创建源码包</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python setup.py sdist</em></span>
+$ <span class="emphasis"><em>ls dist/</em></span>
+pySvnManager-0.1.2dev-r14.tar.gz
+</pre>
+<p>创建二进制包</p>
+<pre class="screen">
+$ <span class="emphasis"><em>python setup.py bdist_egg</em></span>
+$ <span class="emphasis"><em>ls dist/</em></span>
+pySvnManager-0.1.2dev_r14-py2.5.egg
+</pre>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="psm.opensource"></a>8. 开源项目提交</h2></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>PYPI.python.org</p>
+<p>PYPI是Python包索引(Python Package Index)的缩写，是Python语言的代码库，
+        相当于Perl的CPAN或者PHP的PEAR。pySvnManager已经提交到PYPI，
+        这样就可以用easy_install下载和安装。</p>
+<p>网址：<a href="http://pypi.python.org/pypi/pySvnManager/" target="_top">http://pypi.python.org/pypi/pySvnManager/</a></p>
+</li>
+<li>
+<p>Sourceforge.net</p>
+<p>SourceForge.net是最大的开源软件代码库，提供代码托管以及其他项目管理工具。
+        pySvnManager已经上传到SourceForge.net上。</p>
+<p>项目首页：<a href="http://pysvnmanager.sourceforge.net/" target="_top">http://pysvnmanager.sourceforge.net/</a></p>
+</li>
+<li>
+<p>代码下载： </p>
+<p><span><strong class="command">svn checkout https://pysvnmanager.svn.sourceforge.net/svnroot/pysvnmanager</strong></span></p>
+</li>
+</ul></div>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="psm.reference"></a>A. 参考资料</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+        pySvnManager 演示: <a href="http://demo.ossxp.com/svnadmin/" target="_top">http://demo.ossxp.com/svnadmin/</a>
+      </p></li>
+<li><p>
+        pySvnManager 代码镜像: <a href="http://svn.worldhello.net/svn/pysvnmanager" target="_top">http://svn.worldhello.net/svn/pysvnmanager</a>
+      </p></li>
+<li><p>
+        pySvnManager项目首页: <a href="http://pySvnManager.sourceforge.net/" target="_top">http://pySvnManager.sourceforge.net/</a>
+      </p></li>
+<li><p>
+        《Python 学习笔记》参见: <a href="http://worldhello.net/wiki/Python" target="_top">http://worldhello.net/wiki/Python</a>
+      </p></li>
+<li><p>
+        Pylons Wiki：<a href="http://wiki.pylonshq.com/" target="_top">http://wiki.pylonshq.com/</a>
+      </p></li>
+<li><p>
+        Pylons 文档：<a href="http://docs.pylonshq.com/index.html" target="_top">http://docs.pylonshq.com/index.html</a>
+      </p></li>
+<li><p>
+        Mako模板文档: <a href="http://www.makotemplates.org/docs/documentation.html" target="_top">http://www.makotemplates.org/docs/documentation.html</a>
+      </p></li>
+<li><p>
+        Prototype JavaScript 参见: <a href="http://www.prototypejs.org/api/ajax" target="_top">http://www.prototypejs.org/api/ajax</a>
+      </p></li>
+<li><p>
+        Scriptaculous JavaScript特效参见: <a href="http://wiki.script.aculo.us/" target="_top">http://wiki.script.aculo.us/</a>
+      </p></li>
+<li><p>
+        Setuptools文档: <a href="http://peak.telecommunity.com/DevCenter/setuptools" target="_top">http://peak.telecommunity.com/DevCenter/setuptools</a>
+      </p></li>
+</ol></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

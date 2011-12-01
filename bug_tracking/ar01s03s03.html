@@ -1,0 +1,408 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.3. GNATS 安装和配置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="缺陷追踪系统 HOWTO">
+<link rel="up" href="gnats.html" title="3. GNATS">
+<link rel="prev" href="ar01s03s02.html" title="3.2. GNATS PR 流程示例">
+<link rel="next" href="mantis.html" title="4. Mantis">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.3. GNATS 安装和配置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s03s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. GNATS</th>
+<td width="20%" align="right"> <a accesskey="n" href="mantis.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4623376"></a>3.3. GNATS 安装和配置</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+下载最新的安装包，确认 GNATS 和 Gnatsweb 版本是否匹配
+</p>
+<p>
+下载 GNATS 4 beta2: <a href="ftp://ftp.gnu.org/gnu/gnats/gnats-3.999.2.tar.gz" target="_top">ftp://ftp.gnu.org/gnu/gnats/gnats-3.999.2.tar.gz</a> ；
+</p>
+<p>
+直接从 CVS 服务器检出 Gnatsweb 4: <span><strong class="command">cvs -z3 -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnatsweb co gnatsweb</strong></span> ；
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+注意 GNATSWEB 和 GNATS 的版本是否兼容，Gnatsweb 2.9.x 和 GNATS 3.113.1 版本兼容，Gnatsweb 3.99.x 和 GNATS 3.999.x 兼容。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+建立名为 gnats 的账号
+</p>
+<p>
+创建 gnats 用户账号，系统维护以 gnats 身份运行，以减少系统安全风险。
+</p>
+<pre class="screen">
+$ useradd gnats
+</pre>
+</li>
+<li>
+<p>
+安装 GNATS
+</p>
+<p>
+以 root 用户登录，执行下列命令
+</p>
+<pre class="screen">
+$ tar zxvf gnats-3.999.2.tar.gz <a name="co.gnats.unzip"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+$ cd gnats-3.999.2 
+$ configure --prefix=/usr/local/gnats <a name="co.gnats.configure"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+$ make all info <a name="co.gnats.make"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+$ make install install-info <a name="co.gnats.makeinstall"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.gnats.unzip"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+下载的 GNATS 4 安装包解包至路径 gnats-3.999.2 下。3.999... = 4 ？ 不觉想起来上小学时，问老师 0.999...（无限循环）和 1 谁大的趣事。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.gnats.configure"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+将 GNATS 安装在路径 /usr/local/gnats 下，确省为 /usr/local。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.gnats.make"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+make all: 编译所有的应用程序；make info：生成帮助信息；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.gnats.makeinstall"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+make install: 安装编译完毕的的应用程序；make install-info：安装帮助信息；
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+到底安装了些什么？
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+/usr/local/gnats/bin
+</p>
+<p>
+GNATS 工具。应将此路径加入 PATH 环境变量，或者在 /usr/local/bin 中建立符号链接。
+</p>
+</li>
+<li>
+<p>
+/usr/local/gnats/libexec/gnats/
+</p>
+<p>
+GNATS 维护工具。应将此路径加入 PATH 环境变量，或者在 /usr/local/bin 中建立符号链接。
+</p>
+</li>
+<li>
+<p>
+/usr/local/gnats/etc/gnats/
+</p>
+<p>
+GNATS 全局配置信息。可以由 databases 文件将一台服务器配置为多个项目提供缺陷追踪服务（database）；gnatsd.host_access 用于控制基于主机地址的安全选项。
+</p>
+</li>
+<li>
+<p>
+/usr/local/gnats/etc/gnats/defaults/
+</p>
+<p>
+GNATS 服务器配置信息模板。每配置一个 GNATS 缺陷追踪服务（database），将该路径下的文件作为模板复制到项目各自独立的配置目录中，如确省的配置目录为 /usr/local/gnats/com/gnatsdb/gnats-adm。其中 gnatsd.user_access 用于配置用户名和口令，dbconfig 数据库配置文件；categories 文件用于设置类别；responsible 设置负责人的邮件地址等。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+配置确省的数据库
+</p>
+<p>
+这里说的数据库不是我们经常听到的关系型数据库，而是指 GNATS 为一个项目提供缺陷追踪的一组配置文件和相应数据，GNATS 实际上是以文本文件形式存储的。
+在配置文件文件 databases 中，确省设置了一个名为 default 的数据库。
+</p>
+<pre class="screen">
+default:Bug database:/usr/local/gnats/com/gnatsdb
+</pre>
+<p>
+运行 mkdb 维护工具，初始化确省数据库。
+</p>
+<pre class="screen">
+$ <span><strong class="command">mkdb default</strong></span>
+Copying default files from /usr/local/gnats/etc/gnats/defaults
+</pre>
+<p>
+mkdb 简单的将配置文件模板从 /usr/local/gnats/etc/gnats/defaults 目录下拷贝到指定的路径下。
+</p>
+<p>
+/usr/local/gnats/com/gnatsdb/gnats-adm 目录存放配置文件，初始来自于配置文件模板的拷贝；
+</p>
+<p>
+/usr/local/gnats/com/gnatsdb/pending 目录存放未知分类（Category）的 PR；
+</p>
+<p>
+/usr/local/gnats/com/gnatsdb/gnats-queue 目录存放等待处理的 PR；
+</p>
+<p>
+其它目录对应于各自的 Category 名称，存储对应 Category 的 PR，由此我们看出 PR 的 Category 命名为上述的三个保留名称。
+</p>
+</li>
+<li>
+<p>
+设置 crontab
+</p>
+<p>
+为避免 DOS 攻击，用户提交的 PR，先进入缓冲队列，待 queue-pr 命令执行时，方进行投递。因此将 queue-pr 加入 crontab，定时执行。
+</p>
+<pre class="screen">
+$ crontab -e
+0,10,20,30,40,50 * * * * exec-prefix/libexec/gnats/queue-pr --run
+</pre>
+</li>
+<li>
+<p>
+设置邮件别名
+</p>
+<p>
+因为 GNATS 初始设计为使用 Email 即可工作，因此需要设置邮件别名，通过管道，将邮件送交 GNATS 工具处理。将如下内容加入邮件别名文件（/etc/aliases）：
+</p>
+<pre class="screen">
+gnats-admin: root
+bugs: "| exec-prefix/libexec/gnats/queue-pr -q"
+query-pr: "| exec-prefix/libexec/gnats/mail-query"
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+注意：如果 sendmail 设置了 smrsh，需要将 queue-pr 和 mail-query 配置为 sendmail 可以执行的命令。简单的，可能只需要在 /etc/smrsh 目录下建立相应的符号链接。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+运行守护进程
+</p>
+<p>
+GNATS 的守护进程是最为重要的一环，它使 GNATS 支持多种 PR 方式。
+</p>
+<p>
+确认是否在 /etc/services 中配置了相应的服务，服务名为 support
+</p>
+<pre class="screen">
+support 1529/tcp # GNATS
+</pre>
+<p>
+配置以 inetd 或 xinetd 方式执行 gnatsd （守护进程）。
+</p>
+<p>
+对于 inetd，在 /etc/inetd.conf 中加入：
+</p>
+<pre class="screen">
+support stream tcp nowait gnats /usr/local/gnats/libexec/gnats/gnatsd gnatsd
+</pre>
+<p>
+对于 inetd，在 /etc/xinetd.d/ 目录下加入文件 support，内容如下：
+</p>
+<pre class="screen">
+service support
+{
+disable = no
+socket_type = stream
+protocol = tcp
+wait = no
+user = gnats
+server = /usr/local/gnats/libexec/gnats/gnatsd
+}
+</pre>
+</li>
+</ol></div>
+<p>
+至此，完成了 GNATS 的安装。但是，如果只凭借命令行工具 send-pr，和 Email 来提交和管理 PR，显然太专业而难以推广，不具有竞争力。因此 Gnatsweb 几乎成了唯一选择。下面马上来安装 Gnatsweb。</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+注意版本兼容
+</p>
+<p>
+Gnatsweb 2.9.x 和 GNATS 3.113.1 版本兼容，Gnatsweb 3.99.x 和 GNATS 3.999.x 兼容。Gnatsweb 3.99.x 在本文撰写之时，只能通过 CVS 检出代码。
+</p>
+<pre class="screen">
+$ <span><strong class="command">cvs -z3 -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnatsweb login</strong></span>
+$ <span><strong class="command">cvs -z3 -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnatsweb co gnatsweb</strong></span>
+</pre>
+</li>
+<li>
+<p>
+GNATS 权限设置
+</p>
+<p>
+Gnatsweb 作为 cgi 程序运行在 WEB 服务器上，需要在 GNATS 服务器上配置 WEB服务器的访问权限。
+</p>
+<p>
+有两种方法，一种是在全局的 gnatsd.host_access 配置文件中设置 WEB 服务器的 IP 地址具有 edit 权限，如下：
+</p>
+<pre class="screen">
+127.0.0.1:edit:
+</pre>
+<p>
+由于 GNATS 的权限设置的特殊性，权限只能升不能降，因此各自数据库设置的用户权限全部实效，所有用户都至少拥有 edit 权限，即修改 PR 的权限。
+</p>
+<p>
+另外，就是在全局的 gnatsd.host_access 配置文件中设置 WEB 服务器的 IP 地址具有比较低的权限：
+</p>
+<pre class="screen">
+127.0.0.1:listdb:
+</pre>
+<p>
+再在各自独立的数据库配置文件中设置用户的权限。
+</p>
+</li>
+<li>
+<p>
+修改 gnatsweb-site.pl 脚本中的 GNATS 主机名和端口号
+</p>
+<p>
+确省的主机名为 localhost，确省端口为 1529。若实际配置有变，灵活修改之。
+</p>
+</li>
+<li>
+<p>
+确认是否安装了所需的 PERL 包
+</p>
+<pre class="screen">
+$ perl -MCPAN -e 'install CGI'
+$ perl -MCPAN -e 'install MIME::Base64'
+</pre>
+</li>
+<li>
+<p>
+测试链接
+</p>
+<pre class="screen">
+$ make test USERNAME=user PASSWORD=password DATABASE=default
+</pre>
+<p>
+错误的输出：
+</p>
+<pre class="screen">
+
+connect...........................................FAIL
+
+Gnatsweb was unable to connect to the GNATS server.
+
+There are several possible reasons for this.  Start off by checking
+that the USERNAME, PASSWORD and DATABASE parameters you supplied are
+valid.  If they are, there may be a problem in the configuration of
+your GNATS server.  Check your GNATS installation, particularly the
+host access files (remember that the web server needs access to the
+GNATS server), then run the tests again.
+
+make: *** [test] Error 9
+
+</pre>
+<p>
+正确的输出：
+</p>
+<pre class="screen">
+
+connect...........................................pass
+query.............................................pass
+fix_email_addrs 1.................................pass
+fix_email_addrs 2.................................pass
+fix_email_addrs 3.................................pass
+fix_email_addrs 4.................................pass
+fix_email_addrs 5.................................pass
+trim_responsible 1................................pass
+trim_responsible 2................................pass
+trim_responsible 3................................pass
+All tests passed.
+
+</pre>
+</li>
+<li>
+<p>
+开始安装
+</p>
+<p>
+需要指定网站的 cgi-bin 目录。关于 Apache 配置 CGI，请参见相关章节，在此不再赘述。
+</p>
+<pre class="screen">
+$ make install CGI_DIR=/usr/local/apache/cgi-bin
+</pre>
+<p>
+其实，只是将脚本 gnatsweb.pl 和 gnatsweb-site.pl 简单的拷贝到路径 /usr/local/apache/cgi-bin 之下。
+</p>
+</li>
+<li>
+<p>
+访问 Gnatsweb
+</p>
+<p>
+打开浏览器，访问网址：<a href="http://localhost/cgi-bin/gnatsweb.pl" target="_top">http://localhost/cgi-bin/gnatsweb.pl</a>。
+</p>
+</li>
+</ol></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s03s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="gnats.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="mantis.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3.2. GNATS PR 流程示例 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4. Mantis</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

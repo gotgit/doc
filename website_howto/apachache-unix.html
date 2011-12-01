@@ -1,0 +1,461 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>C.1. Unix 安装</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="Website Construction Howto">
+<link rel="up" href="append-apache.html" title="C. Apache配置">
+<link rel="prev" href="append-apache.html" title="C. Apache配置">
+<link rel="next" href="apache-win32.html" title="C.2. Windows平台上的安装">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">C.1. Unix 安装</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="append-apache.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">C. Apache配置</th>
+<td width="20%" align="right"> <a accesskey="n" href="apache-win32.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="apachache-unix"></a>C.1. Unix 安装</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+Download Apache source
+</p>
+<pre class="screen">
+$ tar zxvf apache_xxx.tgz
+</pre>
+</li>
+<li>
+<p>
+mod_perl
+</p>
+<pre class="screen">
+
+cd ../mod_perl-xxx/
+perl Makefile.PL APACHE_SRC=../apache_1.3.xx/src \
+    DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
+make &amp;&amp; make test &amp;&amp; make install
+
+</pre>
+</li>
+<li>
+<p>
+mod_ssl
+</p>
+<pre class="screen">
+
+# install newest openssl. download it from www.openssl.org.
+$ tar zxvf openssl-0.9.6h.tar.gz
+$ cd openssl-0.9.6h &amp;&amp; ./config &amp;&amp; make &amp;&amp; make install
+
+# The SSL module (mod_ssl) resides under the src/modules/ssl/ subdirectory 
+# inside the Apache source tree and is a regular Apache module. 
+cd ../mod_ssl-xxx
+./configure --with-apache=../apache_xxx
+
+</pre>
+</li>
+<li>
+<p>
+Configure Apache
+</p>
+<p>
+If install mod_ssl
+</p>
+<pre class="screen">
+$ SSL_BASE=/path/to/openssl ./configure ... --enable-module=ssl
+$ make
+$ make certificate TYPE=custom
+$ make install
+</pre>
+<p>
+If install mod_perl
+</p>
+<pre class="screen">
+$ SSL_BASE=/path/to/openssl ./configure ... --activate-module=src/modules/perl/libperl.a
+make
+make install
+</pre>
+<p>
+all together
+</p>
+<pre class="screen">
+$ cd apache_xxx
+$ SSL_BASE=/path/to/openssl ./configure \
+        --prefix=/usr/local/apache  \
+        --enable-module=so \
+        --enable-module=rewrite \
+        --enable-module=speling \
+        --activate-module=src/modules/perl/libperl.a \
+        --enable-module=ssl
+$ make
+$ make certificate TYPE=custom
+$ make install
+</pre>
+<p>
+Screen output after make
+</p>
+<pre class="screen">
+
++---------------------------------------------------------------------+
+| Before you install the package you now should prepare the SSL       |
+| certificate system by running the 'make certificate' command.       |
+| For different situations the following variants are provided:       |
+|                                                                     |
+| % make certificate TYPE=dummy    (dummy self-signed Snake Oil cert) |
+| % make certificate TYPE=test     (test cert signed by Snake Oil CA) |
+| % make certificate TYPE=custom   (custom cert signed by own CA)     |
+| % make certificate TYPE=existing (existing cert)                    |
+|        CRT=/path/to/your.crt [KEY=/path/to/your.key]                |
+|                                                                     |
+| Use TYPE=dummy    when you're a  vendor package maintainer,         |
+| the TYPE=test     when you're an admin but want to do tests only,   |
+| the TYPE=custom   when you're an admin willing to run a real server |
+| and TYPE=existing when you're an admin who upgrades a server.       |
+| (The default is TYPE=test)                                          |
+|                                                                     |
+| Additionally add ALGO=RSA (default) or ALGO=DSA to select           |
+| the signature algorithm used for the generated certificate.         |
+|                                                                     |
+| Use 'make certificate VIEW=1' to display the generated data.        |
+|                                                                     |
+| Thanks for using Apache &amp; mod_ssl.       Ralf S. Engelschall        |
+|                                          rse@engelschall.com        |
+|                                          www.engelschall.com        |
++---------------------------------------------------------------------+
+
+</pre>
+<p>
+Screen output after make install
+</p>
+<pre class="screen">
+
++--------------------------------------------------------+
+| You now have successfully built and installed the      |
+| Apache 1.3 HTTP server. To verify that Apache actually |
+| works correctly you now should first check the         |
+| (initially created or preserved) configuration files   |
+|                                                        |
+|   /usr/local/apache/conf/httpd.conf
+|                                                        |
+| and then you should be able to immediately fire up     |
+| Apache the first time by running:                      |
+|                                                        |
+|   /usr/local/apache/bin/apachectl start
+|                                                        |
+| Or when you want to run it with SSL enabled use:       |
+|                                                        |
+|   /usr/local/apache/bin/apachectl startssl
+|                                                        |
+| Thanks for using Apache.       The Apache Group        |
+|                                http://www.apache.org/  |
++--------------------------------------------------------+
+
+</pre>
+<p>
+Screen output during cert generate.
+</p>
+<pre class="screen">
+$ <span><strong class="command">make certificate TYPE=custom</strong></span>
+
+make[1]: Entering directory `/web/apache/apache_1.3.27/src'
+SSL Certificate Generation Utility (mkcert.sh)
+Copyright (c) 1998-2000 Ralf S. Engelschall, All Rights Reserved.
+
+Generating custom certificate signed by own CA [CUSTOM]
+______________________________________________________________________
+
+STEP 0: Decide the signature algorithm used for certificates
+The generated X.509 certificates can contain either
+RSA or DSA based ingredients. Select the one you want to use.
+Signature Algorithm ((R)SA or (D)SA) [R]:D
+
+WARNING! You're generating DSA based certificate/key pairs.
+         This implies that RSA based ciphers won't be available later,
+         which for your web server currently still means that mostly all
+         popular web browsers cannot connect to it. At least not until
+         you also generate an additional RSA based certificate/key pair
+         and configure them in parallel.
+______________________________________________________________________
+
+STEP 1: Generating DSA private key for CA (1024 bit) [ca.key]
+85187 semi-random bytes loaded
+Generating DSA parameters, 1024 bit long prime
+This could take some time
+..........+..+.+.........+......+................................+..................+....+...............+............+....+........+..+.........................+..............+......+.......+..........+..+................+++++++++++++++++++++++++++++++++++++++++++++++++++*
+..+........+.......................+...............................+...+......+..........+...........+...+........+..+......................+...........................+.................+.+......+.........+..........+.+...........+.............+.................+......+.........+...+..+....+.......+++++++++++++++++++++++++++++++++++++++++++++++++++*
+Generating DSA private key:
+85187 semi-random bytes loaded
+Generating DSA key, 1024 bits
+______________________________________________________________________
+
+STEP 2: Generating X.509 certificate signing request for CA [ca.csr]
+Using configuration from .mkcert.cfg
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+1. Country Name             (2 letter code) [XY]:CN
+2. State or Province Name   (full name)     [Snake Desert]:Beijing
+3. Locality Name            (eg, city)      [Snake Town]:Beijing
+4. Organization Name        (eg, company)   [Snake Oil, Ltd]:Office
+5. Organizational Unit Name (eg, section)   [Certificate Authority]:Office
+6. Common Name              (eg, CA name)   [Snake Oil CA]:
+7. Email Address            (eg, name@FQDN) [ca@snakeoil.dom]:jiangxin@foo.bar
+8. Certificate Validity     (days)          [365]:900
+______________________________________________________________________
+
+STEP 3: Generating X.509 certificate for CA signed by itself [ca.crt]
+Certificate Version (1 or 3) [3]:
+Signature ok
+subject=/C=CN/ST=Beijing/L=Beijing/O=Office/OU=Office/CN=Snake Oil CA/Email=jiangxin@foo.bar
+Getting Private key
+Verify: matching certificate &amp; key modulus
+read DSA key
+Verify: matching certificate signature
+../conf/ssl.crt/ca.crt: /C=CN/ST=Beijing/L=Beijing/O=Office/OU=Office/CN=Snake Oil CA/Email=jiangxin@foo.bar
+error 18 at 0 depth lookup:self signed certificate
+OK
+______________________________________________________________________
+
+STEP 4: Generating DSA private key for SERVER (1024 bit) [server.key]
+85187 semi-random bytes loaded
+Generating DSA key, 1024 bits
+______________________________________________________________________
+
+STEP 5: Generating X.509 certificate signing request for SERVER [server.csr]
+Using configuration from .mkcert.cfg
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+1. Country Name             (2 letter code) [XY]:CN
+2. State or Province Name   (full name)     [Snake Desert]:Beijing
+3. Locality Name            (eg, city)      [Snake Town]:Beijing
+4. Organization Name        (eg, company)   [Snake Oil, Ltd]:Office
+5. Organizational Unit Name (eg, section)   [Webserver Team]:
+6. Common Name              (eg, FQDN)      [www.snakeoil.dom]:worldhello.net
+7. Email Address            (eg, name@fqdn) [www@snakeoil.dom]:jiangxin@foo.bar
+8. Certificate Validity     (days)          [365]:900
+______________________________________________________________________
+
+STEP 6: Generating X.509 certificate signed by own CA [server.crt]
+Certificate Version (1 or 3) [3]:
+Signature ok
+subject=/C=CN/ST=Beijing/L=Beijing/O=Office China/OU=Webserver Team/CN=worldhello.net/Email=jiangxin@foo.bar
+Getting CA Private Key
+Verify: matching certificate &amp; key modulus
+read DSA key
+Verify: matching certificate signature
+../conf/ssl.crt/server.crt: OK
+______________________________________________________________________
+
+STEP 7: Enrypting DSA private key of CA with a pass phrase for security [ca.key]
+The contents of the ca.key file (the generated private key) has to be
+kept secret. So we strongly recommend you to encrypt the server.key file
+with a Triple-DES cipher and a Pass Phrase.
+Encrypt the private key now? [Y/n]: n
+Warning, you're using an unencrypted private key.
+Please notice this fact and do this on your own risk.
+______________________________________________________________________
+
+STEP 8: Enrypting DSA private key of SERVER with a pass phrase for security [server.key]
+The contents of the server.key file (the generated private key) has to be
+kept secret. So we strongly recommend you to encrypt the server.key file
+with a Triple-DES cipher and a Pass Phrase.
+Encrypt the private key now? [Y/n]: n
+Warning, you're using an unencrypted DSA private key.
+Please notice this fact and do this on your own risk.
+______________________________________________________________________
+
+RESULT: CA and Server Certification Files
+
+o  conf/ssl.key/ca.key
+   The PEM-encoded DSA private key file of the CA which you can
+   use to sign other servers or clients. KEEP THIS FILE PRIVATE!
+
+o  conf/ssl.crt/ca.crt
+   The PEM-encoded X.509 certificate file of the CA which you use to
+   sign other servers or clients. When you sign clients with it (for
+   SSL client authentication) you can configure this file with the
+   'SSLCACertificateFile' directive.
+
+o  conf/ssl.key/server.key
+   The PEM-encoded DSA private key file of the server which you configure
+   with the 'SSLCertificateKeyFile' directive (automatically done
+   when you install via APACI). KEEP THIS FILE PRIVATE!
+
+o  conf/ssl.crt/server.crt
+   The PEM-encoded X.509 certificate file of the server which you configure
+   with the 'SSLCertificateFile' directive (automatically done
+   when you install via APACI).
+
+o  conf/ssl.csr/server.csr
+   The PEM-encoded X.509 certificate signing request of the server file which
+   you can send to an official Certificate Authority (CA) in order
+   to request a real server certificate (signed by this CA instead
+   of our own CA) which later can replace the conf/ssl.crt/server.crt
+   file.
+
+Congratulations that you establish your server with real certificates.
+
+make[1]: Leaving directory `/web/apache/apache_1.3.27/src'
+
+</pre>
+</li>
+<li>
+<p>
+Install libiconv
+</p>
+<p>
+部分 PHP 网页调用了相关函数进行字符集间的字符转换，因此需要安装此模块。
+</p>
+<p>
+<a href="http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.8.tar.gz" target="_top">Download libiconv...</a>
+</p>
+<pre class="screen">
+
+shell$ ./configure
+shell$ make &amp;&amp; make install
+
+</pre>
+</li>
+<li>
+<p>
+Build mod_php (Apache Shared Module Version)
+</p>
+<pre class="screen">
+
+$ cd ../php-xxx/
+$ ./configure \
+  --with-apxs=/usr/local/apache/bin/apxs \
+  --with-gd \
+  --enable-track-vars \
+  --with-mysql=/usr/local/mysql \
+  --with-iconv=/usr/local \
+  --with-xml
+  # 如果需要支持 ORACLE： --with-oci8=/db/oracle   --enable-sigchild \
+$ make
+$ make install
+  # 生成 /usr/local/apache/libexec/libphp4.so
+
+</pre>
+</li>
+<li>
+<p>
+配置 Apache
+</p>
+<pre class="screen">
+# 按照如下方式修改 http.conf
+  <span class="emphasis"><em>LoadModule php4_module        libexec/libphp4.so</em></span>
+  <span class="emphasis"><em>AddType application/x-httpd-php .php .inc</em></span>
+</pre>
+</li>
+<li>
+<p>
+配置 php
+</p>
+<pre class="screen">
+# cp php.ini-dist /usr/local/lib/php.ini
+# 按照如下方式修改 php.ini
+  ----------------------------
+  <span class="emphasis"><em>output_buffering	=	4096 </em></span>
+  # send header lines (including cookies) even after you send body content 
+  <span class="emphasis"><em>expose_php		=	Off  </em></span>
+  
+  include_path = "./:/www/est/current/include"  # maybe others
+  max_execution_time 	=	30   # may be want more on no production web!!!
+  <span class="emphasis"><em>display_errors		=	Off  </em></span># need "on" on no production web!!!
+  <span class="emphasis"><em>display_startup_errors 	= 	Off  </em></span># !!!!!
+  <span class="emphasis"><em>log_errors		=	Off  </em></span># may set to "on" when display_errors is "off" !!!
+  SMTP			=	localhost		;for win32 only
+  sendmail_from		=	nobody@est.com.cn	;for win32 only
+  sendmail_path		=	/usr/sbin/sendmail -t -i		
+      ;for unix only, may supply arguments as well (default is 'sendmail -t -i')
+  session.save_path	= 	/tmp    ; argument passed to save_handler
+</pre>
+</li>
+<li>
+<p>
+自动运行Apache
+</p>
+<pre class="screen">
+ln -s /usr/local/apache/bin/apachectl  /etc/rc.d/init.d/httpd
+ln -s /etc/rc.d/init.d/httpd  /etc/rc.d/rc3.d/S99httpd
+</pre>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+为使Apache启动支持中文ORACLE环境，需要在apachectl文件中67行("start)")下面加入几行:
+</p>
+<pre class="screen">
+## vi /usr/local/apache/current/bin/apachectl
+export ORACLE_HOME=/db/oracle
+export ORACLE_BASE=$ORACLE_HOME
+export ORACLE_SID=ORC1
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+export NLS_LANG="FRENCH_FRANCE.WE8ISO8859P1"
+# export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data
+# export NLS_LANG="SIMPLIFIED CHINESE_CHINA.ZHS16CGB231280"
+# export NLS_LANG="FRENCH_FRANCE.WE8ISO8859P1"
+# export NLS_LANG="SIMPLIFIED CHINESE_CHINA.ZHS16GBK"	
+</pre>
+</td></tr>
+</table></div>
+</li>
+<li><p>
+启动Apache
+</p></li>
+</ol></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="append-apache.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="append-apache.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="apache-win32.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">C. Apache配置 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> C.2. Windows平台上的安装</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

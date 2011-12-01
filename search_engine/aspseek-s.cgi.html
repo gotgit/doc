@@ -1,0 +1,234 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.4. s.cgi: 具有类似GOOGLE查询界面的cgi程序</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="search-engine.html" title="2. 建立搜索引擎">
+<link rel="prev" href="aspseek-searchd.html" title="2.3. searchd 后台数据库检索">
+<link rel="next" href="ar01s02s05.html" title="2.5. ASPseek对中文的支持">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.4. s.cgi: 具有类似GOOGLE查询界面的cgi程序</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="aspseek-searchd.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. 建立搜索引擎</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s02s05.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="aspseek-s.cgi"></a>2.4. s.cgi: 具有类似GOOGLE查询界面的cgi程序</h3></div></div></div>
+<p>
+搜索引擎的界面是由 CGI 提供的。ASPseek 的CGI程序叫做 s.cgi，当然可以改成其它名字。配置则非常简单，除了要将 Apache 配置为支持 cgi 外，
+只需要将 s.cgi 从 /usr/local/aspseek/bin/ 目录下拷贝到 Apache 的 cgi-bin 目录下即可。
+配置 Apache 可能非常简单，也许一句 "ScriptAlias /cgi-bin/ /PATH/cgi-bin/" 就足够了。
+</p>
+<p>
+我感打赌，s.cgi 一下子就会抓住你的眼球，因为 s.cgi 程序提供的一流的查询界面，和伟大的 Google 太类似了，尤其是那一排字母 "e"。
+</p>
+<div class="mediaobject">
+<img src="images/aspseek.gif" alt="ASPseek 查询界面"><div class="caption"><p>
+ASPseek 查询界面
+</p></div>
+</div>
+<p>
+s.cgi 还提供了定制界面的方案：只需要修改模板文件 <code class="filename">/usr/local/aspseek/etc/s.htm</code> 即可。下面是 s.htm 定制的示例（只显示重要的改动）：
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+注意：如果将 s.cgi 改名，相应的模板也需要改名。例如 cgi 改名为 search.cgi，则相应的模板文件为 search.htm。
+</p></td></tr>
+</table></div>
+<pre class="screen">
+&lt;!--top--&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+  &lt;META http-equiv="Content-Type" content="text/html; charset=gb2312"&gt;  <a name="co.aspseek.tmpl.contenttype"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+  &lt;LINK REL="STYLESHEET" TYPE="text/css" HREF="/inc/css/main.css"/&gt; <a name="co.aspseek.tmpl.css"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+ &lt;title&gt;ASPseek: $Q&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY BGCOLOR="#FFFFFF"&gt;
+  &lt;SCRIPT language= "javascript" src="/inc/jscript/header.js" type=text/javascript&gt;&lt;/script&gt;  <a name="co.aspseek.tmpl.headerjs"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+
+&lt;FORM METHOD=GET ACTION="$A"&gt;
+&lt;TABLE width="100%" align="center" valign="center"&gt;
+&lt;TR&gt;
+  &lt;TD VALIGN=bottom&gt;&lt;IMG SRC="/img/aspseek-big.png" WIDTH="168" HEIGHT="66" ALT="ASPseek" BORDER="0" ALIGN="left" HSPACE="0"&gt;&lt;/TD&gt;
+  &lt;TD VALIGN=center ALIGN=center width="*"&gt;
+   &lt;INPUT TYPE="hidden" NAME="cs" VALUE="gb2312"&gt;  <a name="co.aspseek.tmpl.f.cs"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+   搜索 
+   &lt;INPUT TYPE="text" NAME="q" SIZE=30 VALUE=""&gt; <a name="co.aspseek.tmpl.f.q"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+   &lt;INPUT TYPE="submit" VALUE="查询知识库"&gt;
+  &lt;/TD&gt;
+  &lt;TD width="100"&gt;
+  &lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;
+&lt;/FORM&gt;
+
+... ...
+... ...
+
+&lt;center&gt;
+&lt;script language= "javascript" src="/inc/jscript/footer.js" type=text/javascript&gt;&lt;/script&gt; <a name="co.aspseek.tmpl.footerjs"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+&lt;script language= "javascript"&gt; write_footer("Template: $Id$"); &lt;/script&gt; 
+&lt;/center&gt;
+
+&lt;DIV ALIGN=right&gt;
+&lt;A HREF="http://www.aspseek.org/"&gt;&lt;IMG SRC="http://www.aspseek.com/i/pow_aseek.png" WIDTH=88 HEIGHT=31 BORDER=0 ALT="Free search engine software: ASPseek $AV"&gt;&lt;/A&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+&lt;!--/bottom--&gt;
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.contenttype"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+将cgi查询的输出界面（HTML）的语言编码设置为中文
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.css"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+引用外部的样式表文件，这样可以根据需要改变查询界面而尽量少的修改模板文件。一个简单的样式表示例：
+</p>
+<pre class="screen">
+p {font-size:9pt}
+h1 {font-size:20pt;line-height:130%;font-weight:"bold";align:"center";}
+td,li,select,input {font-size:9pt}
+.sect1 {font-size:9pt;line-height:150%;color:#333333;background-color:#E1E1E1;font-weight:bolder;}
+.datetime {font-size:9pt;color="red"}
+.star  {font-size:9pt;color="red"}
+.gray {font-size:9pt;color="gray"}
+.cvskw {font-size:9pt}
+.footer           {font-size:9pt;font-weight:bolder}
+.footer A:link    {font-size:9pt;font-weight:bolder}
+.footer A:active  {font-size:9pt;font-weight:bolder}
+.footer A:visited {font-size:9pt;font-weight:bolder}
+.footer A:hover   {font-size:9pt;font-weight:bolder}
+A:link {color: #000000;}
+A:visited {color: #000000;}
+A:active,A:hover {color : #000000}
+HTML BODY { LINE-HEIGHT: 1.2; MARGIN: 0 0 2em 0 }
+UL { list-style-image: url("/images/dot.gif") }
+
+.em           {font-size:"9pt";color="red";font-weight:"bolder";font-style:"normal";letter-spacing:"2px";}
+.em A:link    {color: "red";letter-spacing:"4px";}
+.em A:active  {color: "red";letter-spacing:"4px";}
+.em A:visited {color: "red";letter-spacing:"4px";}
+.em A:hover   {color: "red";letter-spacing:"4px";font-size:"12pt";}
+</pre>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.headerjs"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+引用外部 javascript，显示头部信息，避免过多对该模板的修改。一个 header.js 示例：
+</p>
+<pre class="screen">
+&lt;!--
+document.write("      &lt;table width=750 border=0 cellspacing=0 cellpadding=0&gt;");
+document.write("        &lt;tr valign=bottom&gt;");
+document.write("      	&lt;td width='*'&gt;");
+document.write("      	  &lt;table width='100%' height=50 border=0 cellspacing=0 cellpadding=0&gt;");
+document.write("            &lt;tr&gt;");
+document.write("              &lt;td align='center' valign='center'&gt;&lt;h1&gt;&lt;A HREF='/'&gt;Johnson's Homepage&lt;/A&gt;&lt;/h1&gt;&lt;/td&gt;");
+document.write("            &lt;/tr&gt;");
+document.write("      	  &lt;/table&gt;");
+document.write("        &lt;/td&gt;&lt;/tr&gt;");
+document.write("      &lt;/table&gt;");
+//--&gt;
+</pre>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.f.cs"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+通过设置cgi的cs字段，用以支持中文查询
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.f.q"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+q 是真正的查询字段。看看 GOOGLE 的查询网页，看看是不是非常类似？
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.footerjs"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+引用外部 javascript，显示脚注信息，避免过多对该模板的修改。一个 footer.js 示例：
+</p>
+<pre class="screen">
+&lt;!--
+function write_footer($str)
+{
+	document.write("      &lt;TABLE align='center' border='0' cellpadding='0' cellspacing='0' width='750'&gt;");
+	document.write("        &lt;TR&gt;");
+	document.write("          &lt;td align=center&gt;");
+	document.write("          &lt;hr&gt;");
+	if ($str)
+		document.write("&lt;font class='cvskw'&gt;" + $str + "&lt;/font&gt;&lt;br&gt;");
+	document.write("          &lt;font class='footer'&gt;CopyLeft 2003, &lt;a href='mailto:johnson.AT.worldhello.net'&gt;Johnson&lt;/a&gt;&lt;/font&gt;&lt;br&gt;");
+	document.write("          &lt;/td&gt;");
+	document.write("        &lt;/TR&gt;");
+	document.write("      &lt;/TABLE&gt;");
+}
+//--&gt;
+</pre>
+</td>
+</tr>
+</table></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="aspseek-searchd.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="search-engine.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s02s05.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2.3. searchd 后台数据库检索 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2.5. ASPseek对中文的支持</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

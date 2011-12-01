@@ -1,0 +1,184 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>D.2. 新增文件的属性设置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="Whodo 计划 Howto">
+<link rel="up" href="svn.html" title="D. 访问 Whodo Subversion 版本库">
+<link rel="prev" href="apds01.html" title="D.1. Whodo Subversion 版本库目录结构">
+<link rel="next" href="apds03.html" title="D.3. 撰写 Commit Log">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">D.2. 新增文件的属性设置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="apds01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">D. 访问 Whodo Subversion 版本库</th>
+<td width="20%" align="right"> <a accesskey="n" href="apds03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="idp4935760"></a>D.2. 新增文件的属性设置</h2></div></div></div>
+<p>
+Whodo SVN 的 Hooks 脚本会检查新增文件的属性，没有设置 svn:mime-type 和/或 svn:eol-style 属性，禁止提交。
+</p>
+<p>
+但是每次添加文件后，还要执行类似“svn ps svn:eol-style ...”的命令，实在太繁琐了！
+不过幸好，SVN 客户端（命令行或者 TortoiseSVN），支持自动属性的功能。即会为新增文件自动添加属性。
+</p>
+<p>
+启用和设置自动属性，是在 config 配置文件中完成的。 config 配置文件的位置：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Unix 平台
+</p>
+<p>
+全局的配置文件位置为：/etc/subversion/config；
+</p>
+<p>
+每个用户主目录还有配置文件覆盖全局配置文件的设置：~/.subversion/config；
+</p>
+</li>
+<li>
+<p>
+Windows 平台
+</p>
+<p>
+注册表中可能包含相应的设置：HKLM\Software\Tigris.org\Subversion\Config，以及 HKCU\Software\Tigris.org\Subversion\Config。
+</p>
+<p>
+不过文件的优先级更高。全局配置文件：%ALLUSERSPROFILE%\Application Data\Subversion\config，用户个人配置文件：%APPDATA%\Subversion\config
+</p>
+</li>
+</ul></div>
+<p>
+修改 config 配置文件，启用 auto-props：
+</p>
+<pre class="screen">
+
+[miscellany]
+enable-auto-props = yes
+
+</pre>
+<p>
+自动属性的设置，是根据文件名来匹配的。修改 config 文件，增添新的配置，如下：
+</p>
+<pre class="screen">
+
+### Section for configuring automatic properties.
+[auto-props]
+### The format of the entries is:
+###   file-name-pattern = propname[=value][;propname[=value]...]
+### The file-name-pattern can contain wildcards (such as '*' and
+### '?').  All entries which match will be applied to the file.
+### Note that auto-props functionality must be enabled, which
+### is typically done by setting the 'enable-auto-props' option.
+
+##################################################
+### Binary files
+##################################################
+*.bmp	= svn:mime-type=image/bmp
+*.gif	= svn:mime-type=image/gif
+*.gz	= svn:mime-type=application/x-gzip
+*.ico	= svn:mime-type=image/x-icon
+*.jar	= svn:mime-type=application/zip
+*.jpg	= svn:mime-type=image/jpeg
+*.pdf	= svn:mime-type=application/pdf
+*.png	= svn:mime-type=image/png
+*.ps	= svn:mime-type=application/postscript
+*.tif	= svn:mime-type=image/tiff
+*.vsd	= svn:mime-type=application/octet-stream
+*.zip	= svn:mime-type=application/zip
+
+##################################################
+### Text files, OS dependent eol-style
+##################################################
+*.dsp	= svn:eol-style=CRLF
+*.dsw	= svn:eol-style=CRLF
+
+*.mm	= svn:eol-style=LF;svn:mime-type=text/xml
+*.sh	= svn:eol-style=LF;svn:executable
+Makefile	= svn:eol-style=LF
+
+##################################################
+### Text files, eol-style is native
+##################################################
+*.c		= svn:eol-style=native;svn:mime-type=text/plain
+*.cpp	= svn:eol-style=native;svn:mime-type=text/plain
+*.css	= svn:eol-style=native;svn:mime-type=text/css
+*.diff	= svn:eol-style=native;svn:mime-type=text/plain
+*.dsl	= svn:eol-style=native;svn:mime-type=text/sgml
+*.dtd	= svn:eol-style=native;svn:mime-type=text/plain
+*.ent	= svn:eol-style=native;svn:mime-type=text/plain
+*.gml	= svn:eol-style=native;svn:mime-type=text/sgml
+*.h		= svn:eol-style=native;svn:mime-type=text/plain
+*.htm	= svn:eol-style=native;svn:mime-type=text/html
+*.html	= svn:eol-style=native;svn:mime-type=text/html
+*.java	= svn:eol-style=native;svn:mime-type=text/plain
+*.js	= svn:eol-style=native;svn:mime-type=text/plain
+*.mod	= svn:eol-style=native;svn:mime-type=text/plain
+*.patch	= svn:eol-style=native;svn:mime-type=text/plain
+*.php	= svn:eol-style=native
+*.pl	= svn:eol-style=native
+*.py	= svn:eol-style=native
+*.sgm	= svn:eol-style=native;svn:mime-type=text/sgml
+*.sgml	= svn:eol-style=native;svn:mime-type=text/sgml
+*.svg	= svn:eol-style=native;svn:mime-type=text/xml
+*.txt	= svn:mime-type=text/plain
+*.xml	= svn:eol-style=native;svn:mime-type=text/xml
+*.xsl	= svn:eol-style=native;svn:mime-type=text/xml
+*.xslt	= svn:eol-style=native;svn:mime-type=text/xml
+README	= svn:eol-style=native
+# 下面的语句有风险，只有用 “群英汇-开源速递” 提供的 Subversion 客户端才可以使用。
+# * = svn:eol-style=native
+
+</pre>
+<p>
+文件添加后，在提交之前，可以通过如下命令查看新增文件的属性：
+</p>
+<pre class="screen">
+
+$ svn proplist -v *
+
+</pre>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="apds01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="svn.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="apds03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">D.1. Whodo Subversion 版本库目录结构 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> D.3. 撰写 Commit Log</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>7.9. 客户端设置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="steam-howto.html" title="7. Starteam Howto">
+<link rel="prev" href="defect.html" title="7.8. 文件服务器和个人版本控制">
+<link rel="next" href="built.html" title="7.10. Nightly Build和测试">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">7.9. 客户端设置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="defect.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">7. Starteam Howto</th>
+<td width="20%" align="right"> <a accesskey="n" href="built.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="workstation"></a>7.9. 客户端设置</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+换行符转换（CRLF-&gt;LF）
+</p>
+<p>
+选择根目录或者需要单独设置的目录，选择菜单：
+<span class="guimenu">Folder</span> → <span class="guimenuitem">Properties</span> → <span class="guimenuitem">Files</span> → <span class="guimenuitem">Eol Conversion</span>，如图：
+</p>
+<p>
+</p>
+<div class="mediaobject"><img src="images/st_wrkcrlf.jpg"></div>
+<p>
+</p>
+</li>
+<li>
+<p>
+Workstation Options
+</p>
+<p>
+选择
+<span class="guimenu">Tools</span> → <span class="guimenuitem">Workstation Options</span>
+</p>
+</li>
+<li>
+<p>
+Workstation Options: Workspace
+</p>
+<div class="mediaobject"><img src="images/st_wrk1.jpg"></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+在目录和Change Request中切换过程中，不改变文件夹
+</p></li>
+<li><p>
+改变路径时，取消文件递归，避免打开文件递归，切换到文件较多的目录，影响响应速度
+</p></li>
+<li><p>
+切换文件夹，保持对filter的修改
+</p></li>
+<li><p>
+对多用户环境（如管理员）有帮助
+</p></li>
+</ol></div>
+</li>
+<li>
+<p>
+Workstation Options: Files
+</p>
+<div class="mediaobject"><img src="images/st_wrk2.jpg"></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+将文件的最后修改时间作为检出时间（强力推荐），否则为当前时间
+</p></li>
+<li><p>
+只在必要时，打开Merge程序解决冲突
+</p></li>
+<li><p>
+设置默认文字处理程序，如: Ultraedit
+</p></li>
+<li>
+<a name="faq-slowconn"></a><p>
+吴昭坚报告说：“如果把 Optimize for slow connection 的勾给选上了，结果在check out文件时极慢（check 一个文件要差不多1分钟）”
+</p>
+<p>
+如果网络速度足够快，就把这个钩钩去掉，以减轻服务器和客户端的计算负担。吴昭坚还报告说 st 命令行亦会变慢，我觉得 st 变慢，
+是由于 ip 反向解析造成的超时，可以在 hosts 中加上 starteam 服务器的相关地址映射（如： 10.0.0.60  starteam），更极端的做法是
+删除 /etc/resolv.conf。
+</p>
+</li>
+</ol></div>
+</li>
+<li>
+<p>
+修改口令和个人信息
+</p>
+<p>
+选择
+<span class="guimenu">Tools</span> → <span class="guimenuitem">Server Administration</span> → <span class="guimenuitem">My Account</span>
+</p>
+</li>
+</ul></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="defect.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="steam-howto.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="built.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">7.8. 文件服务器和个人版本控制 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 7.10. Nightly Build和测试</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

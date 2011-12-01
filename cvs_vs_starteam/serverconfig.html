@@ -1,0 +1,172 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>7.1. Server Configuration</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="steam-howto.html" title="7. Starteam Howto">
+<link rel="prev" href="steam-howto.html" title="7. Starteam Howto">
+<link rel="next" href="project.html" title="7.2. Project">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">7.1. Server Configuration</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="steam-howto.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">7. Starteam Howto</th>
+<td width="20%" align="right"> <a accesskey="n" href="project.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="serverconfig"></a>7.1. Server Configuration</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="serverconfig.html#idp4970992">7.1.1. 用户角度</a></span></dt>
+<dt><span class="sect3"><a href="serverconfig.html#idp4978368">7.1.2. 管理员角度</a></span></dt>
+</dl></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4970992"></a>7.1.1. 用户角度</h4></div></div></div>
+<p>
+在使用 starteam 客户端连接服务器前，首先要设置服务器的IP地址，端口号等参数，以建立连接starteam服务器的Profile。这可以称为用户眼中的Server 
+Configuration。
+</p>
+<p>
+用图形界面的 starteam 客户端，如下方式设置：
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+Project--&gt;Open--&gt;Add Server
+</p></li>
+<li><p>
+设置服务器名，IP地址，协议（TCP/IP Sockets），端口（49201），加密（选择任意一种加密方式）。
+</p></li>
+</ol></div>
+<p>
+命令行 starteam ，请用我们自己封装的 Wrapper: "st" 。
+</p>
+<pre class="screen">
+obsd99:/home/jiangxin/work/src/project/main&gt;st config
+StarTeam Configuration
+Original starteam server is 10.1.1.60
+new server:[10.1.1.60]
+Original starteam server port is 49201
+new server port:[49201]
+original username is jiangxin
+new username:[jiangxin]
+Password:[********]
+Original checkout project is project
+Project you want to checkout:[project]
+Original checkout view is  ("/" means root view)
+View you want to checkout:[]
+Original checkout folder is Development ("/" means root folder)
+Folder you want to checkout:[Development]
+Working dir is /usr/home/jiangxin/work/src/project/main
+Your working directory:[/usr/home/jiangxin/work/src/project/main]
+Sticky tag base on date :  ("/" means not exist)
+Date:[]
+Sticky tag base on label :  ("/" means not exist)
+Label:[]
+Sticky tag base on promotion-state :  ("/" means not exist)
+Promotion-state:[]
+
+</pre>
+<p>
+Server Configuration的配置保存在工作目录中；用户口令加密保存在用户主目录的文件 .stpass 中。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4978368"></a>7.1.2. 管理员角度</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>一个服务器配置（Server Configuration），作为一个独立的服务运行，有独立的
+用户数据库，独立的版本控制文件仓库（Repository），独立的一个数据库来支持。
+</p></li>
+<li><p>一台服务器上可以运行多个不同的STARTEAM服务器配置，不同的SERVER 
+CONFIGURATION需要分配不同的端口设置。
+</p></li>
+<li><p>一个服务器配置内可以运行多个工程（PROJECT），一个Project中可以有多个视图
+（View），视图中有目录、文件、Change Request等元素组成。
+</p></li>
+<li><p>一个服务器配置中的文件等元素可以在工程之间，视图之间共享（类似于拷贝的动
+作）；但是元素不能跨服务器配置共享。
+</p></li>
+<li>
+<p>文件结构：
+</p>
+<p>配置文件
+</p>
+<p>Configuration\server.scg</p>
+<p>Configuration\server.cph</p>
+</li>
+<li>
+<p>数据库文件
+</p>
+<p>Database\StarTeamDB.mdb (Assuming Access database)
+</p>
+</li>
+<li>
+<p>数据仓库
+</p>
+<p>版本控制文件仓库（Repository）：Vault/Archive/ ；
+版本控制文件存储在该目录中，其中没有子目录，文件名以流水号依次排列；
+每个文件控制一个分支的所有版本文件的控制，类似于CVS的版本控制文件，但不同之
+处是该文件包含二进制的头尾，如果文件分支，CVS仍由一个文件来控制，而STARTEAM
+则形成一个新的文件；CVS的TAG包含在文件上，即如果对文件加TAG，文件被更新，而
+STARTEAM的LABEL（相当于CVS的TAG）不包含在文件中，而是存储在数据库中。
+</p>
+</li>
+<li>
+<p>
+Cache
+</p>
+<p>Cache文件夹是为了加速文件CHECKOUT。当一个文件被CHECKOUT，便在该目录建立
+Cache，文件名结构为："文件名.版本号"。
+</p>
+</li>
+<li>
+<p>其他
+</p>
+<p>包括LOG，Attachments（change request, Topic等的附件文件）
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="steam-howto.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="steam-howto.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="project.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">7. Starteam Howto </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 7.2. Project</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

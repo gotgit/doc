@@ -1,0 +1,141 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1.1. 名词解释</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="配置管理规范">
+<link rel="up" href="prerequisite.html" title="1. 引言">
+<link rel="prev" href="prerequisite.html" title="1. 引言">
+<link rel="next" href="ar01s01s02.html" title="1.2. 建立系统的命令行编译过程">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1.1. 名词解释</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="prerequisite.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">1. 引言</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s01s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4448912"></a>1.1. 名词解释</h3></div></div></div>
+<p>
+先了解一些名词，有的是我自创的：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Nightly Build
+</p>
+<p>
+字面直译为：每晚编译。
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+  实现了自动编译，摆脱了编译的手工劳动；
+  </p></li>
+<li><p>
+  对于大型系统，编译耗时，在晚间完成则节约了工作成本；
+  </p></li>
+<li><p>
+  实现版本号的自动管理（Build号，每次编译自增）；
+  </p></li>
+</ol></div>
+</li>
+<li>
+<p>
+milestone 版本
+</p>
+<p>
+里程碑版本。在编译时，使用里程碑的代码。例如定义为 RELEASE 的里程碑，可以在每次重新将代码提升为 RELEASE 时，删除上一次建立的 RELEASE 的LABEL/TAG，再重新为新代码打上 LABEL/TAG。但更好的方法是将稳定的 LABEL 记录在一个文件（如：PROMOTION）中，这个文件的最新内容即为里程碑代码的标签（TAG/LABEL），删除 LABEL/TAG 的危险动作换成了新建 LABEL/TAG 和 Checkin 文件。
+</p>
+</li>
+<li>
+<p>
+sticky 版本
+</p>
+<p>
+固定版本。有时想要编译某一固定状态（指定的LABEL/TAG）代码，可将这个 LABEL/TAG 传给编译系统，进行编译，这种编译方式称为 sticky 版本的编译。
+</p>
+</li>
+<li>
+<p>
+nightly 版本
+</p>
+<p>
+使用最新的代码进行编译。如果代码自上次编译以来没有更改，则无需编译。
+</p>
+</li>
+<li>
+<p><a name="revision"></a>
+版本号
+</p>
+<p>
+版本号的格式为：a.b.c.d。
+</p>
+<p>
+其中 a - 主版本号（Major version）, b - 副版本号（Minor version）, c - 发布号（Release）, d - 编译号（build）。主版本号和副版本号在项目计划中便已经指定，标志着重要的功能变动。Release版本号 c，用于体现小的功能变更或用来管理项目的分支。build号则在每次编译时自动加1。
+</p>
+</li>
+<li>
+<p>
+PROMOTION
+</p>
+<p>
+版本提升。某一里程碑（LABEL/TAG标记）代码，随着开发周期的继续，如果能够顺利通过各级测试，并最终发布。则其对应的产品必然经历 daily build版本、alpha测试版本、beta测试版本、release版本。
+</p>
+<p>
+Starteam 版本控制系统，有专门的 LABEL 管理这种事件，叫做 PROMOTION。对于其它版本控制系统，我们可以很容易的使用文件记录LABEL的方式相对应。
+</p>
+<p>
+Starteam 的 PROMOTION 请参见我的一篇文章《Starteam Howto》。
+</p>
+</li>
+<li>
+<p>
+版本控制系统
+</p>
+<p>
+版本控制系统，如：CVS、STARTEAM、PVCS、VSS等，是自动编译系统的基础。熟练掌握其名利行工具的使用是关键。推荐使用CVS作为版本控制系统，因为其命令行功能最强大。
+</p>
+</li>
+</ul></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="prerequisite.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="prerequisite.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s01s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">1. 引言 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 1.2. 建立系统的命令行编译过程</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.6. UseModWiki 的管理</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="usemod.html" title="4. UseModWiki">
+<link rel="prev" href="writeinusemod.html" title="4.5. 学写 UseModWiki 网页">
+<link rel="next" href="usemodpatches.html" title="4.7. UseModWiki 补丁">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.6. UseModWiki 的管理</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="writeinusemod.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. UseModWiki</th>
+<td width="20%" align="right"> <a accesskey="n" href="usemodpatches.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="usemodadmin"></a>4.6. UseModWiki 的管理</h3></div></div></div>
+<p>
+协同工作有的时候需要限制在一定的范围之内，甚至有的时候需要只读访问。当然这违背了 Wiki 的精神，参见：<a href="wikiphilosophy.html" title="2. Wiki 哲学">Wiki 哲学</a>。但是 UseModWiki 也提供了一定程度的权限控制和管理，在此做一简要介绍。
+</p>
+<p>
+在 Wiki 的数据目录下的配置文件 <code class="filename">config</code>，其中有如下两行：
+</p>
+<pre class="screen">
+$AdminPass   = "admin1234 johnson";              # Set to non-blank to enable password(s)
+$EditPass    = "edit1234";       # Like AdminPass, but for editing only
+</pre>
+<p>
+$AdminPass 确省没有口令，任何人都具有管理权限，如禁止某页的编辑权限，禁止整个站点的编辑权限。$EditPass 确省没有口令，任何人都具有编辑权限。也可以在 $AdminPass 和 $EditPass 中设置口令，上面的 <code class="filename">config</code> 配置文件中，我们已经分别设置了口令，该口令是一个明文口令，也可以是多个明文口令用空格分开。
+</p>
+<p>
+那么如何输入口令呢？在页首的"个性设置（Preferences）" 中，用户设置自己的"管理者口令"（如果是第一次进入个性设置页面，可能没有这个选项，再次进入就会出现）。如果用户的"管理者口令"和 $AdminPass 中的口令相同，则用户具有管理员权限，如果和 $EditPass 中的设置相同，则具有编辑权限。
+</p>
+<p>
+UseModWiki 的管理功能都是通过 wiki.pl 这个脚本完成的，向这个脚本传递不同的 action 参数，行使不同的管理功能，如下：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+为整个网站加上编辑锁定
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlock&amp;set=1" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlock&amp;set=1</a>
+</pre>
+<p>
+加上整个网站的编辑锁定之后，只有用户配置了"管理口令"，并且当用户通过认证具有编辑权限（用户管理口令和配置文件中的编辑口令匹配）或者管理权限（用户管理口令和配置文件中的管理口令匹配），才能够编辑 Wiki 页面。否则 Wiki 页面是只读的。
+</p>
+</li>
+<li>
+<p>
+解除整个网站的编辑锁定
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlock&amp;set=0" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlock&amp;set=0</a>
+</pre>
+<p>
+解除锁定后，用户可以编辑 Wiki 页面，即使用户没有编辑权限。
+</p>
+</li>
+<li>
+<p>
+为某个页面添加编辑锁
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=pagelock&amp;set=1&amp;id=HomePage" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=pagelock&amp;set=1&amp;id=HomePage</a>
+</pre>
+<p>
+为某页（这里是 HomePage 页）设置了编辑锁定之后，既限制没有认证的用户，也限制具有编辑权限的用户编辑页面。只有对通过认证且具有管理权限的用户，才能够编辑 Wiki 页面；
+</p>
+<p>
+对一个页面的编辑锁，并不能限制下级页面。如对 "HomePage" 建立编辑锁，并不影响 "HomePage/Test1" 页面；
+</p>
+<p>
+用 action=editlock&amp;set=0 解除整个 Wiki 网站的编辑锁定，并不影响某一个页面的锁定设置，即单独页面的锁定依然有效。
+</p>
+</li>
+<li>
+<p>
+为某个页面（这里是 HomePage 页）解开编辑锁
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=pagelock&amp;set=0&amp;id=HomePage" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=pagelock&amp;set=0&amp;id=HomePage</a>
+</pre>
+<p>
+为某页解除编辑锁定。
+</p>
+</li>
+<li>
+<p>
+限制某些 IP 地址对 Wiki 站点的修改
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editbanned" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editbanned</a>
+</pre>
+<p>
+按照帮助输入想要封锁的IP地址，对于这些 IP 地址的机器，禁止其编辑 Wiki 页面的功能。
+</p>
+</li>
+<li>
+<p>
+删除 Wiki 页面和修改关键字链接名称
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlinks" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=editlinks</a>
+</pre>
+<p>
+按照帮助输入想要封锁的IP地址，对于这些 IP 地址的机器，禁止其编辑 Wiki 页面的功能。
+</p>
+</li>
+<li>
+<p>
+维护：清除过期版本等
+</p>
+<pre class="screen">
+<a href="http://foobar.worldhello.net/cgi-bin/wiki.pl?action=maintain" target="_top">http://foobar.worldhello.net/cgi-bin/wiki.pl?action=maintain</a>
+</pre>
+<p>
+该命令进行不定期的维护，读取 config 文件中的 $KeepDays 设置（确省14天），将超过此期限的版本清除。如果安装了 DeletedPage 补丁的话，彻底删除标记为 DeletedPage 的页面。
+</p>
+<p>
+普通用户亦可执行此命令，但是限制12小时只能运行一次。可以将此命令加入的 crontab 中，每周运行一次。
+</p>
+</li>
+</ul></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="writeinusemod.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="usemod.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="usemodpatches.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.5. 学写 UseModWiki 网页 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.7. UseModWiki 补丁</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

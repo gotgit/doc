@@ -1,0 +1,141 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.3. searchd 后台数据库检索</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="search-engine.html" title="2. 建立搜索引擎">
+<link rel="prev" href="aspseek-index.html" title="2.2. 数据库维护">
+<link rel="next" href="aspseek-s.cgi.html" title="2.4. s.cgi: 具有类似GOOGLE查询界面的cgi程序">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.3. searchd 后台数据库检索</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="aspseek-index.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. 建立搜索引擎</th>
+<td width="20%" align="right"> <a accesskey="n" href="aspseek-s.cgi.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="aspseek-searchd"></a>2.3. searchd 后台数据库检索</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="aspseek-searchd.html#idp4601312">2.3.1. searchd.conf</a></span></dt>
+<dt><span class="sect3"><a href="aspseek-searchd.html#idp4610080">2.3.2. 运行 searchd</a></span></dt>
+</dl></div>
+<p>
+searchd 是 ASPseek 的守护进程，用来接收 cgi 程序(s.cgi)的查询请求，执行查询动作（搜索由 index 程序创建的数据库），将结果反馈给 cgi 程序(s.cgi)。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4601312"></a>2.3.1. searchd.conf</h4></div></div></div>
+<p>
+searchd 程序的配置文件。
+</p>
+<pre class="screen">
+# Port 12345 <a name="co.searchd.conf.port"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+Include db.conf <a name="co.searchd.conf.db"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+UtfStorage yes <a name="co.searchd.utf"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+Include ucharset.conf  <a name="co.searchd.charset"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.searchd.conf.port"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置 searchd 侦听的端口。确省为 12345
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.searchd.conf.db"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+包含 db.conf 配置文件，设置连接 MySQL 数据库的用户名、口令等。例如：DBAddr mysql://aspseek12:PASSWOR-IS-HERE@localhost/aspseek12/
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.searchd.utf"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+以 UTF-8 格式存储 MySQL 数据库中信息
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.searchd.charset"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+配置字符集。若需要能够对中文进行检索，需要打开 CharsetTableU2 和 Dictionary2 的配置
+</p></td>
+</tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4610080"></a>2.3.2. 运行 searchd</h4></div></div></div>
+<p>
+配置开机自动执行 searchd。
+</p>
+<pre class="screen">
+
+#!/bin/sh
+# FileName: /etc/rc.d/rc3.d/S99aspseek
+# Script to control aspseek
+#
+
+case "$1" in
+'start')
+        echo "starting aspseek server ...  "
+        su aspseek -c "/usr/local/aspseek/sbin/searchd -D -R"
+        echo done
+        ;;
+'stop')
+        echo "stopping news server ...  "
+        killall -9 searchd
+        echo done
+        ;;
+*)
+        echo "usage: news.sh {start | stop}"
+        ;;
+esac
+
+</pre>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="aspseek-index.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="search-engine.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="aspseek-s.cgi.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2.2. 数据库维护 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2.4. s.cgi: 具有类似GOOGLE查询界面的cgi程序</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.2. GNATS PR 流程示例</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="缺陷追踪系统 HOWTO">
+<link rel="up" href="gnats.html" title="3. GNATS">
+<link rel="prev" href="ar01s03s01.html" title="3.1. GNATS 特点">
+<link rel="next" href="ar01s03s03.html" title="3.3. GNATS 安装和配置">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.2. GNATS PR 流程示例</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s03s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. GNATS</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s03s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4570128"></a>3.2. GNATS PR 流程示例</h3></div></div></div>
+<p>
+GNU 开放源码的很多项目的缺陷追踪即使用 GNATS，我们先到 GNU 的缺陷追踪网站上面看一看：<a href="http://bugs.gnu.org/cgi-bin/gnatsweb.pl" target="_top">http://bugs.gnu.org/cgi-bin/gnatsweb.pl</a>。
+</p>
+<div class="mediaobject">
+<img src="images/gnats-1-gnu-login.png" alt="GNU Bug Tracking 网站登录画面"><div class="caption"><p>
+GNU Bug Tracking 网站登录画面
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/gnats-2-gnu-query1.png" alt="查询 Bug"><div class="caption"><p>
+查询 Bug 画面：输入查询条件
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/gnats-3-gnu-query2.png" alt="查询 Bug"><div class="caption"><p>
+查询 Bug 画面：显示查询结果
+</p></div>
+</div>
+<p>
+如果读者在 GNU 的缺陷追踪网站上没有正式的用户账号，就不能体验一个完整的缺陷追踪流程。下面通过搭建的一个临时服务器作为演示，服务器搭建流程见后面的章节。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+以 test1（测试工程师1）登录，提交新发现的 bug；
+</p>
+<p>
+test1 的权限是 "edit"，以 test1 用户的身份登录后，在模块1的分类下输入新的 PR。
+</p>
+<div class="mediaobject">
+<img src="images/gnats-4-test1-main.png"><div class="caption"><p>
+test1 用户登录后的主画面
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/gnats-5-test1-new.png"><div class="caption"><p>
+向模块１提交 PR，模块的负责人无需指定，选择好分类（Category） 即可。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+test1 用户收到反馈邮件
+</p>
+<p>
+test1 用户收到 gnats-admin 用户发送的反馈邮件，表明正确提交了 PR；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-6-test1-feedback.png"><div class="caption"><p>
+test1 用户收到的反馈邮件
+</p></div>
+</div>
+</li>
+<li>
+<p>
+模块1 的负责人收到邮件通知
+</p>
+<p>
+dev1 用户是模块1 的负责人，test1 用户提交 PR 之后，dev1 用户收到系统发出的邮件通知；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-7-dev1-mail.png"><div class="caption"><p>
+dev1 用户收到 test1 用户发出的邮件通知
+</p></div>
+</div>
+</li>
+<li>
+<p>
+dev1 用户对相应的 PR 描述的问题处理完毕后，将 PR 的状态修改为 "analyzed"；
+</p>
+<p>
+dev1 用户是模块1 的负责人，收到 test1 的邮件通知之后，根据邮件通知，解决相应 PR 描述的问题，解决问题之后，dev1 用户登录 Bug Tracking 系统，将状态修改为 "ananyzed"；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-8-dev1-query.png"><div class="caption"><p>
+dev1 查询 PR，点击 "edit" 链接，进入编辑界面
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/gnats-9-dev1-analyzed.png"><div class="caption"><p>
+将 PR 状态修改为 "ananyzed"，在 Fixed 字段填入相应的解决方案的描述
+</p></div>
+</div>
+</li>
+<li>
+<p>
+每次对 PR 的修改，都在 Audit Trail 字段里留下修改记录；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-10-dev1-trail.png"><div class="caption"><p>
+Audit Trail 字段里显示修改记录
+</p></div>
+</div>
+</li>
+<li>
+<p>
+dev1 用户对 PR 的修改，将以邮件形式通知 PR 的创建者 test1；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-11-dev1-mailto-test1.png"><div class="caption"><p>
+test1 用户收到 dev1 用户关于 Bug 已经修正的邮件通知
+</p></div>
+</div>
+</li>
+<li>
+<p>
+test1 用户检验 dev1 的改动，如果 PR 确实已经修正，修改相应 PR 的状态为 "closed"
+</p>
+<div class="mediaobject">
+<img src="images/gnats-12-test1-closed.png"><div class="caption"><p>
+test1 将 PR 的状态修改为 "closed"
+</p></div>
+</div>
+</li>
+<li>
+<p>
+dev1 用户收到 test1 用户发出的 PR 已经关闭的邮件通知；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-13-test1-mailto-dev1.png"><div class="caption"><p>
+dev1 用户收到 PR 已经 "closed" 的邮件通知
+</p></div>
+</div>
+</li>
+</ul></div>
+<p>
+从上面的流程可以看出，GNATS 的 PR 管理工作流程和 Starteam Change Request 管理流程是多么的相似，而且 GNATS 用户可以随意定制 PR 的状态，模拟出和 Starteam 一模一样的工作流程。下面介绍 GNATS 的安装和配置。
+</p>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s03s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="gnats.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s03s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3.1. GNATS 特点 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3.3. GNATS 安装和配置</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

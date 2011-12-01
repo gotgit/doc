@@ -1,0 +1,729 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.6. DSSSL</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="DocBook 助你完成传世之作">
+<link rel="up" href="sgml-primary.html" title="4. SGML/XML入门">
+<link rel="prev" href="ar01s04s05.html" title="4.5. 用样式表进行格式化">
+<link rel="next" href="ar01s04s07.html" title="4.7. 格式化">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.6. DSSSL</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s04s05.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. SGML/XML入门</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s04s07.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5167760"></a>4.6. DSSSL</h3></div></div></div>
+<div class="toc"><dl><dt><span class="sect3"><a href="ar01s04s06.html#idp5171312">4.6.1. Scheme语言入门</a></span></dt></dl></div>
+<p>
+DSSSL? 不要被这个缩略语吓坏，它是（Document Style Semantics and Specification Language）的缩写。DSSSL和SGML的关系，就如同CSS和HTML的关系一样。对于DTD来说，只关心元素之间的结构关系，并不关心元素的意义和具体的表现形式，而这正好是DSSSL的天下。一个DocBook文档，通过各种元素将文档内容结构化，但是看起来并不直观，不能提供诸如Word、PDF、网页一样的表现。DSSSL提供了一个将SGML文档到其他输出格式的标准方法。
+</p>
+<p>
+让我们先看一段 DSSSL 片断：
+</p>
+<pre class="screen">
+
+(define (book-titlepage-recto-elements)
+  ;; elements on a book's titlepage
+  ;; note: added revhistory to the default list
+  (list (normalize "title")
+        (normalize "subtitle")
+        (normalize "graphic")
+        (normalize "mediaobject")
+        (normalize "corpauthor")
+        (normalize "authorgroup")
+        (normalize "author")
+        (normalize "editor")
+        (normalize "copyright")
+        (normalize "pubdate")
+        (normalize "revhistory")
+        (normalize "abstract")
+        (normalize "legalnotice")))
+
+(element emphasis
+  ;; make role=strong equate to bold for emphasis tag
+  (if (equal? (attribute-string "role") "strong")
+     (make element gi: "STRONG" (process-children))
+     (make element gi: "EM" (process-children))))
+
+</pre>
+<p>
+也许那些骨灰级程序设计师和计算机史学家会对上述代码感到亲切，而对于像我这样了解程序设计语言是从basic、c开始的新手，一定会对这种语法一头雾水。这段代码的语法来自于 Scheme语言（LISP的一个变种）。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5171312"></a>4.6.1. Scheme语言入门</h4></div></div></div>
+<p>
+最早听说 LISP，是 Stallman 的 GNU Emacs 中将 LISP 作为嵌入语言，定制和增强 Emacs。GNU Emacs 是一个文本编辑器，文本就是一种符号，而 Lisp 正好就是针对符号计算发明的，因此在GNU Emacs 中使用 Lisp 是顺理成章的事情。
+</p>
+<p>
+Lisp 语言的历史已经很久了，几乎与 Fortran 一样长。二十世纪五十年代，计算机科学家先是发明了针对数字计算的 Fortran 语言，后来针对符号计算，由MIT 的John McCarthy于1960年开发出了Lisp(List processing)语言。该语言原来是为表处理而设计的编程语言，后来广泛用于处理人工智能问题。Lisp 程序中充满了一对对嵌套的小括号，这些嵌套的符号表达式体现着递归。递归是数学上的基本概念之一，从递归理论出发，一切可以计算的函数最终都可以划归为几种基本的递归函数的种种组合。
+</p>
+<p>
+1994年时众多 Lisp 版本又得到了相当的统一，统一之后的版本称为Common LISP。Common Lisp 含有非常丰富的库，仅仅语言的规范就长达千页以上，包括面向对象的 CLOS。 
+</p>
+<p>
+Scheme 语言是 Lisp 的一个现代变种、方言，诞生于1975年，由 MIT 的 Gerald J. Sussman and Guy L. Steele Jr. 完成。Scheme语言的规范很短，总共只有50页，甚至连Common Lisp 规范的索引的长度都不到，但是却被称为是现代编程语言王国的皇后。它与以前和以后的 Lisp 实现版本都存在一些差异，但是却易学易用。
+</p>
+<p>
+DSSSL需要完成的工作是解析文档，它的设计就采用了Scheme语言。本书时介绍DocBook的专著，因此并不打算写一个Scheme大全，只是想通过蜻蜓点水的介绍使读者认识Scheme，能够达到看懂和简单的修改DSSSL。
+</p>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp5176080"></a>4.6.1.1. Scheme特点</h5></div></div></div>
+<p>
+Scheme语言具有它独特的魅力，看看Scheme的语法特点：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+括号嵌套
+</p>
+<p>
+Lisp 程序中充满了一对对嵌套的小括号，这些嵌套的符号体现了最基本的数学思想——递归。
+</p>
+</li>
+<li>
+<p>
+语法简洁
+</p>
+<p>
+Scheme语言的规范很短，总共只有50页。
+</p>
+</li>
+<li>
+<p>
+函数编程语言
+</p>
+<p>
+一个函数（Function）是这个编程语言中所谓的第一等的公民。也就是说函式可以像一个 int 或者 float 一样被很方便的传递来传递去。这也就是所谓"Functional 编程语言"中，Functional 一词的由来。
+</p>
+</li>
+<li>
+<p>
+自动内存管理
+</p>
+<p>
+自动内存管理可不是JAVA的专利呦。
+</p>
+</li>
+<li>
+<p>
+可移植性好
+</p>
+<p>
+Scheme开发的程序有很好的可移植性，这是由于Scheme是一种解释语言，在不同的平台都可以有相应的解释器。
+</p>
+</li>
+<li>
+<p>
+适合于作为脚本语言和嵌入语言
+</p>
+<p>
+语法简洁，这使得Scheme的实现可以非常的经济，一个Scheme解释器可以非常的小巧。Scheme可以作为脚本语言而内嵌于一些工具之中，如：GNU Emacs。
+</p>
+</li>
+</ul></div>
+<p>
+其他特点还有，关键字对大小写不敏感。
+</p>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp5186704"></a>4.6.1.2. 数据结构</h5></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+数字
+</p>
+<p>
+下面都是合法的数字表示方法：47，1/3，2.3，4.3e14，1+3i。
+</p>
+</li>
+<li>
+<p>
+字符
+</p>
+<p>
+字符前面需要用#\做前缀。如下面都是合法字符：
+</p>
+<p>
+#\a #\A #\b #\B #\space #\newline
+</p>
+</li>
+<li>
+<p>
+字符串
+</p>
+<p>
+由双引号括起来的字符组成字符串。如："A little string"
+</p>
+</li>
+<li>
+<p>
+布尔值
+</p>
+<p>
+布尔值True和False分别用 #t 和 #f 表示。
+</p>
+</li>
+<li>
+<p>
+列表
+</p>
+<p>
+用圆括号括起来的，可以包含任何数据类型的称为列表。如： (a little (list of) (lists))
+</p>
+</li>
+<li>
+<p>
+数组（vector）
+</p>
+<p>
+用#为前缀，如： #(1 2 "string" #\x 5)
+</p>
+</li>
+<li>
+<p>
+函数（或称为过程）
+</p>
+<p>
+把函数作为一种数据类型，是Scheme语言的特色。
+</p>
+</li>
+<li>
+<p>
+符号
+</p>
+<p>
+符号除了不能够以数字开头的任何字符可组成符号。如：Symbols: this-is-a-symbol foo a32 c$23*4&amp;7+3-is-a-symbol-too!
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp5198624"></a>4.6.1.3. 表达式和函数</h5></div></div></div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5199136"></a>4.6.1.3.1. 注释</h6></div></div></div>
+<p>
+分号开始一段注释。如：
+</p>
+<pre class="screen">
+(+ 3 1) ;return 4
+</pre>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5200848"></a>4.6.1.3.2. 常量表达式</h6></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+常量表达式
+</p>
+<p>
+常量表达式返回本身的值。如：
+</p>
+<pre class="screen">
+3.14	; 返回 3.14
+#t	; 返回布尔值 #t
+#\c	; 返回字符 #\c
+"Hi!"	; 返回字符串 "Hi!"
+</pre>
+</li>
+<li>
+<p>
+引用（Quotation）
+</p>
+<p>
+语法：(quote obj)  或者简写为 'obj 
+</p>
+<pre class="screen">
+(+ 2 3)  	; 返回 5
+'(+ 2 3) 	; 返回列表 (+ 2 3)
+(quote (+ 2 3)) ; 返回列表 (+ 2 3)
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5206432"></a>4.6.1.3.3. 表达式记法</h6></div></div></div>
+<p>
+Scheme的表达式的写法有些特别，表达式用括号括起来。括号里面的第一个出线的是函数名或者操作符，其它是参数。Scheme的这种表达式写法可以叫做前置式。下面是一些Scheme的表达式的例子以及其对应的C语言的写法。
+</p>
+<pre class="screen">
+
+  Scheme                               C
+------------------------------------------------------------------
+(+ 2 3 4)                       (2 + 3 + 4) 
+(&lt; low x high)                  ((low &lt; x) &amp;&amp; (x &lt; high)) 
+(+ (* 2 3)                      (* 4 5)) ((2 * 3) + (4 * 5)) 
+(f x y)                         f(x, y) 
+(define (sq x) (* x x))         int sq(int x) { return (x * x) } 
+
+</pre>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5208656"></a>4.6.1.3.4. 赋值和函数定义</h6></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+let 表达式和赋值
+</p>
+<p>
+语法：(let ((var val) ...) exp1 exp2 ...) 
+</p>
+<p>
+说明：let 表达式的赋值只在表达式内部有效。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(let ((x 2) (y 3)) (+ x y))
+</pre>
+<p>
+; 先赋值： x=2, y=3，再计算x+y的值，结果为5。注意 (x 2) 和 (y 3) 外还有一层括号。
+</p>
+<p>
+更多的示例：
+</p>
+<pre class="screen">
+(let ((f +))
+  (f 2 3))  ; return 5 
+
+(let ((f +) (x 2))
+  (f x 3))  ; return 5 
+
+(let ((f +) (x 2) (y 3))
+  (f x y))  ; return 5 
+</pre>
+</li>
+<li>
+<p>
+用define 和 set! 赋值
+</p>
+<p>
+语法：(define var exp)  , (set! var exp)
+</p>
+<p>
+说明：define和 set! 表达式的赋值在全局有效。define 和 set! 的区别是define既能赋值又能定义变量，而set!只能对已经定义的变量赋值。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+
+(define a 1)	 
+a				; return 1
+(set! a 2)
+a				; return 2
+(let ((a 3)) a) 		; return 3
+a				; return 2
+(let ((a 3)) (set! a 4) a)	; return 4
+a				; return 2
+(let ((a 3)) (define a 5) a)	; return 5
+a				; return 2
+(set! b 1)			; 错误，b尚未定义
+
+</pre>
+<p>
+</p>
+</li>
+<li>
+<p>
+lambda 表达式和函数定义
+</p>
+<p>
+语法：(lambda (var ...) exp1 exp2 ...) 
+</p>
+<p>
+说明：lambda 表达式用于定义函数。var ... 是参数，exp1 exp2 ...是函数的执行 部分。通常需要结合局部定义 let 或者全局定义表达式 define，再进行函数调用。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+((lambda (x) (+ x x)) (* 3 4))  ; return 24
+</pre>
+<p>
+说明：先用lambda定义了函数，参数是x，函数返回x+x。同时该语句也完成了函数调用，实参是 12 (等于3*4)，因此返回值是 24 （等于12＋12）。
+</p>
+</li>
+<li>
+<p>
+在let表达式中定义函数。
+</p>
+<p>
+Scheme语言中，函数作为一种数据类型，通过赋值语句，将lambda表达式赋值给相应的函数。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(let ((double (lambda (x) (+ x x))))
+  (list (double (* 3 4))
+        (double (/ 99 11))
+        (double (- 2 7))))     ; return (24 18 -10) 
+</pre>
+<p>
+说明：let表达式将lambda定义的函数赋值给double，参数是x，返回 x+x。接下来分别三次调用 double 函数，并将结果以列表形式返回。list 表达式负责生成列表。
+</p>
+</li>
+<li>
+<p>
+用define全局定义表达式来定义函数。
+</p>
+<p>
+用 let 定义的函数只能在 let 表达式中有效，如果想定义在整个程序中有效的函数定义，需要用到全局定义表达式——define。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(define double (lambda (x) (+ x x)))
+(double 12)            ; return 24
+(double (* 3 4))       ; return 24
+</pre>
+<p>
+说明：define表达式定义了全局有效的函数 double。两次调用double的返回值都是 24。
+</p>
+</li>
+<li>
+<p>
+定义函数的简写
+</p>
+<p>
+用 define 定义的函数的语法可以简化，即将 lambda 去掉。即将语法
+</p>
+<pre class="screen">
+(define var0
+  (lambda (var1 ... varn)
+    e1 e2 ...)) 
+</pre>
+<p>
+简写为：
+</p>
+<pre class="screen">
+(define (var0 var1 ... varn)
+  e1 e2 ...) 
+</pre>
+<p>
+示例：
+</p>
+<pre class="screen">
+(define (double x) (+ x x))
+(double 12)            ; return 24
+(double (* 3 4))       ; return 24
+</pre>
+<p>
+说明：本例是前一个例子的简化版本。更简介，明了。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5234672"></a>4.6.1.3.5. 顺序计算表达式</h6></div></div></div>
+<p>
+语法：(begin exp1 exp2 ...) 
+</p>
+<p>
+说明：顺序执行表达式 exp1, exp2, ...，返回最后一个表达式的结果
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(define x 3)
+(begin
+  (set! x (+ x 1))
+  (+ x x))             ; 返回结果 8
+</pre>
+<p>
+说明：begin 表达式，依次先用set!表达式为x赋值为4，在运算x+x，返回结果8。
+</p>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5238176"></a>4.6.1.3.6. 条件表达式</h6></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+关系运算符
+</p>
+<pre class="screen">
+
+(&lt; -1 0)  		#t
+(&gt; -1 0)  		#f 
+(eqv? 'a 'a) 		#t
+
+</pre>
+</li>
+<li>
+<p>
+逻辑运算
+</p>
+<pre class="screen">
+(not #t)  		#f
+(not #f) 		#t 
+
+(not 1)  		#f
+(not '(a b c))  	#f 
+
+
+(or)  			#f
+(or #f)  		#f
+(or #f #t)  		#t
+(or #f 'a #f)  		a 
+
+(and)  			#t
+(and #f)  		#f
+(and #f #t)  		#f
+(and #f 'a #f)  	#f
+(and 'a #t 'b)		'b
+</pre>
+</li>
+<li>
+<p>
+if 表达式
+</p>
+<p>
+语法：(if test consequent alternative) 
+</p>
+<p>
+说明：如果test表达式为真，返回 consequent，否则返回 alternative。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+
+(define (abs n)
+    (if (&lt; n 0)
+        (- 0 n)
+        n)) 
+
+</pre>
+<p>
+说明：函数abs功能为取绝对值。
+</p>
+</li>
+<li>
+<p>
+cond 表达式
+</p>
+<p>
+语法：(cond (test exp) ... (else exp)) 
+</p>
+<p>
+说明：多路分支判断表达式，类似于C语言的 "if ... else if ... else"。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+
+(define abs
+  (lambda (n)
+    (cond
+      ((= n 0) 0)
+      ((&lt; n 0) (- 0 n))
+      (else n)))) 
+
+</pre>
+<p>
+说明：用cond表达式重新实现取绝对值函数 abs。
+</p>
+</li>
+<li>
+<p>
+case 表达式
+</p>
+<p>
+语法：(case exp0 clause1 clause2 ... ) 
+</p>
+<p>
+clause 的语法结构为：((key1 ...) exp1 ...)
+最后一个表达式的结构可以为：(else exp1 exp2 ...) 
+</p>
+<p>
+说明：类似于C语言的 "switch ... case..." 语句。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(let ((x 4) (y 5))
+  (case (+ x y)
+    ((1 3 5 7 9) 'odd)
+    ((0 2 4 6 8) 'even)
+    (else 'out-of-range)))
+; 返回 odd
+</pre>
+<p>
+说明：case 表达式先计算 x+y 的值为9，接下来在key中进行匹配，并返回对应的表达式的值 'odd。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5254064"></a>4.6.1.3.7. 循环</h6></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+do 表达式
+</p>
+<p>
+语法：(do ((var1 val1 update1) ...) (test res ...) exp ...) 
+</p>
+<p>
+说明：类似于C语言的for循环。先将val1赋值给var1，...，之后循环开始，在每次循环的开始，先执行表达式 test，如果返回布尔值真，则循环终止，并返回结果 res，如果表达式 test返回布尔值#f，则运行表达式 exp...，之后依次用 update1 ... 的值来为变量 var1 ... 重新赋值。
+</p>
+<p>
+示例1：计算阶乘 n! = n*(n-1)! 
+</p>
+<pre class="screen">
+(define factorial
+  (lambda (n)
+    (do ((i n (- i 1)) (a 1 (* a i)))
+        ((zero? i) a)))) 
+
+(factorial 10)  ; 返回 3628800 
+</pre>
+<p>
+说明：其对应的C语言实现如下
+</p>
+<pre class="screen">
+long factorial(int n)
+{
+	int  i=n;
+	long a=1;
+	
+	for (i=n;; i--)
+	{
+		if (i == 0)
+			return a;
+		a *= i;
+	}
+}
+</pre>
+<p>
+示例2：计算fibonacci数列：f(n+1)=f(n)+f(n-1) , n&gt;0, f(1)=1, f(0)=0
+</p>
+<pre class="screen">
+(define fibonacci
+  (lambda (n)
+    (if (= n 0)
+        0
+        (do ((i n (- i 1)) (a1 1 (+ a1 a2)) (a2 0 a1))
+            ((= i 1) a1))))) 
+
+(fibonacci 6)  ; 返回 8
+</pre>
+<p>
+说明：其对应的C语言实现如下
+</p>
+<pre class="screen">
+long fibonacci(int n)
+{
+	long f=1;
+	
+	int i = n;
+	int a1= 1;
+	int a2= 0;
+	
+	if (n == 0)
+		return 0;
+	while(1)
+	{
+		if (i == 1)
+			return a1;
+		i--;
+		a1=a1+a2;
+		a2=a1;
+	}
+}
+</pre>
+</li>
+<li>
+<p>
+map 表达式
+</p>
+<p>
+语法：(map procedure list1 list2 ...) 
+</p>
+<p>
+说明：列表 list1 list2 ... 必须具有同样的长度；过程 procedure 接受的参数个数同列表的个数，各个列表中对应的变量分别作为过程 procedure 的参数被执行， 将每次的运算结果以列表形式返回。
+</p>
+<pre class="screen">
+(map abs '(1 -2 3 -4 5 -6)) 	; 返回 (1 2 3 4 5 6)，abs接受一个参数
+
+(map (lambda (x y) (* x y))
+     '(1 2 3 4)
+     '(8 7 6 5))		返回(8 14 18 20) ，lambda (x y) 接收两个参数
+</pre>
+</li>
+<li>
+<p>
+for-each 表达式
+</p>
+<p>
+语法：(for-each procedure list1 list2 ...) 
+</p>
+<p>
+说明：同 map表达式， 但是不返回结果列表。
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s04s05.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="sgml-primary.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s04s07.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.5. 用样式表进行格式化 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.7. 格式化</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

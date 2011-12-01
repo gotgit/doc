@@ -1,0 +1,803 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.2. Starteam服务器权限设置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="vs-svrsetup.html" title="2. CVS vs. STARTEAM——服务器设置">
+<link rel="prev" href="ar01s02s01.html" title="2.1. CVS服务器设置">
+<link rel="next" href="vs-svrstore.html" title="3. CVS vs. STARTEAM——服务器端存储">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.2. Starteam服务器权限设置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s02s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. CVS vs. STARTEAM——服务器设置</th>
+<td width="20%" align="right"> <a accesskey="n" href="vs-svrstore.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4736688"></a>2.2. Starteam服务器权限设置</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="ar01s02s02.html#usermgr">2.2.1. 用户管理</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s02.html#server">2.2.2. 服务器配置的安全设置</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s02.html#project-right">2.2.3. 工程的权限设置</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s02.html#view-right">2.2.4. 视图的权限设置</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s02.html#folder-right">2.2.5. 文件夹的权限设置</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s02.html#maintenance">2.2.6. Starteam服务器优化</a></span></dt>
+</dl></div>
+<p>
+每一个服务器配置一个独立的用户数据库设置。用户的权限设置灵活，和本机帐号设置无关（不用设置本地帐号），且和本地路径无关。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="usermgr"></a>2.2.1. 用户管理</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li><p>
+如果使能了Lockout功能，则需要建立两个系统管理员帐号，以防止一个被锁定（如多次错误登录被无限期死锁），能用另外一个解锁。
+</p></li>
+<li>
+<p>
+建组原则（假设组名为 team1）
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+建立用户组和子组
+</p>
+<p>
+假设组名为 team1，首先建立一个大组 ga_team1 组；再在 team1 组下再建立三个child group: g_team1_admin 组，g_team1_users 组和 g_team1_rdonly 组（即只读组）。
+</p>
+</li>
+<li>
+<p>
+建组的考虑
+</p>
+<p>
+将权限分配到组，是管理权限的基本原则。因为 starteam 在赋予权限时，是将用户名和组名混在一起，因此为组名加上前缀 “g_” 或者 “ga_”。区分 g_ 和 ga_ 是因为要防止误将权限设置到更大的 ga_ 组中（如后所述）。
+</p>
+<p>
+组管理员属于 g_team1_admin 组，拥有管理 LABEL 权限，创建新视图，以及管理代码权限分配权限；starteam管理员部分授权，目的是减少starteam管理员的管理负担。提高效率。
+</p>
+<p>
+小组的其它用户属于 g_team1_users 组，除了不具有 g_team1_admin 组的管理权限外，其它权限同 g_team1_admin。
+</p>
+<p>
+对于其它有研读代码或者掌握进度需求的用户，如 QA、部门领导等属于 g_team1_rdonly 组，除了具有只读方式看代码权限外，其它同 all users。
+</p>
+<p>
+建立项目组 ga_project_manager，是独立于项目组（也可以考虑为每个项目组单独设置），进行项目管理。为管理需求变更，在其下建立 g_pm_req；为管理TODO LIST，建立 g_pm_todo组。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+分配权限时，要注意不要把权限赋予大组（如 ga_team1 组）。因为 team1 组包括了 g_team1_rdonly 组（只读用户组）！
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+关于组本身的权限
+</p>
+<p>
+除 Administrators 组外，任何组不要设置组的权限，以免组的权限设置超越了项目的安全设置，使对项目的安全设置形同虚设。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+关于发布机使用独立用户
+<a name="user-releng"></a>
+</p>
+<p>
+在UNIX命令行上进行代码的check in/check out，需要建立独立用户，如：team1_release。以免由于使用同一个用户名在不同工作站check代码，造成文件状态UNKNOWS的情况。参见Starteam Howto中关于文件状态unknown的FAQ。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="server"></a>2.2.2. 服务器配置的安全设置</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>Starteam VTS 的启动方式设置为NT服务方式
+</p>
+<p>
+保证服务器重启后，Starteam自动启动。
+</p>
+</li>
+<li>
+<p>
+Starteam 服务器端配置
+</p>
+<a name="server-vts-config"></a><div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+General
+</p>
+<p>
+设置登录超时60秒，未动作超时300分钟。
+</p>
+</li>
+<li>
+<p>
+Audits
+</p>
+<p>
+设置只保留10天安全日志。
+</p>
+</li>
+<li>
+<p>
+Vault
+</p>
+<p>
+设置不清除文件状态表；
+</p>
+<p>
+设置最大CACHE为400MB。
+</p>
+<p>
+设置Cache的文件夹在Valut文件夹之外，以使在备份时，对cache区别对待
+（不备份Cache）。
+</p>
+</li>
+<li>
+<p>
+Notifications
+</p>
+<p>
+使能Email通知。
+</p>
+</li>
+<li>
+<p>
+Protocal
+</p>
+<p>
+只保留一种协议支持：TCP/IP(SOCKETS)，因为别的协议支持有问题；
+</p>
+<p>
+TCP/IP加密级别：不作设置，但是管理员要通知用户，如果客户端支持传输加密，请至少选择RSA R4 stream加密。windows客户端都支持，但是unix命令行不支持。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>访问权限（Access Rights）
+</p>
+<p>管理员完全权限，不赋予其它用户任何权限。
+</p>
+</li>
+<li>
+<p>系统策略（System Policy）
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>Access Rights
+</p>
+<p>使能 Ignore object ownership, 即忽略OwnerShip，一切均按照权限设置。
+</p>
+<p>不选择 Ignore group privileges, 即在保证只有 Administrators 组设置了组权限情况下，允许Administrators组用户超越项目的权限限制实施管理。
+</p>
+</li>
+<li>
+<p>Security Events
+</p>
+<p>设置只保留30天的安全日值。
+</p>
+</li>
+<li>
+<p>Passwords
+</p>
+<p>设置密钥最小长度6个字符。
+</p>
+</li>
+<li><p>在用户管理（User manager）界面，设置所有用户第一次登录必须修改口令，并且不允许设置空口令。
+</p></li>
+<li>
+<p>Logon Failures
+</p>
+<p>设置5次失败登录锁定帐号，帐号锁定5分钟。
+</p>
+</li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="project-right"></a>2.2.3. 工程的权限设置</h4></div></div></div>
+<p>先打开要配置的工程，Project-&gt;Access Rights，来设置工程权限。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>Project
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+All Users
+</p>
+<p>
+设置所有用户（All Users）具有如下权限:
+</p>
+<p>
+See Project and Properties
+</p>
+</li>
+<li>
+<p>
+g_xxx_admin
+</p>
+<p>
+设置组管理员（如：g_team1_admin 组）具有如下权限：
+</p>
+<p>
+赋予除了 Delete project 外所有权限。以便于管理员修改自身权限，给自己加上删除label权限等，但要注意缺省没有赋予管理员的权限，当管理员完成相应管理功能后，恢复原状。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>不能赋给任何人删除工程权限！因为工程删除不可逆。
+</p></td></tr>
+</table></div>
+</li>
+</ul></div>
+</li>
+<li>
+<p>Views
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+All Users
+</p>
+<p>
+设置所有用户（All Users）具有如下权限：
+</p>
+<p>
+See View and its Properties
+</p>
+</li>
+<li>
+<p>
+g_xxx_admin
+</p>
+<p>
+设置组管理员（如：g_team1_admin 组）具有如下权限：
+</p>
+<p>
+赋予除了 Delete View, Delete Labels 外所有权限。
+</p>
+</li>
+</ul></div>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+Delete View, Delete Labels 不可逆，因此不赋予任何人此权限。但为了减轻管理员负担，赋予了 g_team1_admin 组 change view security setting 权限，g_team1_admin可以修改自己权限，使具有删除 label, 甚至是删除 view 权限，但要注意完成维护功能后，立即去掉该两项权限！
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>Child Folders
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+g_team1_rdonly 组
+</p>
+<p>
+设置只读组（如：g_team1_rdonly 组）具有如下权限：
+</p>
+<p>
+具有：See folder and its properties, See folder history, See folder links
+权限。
+</p>
+</li>
+<li>
+<p>
+g_team1_users 组
+</p>
+<p>
+设置普通用户组（g_team1_users 组）具有如下权限：
+</p>
+<p>
+除 Modify folder properties, Delete folder from parent folder, 
+Change folder security set 外所有权限。
+</p>
+</li>
+<li>
+<p>
+g_team1_admin组
+</p>
+<p>
+设置组管理员（如：g_team1_admin 组）具有如下权限：
+</p>
+<p>
+除了 Delete folder from parent folder 外所有权限。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>Files
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+g_team1_rdonly 组
+</p>
+<p>
+设置只读组（如：g_team1_rdonly 组）具有如下权限：
+</p>
+<p>
+具有：See file and its properties, See file history, See file links,
+Check out files 权限。
+</p>
+</li>
+<li>
+<p>
+g_team1_users 组
+</p>
+<p>
+设置普通用户组（g_team1_users 组）具有如下权限：
+</p>
+<p>
+除 Change file security set 外所有权限。
+</p>
+</li>
+<li>
+<p>
+g_team1_admin 组
+</p>
+<p>
+设置组管理员（如：g_team1_admin 组）具有如下权限：
+</p>
+<p>
+所有权限。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+Move folder out of a view or project 权限也是危险操作，文件移出视图，也从历史视图中去掉，可能会破坏完整性。但将文件或目录移动到另外一个视图，是从服务器端删除文件的唯一办法。因此慎用。
+</p></td></tr>
+</table></div>
+</li>
+</ul></div>
+</li>
+<li>
+<p>Change Request
+</p>
+<div class="itemizedlist"><ul type="disc"><li>
+<p>
+All Users
+</p>
+<p>
+添加所有用户（All Users），将权限设置为空。即默认禁止一切的策略。
+</p>
+</li></ul></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+工程的权限设置中的ChildFolders, Files, Change request 等的权限设置，用来确定工程的默认设置。即为没有对各项进行单独权限设置时的默认安全设置。 
+</p>
+<p>
+将 Change Request 定义为默认禁止一切，目的是只在指定目录添加 Change Request.
+</p>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p><a name="priv-proj-topic"></a>Topics
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+All Users
+</p>
+<p>
+设置所有用户（All Users）具有如下权限：
+</p>
+<p>
+设置除了 “Change topic security set”，“Delete Topic from folder”外所有权限。提供用户通过 TOPIC 进行讨论以及保存备忘。
+</p>
+</li>
+<li><p>设置组管理员（如：g_team1_admin 组）具有所有权限。
+</p></li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="view-right"></a>2.2.4. 视图的权限设置</h4></div></div></div>
+<p>
+先打开要配置的视图，View-&gt;Access Rights，来设置视图权限。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+根视图
+</p>
+<p>
+可以不设置权限，继承整个工程中的Project AccessRight的 Views 的各项权限设置。
+</p>
+</li>
+<li>
+<p>
+分支视图
+</p>
+<p>
+按需设置。可以使老版本的维护由其他人完成，或者进行 xp 模式开发，为开发者（非管理员）设置更大的权限。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="folder-right"></a>2.2.5. 文件夹的权限设置</h4></div></div></div>
+<p>
+选择视图下相应文件夹，鼠标右键单击，选择 Advanced-&gt;Access Rights，设置权限。
+</p>
+<p>
+需要先设置“根目录”权限。再单独设置各一级子目录（defect, src, doc等）的权限。如果需要还可以对二级目录等（模块）设置权限，但不建议设置二级目录的权限。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+根目录
+</p>
+<p>
+根目录和子目录在权限设置上的异同
+</p>
+<div class="orderedlist"><ol type="a">
+<li><p>
+根目录的权限不传递，即在根目录上设置的权限对派生的子视图没有影响；而非根目录会传递权限，所以尽量不要在子目录（非根目录）上设置权限，以免连带影响其它视图中该目录的权限，造成混乱。
+</p></li>
+<li><p>
+根目录继承视图或者工程的 Child Folder 权限；子目录先继承根目录权限，
+再继承视图，工程权限。
+</p></li>
+<li><p>
+因此，不要设置根目录的权限页的 Child Folder 页，这样没有设置权限的子目录便可以继承视图的 Child Folder页的权限。但是可能需要设置根目录权限页的 This Folder 页，因为 This Folder的权限默认取自视图或者工程的 Child Folder 设置。如果有子目录的权限大于视图或者工程的 Child Folder的设置，就需要设置This Folder 设置。但是副作用是，子目录的权限并没有完全继承视图或者工程的更严格的设置，而是采用了根目录的 This Folder 设置和 视图的Subfolder设置的组合（因为根目录没有设置Subfolder权限）。这样有可能使所有能够访问根目录的用户访问整个目录树！！！好像没有更好的解决方案。
+</p></li>
+</ol></div>
+<p>
+根目录上的权限设置：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+This Folder
+</p>
+<p>
+All Users：所有用户（All Users）具有 See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+g_team1_admin： 组管理员（g_team1_admin）具有：除了Delete folder from parent folder 外所有权限。
+</p>
+</li>
+<li>
+<p>Child Folders，Files, Change Requests, Tasks, Topics
+</p>
+<p>
+不作设置，以继承视图或者工程的权限设置。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Defect目录
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+This Folder
+</p>
+<p>
+All Users ： 所有用户（All Users）具有—— See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+g_qa_admin：QA组管理员（g_qa_admin）具有——除了Delete folder from parent folder 外所有权限。
+</p>
+<p>
+g_team1_admin：team1组管理员（g_team1_admin）具有——除了Delete folder from parent folder 外所有权限。
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+设置服务QA管理员和team1目录管理权限，允许QA管理员建立子目录，用于对CR分类。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>Child Folders
+</p>
+<p>
+All Users：所有用户（All Users）具有——See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+g_qa_admin：QA组管理员（g_qa_admin）具有——除了Delete folder from parent folder 外所有权限。
+</p>
+<p>
+g_team1_admin：team1组管理员（g_team1_admin）具有——除了Delete folder from parent folder 外所有权限。
+</p>
+</li>
+<li>
+<p>Change Requests
+</p>
+<p>All Users：所有用户（All Users）具有——除了Change CR Security set , Delete CR from folder外所有权限。
+</p>
+<p>
+g_qa_admin：QA组管理员（g_qa_admin）具有——除了Delete CR from folder 外所有权限。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+为了减轻管理员负担，赋予了 g_qa_admin 组 change CR security setting 权限，g_qa_admin可以修改change request的权限，使之可以被删除，再删除该 cr。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>Files, Tasks, Topics
+</p>
+<p>不另外设置权限，继承视图或者工程的权限。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+src 目录
+</p>
+<p>
+src 目录是用来存放源代码的目录，应着重注意本目录权限设置。
+</p>
+<p>
+可以不作任何单独设置，因为继承了视图或者工程的权限设置。如果工程或者视图关于文件的权限设置足够安全的话，可以不必设置本目录权限。
+</p>
+</li>
+<li>
+<p>
+ProjectManagement 目录
+</p>
+<p>
+ProjectManagement 目录，用于以文件和 TOPIC形式存储 TODO_LIST, 编程规范，需求变更。
+</p>
+<div class="orderedlist"><ol type="a">
+<li>
+<p>
+ProjectManagement 目录
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+This Folder
+</p>
+<p>
+All Users ：所有用户具有—— See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+ga_project_manager 组 ：具有——除 Modify folder properties, Delete folder from parent folder, Change folder security set 外所有权限。
+</p>
+<p>
+g_team1_admin组 ：具有——除 Delete folder from parent folder 外所有权限。
+</p>
+</li>
+<li>
+<p>Child Folders
+</p>
+<p>
+All Users ：所有用户具有—— See folder and its properties, See folder history, See folder links 权限。
+</p>
+<p>
+ga_project_manager 组 ：具有——除 Modify folder properties, Delete folder from parent folder, Change folder security set 外所有权限。
+</p>
+<p>
+g_team1_admin组 ：具有——除 Delete folder from parent folder 外所有权限。
+</p>
+</li>
+<li>
+<p>Files
+</p>
+<p>
+All Users：具有——See file and its properties, See file history, See file links, Check out files 权限。
+</p>
+<p>
+ga_project_manager：普通用户组具有——除了 Change file security set, Delete file from folder 外的所有权限。
+</p>
+<p>
+g_team1_admin：组管理员具有——除了 Delete file from folder 外的所有权限。
+</p>
+</li>
+<li>
+<p>
+Topic
+</p>
+<p>
+All Users：具有——除了 Change top security set, Delete topic from forder 外所有权限。
+</p>
+<p>
+g_team1_admin：具有——除了 Delete topic from forder 外所有权限。
+</p>
+</li>
+<li>
+<p>Change
+</p>
+<p>暂不设置，采用工程缺省禁用配置。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+TODO LIST子目录
+</p>
+<p>
+所有用户具有只读文件，读写TOPIC权限；g_pm_todo 组 和 g_team1_admin组具有读写文件，读写topic，和整理目录权限。
+</p>
+</li>
+<li>
+<p>
+编程规范
+</p>
+<p>
+所有用户都有整理目录，读写topic权限；g_team1_admin 多了一项管理文件的权限。
+</p>
+</li>
+<li>
+<p>
+需求变更
+</p>
+<p>
+所有用户具有只读文件，只读TOPIC权限；g_pm_req 组 和 g_team1_admin 组具有读写文件，读写topic，和整理目录权限。
+</p>
+</li>
+</ol></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="maintenance"></a>2.2.6. Starteam服务器优化</h4></div></div></div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4863296"></a>2.2.6.1. 提高数据库性能</h5></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>数据库可以有多种选择，但是ACCESS基本可以满足需求，虽然有1.2G文件大小限制，但一般应用不会超过。数据库的选择不是性能瓶颈。
+</p></li>
+<li><p>安装和使用 Copy Indexes Tools in "StarTeam VirtualTeam Server 4.0\Tuning Scripts\MS Access\Package"。
+</p></li>
+<li><p>压缩数据库；（ODBCàsystem dsn）
+</p></li>
+<li><p>增加数据库的Max Buffer size从2048至8192，Threads 从3至 24。
+</p></li>
+<li><p>关于其他数据库，参见
+<a href="http://devforum.starbase.com/starbase/Main.asp" target="_top">
+http://devforum.starbase.com/starbase/Main.asp</a>
+</p></li>
+</ul></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4869152"></a>2.2.6.2. 提高Starteam服务器性能</h5></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>增加Cache目录文件大小至400M；
+</p></li>
+<li><p>将文件状态表导出时间从180天减少到30天；
+</p></li>
+<li><p>将审计导出时间从不导出更改为30天导出；
+</p></li>
+<li><p>在客户端设置Allow  check out of deltas
+"Tools | Workstation | Files "Optimize for slow connection.""
+</p></li>
+<li><p>参见<a href="http://devforum.starbase.com/starbase/Articles/Default.asp?id=206" target="_top">
+http://devforum.starbase.com/starbase/Articles/Default.asp?id=206
+</a>
+</p></li>
+</ul></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4875024"></a>2.2.6.3. 备份</h5></div></div></div>
+<p>备份涉及到： 
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>The Configuration and cipher files
+</p>
+<p>Configuration\server.scg
+</p>
+<p>Configuration\server.cph 
+</p>
+</li>
+<li>
+<p>Database files
+</p>
+<p>Database\StarTeamDB.mdb (Assuming Access database)
+</p>
+</li>
+<li>
+<p>Vault: 
+</p>
+<p>Archive dir: *.*
+</p>
+<p>Attachments dir: *.* 
+</p>
+</li>
+<li>
+<p>Optional
+</p>
+<p>Cache dir: *.* 
+</p>
+</li>
+</ul></div>
+<p>
+参见http://devforum.starbase.com/starbase/Articles/Default.asp?id=133
+</p>
+</div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s02s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="vs-svrsetup.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="vs-svrstore.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2.1. CVS服务器设置 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3. CVS vs. STARTEAM——服务器端存储</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.1. 安全设计</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="网络安全的最后一道屏障">
+<link rel="up" href="bsd.html" title="3. Building Secure OpenBSD Network">
+<link rel="prev" href="bsd.html" title="3. Building Secure OpenBSD Network">
+<link rel="next" href="ar01s03s02.html" title="3.2. 网络配置">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.1. 安全设计</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="bsd.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. Building Secure OpenBSD Network</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s03s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4621280"></a>3.1. 安全设计</h3></div></div></div>
+<p>
+目标：尽可能地防范来自外部的攻击。
+</p>
+<p>
+假设：我们的网络节点只有一个对Internet的连接，有若干内部用户，还要提供一些对外的服务（DNS、WWW、MAIL、FTP、NEWS）。当然，如果想增加复杂性，我们还可以将网络规划成许多更小的网络来消除瓶颈现象，也可以增加更多的对外连接。
+</p>
+<p>
+作为防火墙的边界主机的三个网络接口设置如下： 
+</p>
+<p>
+接口A连接防火墙至外网（Internet）。接口地址由ISP分配（以x.x.x.x表示）。
+</p>
+<p>
+接口B连接防火墙至内网（192.168.1网段）。接口地址为192.168.1.1。
+</p>
+<p>
+接口C 连接防火墙至DMZ区（192.168.2网段）。接口地址为192.168.2.1。
+</p>
+<p>
+网络拓朴如下图：
+</p>
+<div class="mediaobject">
+<img src="images/net-topo.gif"><div class="caption"><p>
+安全的最后一道闸门
+</p></div>
+</div>
+<p>
+我们制订的安全策略如下： 
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+所有由内网至合法地址的数据包都可以无限制地通过防火墙。
+</p></li>
+<li><p>
+过滤所有由外到内的数据包，只对由内网发送的请求包的有效回应包放行。
+</p></li>
+<li><p>
+过滤所有由外网到DMZ的数据包，只对请求目前开放服务的数据包放行。此外，允许由DMZ 发送的请求包的有效回应包进入DMZ。 (如有必要，这个规则可以做更大的限制 ) 
+</p></li>
+<li><p>
+允许由内网到DMZ的请求包的有效回应包进入内网。 
+</p></li>
+<li><p>
+所有由DMZ至外网（不包括发送到DMZ上的）的数据包，可以无限制地通过防火墙。
+</p></li>
+<li><p>
+丢弃所有其它的数据包。
+</p></li>
+</ol></div>
+<p>
+按照上面的网络拓朴设计，我们的对外服务都运行在DMZ主机上。当然，这些服务也可以运行在边界主机上。只不过这会弱化我们的防火墙。最好的做法是运用ipfilter的NAT模块重定向网络连接到DMZ区，这样就可以把潜在的攻击目标从防火墙转移到DMZ区的服务器上。而攻击者要想对内网发起攻击，则还需侵入防火墙和剩下的网络，这样就增加了入侵的难度，延缓了侵入的速度，从而增加了整个网络的安全性。
+</p>
+<p>
+我们的设计考虑了出口地址由ISP分配的情况。防火墙后面的内网与DMZ主机的IP地址不会显示给外网。这也是目前普遍采用的一种重要安全手段。
+</p>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="bsd.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="bsd.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s03s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3. Building Secure OpenBSD Network </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3.2. 网络配置</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

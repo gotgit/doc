@@ -1,0 +1,1064 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>A. CVS FAQ</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="index.html" title="软件配置管理 HOWTO">
+<link rel="prev" href="ar01s08s05.html" title="8.5. 缺憾">
+<link rel="next" href="starteam-faq.html" title="B. Starteam FAQ">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">A. CVS FAQ</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s08s05.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="starteam-faq.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="cvs-faq"></a>A. CVS FAQ</h2></div></div></div>
+<p>
+CVS有完善的文档，因此此处不在一一赘述，只涉及到本人遇到的一些陷阱。
+</p>
+<div class="qandaset">
+<dl>
+<dt>A.1. <a href="cvs-faq.html#idp5205584">
+智能0D0A？为何处理回车换行一团糟？
+</a>
+</dt>
+<dt>A.2. <a href="cvs-faq.html#idp5225024">
+如何让 CVS 智能判断和处理二进制文件？
+</a>
+</dt>
+<dt>A.3. <a href="cvs-faq.html#idp5229136">
+CVS problem when repository soft-link
+</a>
+</dt>
+<dt>A.4. <a href="cvs-faq.html#idp5237584">
+请问 CVS 客户端如何修改自己的用户口令？
+</a>
+</dt>
+</dl>
+<table border="0" summary="Q and A Set">
+<col align="left" width="1%">
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5205584"></a><a name="idp5205840"></a><b>A.1.</b>
+</td>
+<td align="left" valign="top"><p>
+智能0D0A？为何处理回车换行一团糟？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+何为0D0A(CRLF)，DOS下的回车换行是也。由于CVS的服务器端和客户端都可能跨平台，
+那么我们分别来说。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+服务器端
+</p>
+<p>
+无论在UNIX上还是WINDOWS（cvsnt）的服务器，都以同样的格式保存文本文件的
+换行符（无论是DOS的0D0A，还是UNIX上的0A，还是MAC上的0D）。服务器端都
+将换行符保存为 0A。
+</p>
+<p>
+但这并不是说在服务器端存储的文件（以 ,v结尾），不能包含字符“0D”。
+比如二进制文件中很多包含字符0D。文本文件也可能包含0D，但大部分包含0D的
+文本文件，很有可能是由于不当的跨平台使用CVS造成的。
+</p>
+<p>
+服务器端的这种处理方法很好的适应了跨平台特性。亦即Unix端服务器的Repository
+可以直接拷贝到Windows端的Repository中，Vice Versa。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+在将Unix维护的服务器端，移植到Windows端，我曾经遇到一个百思不得其解的问题。后来发现是由于Winzip的一个古怪的缺省设置造成的：“TAR file smart CR/LF conversion”！
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+UNIX 客户端
+</p>
+<p>
+Unix上的客户端文本原样存储保存到服务器端，0D作为普通字符随文件checkin，因为
+Unix的默认文件换行符为 “0A”。
+</p>
+<p>
+但是如果Unix端的文件因为某种原因，如使用samba共享unix的文件系统，用WINDOWS
+工具编辑，导致文件换行符变为 CRLF，则在 Unix 下 checkin，会将 OD 随文件checkin。
+</p>
+</li>
+<li>
+<p>
+Windows 客户端
+</p>
+<p>
+WINDOWS上的客户端，具有智能CRLT转换的功能，即：将文本文件中的CRLF转换为LF，提交
+到服务器端，又可以将服务器端的LF转换为CRLF。
+</p>
+<p>
+WINDOWS上的客户端，具有智能CRLT转换的功能，即：将文本文件中的CRLF转换为LF，提交
+到服务器端，又可以将服务器端的LF转换为CRLF。但是如果服务器端是CRLF，则转换为CRCRLF。
+</p>
+</li>
+<li>
+<p>
+WinCVS 客户端的双重身份
+</p>
+<p>
+WinCVS 可以兼具 Windows和Unix客户端的特性。当选择选项：
+Admin--&gt;Preferences--&gt;Globals--&gt;Checkout text files with the Unix LF。
+则成为类似 Unix 客户端的功能。
+</p>
+<p>
+强烈建议不要选择该选项，让一个工具做它不相称的工作，出问题是迟早的事情。
+</p>
+</li>
+<li>
+<p>
+Cygwin 的CVS客户端
+</p>
+<p>
+Cygwin的客户端相当于 Unix 的客户端。
+</p>
+<p>
+由于运行在Windows上，可能经常提交带有 CRLF 的文本文件，因此我常常用Windows的客户端程序
+替换调 Cygwin 下自带的 CVS。
+</p>
+</li>
+<li>
+<p>
+CRLF引起的一团糟
+</p>
+<pre class="screen">
+ Client                  Action               Server
+============================================================
+   LF             -- Unix checkin --&gt;           LF
+  CRLF           &lt;-- Windows checkout --        LF
+  CRLF            -- Unix checkin --&gt;          CRLF
+ CRCRLF          &lt;-- Windows checkout --       CRLF
+</pre>
+</li>
+</ul></div>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+要防止混乱切记不要用Unix的CVS客户端（包括Cygwin的CVS客户端）Checkin DOS格式的文件。
+</p></td></tr>
+</table></div>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5225024"></a><a name="idp5225280"></a><b>A.2.</b>
+</td>
+<td align="left" valign="top"><p>
+如何让 CVS 智能判断和处理二进制文件？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+在把二进制文件加入CVS时，需要指定 -kb 选项。但是为防止万一，最好使用
+CVS的配置文件 cvswrappers 来最后把关。
+</p>
+<pre class="screen">
+# <span><strong class="command">cat CVSROOT/cvswrappers</strong></span>
+*.gif -k 'b'
+*.GIF -k 'b'
+*.jpg -k 'b'
+*.JPG -k 'b'
+*.png -k 'b'
+*.PNG -k 'b'
+*.pdf -k 'b'
+*.PDF -k 'b'
+*.avi -k 'b'
+*.AVI -k 'b'
+*.mp3 -k 'b'
+*.MP3 -k 'b'
+*.mpg -k 'b'
+*.MPG -k 'b'
+*.doc -k 'b'
+*.DOC -k 'b'
+*.xls -k 'b'
+*.XLS -k 'b'
+*.xl* -k 'b'
+*.XL* -k 'b'
+*.mpp -k 'b'
+*.MPP -k 'b'
+*.ppt -k 'b'
+*.PPT -k 'b'
+*.dot -k 'b'
+*.DOT -k 'b'
+*.jar -k 'b'
+*.JAR -k 'b'
+*.tif -k 'b'
+*.TIF -k 'b'
+*.swf -k 'b'
+*.SWF -k 'b'
+*.bmp -k 'b'
+*.BMP -k 'b'
+*.exe -k 'b'
+*.EXE -k 'b'
+*.o   -k 'b'
+*.O   -k 'b'
+*.tgz -k 'b'
+*.TGZ -k 'b'
+*.gz  -k 'b'
+*.GZ  -k 'b'
+</pre>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5229136"></a><a name="idp5229392"></a><b>A.3.</b>
+</td>
+<td align="left" valign="top">
+<p>
+CVS problem when repository soft-link
+</p>
+<a name="cvsbug-softlink"></a>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+CVS 服务器端的CVS根目录，不要使用 softlink。可以使用 --bind 参数调用 mount，参见 mount(8)。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Description:
+</p>
+<p>
+When cvs repository is a softlink, cvs cannot create lock. The assertion in lock.c line 177 fails. 
+</p>
+<p>
+The problem is that it compares the link path as a root of real path. This fails. It should convert link path to real path first. However this only happens sometimes, so the check should be made first wether real path is necessary.
+</p>
+</li>
+<li>
+<p>
+How-To-Repeat:
+</p>
+<p>
+Setup cvs server. The root of all cvs repositories is /cvsroot.
+</p>
+<p>
+Create a cvs repository in let say /tmp/foo.
+</p>
+<p>
+Create softlink for /tmp/foo in /cvsroot.
+</p>
+<p>
+Try to checkout /cvsroot/foo. This should work.
+</p>
+<p>
+Commit file in /cvsroot/foo.
+</p>
+<p>
+Branch file in /cvsroot/foo.
+</p>
+<p>
+Tag branch in /cvsroot/foo.
+</p>
+</li>
+</ul></div>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp5237584"></a><a name="idp5237840"></a><b>A.4.</b>
+</td>
+<td align="left" valign="top">
+<p>
+请问 CVS 客户端如何修改自己的用户口令？
+</p>
+<a name="faq-cvspasswd"></a>
+</td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+如果你的意思是：“是否存在 cvs passwd 命令，能够让客户端远程修改口令？”，好像 CVSNT, cvsnserver 等支持或部分支持，但是 CVS 暂时不可以。
+</p>
+<p>
+但是并不说就没有办法让用户修改口令，你可以写一个小程序来实现。
+</p>
+<p>
+下面的一段代码，就是我的一个实现。用户的 unix 系统账号都带有前缀 u_ ，CVS 账号则没有此前缀。CVS账号和系统账号一一对应，并保存在 /etc/passwd.cvs 文件中，每个 CVS 工程都在 CVSROOT 目录中创建一个符号链接: passwd -&gt; /etc/passwd.cvs。
+</p>
+<p>
+下面的程序只能够稳定工作，至于是否有安全上的 BUG，还不确定，如果实现上有可改进之处，请不吝赐教。
+</p>
+<pre class="screen">
+
+
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/sem.h&gt;
+#include &lt;string.h&gt;
+#include &lt;assert.h&gt;
+#include &lt;curses.h&gt;
+#include &lt;time.h&gt;
+
+#include "pwd_check.h"
+#include "semtool.h"
+#include "crypt.h"
+
+#define	_CMD_PASSWD_		"/usr/bin/passwd"
+#define	_CVS_PASSWD_FILE_	"/etc/passwd.cvs"
+#define	_TEMP_FILE_			"/tmp/cvspass.XXXXXX"
+#ifndef _PASSWORD_LEN
+#define	_PASSWORD_LEN	128
+#endif
+
+#define	out_msg(format, ...)	fprintf (stderr, format, ## __VA_ARGS__)
+
+#ifdef	_DEBUG
+#define	debug_msg(format, ...)	fprintf (stderr, format, ## __VA_ARGS__)
+#else
+static __inline__ void
+debug_msg (char *fmt, ...)
+{
+}
+#endif
+
+int init_screen ();
+void change_unix_passwd ();
+int change_cvs_passwd ();
+char *encrypt_passwd (char *plain);
+int test_encrypt_passwd (char *pass, char *encrypt);
+int rewrite_cvspass (char *username, char *encrypt, bool b_adduser=false);
+char *get_new_passwd ();
+void check_old_passwd ();
+void curses_init ();
+void add_user(char *username);
+
+int uid;
+char *uname = NULL;
+char * program;
+
+char PASSWD_CHAR[]="abcdefghjkmnpqrstuvwxyABCDEFGHIJKLMNPQRSTUVWXY23456789@%&amp;^";
+
+void
+help()
+{
+	extern char * program;
+	printf("\nUsage:\n");
+	printf("    %s\n\t    gen passwd\n",program);
+	printf("    %s -p\n\t    gen passwd\n",program);
+	printf("    %s -a &lt;username&gt;\n\t    add user\n",program);
+	printf("\n");
+}
+
+void
+init_random()
+{
+	FILE	*fp;
+	long	x = 0;
+
+	if ((fp = fopen("/dev/urandom", "r")) != NULL)
+	{
+		(void) fread(&amp;x, sizeof(x), 1, fp);
+		fclose(fp);
+	}
+	x += time(NULL) + getpid() + getppid();
+	srand(x);
+}
+
+char *
+rand_passwd(char *passwd, int size)
+{
+	char *p;	
+	int begin=0;
+	int end=sizeof(PASSWD_CHAR)/sizeof(PASSWD_CHAR[0])-1;
+	int idx=0, i=0;
+	
+	p = passwd;
+	
+	init_random();
+	//printf("rand number between %d, and %d: \n", begin, end);
+	for(i=0; i&lt;size-1; i++)
+	{
+		idx = (int) (end*1.0*rand()/(RAND_MAX+1.0));
+		if(idx&lt;begin)	idx=begin;
+		if(idx&gt;end)	idx=end;
+		*(p++) = PASSWD_CHAR[idx];
+	}
+	*p = 0;
+	return passwd;
+}
+
+void
+add_user(char *uname)
+{
+	char cmd[1024] = {'\0'};
+	char plain[11];
+	char *encrypt;
+	char cvs_plain[11];
+	char *cvs_encrypt;
+	
+	char *unix_uname, *cvs_uname;
+	int size;
+	size = strlen(uname)+3;
+	
+	unix_uname= (char *) malloc(size);
+	cvs_uname = (char *) malloc(size);
+	bzero(unix_uname, size);
+	bzero(cvs_uname, size);
+	if(uname[0] == 'u' &amp;&amp; uname[1] == '_')
+	{
+		strcpy(unix_uname, uname);
+		strcpy(cvs_uname, uname+2);
+	}
+	else
+	{
+		strcpy(cvs_uname, uname);
+		sprintf(unix_uname, "u_%s", uname);
+	}
+
+	rand_passwd(plain, sizeof(plain));
+	encrypt = encrypt_passwd (plain);
+	snprintf(cmd, sizeof(cmd)-1, "adduser -M -s /bin/cvspasswd -g nobody -p '%s' %s", encrypt, unix_uname);
+	system(cmd);
+
+	cvs_ipc_init ();
+	rand_passwd(cvs_plain, sizeof(cvs_plain));
+	cvs_encrypt = encrypt_passwd (cvs_plain);
+	rewrite_cvspass (unix_uname, cvs_encrypt, true);
+
+	//printf("cmd : %s\n", cmd);
+	printf("Unix Username : %s\n", unix_uname);
+	printf("Unix Passwd   : %s\n", plain);
+	printf("CVS  Username : %s\n", cvs_uname);
+	printf("CVS  Passwd   : %s\n", cvs_plain);
+	printf("\n");
+	printf("CVS 登录口令自己去修改。\n");
+}
+
+
+int
+main (int argc, char *argv[], char **environ)
+{
+	char passwd[11];
+
+	// Regist program name
+	char *p;
+	p = argv[0] + strlen(argv[0]);
+	while (--p != argv[0])
+	{
+		if (*p == '/' || *p == '\\')
+		{
+			p++;
+			break;
+		}
+	}
+	program = strdup(p);
+
+	if(argc&gt;1)
+	{
+		char ch;
+		while ((ch = getopt(argc, argv, "h?pa:")) != -1) {
+			switch (ch) {
+				case 'h':
+				case '?':
+					help();
+					break;
+				case 'p':
+					printf("%s\n",rand_passwd(passwd, sizeof(passwd)));
+					break;
+				case 'a':
+					add_user(optarg);
+					break;
+				default:
+					printf("%s\n",rand_passwd(passwd, sizeof(passwd)));
+					help();
+					break;
+			}
+		}
+		exit(0);
+	}
+
+	uid = getuid();
+	uname = strdup(getlogin());
+	if (uid == 0)
+	{
+		out_msg ("Can not be root, Uid = 0!");
+		return 1;
+	}
+	
+	while (1)
+	{
+		switch (init_screen ())
+		{
+		case 1:
+			// 为了使口令修改更便捷
+			/*
+			if (setreuid (0, 0) != 0)
+			{
+				out_msg ("setuid failed!\n");
+				return 1;
+			}
+			*/
+			change_unix_passwd ();
+			break;
+		case 2:
+			cvs_ipc_init ();
+
+			// 缺省设置，更安全
+			/*
+			if (setreuid (uid, 0) != 0)
+			{
+				out_msg ("setuid failed!\n");
+				return 1;
+			}
+			*/
+			change_cvs_passwd ();
+			break;
+		case 3:
+		case 0:
+			out_msg ("\nbye bye\n");
+			exit(0);
+			break;
+		default:
+			break;
+		}
+		out_msg ("\nPress any key to Continue...");
+		getch ();
+	}
+	return 0;
+}
+
+
+/*
+ * 显示菜单
+ */
+void
+curses_init ()
+{
+	initscr ();
+	cbreak ();
+	nonl ();
+	noecho ();
+	intrflush (stdscr, FALSE);
+	keypad (stdscr, TRUE);
+	refresh ();
+}
+
+int
+init_screen ()
+{
+#define _MENU_START_LINE_	5	/* 可选菜单从第5行开始 */
+#define _MENU_ITEM_NUM_		3	/* 共三项 */
+#define _MENU_LEFT_COL_		5	/* 菜单的左侧启示列 */
+
+	int x, y;
+	int ch;
+
+	curses_init ();
+
+/* 画方框 */
+	box (stdscr, '|', '-');
+
+/* 开启反白模式 */
+	attron (A_REVERSE);
+
+/* 在 (20,0) 处输出反白字元 */
+	mvaddstr (0, 20, "CVS Account Management");
+
+/* 关闭反白模式 */
+	attroff (A_REVERSE);
+
+	mvaddstr (_MENU_START_LINE_ + 0, _MENU_LEFT_COL_,
+			  "1	---	Change Linux login passwd");
+	mvaddstr (_MENU_START_LINE_ + 1, _MENU_LEFT_COL_,
+			  "2	---	Change CVS   login passwd");
+	mvaddstr (_MENU_START_LINE_ + 2, _MENU_LEFT_COL_, "3	---	Exit");
+
+	mvaddstr (_MENU_START_LINE_ + _MENU_ITEM_NUM_ + 2, _MENU_LEFT_COL_,
+			  "Use Number/Cursor to select, and press ENTER to excute!");
+
+/* 将游标移至初始位置 */
+	x = _MENU_LEFT_COL_;
+	y = _MENU_START_LINE_;
+	move (x, y);
+
+	while (1)
+	{
+		ch = getch ();
+		switch (ch)
+		{
+
+/* 判断是否"↑"键被按下 */
+		case KEY_UP:
+			if (y &gt; _MENU_START_LINE_)
+				--y;
+			break;
+
+/* 判断是否"↓"键被按下 */
+		case KEY_DOWN:
+			if (y &lt; _MENU_START_LINE_ + _MENU_ITEM_NUM_ - 1)
+				++y;
+			break;
+
+/* 判断是否"→"键被按下 */
+		case KEY_RIGHT:
+			//++x;
+			break;
+
+/* 判断是否"←"键被按下 */
+		case KEY_LEFT:
+			//--x;
+			break;
+
+/* 判断是否 ENTER 键被按下 */
+		case '1':
+			y = _MENU_START_LINE_;
+			break;
+		case '2':
+			y = _MENU_START_LINE_ + 1;
+			break;
+		case '0':
+		case '3':
+			y = _MENU_START_LINE_ + 2;
+			break;
+		case '\r':
+		case '\n':
+			endwin ();
+			return y + 1 - _MENU_START_LINE_;
+			break;
+
+/* 判断是否[ESC]键被按下, 则退出 curses 模式 */
+		case 27:
+			endwin ();
+			exit (1);
+
+		default:
+			//addch (ch);
+			break;
+		}
+		/* 移动游标至现在位置 */
+		move (y, x);
+	}
+
+	return 0;
+}
+
+
+/*
+ * 修改 Unix 口令
+ */
+void
+change_unix_passwd ()
+{
+	char cmd[1024];
+	memset(cmd, 0, 1024);	
+
+	//out_msg("orignal uid: %d, getuid: %d, geteuid: %d, getlogin:%s\n", uid, getuid(), geteuid(), getlogin());
+
+	if (getuid() == 0)
+	{
+		assert(strcmp(uname, "root")!=0);
+		snprintf(cmd, 1024, "%s %s", _CMD_PASSWD_, uname);
+		system(cmd);
+	}
+	else
+	{
+		system(_CMD_PASSWD_);
+	}
+}
+
+/*
+ * 修改 CVS 口令
+ */
+int
+change_cvs_passwd ()
+{
+	char *newpasswd = NULL;
+	char *encrypt = NULL;
+	int pfd, tfd;
+
+	out_msg ("\n\nChange your CVS Account Password:\n");
+
+	// 获取 loginname
+
+	// 检查是否存在 /etc/passwd.cvs 文件
+	if (access (_CVS_PASSWD_FILE_, F_OK) != 0)
+	{
+		out_msg ("Not find file %s!\n",
+				 _CVS_PASSWD_FILE_);
+		return 1;
+	}
+
+	// 输入旧口令
+	// 修改CVS口令，无须输入旧口令
+	//check_old_passwd();
+
+	// 输入新口令（两次，需要匹配）
+	newpasswd = get_new_passwd ();
+	if (strlen (newpasswd) == 0)
+	{
+		out_msg ("CVS passwd not changed!");
+		return 1;
+	}
+
+	// 新口令加密
+	encrypt = encrypt_passwd (newpasswd);
+
+
+	// 检查用户账号是否和 /etc/passwd.cvs 文件的 realname 字段匹配，格式 aliases:passwd:realname
+	// 重新生成 /etc/passwd.cvs 文件
+	rewrite_cvspass (uname, encrypt);
+
+	return 0;
+}
+
+
+
+/*
+ * 获取用户的原口令输入
+ */
+void
+check_old_passwd ()
+{
+	FILE *fp;
+	char line[1024];			//, buf[1024];
+	char *buf;
+	char *t1, *t2, *t3;
+	char *oldpasswd;
+	int match = 0;
+
+	oldpasswd = getpass ("Old password:");
+
+	// cvs_lock
+	cvs_lock ();
+
+	if ((fp = fopen (_CVS_PASSWD_FILE_, "r")) == NULL)
+	{
+		out_msg ("can not open cvspass file\n");
+		exit (1);
+	}
+
+	while (fgets (line, 1024, fp))
+	{
+		//strncpy(buf, line, 1024);
+		if (line[strlen (line) - 1] == '\n')
+			line[strlen (line) - 1] = 0;
+
+		buf = (char *) strdup (line);
+		t1 = (char *) strtok (buf, ":");
+		t2 = (char *) strtok (NULL, ":");
+		t3 = (char *) strtok (NULL, ":");
+
+		if (t3 != NULL &amp;&amp; strcmp (t3, getlogin ()) == 0)
+		{
+			if (test_encrypt_passwd (oldpasswd, t2))
+			{
+				out_msg ("Wrong password!\n");
+				match = 0;
+			}
+			else
+			{
+				match = 1;
+			}
+		}
+	}
+	fclose (fp);
+
+	// cvs_unlock()
+	cvs_unlock ();
+
+	if (!match)
+	{
+		exit (1);
+	}
+
+	return;
+}
+
+
+/*
+ * 获取用户的新口令输入
+ */
+char *
+get_new_passwd ()
+{
+	int tries, pwd_tries = 3;
+	char *newpasswd = NULL;
+	char *p;
+
+#ifdef	_OLDPWD_CHECK_
+	check_old_passwd ();
+#endif
+
+	if (newpasswd == NULL)
+	{
+		newpasswd = (char *) malloc (_PASSWORD_LEN + 1);
+	}
+
+	for (newpasswd[0] = '\0', tries = 0; tries &lt; pwd_tries; tries++)
+	{
+		p = getpass ("New password:");
+		if (!*p)
+		{
+			out_msg ("Password unchanged.\n");
+			newpasswd[0] = '\0';
+			break;
+		}
+		if (strcmp (p, "s/key") == 0)
+		{
+			out_msg
+				("That password collides with a system feature. Choose another.\n");
+			continue;
+		}
+
+		if ((tries &lt; pwd_tries || pwd_tries == 0) 
+				    &amp;&amp; pwd_check(p) == 0)
+			continue;
+
+		strncpy (newpasswd, p, _PASSWORD_LEN);
+		newpasswd[_PASSWORD_LEN] = 0;
+		if (strcmp (newpasswd, getpass ("Retype new password:")) == 0)
+		{
+			break;
+		}
+		else
+		{
+			newpasswd[0] = 0;
+			out_msg ("Mismatch; try again, EOF to quit.\n");
+		}
+	}
+
+	return (newpasswd);
+}
+
+
+/*
+ * 修改 cvs 口令文件
+ * username is Unix Username, such as: u_xxx
+ */
+int
+rewrite_cvspass (char *username, char *encrypt, bool b_adduser)
+{
+	FILE *fp;
+	int fdtmp;
+	char *tmpfile = NULL;
+	char line[1024];			//, buf[1024];
+	char *buf;
+	char *t1, *t2, *t3;
+	int err = 0, changed = 0;
+	char *alias;
+
+	// cvs_lock
+	cvs_lock ();
+
+	tmpfile = (char *) strdup (_TEMP_FILE_);
+	fdtmp = mkstemp (tmpfile);
+
+	if (fdtmp == -1)
+	{
+		out_msg ("can not open cvspass temp file: %s\n", tmpfile);
+
+		err = 1;
+		goto clean;
+	}
+
+	if ((fp = fopen (_CVS_PASSWD_FILE_, "r")) == NULL)
+	{
+		out_msg ("can not open cvspass file!\n");
+
+		err = 1;
+		close(fdtmp);
+		goto clean;
+	}
+
+	// 重新生成 /etc/passwd.cvs 文件
+	while (fgets (line, 1024, fp))
+	{
+		//strncpy(buf, line, 1024);
+		if (line[strlen (line) - 1] == '\n'
+			|| line[strlen (line) - 1] == '\r')
+			line[strlen (line) - 1] = 0;
+		if (line[strlen (line) - 1] == '\n'
+			|| line[strlen (line) - 1] == '\r')
+			line[strlen (line) - 1] = 0;
+
+		buf = (char *) strdup (line);
+		t1 = (char *) strtok (buf, ":");
+		t2 = (char *) strtok (NULL, ":");
+		t3 = (char *) strtok (NULL, ":");
+
+		if (t3 != NULL &amp;&amp; strcmp (t3, username) == 0)
+		{
+			snprintf (line, 1024, "%s:%s:%s", t1, encrypt, t3);
+			alias = strdup(t1);
+			changed = 1;
+		}
+		write (fdtmp, line, strlen(line));
+		write (fdtmp, "\n", 1);
+	}
+
+	fclose (fp);
+	close (fdtmp);
+
+	if(b_adduser &amp;&amp; !changed)
+	{
+		if ((fp = fopen (tmpfile, "a")) != NULL)
+		{
+			if(username[0] == 'u' &amp;&amp; username[1] == '_')
+				alias = username+2;
+			else
+				alias = username;
+			snprintf (line, 1024, "%s:%s:%s\n", alias, encrypt,username);
+			fputs(line,fp);
+			changed = 2;
+			fclose(fp);
+		}
+		
+	}
+
+	if (rename (tmpfile, _CVS_PASSWD_FILE_) != 0)
+	{
+		out_msg ("can not rename %s to %s\n", tmpfile, _CVS_PASSWD_FILE_);
+
+		err = 1;
+		goto clean;
+	}
+
+clean:
+	// cvs_unlock()
+	cvs_unlock ();
+	
+	switch(changed)
+	{
+	case 1:
+		out_msg ("CVS passwd for %s(%s) changed.\n", alias, username);
+		break;
+	case 2:
+		out_msg ("add CVS passwd entry for %s(%s).\n", alias, username);
+		break;
+	case 0:
+	default:
+		out_msg ("Not find CVS entry of user: %s\n", username);
+		break;
+	}
+	return err;
+}
+
+
+/*
+ * 加密口令
+ */
+char *
+encrypt_passwd (char *plain)
+{
+	unsigned long seed[2];
+	char salt[] = "$1$........";
+	const char *const seedchars =
+		"./0123456789ABCDEFGHIJKLMNOPQRST"
+		"UVWXYZabcdefghijklmnopqrstuvwxyz";
+	char *password;
+	int i;
+
+	/* Generate a (not very) random seed.
+	   You should do it better than this... */
+	seed[0] = time (NULL);
+	seed[1] = getpid () ^ (seed[0] &gt;&gt; 14 &amp; 0x30000);
+
+	/* Turn it into printable characters from `seedchars'. */
+	for (i = 0; i &lt; 8; i++)
+		salt[3 + i] = seedchars[(seed[i / 5] &gt;&gt; (i % 5) * 6) &amp; 0x3f];
+
+	/* Read in the user's password and encrypt it. */
+	password = (char *) crypt (plain, salt);
+
+	/* Print the results. */
+	return password;
+}
+
+
+int
+test_encrypt_passwd (char *pass, char *encrypt)
+{
+	char *result;
+	int ok;
+
+	/* Read in the user's password and encrypt it,
+	   passing the expected password in as the salt. */
+	result = (char *) crypt (pass, encrypt);
+
+	/* Test the result. */
+	ok = strcmp (result, encrypt) == 0;
+
+	return ok ? 0 : 1;
+}
+
+</pre>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s08s05.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="starteam-faq.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">8.5. 缺憾 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> B. Starteam FAQ</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

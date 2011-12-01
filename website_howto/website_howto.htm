@@ -1,0 +1,2322 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Website Construction Howto</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="本文当基于以前的一个文档《用Apache, Php, MySQL, Oracle 构建电子商务网》，希望对网站开发和维护人员有所帮助。 （编译自版本: cf8c05d，最后更新时间: 2007-06-19）">
+<link rel="start" href="#index" title="Website Construction Howto">
+<link rel="next" href="#dev-product" title="2. 开发平台和生产平台">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>Website Construction Howto</h1></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 1.2</td>
+<td align="left">2002/12/16</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+添加数据库设计和 PHP 中间件开发 
+</td></tr>
+<tr>
+<td align="left">修订 1.1</td>
+<td align="left">2002/12/02</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+补充网站更新流程
+</td></tr>
+<tr>
+<td align="left">修订 1.0</td>
+<td align="left">2002/11/13</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+转换为 docbook 格式
+</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2000/9</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">
+eastmd portal configuration
+</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+本文当基于以前的一个文档《用Apache, Php, MySQL, Oracle 构建电子商务网》，希望对网站开发和维护人员有所帮助。
+</p>
+<p>
+（编译自版本: cf8c05d，最后更新时间: 2007-06-19）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#cvs">1. CVS进行版本控制和网站更新流程</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4449968">1.1. CVS进行版本控制</a></span></dt>
+<dt><span class="sect2"><a href="#idp4453984">1.2. 网站更新流程</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#dev-product">2. 开发平台和生产平台</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4466288">2.1. APACHE 配置的差异</a></span></dt>
+<dt><span class="sect2"><a href="#idp4470448">2.2. PHP 配置的差异</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#db-oop">3. 数据库设计和 PHP 中间件开发</a></span></dt>
+<dt><span class="sect1"><a href="#ssi">4. 使用SSI (Server Side Include)技术</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4484368">4.1. 配置Apache，支持SSI</a></span></dt>
+<dt><span class="sect2"><a href="#idp4485760">4.2. SSI语法</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#webtest">5. 网页测试</a></span></dt>
+<dt><span class="appendix"><a href="#append-mysql">A. MySQL 安装和使用经验</a></span></dt>
+<dd><dl>
+<dt><span class="sect1"><a href="#mysql-install">A.1. 安装</a></span></dt>
+<dt><span class="sect1"><a href="#mysql-conf">A.2. 配置</a></span></dt>
+<dt><span class="sect1"><a href="#mysql-usage">A.3. 用法</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4516864">A.3.1. 常用语法</a></span></dt>
+<dt><span class="sect2"><a href="#idp4521024">A.3.2. SQL JOIN</a></span></dt>
+<dt><span class="sect2"><a href="#idp4524800">A.3.3. Others</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#mysql-security">A.4. Security</a></span></dt>
+</dl></dd>
+<dt><span class="appendix"><a href="#append-oracle">B. Oracle安装经验</a></span></dt>
+<dt><span class="appendix"><a href="#append-apache">C. Apache配置</a></span></dt>
+<dd><dl>
+<dt><span class="sect1"><a href="#apachache-unix">C.1. Unix 安装</a></span></dt>
+<dt><span class="sect1"><a href="#apache-win32">C.2. Windows平台上的安装</a></span></dt>
+<dt><span class="sect1"><a href="#apache-conf">C.3. 配置</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4594624">C.3.1. HightlLight</a></span></dt>
+<dt><span class="sect2"><a href="#idp4599648">C.3.2. PHP 4.x Apache Directives Notes</a></span></dt>
+<dt><span class="sect2"><a href="#idp4603264">C.3.3. Virtual Host</a></span></dt>
+</dl></dd>
+</dl></dd>
+<dt><span class="appendix"><a href="#append-php">D. PHP开发规范和语法速查</a></span></dt>
+<dd><dl>
+<dt><span class="sect1"><a href="#php-rules">D.1. Programming Tips and Rules</a></span></dt>
+<dt><span class="sect1"><a href="#php-oop">D.2. OOP (Object-Oriented Programming)</a></span></dt>
+</dl></dd>
+<dt><span class="appendix"><a href="#append-others">E. 其他</a></span></dt>
+<dd><dl>
+<dt><span class="sect1"><a href="#javascript">E.1. JavaScript</a></span></dt>
+<dt><span class="sect1"><a href="#css">E.2. 网页加速</a></span></dt>
+</dl></dd>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="cvs"></a>1. CVS进行版本控制和网站更新流程</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4449968"></a>1.1. CVS进行版本控制</h3></div></div></div>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+没有版本控制的软件开发，永远只能是作坊式的开发。成本高，风险大。
+</p></td></tr>
+</table></div>
+<p>
+在网站开发和更新流程中，完全可以利用 CVS，来进行版本控制和版本提升。
+</p>
+<p>
+版本控制，保障了多人的协同工作，不会因为一个人的修改，覆盖另外一个人的更改。而且，也可以通过版本控制系统，获知是谁的修改导致出现BUG，加强责任感。
+</p>
+<p>
+版本提升，引入里程碑概念，使得网站前台的代码是不是最新的代码，而是测试过的，基于某一个时间、label的稳定版本。开发人员不会因为怕给前台带来问题，而不敢 checkin 代码；而且也提供了测试人员介入的接口。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4453984"></a>1.2. 网站更新流程</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+里程碑
+</p>
+<p>
+CVS可以利用文件来实现里程碑的概念。在工程的根目录下存放 .promotion 文件记录当前网站发布代码的LABEL。保证对外提供服务的生产平台的WEB网页，一定是基于某个里程碑（LABEL）的，而不一定是当前最新的代码。
+</p>
+</li>
+<li>
+<p>
+更新脚本
+</p>
+<p>
+更新脚本负责读取 .promotion，确认当前分支（还需要一个文件，确认当前的分支状态）的里程碑label，并依据该 label，Checkout 代码。
+</p>
+</li>
+<li>
+<p>
+镜像服务器到生产服务器的同步
+</p>
+<p>
+为了保证生产服务器的安全，可以另外设置一个镜像服务器，定时进行镜像服务器和生产服务器的同步。
+</p>
+</li>
+<li>
+<p>
+网站维护的安全性
+</p>
+<p>
+基于CVS工作后，开发小组完成自己网页修改和校验，打上相应的TAG。而网页向镜像服务器和生产服务器的提交，不需要开发小组的干预，而是经过测试小组测试后，由管理员提交。
+</p>
+</li>
+<li>
+<p>
+数据库的维护
+</p>
+<p>
+数据库一定要有一个设计结构图。Visio可以自动完成数据库结构图的创建。MySQL数据库可以通过MyODBC作接口，用Visio绘图。
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="dev-product"></a>2. 开发平台和生产平台</h2></div></div></div>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+想要进行网站开发，必须要建立开发环境，因为网站开发不是简单的网页修改！涉及到脚本解释引擎的安装、数据库的安装、WEB服务器的安装、为调试方便而区分的开发平台和生产平台。
+</p></td></tr>
+</table></div>
+<p>
+生产平台，就是网站处于发布环境下，对外/对内提供服务的状态。服务器的配置处于最安全和稳定的状态。
+</p>
+<p>
+开发平台，就是网站处于调试环境下，不对外提供服务，是开发人员的调试平台。服务器配置和代码处于诊断状态，便于程序调试。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4466288"></a>2.1. APACHE 配置的差异</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+在生产平台，加入 CheckSpelling，提供对文件名纠错功能
+</p>
+<pre class="screen">
+# 生产平台
+&lt;IfModule mod_speling.c&gt;
+    CheckSpelling on
+&lt;/IfModule&gt;
+</pre>
+</li>
+<li>
+<p>
+在开发平台，传递标识变量，用以识别开发平台，打开PHP调试函数
+</p>
+<pre class="screen">
+# 在开发平台加入环境变量 MY_DEBUG, 可传递到PHP环境中，识别开发平台和生产平台。
+&lt;IfModule mod_env.c&gt;
+    SetEnv  MY_DEBUG on
+    PassEnv MY_DEBUG
+&lt;/IfModule&gt;
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4470448"></a>2.2. PHP 配置的差异</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+debug 函数只在生产平台在页面输出调试信息
+</p>
+<p>
+调试类 clDebug 提供调试函数，只在生产平台在页面输出调试信息，生产平台，调试信息输出到日志文件。
+</p>
+<p>
+示例：include/test/debug.php
+</p>
+<pre class="screen">
+&lt;?php
+include("pub/debug.inc");
+
+_debug("hehe");
+_debug("hehe","xxx");
+
+$debug=new clDebug();
+$debug-&gt;timer_init();
+
+
+for ($i=0; $i&lt;10000; $i++);
+_debug("\$i",$i);
+$debug-&gt;timer_during();
+
+//$debug-&gt;set_log("c:/php.debug.html");
+
+for ($i=0; $i&lt;100000; $i++);
+_debug("\$i",$i);
+$debug-&gt;timer_during();
+
+
+$debug-&gt;timer_total();
+
+phpinfo();
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+display_errors 和 display_startup_errors 的设置
+</p>
+<p>
+在开发平台，设置 display_errors 和 display_startup_errors 为 On；
+在生产平台，设置 display_errors 和 display_startup_errors 为 Off。
+</p>
+<p>
+目的是在开发平台能够将PHP报错信息直接显示在网页上。
+</p>
+</li>
+<li>
+<p>
+error_reporting  的设置
+</p>
+<p>
+在开发平台，设置 error_reporting 为 <span><strong class="command">error_reporting  =  E_ALL</strong></span>；
+在生产平台，设置 error_reporting 为 <span><strong class="command">error_reporting  =  E_ALL &amp; ~E_NOTICE</strong></span>。
+</p>
+<p>
+目的是在开发平台能够报告PHP语法上的警告信息。
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="db-oop"></a>3. 数据库设计和 PHP 中间件开发</h2></div></div></div>
+<p>
+PHP支持面向对象的编程。利用类封装数据库的操作，可以保证在脚本中屏蔽掉复杂的数据库操作，而且也可以在网站进行数据库迁移时，减轻工作量。
+</p>
+<p>
+示例：略。
+</p>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="ssi"></a>4. 使用SSI (Server Side Include)技术</h2></div></div></div>
+<p>
+想要找到既富有创意的平面设计人员，又有脚本开发经验的人员，实在是太难了。而如果一个百分之百的页面都是php脚本的网站，将为页面维护带来非常大的困难。而且使用了php的自动加头和加尾的方法，使得几乎所有页面都是语义不完整的，不能借助任何一款页面设计工具工作，是另一个弊病。
+</p>
+<p>
+利用SSI技术，可以有效的将HTML网页和CGI脚本逻辑上分开，也可以将重复的HTML元素抽象和独立出来，减轻维护负担。
+</p>
+<p>
+SSI (Server Side Includes) are directives that are placed in HTML pages, 
+and evaluated on the server while the pages are being served. 
+They let you add dynamically generated content to an existing HTML page, 
+without having to serve the entire page via a CGI program, or other dynamic technology.
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4484368"></a>4.1. 配置Apache，支持SSI</h3></div></div></div>
+<pre class="screen">
+# This tells Apache that you want to permit files to be parsed for SSI directives.
+Options +Includes -IncludesNOEXEC
+
+# You have to tell Apache which files should be parsed.
+AddType text/html .shtml
+AddHandler server-parsed .shtml
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4485760"></a>4.2. SSI语法</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Basic SSI directives Syntax
+</p>
+<pre class="screen">
+&lt;!--#element attribute=value attribute=value ... --&gt;
+</pre>
+</li>
+<li>
+<p>
+Today's date
+</p>
+<pre class="screen">
+&lt;!--#config timefmt="%Y/%m/%d %a %H:%M:%S" --&gt;
+Today is &lt;!--#echo var="DATE_LOCAL" --&gt;
+</pre>
+</li>
+<li>
+<p>
+Modification date of the file
+</p>
+<pre class="screen">
+This document last modified &lt;!--#flastmod file="index.html" --&gt;
+</pre>
+</li>
+<li>
+<p>
+Including the results of a CGI program
+</p>
+<pre class="screen">
+&lt;!--#include virtual="/cgi-bin/counter.pl" --&gt;
+&lt;!--#include virtual="/cgi-bin/example.cgi?argument=value" --&gt;
+</pre>
+<p>
+You can use "#exec cgi=" directive, but it can be disabled using the IncludesNOEXEC Option.
+</p>
+</li>
+<li>
+<p>
+Including a standard footer
+</p>
+<pre class="screen">
+&lt;!--#include virtual="/footer.html" --&gt;
+</pre>
+</li>
+<li>
+<p>
+Executing commands
+</p>
+<pre class="screen">
+&lt;!--#exec cmd="ls" --&gt;
+</pre>
+<p>
+This feature is dangerous. You can allow SSI, but not the exec feature, with the IncludesNOEXEC argument to the Options directive.
+</p>
+</li>
+<li>
+<p>
+Setting variables
+</p>
+<pre class="screen">
+&lt;!--#set var="modified" value="$LAST_MODIFIED" --&gt;
+&lt;!--#set var="date" value="${DATE_LOCAL}_${DATE_GMT}" --&gt;
+</pre>
+</li>
+<li>
+<p>
+Conditional expressions
+</p>
+<pre class="screen">
+&lt;!--#if expr="test_condition" --&gt;
+&lt;!--#elif expr="test_condition" --&gt;
+&lt;!--#else --&gt;
+&lt;!--#endif --&gt;
+</pre>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="webtest"></a>5. 网页测试</h2></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+脱机浏览/网站拷贝软件的使用
+</p>
+<p>
+使用脱机浏览/网站拷贝软件，将网站复制到本地。检查 php 警告和错误特征字符串，检查 mysql 数据库错误字符串。
+</p>
+<p>
+如：PHP 特征字符串:“on line”，mysql特征字符串:"mysql"
+</p>
+</li>
+<li>
+<p>
+开发平台和生产平台的对照
+</p>
+<p>
+可以检查出脚本编程许多不规范之处。
+</p>
+</li>
+<li>
+<p>
+Differ软件
+</p>
+<p>
+和上一次或者一致的正确版本网站的本地拷贝作比较，察看异同。
+</p>
+</li>
+<li>
+<p>
+HTML Tidy and Validate 
+</p>
+<p>
+用专业软件，检查网页连接。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="append-mysql"></a>A. MySQL 安装和使用经验</h2></div></div></div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="mysql-install"></a>A.1. 安装</h2></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Windows
+</p>
+<pre class="screen">
+bin\mysqld-nt --install               # Install MySQL as a service
+NET START mysql
+NET STOP mysql
+bin\mysqld-nt --remove                # remove MySQL as a service
+</pre>
+</li>
+<li>
+<p>
+Unix
+</p>
+<pre class="screen">
+
+# groupadd mysql
+# useradd -g mysql mysql
+# 源代码安装模式
+	# tar zxvf mysql-xxx.tar.gz
+	# cd mysql-xxx/
+	# ./configure --prefix=/usr/local/mysql --localstatedir=/var/db/mysql
+	# make
+	# make install
+# 二进制安装模式
+	# cd /usr/local
+	# gunzip &lt; /path/to/mysql-xxx.tar.gz | tar xvf -
+	# ln -s mysql-xxx mysql
+# cd /usr/local/mysql
+# scripts/mysql_install_db
+# chown -R root:mysql  /usr/local/mysql
+# chown -R mysql PATH_TO_MYSQL_DB
+
+# cp surrport_files/mysql.server  /etc/rc.d/init.d/mysqld
+# chmod a+x /etc/rc.d/init.d/mysqld
+# ln -s /etc/rc.d/init.d/mysqld  /etc/rc.d/rc3.d/S98mysql
+# /etc/rc.d/init.d/mysqld start
+# 则启动进程：
+	/usr/local/mysql/bin/mysqld --defaults-extra-file=/usr/local/mysql/data/my.cnf 
+	--basedir=/usr/local/mysql --datadir=/usr/local/mysql/data 
+	--user=mysql --pid-file=/usr/local/mysql/data/ltcvs.pid --skip-locking
+
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="mysql-conf"></a>A.2. 配置</h2></div></div></div>
+<p>
+Since MySQL Version 3.22, read default startup options for the server and for clients from option files. 
+Location: <code class="filename">/etc/my.cnf</code>, <code class="filename">DATADIR/my.cnf</code>, or <code class="filename">~/.my.cnf </code> on Unix,
+<code class="filename">windows-system-directory\my.ini</code>,<code class="filename">c:\my.cnf</code> or <code class="filename">C:\mysql\data\my.cnf</code> on Windows.
+</p>
+<p>
+注意 my.cnf 中关于 socket 的设置，如果设置和php识别的不一致，会导致以 unix socket访问数据库失败。建议采用TCP/IP方式建立连接：
+即在建立连接时，host填写IP地址，如果是本机，使用127.0.0.1（TCP/IP），而不使用localhost（Unix Socket）。
+</p>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="mysql-usage"></a>A.3. 用法</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4516864"></a>A.3.1. 常用语法</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+测试
+</p>
+<pre class="screen">
+shell&gt; telnet server_host 3306
+
+shell&amp;gt; BINDIR/mysqlshow
++-----------+
+| Databases |
++-----------+
+| mysql     |
++-----------+
+
+shell&amp;gt; BINDIR/mysqlshow mysql
+Database: mysql
++--------------+
+|    Tables    |
++--------------+
+| columns_priv |
+| db           |
+| func         |
+| host         |
+| tables_priv  |
+| user         |
++--------------+
+
+shell&amp;gt; BINDIR/mysql -e "select host,db,user from db" mysql
++------+--------+------+
+| host | db     | user |
++------+--------+------+
+| %    | test   |      |
+| %    | test_% |      |
++------+--------+------+
+
+</pre>
+</li>
+<li>
+<p>
+SQL基础
+</p>
+<pre class="screen">
+shell&gt; mysql --help
+shell&gt; mysql -h &lt;hostname&gt; -u &lt;username&gt; -p[password] [database] [&lt; batch-file]
+shell&gt; mysql &lt; batch-file &gt; mysql.out
+shell&gt; telnet server_host 3306
+
+mysql&gt; SeLeCt VERSON(), current_DATE;
+mysql&gt; SELECT SIN(PI()/4), (4+1)*5;
+mysql&gt; SELECT VERSION(); SELECT NOW();
+mysql&gt; SHOW DATABASES;
+mysql&gt; USE test
+mysql&gt; GRANT ALL ON menagerie.* TO your_mysql_name;
+mysql&gt; CREATE DATABASE menagerie;
+mysql&gt; USE menagerie
+shell&gt; mysql -h host -u user -p menagerie
+mysql&gt; SHOW TABLES;
+mysql&gt; CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20),
+    -&gt; species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);
+
+mysql&gt; SHOW TABLES;
+mysql&gt; DESCRIBE pet;
+mysql&gt; INSERT INTO pet
+    -&gt; VALUES ('Puffball','Diane','hamster','f','1999-03-30',NULL);
+mysql&gt; LOAD DATA LOCAL INFILE "pet.txt" INTO TABLE pet;
+mysql&gt; SELECT * FROM pet;
+mysql&gt; SELECT name, species, birth FROM pet ORDER BY species, birth DESC;
+mysql&gt; SELECT name, birth, CURRENT_DATE,
+    -&gt; (YEAR(CURRENT_DATE)-YEAR(birth))
+    -&gt; - (RIGHT(CURRENT_DATE,5)&lt;RIGHT(birth,5))
+    -&gt; AS age
+    -&gt; FROM pet;
+
+mysql&gt; SELECT * FROM pet WHERE name LIKE "b%";
+mysql&gt; SELECT * FROM pet WHERE name LIKE "%w%";
+-- To find names containing exactly five characters, use the `_' pattern character: --
+mysql&gt; SELECT * FROM pet WHERE name LIKE "_____";
+mysql&gt; SELECT * FROM pet WHERE name REGEXP "^[bB]";
+mysql&gt; SELECT * FROM pet WHERE name REGEXP BINARY "^b";
+mysql&gt; SELECT * FROM pet WHERE name REGEXP "^.....$";
+mysql&gt; SELECT COUNT(*) FROM pet;
+mysql&gt; SELECT species, sex, COUNT(*) FROM pet
+    -&gt; WHERE species = "dog" OR species = "cat"
+    -&gt; GROUP BY species, sex;
+mysql&gt; SELECT pet.name, (TO_DAYS(date) - TO_DAYS(birth))/365 AS age, remark
+    -&gt; FROM pet, event
+    -&gt; WHERE pet.name = event.name AND type = "litter";
+mysql&gt; SELECT p1.name, p1.sex, p2.name, p2.sex, p1.species
+    -&gt; FROM pet AS p1, pet AS p2
+    -&gt; WHERE p1.species = p2.species AND p1.sex = "f" AND p2.sex = "m";
+
+CREATE TABLE shop (
+ article INT(4) UNSIGNED ZEROFILL DEFAULT '0000' NOT NULL,
+ dealer  CHAR(20)                 DEFAULT ''     NOT NULL,
+ price   DOUBLE(16,2)             DEFAULT '0.00' NOT NULL,
+ PRIMARY KEY(article, dealer));
+CREATE TABLE persons (
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name CHAR(60) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE shirts (
+    id SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    style ENUM('t-shirt', 'polo', 'dress') NOT NULL,
+    color ENUM('red', 'blue', 'orange', 'white', 'black') NOT NULL,
+    owner SMALLINT UNSIGNED NOT NULL REFERENCES persons,
+    PRIMARY KEY (id)
+);
+
+
+mysql&gt; SELECT 1 IS NULL, 1 IS NOT NULL;
++-----------+---------------+
+| 1 IS NULL | 1 IS NOT NULL |
++-----------+---------------+
+|         0 |             1 |
++-----------+---------------+
+
+SELECT MAX(article) AS article FROM shop;
+
+<span class="emphasis"><em>How mysql handles sub-query</em></span>
+-- In ANSI SQL this is easily done with a sub-query: 
+-- SELECT article, dealer, price
+-- FROM   shop
+-- WHERE  price=(SELECT MAX(price) FROM shop);
+
+-- In MySQL (which does not yet have sub-selects), just do it in two steps: 
+-- Get the maximum price value from the table with a SELECT statement. 
+-- Using this value compile the actual query: 
+SELECT article, dealer, price
+FROM   shop
+WHERE  price=19.95
+
+-- Another solution is to sort all rows descending by price and only get the first row using the MySQL specific LIMIT clause: 
+SELECT article, dealer, price
+FROM   shop
+ORDER BY price DESC
+LIMIT 1;
+
+-- In ANSI SQL, I'd do it with a sub-query like this: 
+
+SELECT article, dealer, price
+FROM   shop s1
+WHERE  price=(SELECT MAX(s2.price)
+              FROM shop s2
+              WHERE s1.article = s2.article);
+
+-- In MySQL it's best do it in several steps: 
+
+-- Get the list of (article,maxprice). 
+-- For each article get the corresponding rows that have the stored maximum price. 
+-- This can easily be done with a temporary table: 
+
+CREATE TEMPORARY TABLE tmp (
+        article INT(4) UNSIGNED ZEROFILL DEFAULT '0000' NOT NULL,
+        price   DOUBLE(16,2)             DEFAULT '0.00' NOT NULL);
+
+LOCK TABLES shop read;
+
+INSERT INTO tmp SELECT article, MAX(price) FROM shop GROUP BY article;
+
+SELECT shop.article, dealer, shop.price FROM shop, tmp
+WHERE shop.article=tmp.article AND shop.price=tmp.price;
+
+UNLOCK TABLES;
+
+DROP TABLE tmp;
+
+
+shell&gt; mysqldump [OPTIONS] database [tables]
+OR     mysqldump [OPTIONS] --databases [OPTIONS] DB1 [DB2 DB3...]
+OR     mysqldump [OPTIONS] --all-databases [OPTIONS]
+--opt : Same as --quick --add-drop-table --add-locks --extended-insert --lock-tables. 
+	Should give you the fastest possible dump for reading into a MySQL server. 
+--no-data 
+	Don't write any row information for the table. This is very useful if you just want to get a dump of the structure for a table! 
+
+
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4521024"></a>A.3.2. SQL JOIN</h3></div></div></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+参见：<a href="http://www.webreview.com/dd/2000/02_25_00_2.shtml" target="_top">How to Join Multiple SQL Tables - Part 2: Types of Joins</a>, <a href="http://www.w3schools.com/sql/sql_join.asp" target="_top">SQL JOIN...</a>, <a href="http://www.peyo-home.sk/index.html?sql_tutorial/multiple_tables.htm~main" target="_top">Free SQL Tutorial</a>, <a href="http://www.cecs.csulb.edu/~jewett/dbdesign/dbprint.php?page=jointypes.php&amp;imgsize=medium" target="_top">SQL queries: join types</a>.
+</p></td></tr>
+</table></div>
+<p>
+Cartesian join, Inner join, Outer join(Left join, Right join), Self join.
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4524800"></a>A.3.3. Others</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Ansi Compatible: use single quote('), note double quote(").
+</p>
+<pre class="screen">
+-- the following are the same.
+insert into jxtest (ttt) values('js''s test');
+insert into jxtest (ttt) values('js\'s test');
+</pre>
+</li>
+<li>
+<p>
+Case Sensitivity in Names
+</p>
+<p>
+Database, Table, Alias on Table are case sensitive.
+</p>
+<p>
+If lower_case_table_names is 1 MySQL will convert all table names to lower case on storage and lookup. 
+Note that if you change this option, you need to first convert your old table names to lower case before 
+starting mysqld. 
+</p>
+</li>
+<li><p>
+</p></li>
+</ul></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="mysql-security"></a>A.4. Security</h2></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+Don't run the MySQL daemon as the Unix root user. 
+</p></li>
+<li>
+<p>
+Invest in a firewall
+</p>
+<p>
+Check whether unnecessary host can access database using command "<span><strong class="command">shell&gt; telnet server_host 3306</strong></span>".
+</p>
+</li>
+<li>
+<p>
+Password protect your database account
+</p>
+<pre class="screen">
+shell&gt; mysql -u root mysql
+mysql&gt; UPDATE user SET Password=PASSWORD('new_password')
+           WHERE user='root';
+mysql&gt; FLUSH PRIVILEGES;
+or shell&gt; mysqladmin -u root password new_password;
+</pre>
+</li>
+<li>
+<p>
+DON'T EVER GIVE ANYONE (EXCEPT THE MySQL ROOT USER) ACCESS TO THE user TABLE IN THE mysql DATABASE! 
+</p>
+<p>
+The GRANT and REVOKE commands are used for controlling access to MySQL. Do not grant any more privileges than necessary. 
+</p>
+<pre class="screen">
+shell&gt; mysql --user=root mysql
+mysql&gt; GRANT ALL PRIVILEGES ON *.* TO user1@localhost
+           IDENTIFIED BY 'some_pass' WITH GRANT OPTION;
+mysql&gt; GRANT ALL PRIVILEGES ON *.* TO user1@"%"
+           IDENTIFIED BY 'some_pass' WITH GRANT OPTION;
+</pre>
+</li>
+<li>
+<p>
+Do not keep any plain-text passwords in your database. 
+</p>
+<p>
+Instead use MD5() or another one-way hashing function.
+</p>
+</li>
+<li>
+<p>
+Do not trust any data entered by your users. 
+</p>
+<p>
+A hacker can enters something like ``; DROP DATABASE mysql;'' to destory your database.
+</p>
+<p>
+Check user input data. 
+</p>
+<p>
+PHP: use the addslashes() function to quote user import.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="append-oracle"></a>B. Oracle安装经验</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+建立dba组oinstall组及oracle用户                                                                                                                                            
+</p>
+<pre class="screen">
+#groupadd  dba
+#groupadd  oinstall
+#useradd -g oinstall -G dba oracle
+#passwd oracle
+</pre>
+</li>
+<li>
+<p>
+建立oracle 安装点目录
+</p>
+<pre class="screen">
+# mkdir  /db/oracle
+# chown  oracle:oinstall  oracle
+</pre>
+</li>
+<li>
+<p>
+建立oracle用户环境
+</p>
+<pre class="screen">
+#在 .bash_profile 文件中加入：
+ORACLE_HOME=/db/oracle ;export ORACLE_HOME
+LD_LIBRARY_PATH=$ORACLE_HOME/lib ;export LD_LIBRARY_PATH
+PATH=$PATH: $ORACLE_HOME/bin ；export PATH
+ORACLE_BASE=$ORACLE_HOME; export ORACLE_BASE
+ORACLE_SID=ORC1 ;export ORACLE_SID
+NLS_LANG= "FRENCH_FRANCE.WE8ISO8859P1" ;export NLS_LANG
+Umask  022
+</pre>
+</li>
+<li>
+<p>
+安装过程
+</p>
+<pre class="screen">
+以oracle 用户登录运行 
+$startx
+在Xwindows中run  /mnt/cdrom/.runInstaller
+1． WELCOME 页中选  next
+2． FILE  LOCATIONS页中若Destination...  path为/db/oracle  选 next
+3． UNIX GROUP NAME 页中输入UNIX Group Name: oinstall  选 next 
+4． 弹出一个提示窗要求以root run  /db/oracle/orainstRoot.sh 
+打开一个terminal ,#su ,#orainstRoot.sh   此shell 
+create Oracle Inventory pointer file (/etc/oraInst.loc) 
+create groupname of /db/oracle/oraInventory to oinstall
+then  press  retry
+5． Available Products 页中选 Oracle8i Enterprise Edition 8.1.6.1.0选 next
+6． Installation Types  页中选 Typical(540MB)                选 next
+7． Database Identification页中输入 Global Database Name: orc1.est.com.cn 
+SID: orc1  
+选 next
+8. Database File Location 页中通过Browse或input  Directory for Database Files: /db/oracle
+选 next
+9. Summary 页中  选 Install
+10. Install 页  安装过程中弹出Setup Privileges 窗口要求run  /db/oracle/root.sh
+打开一个terminal ,#su ,#root.sh   此shell 
+create /etc/oratab file and set 
+ORACLE_OWNER=oracle
+ORACLE_HOME = /db/oracle
+ORACLE_SID= orc1 
+then    选next 
+11. Configuration Tools  页 完成安装。
+12. Web Server(Apache) support
+修改/www/apache/bin/apachectl脚本,使启动支持中文ORACLE环境:
+在文件中67行("start)")下面加入几行:
+export ORACLE_HOME=/db/oracle
+export ORACLE_BASE=$ORACLE_HOME
+export ORACLE_SID=ORC1
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+;export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data
+;export NLS_LANG="SIMPLIFIED CHINESE_CHINA.ZHS16CGB231280"
+export NLS_LANG="FRENCH_FRANCE.WE8ISO8859P1"
+
+</pre>
+</li>
+<li>
+<p>
+安装完成以后修改 /etc/oratab 中
+</p>
+<pre class="screen">
+orc1：/db/oracle:N  为   orc1:/db/oracle:Y
+修改 /db/oracle/bin/dbstart  中85行
+/PL\/SQL (Release|Version)/{substr($3,1,3) ;
+print substr($3,1,3)}'`
+ 为 /Edition Release/ {substr($5,1,3) ;
+    print substr($5,1,3)}'` 
+     注意：不可插入多余的字符，最好在修改模式下进行，否则可能会造成不能启动。
+</pre>
+</li>
+<li>
+<p>
+启动ORACLE
+</p>
+<pre class="screen">
+以oracle 登录 run
+lsnrctl   start  listener
+dbstart 
+</pre>
+</li>
+<li>
+<p>
+自动启动ORACLE
+</p>
+<pre class="screen">
+建立脚本 /etc/rc.d/init.d/oracle8i  ; chmod +x ;内容如下：
+;*************start  *************
+ORA_HOME=/db/oracle
+ORA_OWNER=oracle
+
+case "$1" in
+
+'start')
+echo -n "Starting Oracle8i Release 2: "
+su - $ORA_OWNER -c $ORA_HOME/bin/dbstart 
+touch /var/lock/subsys/oracle8i
+echo 
+
+;;
+
+'stop')
+
+echo -n "Shutting down Oracle8i Release 2:"
+su - $ORA_OWNER -c $ORA_HOME/bin/dbshut 
+rm -f /var/lock/subsys/oracle8i
+echo
+
+;;
+'restart')
+echo -n "Restarting Oracle8i Release 2:"
+$0 stop
+$0 start
+echo 
+
+;;
+
+*)
+echo "Usage: oracle8i { start | stop | restart }"
+exit 1
+
+esac
+exit 0
+;***************end ****************
+建立链接 ln -s /etc/rc.d/init.d/oracle8i  /etc/rc.d/rc0.d/K10oracle8i    ;Runlevel 0 是 HALT
+建立链接 ln -s /etc/rc.d/init.d/oracle8i  /etc/rc.d/rc6.d/K10oracle8i    ;Runlevel6 是 reboot
+建立链接 ln -s /etc/rc.d/init.d/oracle8i  /etc/rc.d/rc3.d/S99oracle8i    ;Runlevel3 是 缺省运行级别
+
+此时listener 还没运行，需运行 lsnrctl   start  listener  
+或则在dbstart 开始处加入此命令。
+至此以oracle 用户登录就可以发现oracle 和 listener 都已启动。
+
+注意：
+若脚本名字不是oracle8i 则相应的修改下列行中的脚本名
+touch /var/lock/subsys/oracle8i
+rm -f /var/lock/subsys/oracle8i
+</pre>
+</li>
+<li>
+<p>
+其它：修改字符集
+</p>
+<pre class="screen">
+附录：
+ORACLE中修改字符集( 用此方法也可修改全局数据库名)
+Backup your database
+Svrmgrl
+Connect internal
+Update props$ set value$=' WE8ISO8859P1'         ;划线部分必须大写
+Where name='NLS_CHARACTERSET';            ;划线部分必须大写
+Commit
+Shutdown
+Startup
+Exit
+
+常用字符集代码
+SIMPLIFIED CHINESE_CHINA.ZHS16GBK
+
+NLS_LANG = AMERICAN_AMERICA.US7ASCII
+or 
+NLS_LANG = FRENCH_FRANCE.WE8ISO8859P1
+or 
+NLS_LANG = FRENCH_CANADA.WE8DEC
+or 
+NLS_LANG = JAPANESE_JAPAN.JA16EUC
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="append-apache"></a>C. Apache配置</h2></div></div></div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="apachache-unix"></a>C.1. Unix 安装</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+Download Apache source
+</p>
+<pre class="screen">
+$ tar zxvf apache_xxx.tgz
+</pre>
+</li>
+<li>
+<p>
+mod_perl
+</p>
+<pre class="screen">
+
+cd ../mod_perl-xxx/
+perl Makefile.PL APACHE_SRC=../apache_1.3.xx/src \
+    DO_HTTPD=1 USE_APACI=1 EVERYTHING=1
+make &amp;&amp; make test &amp;&amp; make install
+
+</pre>
+</li>
+<li>
+<p>
+mod_ssl
+</p>
+<pre class="screen">
+
+# install newest openssl. download it from www.openssl.org.
+$ tar zxvf openssl-0.9.6h.tar.gz
+$ cd openssl-0.9.6h &amp;&amp; ./config &amp;&amp; make &amp;&amp; make install
+
+# The SSL module (mod_ssl) resides under the src/modules/ssl/ subdirectory 
+# inside the Apache source tree and is a regular Apache module. 
+cd ../mod_ssl-xxx
+./configure --with-apache=../apache_xxx
+
+</pre>
+</li>
+<li>
+<p>
+Configure Apache
+</p>
+<p>
+If install mod_ssl
+</p>
+<pre class="screen">
+$ SSL_BASE=/path/to/openssl ./configure ... --enable-module=ssl
+$ make
+$ make certificate TYPE=custom
+$ make install
+</pre>
+<p>
+If install mod_perl
+</p>
+<pre class="screen">
+$ SSL_BASE=/path/to/openssl ./configure ... --activate-module=src/modules/perl/libperl.a
+make
+make install
+</pre>
+<p>
+all together
+</p>
+<pre class="screen">
+$ cd apache_xxx
+$ SSL_BASE=/path/to/openssl ./configure \
+        --prefix=/usr/local/apache  \
+        --enable-module=so \
+        --enable-module=rewrite \
+        --enable-module=speling \
+        --activate-module=src/modules/perl/libperl.a \
+        --enable-module=ssl
+$ make
+$ make certificate TYPE=custom
+$ make install
+</pre>
+<p>
+Screen output after make
+</p>
+<pre class="screen">
+
++---------------------------------------------------------------------+
+| Before you install the package you now should prepare the SSL       |
+| certificate system by running the 'make certificate' command.       |
+| For different situations the following variants are provided:       |
+|                                                                     |
+| % make certificate TYPE=dummy    (dummy self-signed Snake Oil cert) |
+| % make certificate TYPE=test     (test cert signed by Snake Oil CA) |
+| % make certificate TYPE=custom   (custom cert signed by own CA)     |
+| % make certificate TYPE=existing (existing cert)                    |
+|        CRT=/path/to/your.crt [KEY=/path/to/your.key]                |
+|                                                                     |
+| Use TYPE=dummy    when you're a  vendor package maintainer,         |
+| the TYPE=test     when you're an admin but want to do tests only,   |
+| the TYPE=custom   when you're an admin willing to run a real server |
+| and TYPE=existing when you're an admin who upgrades a server.       |
+| (The default is TYPE=test)                                          |
+|                                                                     |
+| Additionally add ALGO=RSA (default) or ALGO=DSA to select           |
+| the signature algorithm used for the generated certificate.         |
+|                                                                     |
+| Use 'make certificate VIEW=1' to display the generated data.        |
+|                                                                     |
+| Thanks for using Apache &amp; mod_ssl.       Ralf S. Engelschall        |
+|                                          rse@engelschall.com        |
+|                                          www.engelschall.com        |
++---------------------------------------------------------------------+
+
+</pre>
+<p>
+Screen output after make install
+</p>
+<pre class="screen">
+
++--------------------------------------------------------+
+| You now have successfully built and installed the      |
+| Apache 1.3 HTTP server. To verify that Apache actually |
+| works correctly you now should first check the         |
+| (initially created or preserved) configuration files   |
+|                                                        |
+|   /usr/local/apache/conf/httpd.conf
+|                                                        |
+| and then you should be able to immediately fire up     |
+| Apache the first time by running:                      |
+|                                                        |
+|   /usr/local/apache/bin/apachectl start
+|                                                        |
+| Or when you want to run it with SSL enabled use:       |
+|                                                        |
+|   /usr/local/apache/bin/apachectl startssl
+|                                                        |
+| Thanks for using Apache.       The Apache Group        |
+|                                http://www.apache.org/  |
++--------------------------------------------------------+
+
+</pre>
+<p>
+Screen output during cert generate.
+</p>
+<pre class="screen">
+$ <span><strong class="command">make certificate TYPE=custom</strong></span>
+
+make[1]: Entering directory `/web/apache/apache_1.3.27/src'
+SSL Certificate Generation Utility (mkcert.sh)
+Copyright (c) 1998-2000 Ralf S. Engelschall, All Rights Reserved.
+
+Generating custom certificate signed by own CA [CUSTOM]
+______________________________________________________________________
+
+STEP 0: Decide the signature algorithm used for certificates
+The generated X.509 certificates can contain either
+RSA or DSA based ingredients. Select the one you want to use.
+Signature Algorithm ((R)SA or (D)SA) [R]:D
+
+WARNING! You're generating DSA based certificate/key pairs.
+         This implies that RSA based ciphers won't be available later,
+         which for your web server currently still means that mostly all
+         popular web browsers cannot connect to it. At least not until
+         you also generate an additional RSA based certificate/key pair
+         and configure them in parallel.
+______________________________________________________________________
+
+STEP 1: Generating DSA private key for CA (1024 bit) [ca.key]
+85187 semi-random bytes loaded
+Generating DSA parameters, 1024 bit long prime
+This could take some time
+..........+..+.+.........+......+................................+..................+....+...............+............+....+........+..+.........................+..............+......+.......+..........+..+................+++++++++++++++++++++++++++++++++++++++++++++++++++*
+..+........+.......................+...............................+...+......+..........+...........+...+........+..+......................+...........................+.................+.+......+.........+..........+.+...........+.............+.................+......+.........+...+..+....+.......+++++++++++++++++++++++++++++++++++++++++++++++++++*
+Generating DSA private key:
+85187 semi-random bytes loaded
+Generating DSA key, 1024 bits
+______________________________________________________________________
+
+STEP 2: Generating X.509 certificate signing request for CA [ca.csr]
+Using configuration from .mkcert.cfg
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+1. Country Name             (2 letter code) [XY]:CN
+2. State or Province Name   (full name)     [Snake Desert]:Beijing
+3. Locality Name            (eg, city)      [Snake Town]:Beijing
+4. Organization Name        (eg, company)   [Snake Oil, Ltd]:Office
+5. Organizational Unit Name (eg, section)   [Certificate Authority]:Office
+6. Common Name              (eg, CA name)   [Snake Oil CA]:
+7. Email Address            (eg, name@FQDN) [ca@snakeoil.dom]:jiangxin@foo.bar
+8. Certificate Validity     (days)          [365]:900
+______________________________________________________________________
+
+STEP 3: Generating X.509 certificate for CA signed by itself [ca.crt]
+Certificate Version (1 or 3) [3]:
+Signature ok
+subject=/C=CN/ST=Beijing/L=Beijing/O=Office/OU=Office/CN=Snake Oil CA/Email=jiangxin@foo.bar
+Getting Private key
+Verify: matching certificate &amp; key modulus
+read DSA key
+Verify: matching certificate signature
+../conf/ssl.crt/ca.crt: /C=CN/ST=Beijing/L=Beijing/O=Office/OU=Office/CN=Snake Oil CA/Email=jiangxin@foo.bar
+error 18 at 0 depth lookup:self signed certificate
+OK
+______________________________________________________________________
+
+STEP 4: Generating DSA private key for SERVER (1024 bit) [server.key]
+85187 semi-random bytes loaded
+Generating DSA key, 1024 bits
+______________________________________________________________________
+
+STEP 5: Generating X.509 certificate signing request for SERVER [server.csr]
+Using configuration from .mkcert.cfg
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+1. Country Name             (2 letter code) [XY]:CN
+2. State or Province Name   (full name)     [Snake Desert]:Beijing
+3. Locality Name            (eg, city)      [Snake Town]:Beijing
+4. Organization Name        (eg, company)   [Snake Oil, Ltd]:Office
+5. Organizational Unit Name (eg, section)   [Webserver Team]:
+6. Common Name              (eg, FQDN)      [www.snakeoil.dom]:worldhello.net
+7. Email Address            (eg, name@fqdn) [www@snakeoil.dom]:jiangxin@foo.bar
+8. Certificate Validity     (days)          [365]:900
+______________________________________________________________________
+
+STEP 6: Generating X.509 certificate signed by own CA [server.crt]
+Certificate Version (1 or 3) [3]:
+Signature ok
+subject=/C=CN/ST=Beijing/L=Beijing/O=Office China/OU=Webserver Team/CN=worldhello.net/Email=jiangxin@foo.bar
+Getting CA Private Key
+Verify: matching certificate &amp; key modulus
+read DSA key
+Verify: matching certificate signature
+../conf/ssl.crt/server.crt: OK
+______________________________________________________________________
+
+STEP 7: Enrypting DSA private key of CA with a pass phrase for security [ca.key]
+The contents of the ca.key file (the generated private key) has to be
+kept secret. So we strongly recommend you to encrypt the server.key file
+with a Triple-DES cipher and a Pass Phrase.
+Encrypt the private key now? [Y/n]: n
+Warning, you're using an unencrypted private key.
+Please notice this fact and do this on your own risk.
+______________________________________________________________________
+
+STEP 8: Enrypting DSA private key of SERVER with a pass phrase for security [server.key]
+The contents of the server.key file (the generated private key) has to be
+kept secret. So we strongly recommend you to encrypt the server.key file
+with a Triple-DES cipher and a Pass Phrase.
+Encrypt the private key now? [Y/n]: n
+Warning, you're using an unencrypted DSA private key.
+Please notice this fact and do this on your own risk.
+______________________________________________________________________
+
+RESULT: CA and Server Certification Files
+
+o  conf/ssl.key/ca.key
+   The PEM-encoded DSA private key file of the CA which you can
+   use to sign other servers or clients. KEEP THIS FILE PRIVATE!
+
+o  conf/ssl.crt/ca.crt
+   The PEM-encoded X.509 certificate file of the CA which you use to
+   sign other servers or clients. When you sign clients with it (for
+   SSL client authentication) you can configure this file with the
+   'SSLCACertificateFile' directive.
+
+o  conf/ssl.key/server.key
+   The PEM-encoded DSA private key file of the server which you configure
+   with the 'SSLCertificateKeyFile' directive (automatically done
+   when you install via APACI). KEEP THIS FILE PRIVATE!
+
+o  conf/ssl.crt/server.crt
+   The PEM-encoded X.509 certificate file of the server which you configure
+   with the 'SSLCertificateFile' directive (automatically done
+   when you install via APACI).
+
+o  conf/ssl.csr/server.csr
+   The PEM-encoded X.509 certificate signing request of the server file which
+   you can send to an official Certificate Authority (CA) in order
+   to request a real server certificate (signed by this CA instead
+   of our own CA) which later can replace the conf/ssl.crt/server.crt
+   file.
+
+Congratulations that you establish your server with real certificates.
+
+make[1]: Leaving directory `/web/apache/apache_1.3.27/src'
+
+</pre>
+</li>
+<li>
+<p>
+Install libiconv
+</p>
+<p>
+部分 PHP 网页调用了相关函数进行字符集间的字符转换，因此需要安装此模块。
+</p>
+<p>
+<a href="http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.8.tar.gz" target="_top">Download libiconv...</a>
+</p>
+<pre class="screen">
+
+shell$ ./configure
+shell$ make &amp;&amp; make install
+
+</pre>
+</li>
+<li>
+<p>
+Build mod_php (Apache Shared Module Version)
+</p>
+<pre class="screen">
+
+$ cd ../php-xxx/
+$ ./configure \
+  --with-apxs=/usr/local/apache/bin/apxs \
+  --with-gd \
+  --enable-track-vars \
+  --with-mysql=/usr/local/mysql \
+  --with-iconv=/usr/local \
+  --with-xml
+  # 如果需要支持 ORACLE： --with-oci8=/db/oracle   --enable-sigchild \
+$ make
+$ make install
+  # 生成 /usr/local/apache/libexec/libphp4.so
+
+</pre>
+</li>
+<li>
+<p>
+配置 Apache
+</p>
+<pre class="screen">
+# 按照如下方式修改 http.conf
+  <span class="emphasis"><em>LoadModule php4_module        libexec/libphp4.so</em></span>
+  <span class="emphasis"><em>AddType application/x-httpd-php .php .inc</em></span>
+</pre>
+</li>
+<li>
+<p>
+配置 php
+</p>
+<pre class="screen">
+# cp php.ini-dist /usr/local/lib/php.ini
+# 按照如下方式修改 php.ini
+  ----------------------------
+  <span class="emphasis"><em>output_buffering	=	4096 </em></span>
+  # send header lines (including cookies) even after you send body content 
+  <span class="emphasis"><em>expose_php		=	Off  </em></span>
+  
+  include_path = "./:/www/est/current/include"  # maybe others
+  max_execution_time 	=	30   # may be want more on no production web!!!
+  <span class="emphasis"><em>display_errors		=	Off  </em></span># need "on" on no production web!!!
+  <span class="emphasis"><em>display_startup_errors 	= 	Off  </em></span># !!!!!
+  <span class="emphasis"><em>log_errors		=	Off  </em></span># may set to "on" when display_errors is "off" !!!
+  SMTP			=	localhost		;for win32 only
+  sendmail_from		=	nobody@est.com.cn	;for win32 only
+  sendmail_path		=	/usr/sbin/sendmail -t -i		
+      ;for unix only, may supply arguments as well (default is 'sendmail -t -i')
+  session.save_path	= 	/tmp    ; argument passed to save_handler
+</pre>
+</li>
+<li>
+<p>
+自动运行Apache
+</p>
+<pre class="screen">
+ln -s /usr/local/apache/bin/apachectl  /etc/rc.d/init.d/httpd
+ln -s /etc/rc.d/init.d/httpd  /etc/rc.d/rc3.d/S99httpd
+</pre>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+为使Apache启动支持中文ORACLE环境，需要在apachectl文件中67行("start)")下面加入几行:
+</p>
+<pre class="screen">
+## vi /usr/local/apache/current/bin/apachectl
+export ORACLE_HOME=/db/oracle
+export ORACLE_BASE=$ORACLE_HOME
+export ORACLE_SID=ORC1
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+export NLS_LANG="FRENCH_FRANCE.WE8ISO8859P1"
+# export ORA_NLS33=$ORACLE_HOME/ocommon/nls/admin/data
+# export NLS_LANG="SIMPLIFIED CHINESE_CHINA.ZHS16CGB231280"
+# export NLS_LANG="FRENCH_FRANCE.WE8ISO8859P1"
+# export NLS_LANG="SIMPLIFIED CHINESE_CHINA.ZHS16GBK"	
+</pre>
+</td></tr>
+</table></div>
+</li>
+<li><p>
+启动Apache
+</p></li>
+</ol></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="apache-win32"></a>C.2. Windows平台上的安装</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+php.ini
+</p>
+<p>
+Copy the file, php.ini-dist to your %WINDOWS% directory on
+Windows 95/98 or to your %SYSTEMROOT% directory under Windows NT,
+Windows 2000 or Windows XP and rename it to php.ini. Your %WINDOWS% or
+%SYSTEMROOT% directory is typically:
+   c:\windows for Windows 95/98, 
+   c:\winnt or c:\winnt40 for NT/2000/XP servers.
+</p>
+</li>
+<li>
+<p>
+php4ts.dll
+</p>
+<p>
+move php4ts.dll to the windows/system (for Windows 9x/Me) or winnt/system32
+(for Windows NT/2000/XP) directory.
+</p>
+</li>
+<li>
+<p>
+Modify httpd.conf of Apache Server
+</p>
+<pre class="screen">
+   LoadModule php4_module C:/PHP/sapi/php4apache.dll
+   AddModule mod_php4.c
+   AddType application/x-httpd-php .php
+   AddType application/x-httpd-php-source .phps
+</pre>
+</li>
+</ol></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+为了测试Apache服务器配置，以命令行而不是以服务方式启动apache，
+检查启动过程。
+</p></td></tr>
+</table></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="apache-conf"></a>C.3. 配置</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4594624"></a>C.3.1. HightlLight</h3></div></div></div>
+<pre class="screen">
+# 增加对其他扩展名的支持
+	# php module support
+	LoadModule php4_module        libexec/libphp4.so
+	AddType application/x-httpd-php .php <span class="emphasis"><em>.php3 .dhtml .phtml .inc</em></span>
+# 加入SSI支持
+	Options +FollowSymLinks <span class="emphasis"><em>+Includes</em></span> -Indexes
+	AddType text/html .shtml
+	AddHandler server-parsed .shtml
+# 允许符号链接
+	Options <span class="emphasis"><em>+FollowSymLinks</em></span> +Includes -Indexes
+# 加入 mod_expires 支持
+	ExpiresActive on
+	ExpiresByType application/x-httpd-php A1
+	ExpiresDefault A3600
+# 加入 mod_speling 支持
+	&lt;IfModule mod_speling.c&gt;
+	    CheckSpelling on
+	&lt;/IfModule&gt;
+# 去掉 mod_proxy 的 支持
+	 # LoadModule proxy_module       libexec/libproxy.so
+	 # AddModule mod_proxy.c
+# 去掉 mod_autoindex支持
+	Options <span class="emphasis"><em>-Indexes</em></span>
+# 设置全局环境变量，用户区别生产平台和开发平台，用于诊断
+	&lt;IfModule mod_env.c&gt;
+	    SetEnv  my_debug_level debug
+	    PassEnv my_debug_level
+	&lt;/IfModule&gt;
+# 设置其他环境变量，如设置语种（在虚拟主机配置中）：
+	SetEnv  lLanguageDefault  cn		# 或者 en, 或者 big5
+	SetEnv  lContentType      gb2312 	# 或者 空, 或者 big5
+	PassEnv lLanguageDefault  lContentType
+# 设置默认主页面
+	DirectoryIndex <span class="emphasis"><em>index.php index.htm</em></span>
+# 设置WEB根目录
+	DocumentRoot "/home/jiangxin/work/web/home"
+# PHP Variables
+	php_value include_path ".:/web/wwwroot"
+	&lt;FilesMatch "\.php$"&gt;
+		php_value auto_prepend_file "inc/my_header_inc.php"
+		php_value auto_append_file "inc/my_footer_inc.php"
+	&lt;/FilesMatch&gt;
+	&lt;FilesMatch "^pop_.*\.php$|_inc\.php$|_js\.php$|^mgr_.*\.php$|^passwd.php$"&gt;
+		php_value auto_prepend_file none
+		php_value auto_append_file none
+	&lt;/FilesMatch&gt;
+
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4599648"></a>C.3.2. PHP 4.x Apache Directives Notes</h3></div></div></div>
+<p>
+When using PHP as an Apache module, not cgi and cli version, you can also
+change the configuration settings using directives in Apache configuration 
+files (e.g. httpd.conf) and .htaccess files (You will need "AllowOverride 
+Options" or "AllowOverride All" privileges) 
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+PHP constants do not exist outside of PHP. For example, in httpd.conf do not use PHP constants such as E_ALL or E_NOTICE to set the error_reporting directive as they will have no meaning and will evaluate to 0. Use the associated bitmask values instead. These constants can be used in php.ini 
+</p></td></tr>
+</table></div>
+<pre class="screen">
+Title:       PHP 4.x Apache Directives Notes
+Contributor: Randall Goguen (aka Ranman)
+Last Update: Tuesday July 18 19:55 EDT 2000
+URL: http://www.linuxguruz.org/documents/php_directives.html
+
+Syntax
+======
+  php_value name value 
+  	-- This sets the value of the specified variable.
+  
+  php_flag name on|off 
+  	-- This is used to set a Boolean configuration option.
+  
+  php_admin_value name value 
+  	-- This sets the value of the specified variable. 
+  	    "Admin" configuration settings can only be set from within 
+  	    the main Apache configuration files, and not from .htaccess files. 
+  
+  php_admin_flag name on|off 
+  	-- This is used to set a Boolean configuration option. 
+
+Samples
+========
+  &lt;IfModule mod_php4.c&gt;
+   php_value include_path ".:/usr/local/lib/php"
+   php_admin_flag safe_mode on
+  &lt;/IfModule&gt;
+  &lt;IfModule mod_php3.c&gt;
+   php3_include_path ".:/usr/local/lib/php"
+   php3_safe_mode on
+  &lt;/IfModule&gt;
+
+Favorite
+=========
+php_flag expose_php Off
+php_flag register_globals Off
+#variables_order EGPCS
+
+auto_prepend_file string 
+auto_append_file string 
+default_charset string 
+include_path
+
+
+
+# For .htaccess
+&lt;Directory /home/htdocs&gt;
+php_flag log_errors on
+php_flag short_open_tag on
+php_value max_execution_time 180
+php_value upload_tmp_dir /home/htdocs/tmp
+php_value include_path /home/htdocs/include
+php_value memory_limit 8388608
+php_value error_reporting 15
+php_flag display_errors on
+php_flag track_errors off
+php_value error_log /usr/local/httpd-php/logs/php3_error.log
+php_flag magic_quotes_gpc on
+php_flag track_vars on
+php_value auto_prepend_file /usr/local/httpd-php/php/prepend.php3
+php_value auto_append_file /usr/local/httpd-php/php/append.php3
+&lt;/Directory&gt;
+
+# For httpd.conf
+&lt;Directory /home/htdocs&gt;
+php_admin_flag engine on
+php_admin_flag log_errors on
+php_admin_value max_execution_time 180
+php_admin_value upload_tmp_dir /home/htdocs/tmp
+php_admin_value include_path /home/htdocs/include
+php_admin_flag short_open_tag on
+php_admin_value memory_limit 8388608
+php_admin_value error_reporting 15
+php_admin_flag display_errors on
+php_admin_flag track_errors off
+php_admin_value error_log /usr/local/httpd-php/logs/php3_error.log
+php_admin_flag magic_quotes_gpc on
+php_admin_flag track_vars on
+php_admin_value auto_prepend_file /usr/local/httpd-php/php/prepend.php3
+php_admin_value auto_append_file /usr/local/httpd-php/php/append.php3
+php_admin_value include_path /home/htdocs/include
+&lt;/Directory&gt;
+
+# This document is Copyright (c) 1999, 2000 by LinuxGuruz
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4603264"></a>C.3.3. Virtual Host</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Port-based vhosts
+</p>
+<pre class="screen">
+Listen 80
+Listen 8080
+# for php
+LoadModule php4_module C:/PHP/sapi/php4apache.dll
+AddModule mod_php4.c
+AddType application/x-httpd-php .php .php3 .phtml .inc
+AddType application/x-httpd-php-source .phps
+
+&lt;VirtualHost _default_:8080&gt;
+	DocumentRoot "C:/HOME/jiangxin/work/web/office/wwwroot"
+	DirectoryIndex index.php index.html index.htm
+	php_value include_path ".;C:/HOME/jiangxin/work/web/office/wwwroot"
+	&lt;Directory C:/HOME/jiangxin/work/web/office/wwwroot&gt;
+		Options None
+		AllowOverride None
+		order deny,allow
+		allow from all
+		&lt;FilesMatch "\.php$"&gt;
+			php_value auto_prepend_file "inc/my_header_inc.php"
+			php_value auto_append_file "inc/my_footer_inc.php"
+		&lt;/FilesMatch&gt;
+		&lt;FilesMatch "^pop_.*\.php$|_inc\.php$|_js\.php$|^mgr_.*\.php$|^passwd.php$"&gt;
+			php_value auto_prepend_file none
+			php_value auto_append_file none
+		&lt;/FilesMatch&gt;
+	&lt;/Directory&gt;
+	... ...
+#	Alias /downloads /www/downloads
+	&lt;Directory /www/downloads&gt;
+		Options None
+		AllowOverride None
+		order deny,allow
+		allow from all
+	&lt;/Directory&gt;
+	Alias /service C:/HOME/jiangxin/work/web/office/wwwroot/product
+
+&lt;/VirtualHost&gt;
+
+
+&lt;VirtualHost _default_:*&gt;
+DocumentRoot "C:/HOME/jiangxin/work/web/home"
+#DirectoryIndex index.html index.htm
+&lt;/VirtualHost&gt;
+
+</pre>
+</li>
+<li>
+<p>
+name-based vhosts
+</p>
+<pre class="screen">
+...
+Port 80
+ServerName server.domain.tld
+NameVirtualHost 111.22.33.44
+&lt;VirtualHost 111.22.33.44&gt;
+DocumentRoot /www/domain
+ServerName www.domain.tld
+...
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 111.22.33.44&gt;
+DocumentRoot /www/subdomain
+ServerName www.sub.domain.tld
+...
+&lt;/VirtualHost&gt;
+</pre>
+</li>
+<li>
+<p>
+IP-based vhosts
+</p>
+<pre class="screen">
+...
+Port 80
+ServerName server.domain.tld
+&lt;VirtualHost 111.22.33.44&gt;
+DocumentRoot /www/domain
+ServerName www.domain.tld
+...
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 111.22.33.55&gt;
+DocumentRoot /www/otherdomain
+ServerName www.otherdomain.tld
+...
+&lt;/VirtualHost&gt;
+</pre>
+</li>
+<li>
+<p>
+Mixed name-/IP-based vhosts
+</p>
+<pre class="screen">
+Port 80
+ServerName server.domain.tld
+NameVirtualHost 111.22.33.44
+&lt;VirtualHost 111.22.33.44&gt;
+DocumentRoot /www/domain
+ServerName www.domain.tld
+...
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 111.22.33.44&gt;
+DocumentRoot /www/subdomain1
+ServerName www.sub1.domain.tld
+...
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 111.22.33.44&gt;
+DocumentRoot /www/subdomain2
+ServerName www.sub2.domain.tld
+...
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 111.22.33.55&gt;
+DocumentRoot /www/otherdomain1
+ServerName www.otherdomain1.tld
+...
+&lt;/VirtualHost&gt;
+&lt;VirtualHost 111.22.33.66&gt;
+DocumentRoot /www/otherdomain2
+ServerName www.otherdomain2.tld
+...
+</pre>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="append-php"></a>D. PHP开发规范和语法速查</h2></div></div></div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="php-rules"></a>D.1. Programming Tips and Rules</h2></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+使用 &lt;?php 而不是 &lt;? 作为PHP语法标记，因为如果使用短格式，诸如 &lt;?xml 会被误判。
+</p></li>
+<li>
+<p>
+Heredoc
+</p>
+<p>
+Another way to delimit strings is by using heredoc syntax ("&lt;&lt;&lt;"). 
+</p>
+<pre class="screen">
+&lt;?php
+$str = &lt;&lt;&lt;EOD
+Example of string
+spanning multiple lines
+using heredoc syntax.
+EOD;
+
+echo &lt;&lt;&lt;EOT
+My name is "$name". I am printing some $foo-&gt;foo.
+Now, I am printing some {$foo-&gt;bar[1]}.
+This should print a capital 'A': \x41
+EOT;
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+Variable scope
+</p>
+<pre class="screen">
+function Sum()
+{
+   global $a, $b;
+
+   $b = $a + $b;
+}
+--- or ---
+function Sum()
+{
+   $GLOBALS["b"] = $GLOBALS["a"] + $GLOBALS["b"];
+} 
+</pre>
+</li>
+<li>
+<p>
+Variable variables
+</p>
+<pre class="screen">
+&lt;?php
+$a = "hello";
+$$a = "world";
+echo "$a ${$a}";
+// output: hello world
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+PHP Superglobals
+</p>
+<p>
+因为从 4.2.0 之后的 PHP, register_globals 缺省为 flase，使得不能用
+$GLOBALS["xxx"] 来访问用户提交的变量。而用如下所述的变量。
+</p>
+<p>
+但也可以用函数 import_request_variables ,将用户提交变量转换为全局变量。
+</p>
+<pre class="screen">
+// This will import GET and POST vars
+// with an "rvar_" prefix
+import_request_variables("gP", "rvar_");
+</pre>
+<div class="segmentedlist">
+<div class="title"><strong><span class="title">PHP Superglobals</span></strong></div>
+<table border="0">
+<thead><tr class="segtitle">
+<th>NewImplement</th>
+<th>obsolete</th>
+</tr></thead>
+<tbody>
+<tr class="seglistitem">
+<td class="seg">$GLOBALS</td>
+<td class="seg"></td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_SERVER</td>
+<td class="seg">$HTTP_SERVER_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_GET</td>
+<td class="seg">$HTTP_GET_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_POST</td>
+<td class="seg">$HTTP_POST_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_COOKIE</td>
+<td class="seg">$HTTP_COOKIE_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_FILES</td>
+<td class="seg">$HTTP_POST_FILES</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_ENV</td>
+<td class="seg">$HTTP_ENV_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_REQUEST</td>
+<td class="seg"></td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_SESSION</td>
+<td class="seg">$HTTP_SESSION_VARS</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+$_REQUEST USED FOR QUICK ACCESS:
+</p>
+<p>
+Variables provided to the script via any user input mechanism, and which therefore cannot be trusted. 
+</p>
+<p>
+The presence and order of variable inclusion in this array is defined according to the variables_order configuration directive. 
+</p>
+<p>
+(Variables_order configure directive: set the order of the EGPCS (Environment, GET, POST, Cookie, Server) )
+</p>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p>
+Variables from outside PHP
+</p>
+<pre class="screen">
+&lt;?php 
+// Available since PHP 4.1.0
+
+  print $_POST['username'];
+  print $_REQUEST['username'];
+
+  import_request_variables('p', 'p_');
+  print $p_username;
+
+// Available since PHP 3.
+
+  print $HTTP_POST_VARS['username'];
+
+// Available if the PHP directive register_globals = on.  As of 
+// PHP 4.2.0 the default value of register_globals = off.
+// Using/relying on this method is not preferred.
+
+  print $username;
+?&gt;
+
+</pre>
+</li>
+<li>
+<p>
+Defining Constants
+</p>
+<pre class="screen">
+&lt;?php
+define("CONSTANT", "Hello world.");
+echo CONSTANT; // outputs "Hello world."
+echo Constant; // outputs "Constant" and issues a notice.
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+Error Control Operators
+</p>
+<p>
+The at sign (@). When prepended to an expression in PHP, any error messages 
+that might be generated by that expression will be ignored. 
+</p>
+</li>
+<li>
+<p>
+Syntax: foreach
+</p>
+<pre class="screen">
+foreach(array_expression as $value) statement
+foreach(array_expression as $key =&gt; $value) statement
+</pre>
+<p>
+The first form loops over the array given by array_expression. On each loop, 
+the value of the current element is assigned to $value and the internal array 
+pointer is advanced by one (so on the next loop, you'll be looking at the 
+next element). 
+</p>
+<p>
+The second form does the same thing, except that the current element's key 
+will be assigned to the variable $key on each loop. 
+</p>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+You may have noticed that the following are functionally identical: 
+</p>
+<pre class="screen">
+reset ($arr);
+while (list(, $value) = each ($arr)) {
+   echo "Value: $value&lt;br&gt;\n";
+}
+
+foreach ($arr as $value) {
+   echo "Value: $value&lt;br&gt;\n";
+} 
+</pre>
+<p>
+The following are also functionally identical: 
+</p>
+<pre class="screen">
+reset ($arr);
+while (list($key, $value) = each ($arr)) {
+   echo "Key: $key; Value: $value&lt;br&gt;\n";
+}
+
+foreach ($arr as $key =&gt; $value) {
+   echo "Key: $key; Value: $value&lt;br&gt;\n";
+}
+</pre>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p>
+Syntax: <span class="emphasis"><em>require()</em></span> and <span class="emphasis"><em>include()</em></span>
+</p>
+<p>
+require() and include() are identical in every way except how they handle failure. 
+include() produces a Warning while require() results in a Fatal Error. In other 
+words, don't hesitate to use require() if you want a missing file to halt processing
+of the page. 
+</p>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+There are another two function, <span class="emphasis"><em>require_once()</em></span> and <span class="emphasis"><em>include_once()</em></span>,
+which prevent a file being included twice. 
+But this can be done through a C header like declaration.
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+Syntax: Function variables - passed by value and by reference
+</p>
+<pre class="screen">
+// variable $string is passed by reference.
+function add_some_extra(&amp;$string)
+{
+   $string .= 'and something extra.';
+}
+</pre>
+</li>
+<li>
+<p>
+Syntax: Function variables - Default argument values
+</p>
+<pre class="screen">
+function makecoffee ($type = "cappuccino")
+{
+   return "Making a cup of $type.\n";
+}
+echo makecoffee ();
+echo makecoffee ("espresso"); 
+</pre>
+</li>
+<li>
+<p>
+Syntax: Function variables - Variable variables
+</p>
+<pre class="screen">
+&lt;?php
+function foo() {
+   $numargs = func_num_args();
+   echo "Number of arguments: $numargs\n";
+} 
+
+foo (1, 2, 3);    // Prints 'Number of arguments: 3'
+?&gt;
+&lt;?php
+function foo() {
+    $numargs = func_num_args();
+    echo "Number of arguments: $numargs&lt;br&gt;\n";
+    if ($numargs &gt;= 2) {
+    echo "Second argument is: " . func_get_arg (1) . "&lt;br&gt;\n";
+    }
+} 
+
+foo (1, 2, 3);
+?&gt;
+&lt;?php
+function foo() {
+   $numargs = func_num_args();
+   echo "Number of arguments: $numargs&lt;br&gt;\n";
+   if ($numargs &gt;= 2) {
+   echo "Second argument is: " . func_get_arg (1) . "&lt;br&gt;\n";
+   }
+   $arg_list = func_get_args();
+   for ($i = 0; $i &lt; $numargs; $i++) {
+   echo "Argument $i is: " . $arg_list[$i] . "&lt;br&gt;\n";
+   }
+} 
+
+foo (1, 2, 3);
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+Syntax: Function return - return a reference
+</p>
+<pre class="screen">
+function &amp;returns_reference()
+{
+   return $someref;
+}
+
+$newref =&amp; returns_reference(); 
+</pre>
+</li>
+<li>
+<p>
+Syntax: Variable functions
+</p>
+<pre class="screen">
+&lt;?php
+function foo()
+{
+   echo "In foo()&lt;br&gt;\n";
+}
+
+function bar($arg = '')
+{
+   echo "In bar(); argument was '$arg'.&lt;br&gt;\n";
+}
+
+$func = 'foo';
+$func();
+$func = 'bar';
+$func('test');
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+Syntax: Class - Serializing objects
+</p>
+<p>
+可以将对象存储和恢复。
+</p>
+<pre class="screen">
+classa.inc:
+ class A 
+ {
+     var $one = 1;
+   
+     function show_one()
+     {
+         echo $this-&gt;one;
+     }
+ }
+ 
+page1.php:
+ include("classa.inc");
+ 
+ $a = new A;
+ $s = serialize($a);
+ // store $s somewhere where page2.php can find it.
+ $fp = fopen("store", "w");
+ fputs($fp, $s);
+ fclose($fp);
+
+page2.php:
+ // this is needed for the unserialize to work properly.
+ include("classa.inc");
+
+ $s = implode("", @file("store"));
+ $a = unserialize($s);
+
+ // now use the function show_one() of the $a object.  
+ $a-&gt;show_one(); 
+
+</pre>
+</li>
+<li>
+<p>
+Syntax: Class - :: and parent
+</p>
+<p>
+
+</p>
+<pre class="screen">
+class A
+{
+   function example()
+   {
+       echo "I am the original function A::example().&lt;br&gt;\n";
+   }
+}
+
+class B extends A
+{
+   function example()
+   {
+       echo "I am the redefined function B::example().&lt;br&gt;\n";
+       A::example();
+   }
+}
+
+// or
+
+class B extends A
+{
+   function example()
+   {
+       echo "I am B::example() and provide additional functionality.&lt;br&gt;\n";
+       parent::example();
+   }
+}
+
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="php-oop"></a>D.2. OOP (Object-Oriented Programming)</h2></div></div></div>
+<p>
+PHP支持类以及类的继承，可以实现面向对象的编程。
+</p>
+</div>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="append-others"></a>E. 其他</h2></div></div></div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="javascript"></a>E.1. JavaScript</h2></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Embedding JavaScript in HTML -- Using the SCRIPT Tag
+</p>
+<pre class="screen">
+
+&lt;SCRIPT&gt;
+&lt;!-- Begin to hide script contents from old browsers.
+JavaScript statements...
+// End the hiding here. --&gt;
+&lt;/SCRIPT&gt;
+
+</pre>
+</li>
+<li>
+<p>
+Embedding JavaScript in HTML -- Using the SCRIPT Tag
+</p>
+<pre class="screen">
+
+&lt;SCRIPT SRC="common.js"&gt;&lt;/SCRIPT&gt;
+
+</pre>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+外部的 js 文件，不应该包含 &lt;SCRIPT&gt; 和 &lt;/SCRIPT&gt; 标签；
+</p>
+<p>
+可以在 src 属性中通过url设置外部文件，但是要求外部的Web服务器为 .js 文件设置正确的 MIME type，“application/x-javascript”。
+</p>
+</td></tr>
+</table></div>
+</li>
+</ul></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="css"></a>E.2. 网页加速</h2></div></div></div>
+<p>
+参见: <a href="http://www.freelamp.com/new/publish/1010509228/index_html" target="_top">FreeLamp.com: 为 LAMP 加速</a>。
+</p>
+</div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

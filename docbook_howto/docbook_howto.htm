@@ -1,0 +1,4458 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>DocBook 助你完成传世之作</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="DocBook 是当前风行于开放源码世界的一种文档撰写格式，已经成为计算机文档撰写的事实上的规范。 DocBook 是基于SGML/XML的、面向结构的文档撰写模式。它打破了传统的、面向表现的、所见即所得文档撰写模式。 愈早使用 DocBook，愈早获得知识持续积累的快乐，享受完成传世之作的成就感。 （编译自版本: d23f613，最后更新时间: 2011-12-01）">
+<link rel="start" href="#index" title="DocBook 助你完成传世之作">
+<link rel="next" href="#why-docbook" title="2. DocBook 概述">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>DocBook 助你完成传世之作</h1></div>
+<div><h3 class="subtitle"><i>文档的技术革命</i></h3></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 2.3</td>
+<td align="left">2003/1/14</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">将Hello World部分内容作为样章，网络发布</td></tr>
+<tr>
+<td align="left">修订 2.2</td>
+<td align="left">2002/12/11</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">重新规划文档结构，补充 DocBook 在实际中的应用</td></tr>
+<tr>
+<td align="left">修订 2.1</td>
+<td align="left">2002/12/9</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">和国内某出版社联系，拟定写作计划。</td></tr>
+<tr>
+<td align="left">修订 2.0</td>
+<td align="left">2002/09/29</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">补充Openjade的安装及使用</td></tr>
+<tr>
+<td align="left">修订 1.2</td>
+<td align="left">2002/01/11</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">从编程规范中独立出来</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+DocBook 是当前风行于开放源码世界的一种文档撰写格式，已经成为计算机文档撰写的事实上的规范。 
+DocBook 是基于SGML/XML的、面向结构的文档撰写模式。它打破了传统的、面向表现的、所见即所得文档撰写模式。
+愈早使用 DocBook，愈早获得知识持续积累的快乐，享受完成传世之作的成就感。
+</p>
+<p>
+（编译自版本: d23f613，最后更新时间: 2011-12-01）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#firstexp">1. DocBook 初体验</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4463760">1.1. 是否似曾相识</a></span></dt>
+<dt><span class="sect2"><a href="#idp4482464">1.2. 文档是这样完成的</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#why-docbook">2. DocBook 概述</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#sect-whydocbook">2.1. 为什么使用 DocBook</a></span></dt>
+<dt><span class="sect2"><a href="#what-docbook">2.2. 什么是DocBook</a></span></dt>
+<dt><span class="sect2"><a href="#idp4603664">2.3. DocBook历史</a></span></dt>
+<dt><span class="sect2"><a href="#idp4619920">2.4. 本书的组织</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#helloworld">3. Hello World —— DocBook 起步</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4688912">3.1. 撰写 Hello World</a></span></dt>
+<dt><span class="sect2"><a href="#idp4702432">3.2. 搭建编译环境</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4711296">3.2.1. DocBook DTD</a></span></dt>
+<dt><span class="sect3"><a href="#idp4757728">3.2.2. 安装样式表</a></span></dt>
+<dt><span class="sect3"><a href="#idp4776736">3.2.3. OpenJade</a></span></dt>
+<dt><span class="sect3"><a href="#idp4802432">3.2.4. XSLTPROC</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp4804720">3.3. 编译文档</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4805952">3.3.1. 准备测试文档——《Hello World》</a></span></dt>
+<dt><span class="sect3"><a href="#idp4823248">3.3.2. 用 OpenJade 进行格式转换</a></span></dt>
+<dt><span class="sect3"><a href="#idp4874224">3.3.3. 还需进一步完善</a></span></dt>
+</dl></dd>
+</dl></dd>
+<dt><span class="sect1"><a href="#sgml-primary">4. SGML/XML入门</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp5067312">4.1. 基础概念</a></span></dt>
+<dt><span class="sect2"><a href="#idp5087744">4.2. 关于标记语言</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5088256">4.2.1. 什么是标记语言</a></span></dt>
+<dt><span class="sect3"><a href="#idp5098112">4.2.2. 标记语言的历史</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp5105024">4.3. SGML/XML语法基础</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5111136">4.3.1. 标记</a></span></dt>
+<dt><span class="sect3"><a href="#idp5118192">4.3.2. 实体引用</a></span></dt>
+<dt><span class="sect3"><a href="#idp5120960">4.3.3. 注释</a></span></dt>
+<dt><span class="sect3"><a href="#idp5122704">4.3.4. 处理指令</a></span></dt>
+<dt><span class="sect3"><a href="#idp5125552">4.3.5. 文件类型声明</a></span></dt>
+<dt><span class="sect3"><a href="#idp5131392">4.3.6. CDATA片段</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp5135248">4.4. 数据模型</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5135760">4.4.1. 元素</a></span></dt>
+<dt><span class="sect3"><a href="#idp5142336">4.4.2. 子元素和属性</a></span></dt>
+<dt><span class="sect3"><a href="#idp5143360">4.4.3. 元素的定义</a></span></dt>
+<dt><span class="sect3"><a href="#idp5161744">4.4.4. 外部DTD和内部DTD</a></span></dt>
+<dt><span class="sect3"><a href="#idp5162768">4.4.5. 其它方式构造数据模型</a></span></dt>
+<dt><span class="sect3"><a href="#idp5163792">4.4.6. DocBook的数据模型</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp5165712">4.5. 用样式表进行格式化</a></span></dt>
+<dt><span class="sect2"><a href="#idp5166736">4.6. DSSSL</a></span></dt>
+<dd><dl><dt><span class="sect3"><a href="#idp5170288">4.6.1. Scheme语言入门</a></span></dt></dl></dd>
+<dt><span class="sect2"><a href="#idp5267392">4.7. 格式化</a></span></dt>
+<dd><dl><dt><span class="sect3"><a href="#idp5269216">4.7.1. DTD: 我的收藏夹</a></span></dt></dl></dd>
+<dt><span class="sect2"><a href="#idp5272080">4.8. 公共标识符、系统标识符和目录文件</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5272592">4.8.1. 公共标识符、系统标识符</a></span></dt>
+<dt><span class="sect3"><a href="#idp5275232">4.8.2. 目录文件：DocBook的粘合剂</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp5277008">4.9. 好形、合法性——DocBook文档遵循的规范</a></span></dt>
+<dt><span class="sect2"><a href="#idp5284304">4.10. 元素、实体和属性——DocBook文档的积木</a></span></dt>
+<dt><span class="sect2"><a href="#idp5297840">4.11. Why XML?</a></span></dt>
+<dt><span class="sect2"><a href="#idp5303088">4.12. SGML和XML的异同</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#idp5532096">5. 深入 DocBook 文档</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp5532896">5.1. SGML 格式的DocBook文档</a></span></dt>
+<dt><span class="sect2"><a href="#idp5543440">5.2. XML 格式的DocBook文档</a></span></dt>
+<dt><span class="sect2"><a href="#idp5558160">5.3. DocBook文档的物理分割</a></span></dt>
+<dt><span class="sect2"><a href="#idp5559792">5.4. DocBook文档的逻辑分割</a></span></dt>
+<dt><span class="sect2"><a href="#idp5562480">5.5. DocBook示例</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5563984">5.5.1. Book,Chapter,Article</a></span></dt>
+<dt><span class="sect3"><a href="#idp5565008">5.5.2. 章节</a></span></dt>
+<dt><span class="sect3"><a href="#idp5566032">5.5.3. anchor，link, ulink</a></span></dt>
+<dt><span class="sect3"><a href="#idp5567056">5.5.4. 文章头部信息</a></span></dt>
+<dt><span class="sect3"><a href="#idp5568080">5.5.5. 列表</a></span></dt>
+<dt><span class="sect3"><a href="#idp5569104">5.5.6. 表格</a></span></dt>
+<dt><span class="sect3"><a href="#idp5570128">5.5.7. 嵌入图片</a></span></dt>
+<dt><span class="sect3"><a href="#idp5571152">5.5.8. Screen, programlist, co</a></span></dt>
+<dt><span class="sect3"><a href="#idp5572176">5.5.9. emphsis, phrase, quote, system, filename, ...</a></span></dt>
+<dt><span class="sect3"><a href="#idp5573200">5.5.10. faq</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp5574352">5.6. DTD 与 DSSSL</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#docbook-dtd">6. DocBook的DTD组织框架和定制</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp5641120">6.1. DTD组织框架</a></span></dt>
+<dt><span class="sect2"><a href="#idp5642144">6.2. DTD的定制</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#docbook-dsssl">7. DocBook的DSSSL组织框架和定制</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp5647536">7.1. DSSSL组织框架</a></span></dt>
+<dt><span class="sect2"><a href="#idp5648560">7.2. DSSSL的定制</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#docbook-xsl">8. DocBook的XSL组织框架和定制</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp5653936">8.1. XSL组织框架</a></span></dt>
+<dt><span class="sect2"><a href="#idp5654960">8.2. XSL的定制</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#doc-project">9. 文档的软件工程</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp5660176">9.1. CVS进行版本控制</a></span></dt>
+<dt><span class="sect2"><a href="#idp5661952">9.2. 目录结构和Web发布</a></span></dt>
+<dt><span class="sect2"><a href="#idp5662992">9.3. Nightly Build</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp5663504">9.3.1. 自动化编译</a></span></dt>
+<dt><span class="sect3"><a href="#idp5664528">9.3.2. 计划任务</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp5665680">9.4. 文档检索</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#docbook-apply">10. DocBook在实际中的应用</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp5675744">10.1. 测试用例</a></span></dt>
+<dt><span class="sect2"><a href="#idp5702112">10.2. 项目日志</a></span></dt>
+<dt><span class="sect2"><a href="#idp5742656">10.3. 版本变更说明</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#reference">11. 参考</a></span></dt>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="firstexp"></a>1. DocBook 初体验</h2></div></div></div>
+<p>
+如果你是一个软件开发人员，是否对撰写文档深恶痛绝？为应付工作而写的文档，往往不加维护，且难以维护，远远不能反映软件设计的实际情况，成为文件服务器中的垃圾。
+</p>
+<p>
+如果你是一个文档工程师，经常要面对一个文档有多种输出格式，如 Word文档，PDF格式，HTML格式的文档。如果你要长期维护每一种格式的文档，又能保障它们的一致性，那么你真是太伟大了。
+</p>
+<p>
+软件开发引入版本控制，使得多人协作成为可能，也使得软件开发走向规模化，摆脱手工作坊的开发模式。但是文档的撰写和维护，你做到了版本控制和多人协作了么？
+</p>
+<p>
+DocBook正是针对上述顽症的一剂解药。DocBook 作为风行于开放源码世界的一种文档撰写格式，已经成为很多组织和公司撰写技术文档的事实上的规范。DocBook 提供了一种基于SGML/XML的、面向语义、面向结构、纯文本格式、可版本控制的文档撰写模式，它打破了传统的、面向表现的、所见即所得的、基于私有格式的文档撰写模式。基于SGML/XML的面向结构的文档，使得 DocBook 格式的文档，成为一种真正的万能格式的文档，几乎可以转换为任何一种文档格式。而属于纯文本范畴的 DocBook 文档，更可以利用版本控制软件，实现多人协作维护。
+</p>
+<p>
+然而，国内了解 DocBook 的人还不多。当然，这也是由于国内参与国际性的开放源码开发的人太少有关，更多的人还是喜欢闭门造车。技术文档的撰写，也还是停留在商务文档的写作模式之上，注重形式，忽视文档的可维护性。大家在享受 Word 的所见即所得的方便的表象的背后，是文档更新的困难——难以多人协同维护，文档互相覆盖，乱糟糟一团。到头来，文件服务器中是文档堆成山，但大都由于过时而严重的贬值了。
+</p>
+<p>
+任何工作都要有文档记录，这不应该成为一句口号，想要建成百年老店的中国软件企业，要重视知识的积累。利用本书所介绍的 DocBook，撰写可维护文档，让任何工作都有文档记录不再是梦想。DocBook 更是个人知识积累的工具，愈早使用 DocBook，愈早获得知识持续积累的快乐，享受完成传世之作的成就感。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4463760"></a>1.1. 是否似曾相识</h3></div></div></div>
+<p>
+DocBook 是个什么样的东西呢？我敢打赌，大部分人都早已领略过了 DocBook 的风采。
+</p>
+<p>
+搞IT的，没有听说过 Linux 的，一定是凤毛麟角。而且，大多数人也一定从Linux的丰富的Howto文档获益匪浅。可是，知道么，大部分 Howto 文档就是用 DocBook 格式完成的。
+</p>
+<p>
+HOWTO文档中描述的细节可能会逐渐淡忘，但相信大多数人一定会对其一致的文档风格还有清晰的印象，为一个HOWTO文档能有那么多的输出格式（单独的HTML文档，每章一页的HTML文档，PDF格式，WORD文档，...）而惊叹。
+</p>
+<p>
+而最让人惊叹的要数这些文档的写作方式：分布在世界各地的作者们，使用CVS作为版本控制软件，以DocBook作为文档的格式，协作完成一个又一个的传世之作。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+转换为超文本格式的DocBook文档，一般都很相似（如<a href="#g-1-1">图1-1</a>）。文档的头部都包含了修订历史、摘要、目录等几个部分。而且为了方便文档的维护，往往还加入了版本控制系统识别的关键字。例如：$Revision$ 和 $Date$，就是两个常用的CVS关键字扩展。
+</p>
+<div class="mediaobject">
+<img src="images/sect1-1.png" alt="本文的版本信息和目录"><div class="caption"><p>
+<a name="g-1-1"></a>图1-1. DocBook文档具有格式相近的修订历史和目录
+</p></div>
+</div>
+</li>
+<li>
+<p>
+转换为分页显示的DocBook文档，在页面首部和尾部，一般都包含到前后页面和首页的跳转。如：<a href="#g-1-2">图1-2</a>。
+</p>
+<div class="mediaobject">
+<img src="images/sect1-2.png" alt="每个页面首尾的章节跳转"><div class="caption"><p>
+<a name="g-1-2"></a>图1-2. DocBook每个分页都有到前后章节和首页的跳转
+</p></div>
+</div>
+</li>
+<li>
+<p>
+DocBook撰写的文档可以方便的转换为各种格式，如：<a href="#g-1-3">图1-3</a>。常见的转换格式有：单一超文本网页（HTML），带分页的超文本格式（HTMLs），纯文本（TEXT），Word兼容格式（RTF），Acrobat Reader（RTF），微软帮助文件（CHM）。
+</p>
+<div class="mediaobject">
+<img src="images/sect1-3.png" alt="多种格式下载"><div class="caption"><p>
+<a name="g-1-3"></a>图1-3. DocBook文档可以转换为多种格式，提供下载
+</p></div>
+</div>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4482464"></a>1.2. 文档是这样完成的</h3></div></div></div>
+<p>
+初识了 DocBook，你是否动心了？不过，别急。在深入介绍DocBook之前，先介绍一个实际操作的例子。本例是作者在撰写本书过程中的一个真实的小片断。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+更新源代码
+</p>
+<p>
+源代码？难道要编程么？请不要误会，更不要害怕。用DocBook技术写成的文档，是纯文本格式，可以使用配置管理软件进行版本控制。而把这类文件称作源代码，并不过分。在准备撰写文档之前，先和版本控制系统进行同步，防止多人协同工作时可能造成的版本冲突。如<a href="#g-1-4">图1-4</a>。
+</p>
+<div class="mediaobject">
+<img src="images/sect2-1.png" alt="WinCVS：更新源代码"><div class="caption"><p>
+<a name="g-1-4"></a>图1-4. 使用 WinCVS 更新源代码
+</p></div>
+</div>
+</li>
+<li>
+<p>
+文件编辑
+</p>
+<p>
+如<a href="#g-1-5">图1-5</a>，使用用 UltraEdit 编辑该文件。UltraEdit? 难道没有像Word那样的所见即所得的工具么？我的回答是，学用DocBook，这的确是最难过的一关，要改变写作方式，把精力放在文章的撰写和结构的设计上，而不在字体、格式上修修补补。从多人的协作工作和个人的知识积累的便利上，这一切非常值得。
+</p>
+<p>
+也不要为文档中出现的标签（尖括号括起来的关键字形成了标签）感到困惑，我们将在本书的稍后作以介绍。
+</p>
+<div class="mediaobject">
+<img src="images/sect2-2.png" alt="UltraEdit编辑和DocBook关键字补齐"><div class="caption"><p>
+<a name="g-1-5"></a>图1-5. UltraEdit编辑和DocBook关键字补齐功能
+</p></div>
+</div>
+</li>
+<li>
+<p>
+提交前比较源代码
+</p>
+<p>
+将修改后的文档提交到配置管理系统。提交前，先比较一下（如<a href="#g-1-6">图1-6</a>），这也是程序开发人员的一种“惯性”吧。而WinCVS调用的外部Differ程序：Araxis Merge（如<a href="#g-1-7">图1-7</a>），是我用过得最好用的Differ工具之一。
+</p>
+<p>
+当然也可以和该文件的任何一个版本进行比较。当一个文档由版本控制系统维护之后，再也不必担心你的文档会被覆盖、会丢掉什么，版本控制系统，忠实记录了文档的每一次Checkin。
+</p>
+<div class="mediaobject">
+<img src="images/sect2-4.png" alt="文件改变了，需要 Checkin"><div class="caption"><p>
+<a name="g-1-6"></a>图1-6. 文件提交前，先Differ一下
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/sect2-5.png" alt="Araxis Merge是我见过的最好的Differ工具"><div class="caption"><p>
+<a name="g-1-7"></a>图1-7. Araxis Merge是我见过的最好的Differ工具
+</p></div>
+</div>
+</li>
+<li>
+<p>
+提交源代码
+</p>
+<p>
+既然添加的内容没有问题，就提交吧。如<a href="#g-1-8">图1-8</a>
+</p>
+<div class="mediaobject">
+<img src="images/sect2-3.png" alt="将改动提交到CVS服务器"><div class="caption"><p>
+<a name="g-1-8"></a>图1-8. 将改动提交到CVS服务器
+</p></div>
+</div>
+</li>
+<li>
+<p>
+编译
+</p>
+<p>
+编译？又是一个软件开发的专业词汇。DocBook源文件并不能直接用来浏览和打印，需要将结构化文档转换为其他格式。下面是一段转换实例：将DocBook格式转换为超文本和纯文本格式。加黑的部分为输入的命令，其他部分为屏幕输出。
+</p>
+<pre class="screen">
+Administrator@JOHNSON ~/work/johnson_homepage
+$ <span><strong class="command">sh make docbook_howto</strong></span>
+/cygdrive/d/HOME/WORK/johnson_homepage/docbook/docbook_howto/index.sgml is newer
+
+make -html docbook_howto
+openjade -E 0 -t sgml -i html -V nochunks -d /share/sgml/docbook-dsssl/ldp.dsl\#
+html /cygdrive/d/HOME/WORK/johnson_homepage/docbook/docbook_howto/index.sgml &gt;  
+docbook_howto.htm
+
+done
+
+/cygdrive/d/HOME/WORK/johnson_homepage/docbook/docbook_howto/index.sgml is newer
+
+make -htmls docbook_howto
+openjade -E 0 -t sgml -i html -d /share/sgml/docbook-dsssl/ldp.dsl\#html /cygdri
+ve/d/HOME/WORK/johnson_homepage/docbook/docbook_howto/index.sgml
+
+done
+
+lynx -dump -base -dont_wrap_pre -nolist -display_charset=gb2312 -assume_charset=
+gb2312 -assume_local_charset=gb2312 -assume_unrec_charset=gb2312 /cygdrive/d/HOM
+E/WORK/johnson_homepage/doc/docbook_howto/docbook_howto.htm &gt; /cygdrive/d/HOME/W
+ORK/johnson_homepage/doc/docbook_howto/docbook_howto.txt
+
+done
+</pre>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="why-docbook"></a>2. DocBook 概述</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="sect-whydocbook"></a>2.1. 为什么使用 DocBook</h3></div></div></div>
+<p>
+为什么要使用DocBook呢？
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+实现单一源文件维护
+</p>
+<p>
+一个文档需要不同的格式输出，并不算罕见。因为今天用户的环境千差万别，用户习惯的文档格式也是五花八门，要想使得更广大的用户群能够阅读到您所提供的电子文档，同一内容的不同输出就变得非常重要。但这样就大大增加了文档维护的困难，为文档工程师带来沉重的负担，单一源文件维护（single-sourcing）就成了迫切的需要。
+</p>
+<p>
+DocBook文档采用 SGML/XML 格式。开放的数据格式配合丰富的工具软件，让单一源文件维护成为了可能。
+</p>
+</li>
+<li>
+<p>
+实现文档的版本控制
+</p>
+<p>
+没有版本控制，软件研发的管理将处于一种作坊式的无序状态。而文档又何尝不是如此呢？
+</p>
+<p>
+如果你问一个采用了版本控制系统的团队的开发人员，今天的代码和昨天的代码有什么不同，相信他会连一个增加的标点都会告诉你。而你要去问他，你的第二版的概要设计比第一版多了哪些东西，他可能就要支支吾吾了。这是什么原因造成的呢？
+</p>
+<p>
+目前几乎所有的版本控制系统、代码比较程序，只能对纯文本进行完美的、增量的版本控制。而像WORD、PDF等格式的文档，是以二进制的形式存在的，难以实现各个副本之间的比较。而DocBook文档是存文本格式的文档，可以类似代码管理一样进行文档的版本控制。
+</p>
+</li>
+<li>
+<p>
+IT企业的知识管理和文档管理
+</p>
+<p>
+IT企业中的知识管理、文档管理关乎企业的发展和生存。试想处于知识经济前沿的IT企业如果没有了知识管理，必然造成知识老化，被新兴的企业淘汰；试想人员变动频繁的IT企业没有了文档管理，业务的连续性就会随着核心人员的离去而受到致命一击。
+</p>
+<p>
+虽然大多数IT企业都对员工有着撰写各种文档的要求，但是大多数文档只是为应付领导而存在，一旦完成便束之高阁，不加维护，且难以维护，成为文件服务器中的数字垃圾。
+</p>
+<p>
+DocBook文档由于能够进行版本控制，使得多人参与撰写和维护成为了可能。积极的参与一方面提高了文档的更新频率，另一方面提高了员工的参与意识和良好的知识管理的习惯。
+</p>
+</li>
+<li>
+<p>
+个人知识积累、知识共享的好帮手
+</p>
+<p>
+在知识经济的时代，知识就是资本，但是这个资本不能从天而降，需要靠不断的积累；知识有很强的时效性，需要不断的更新。IT行业的从业人员，更无时无刻不要面对新知识，需要解决新问题。如果只是简单的求新、求变，不注重知识的积累，那么当有一天对新鲜事物丧失兴趣或者无力追捧的时候，就是需要离开这个行业的时候了。这也是这个行业的一条流行用语意义之所在——“搞IT是在吃青春饭”。
+</p>
+<p>
+IT行业需要新鲜血液没错，但它更需要经验丰富的领军人物。怎样才能让自己的职业生涯更加持久，我的答案是知识积累。DocBook作为技术文档的撰写模式，它的持久性、可维护性、可版本控制，使得它可以作为个人知识总结、积累的得力途径。
+</p>
+<p>
+<a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 就是我用DocBook技术建立的个人知识积累之所。通过本书，介绍给大家。
+</p>
+</li>
+<li>
+<p>
+采用DocBook格式写文档的风险有多大？
+</p>
+<p>
+一方面，是学习成本的忧虑。学习DocBook，就必然要学习SGML/XML的基础知识，熟悉DocBook DTD定义的元素。SGML/XML的学习要经历一条陡峭的学习曲线，可能会遇到一定的挫折。但是以我的经验，开始使用DocBook并不需要成为SGML/XML专家，而且随着DocBook的使用，会加深对SGML/XML的理解。从实际入手学习XML这一今日之星，不能不说是意外的收获。
+</p>
+<p>
+另一方面，是对应用软件的顾虑。诚然撰写DocBook文档，目前还没有像Word、WPS这样所见即所得的文档编辑工具，更多的是使用最简单的纯文本编辑工具，这可能吓跑好多人。撰写DocBook文档，就要改变撰写文档的方式，这是一关。DocBook文档是一种结构化的文档，表现形式并不是在文档撰写过程中需要考虑的，把文档撰写者从文档的格式化中解放出来，增加了文档格式的统一，也一定程度的减少了工作量。
+</p>
+</li>
+<li>
+<p>
+采用DocBook格式的文档会不会过时
+</p>
+<p>
+DocBook格式的文档是纯文本的、结构化的，也是自解释的。相比二进制格式的文档，更易解析。我们可能遇到这样的情况：找出十年前的一个文档，发现它是基于某一个专有的文档编辑软件编写的二进制格式的文档，如果这种编辑软件现已不流行，甚至已经功成身退，你有信心能够顺利打开它么？这个文档可能就成了天书、数字垃圾。是否想过今天我们的WORD文档，十年后是否也会象今天一样潇洒的打开？再想象一下一百年后有个历史学家想要查找一个电子文档库，如果是诸如Word的二进制文档，这些历史学家必须绞尽脑汁的去破解它们，这不会比破译口令更容易。
+</p>
+<p>
+对于一个要长久保存的文档，一个易于理解的格式是多么的重要。大胆的使用DocBook来撰写你的文档，它能帮你写出传世之作。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="what-docbook"></a>2.2. 什么是DocBook</h3></div></div></div>
+<p>
+前面说了这么多DocBook的好话，大家也粗粗的对DocBook有了一点感观上的认识，那么DocBook到底是什么呢？
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+DocBook提供了一种新的文档撰写体系
+</p>
+<p>
+DocBook提供了一个使用SGML/XML撰写结构化文档的系统。这个系统非常适合于计算机类的文章、书籍、论文等的出版，当然并不仅仅限于计算机类。DocBook已经被Linux、FreeBSD等众多的项目制定作为文档撰写格式，并且有越来越多的组织和个人开始使用。
+</p>
+</li>
+<li>
+<p>
+DocBook是一种SGML/XML方言
+</p>
+<p>
+DocBook是HTML的姐妹，是一种适用于电子文档的标记语言。更为准确的说，DocBook是使用SGML/XML为文档撰写而定义的一套DTD（文档类型定义），即为文档撰写定义了一套开放标准的文档格式，是一种适合技术文档的SGML/XML方言。
+</p>
+<p>
+由于HTML也是一种SGML/XML方言，因此我们说DocBook和HTML是同一层次的东西。例如：HTML用&lt;p&gt;来表示段落标记，而DocBook用&lt;para&gt;和&lt;/para&gt;表示。
+</p>
+</li>
+<li>
+<p>
+DocBook的文档的浏览和显示，需要借助样式表
+</p>
+<p>
+我们熟知的HTML，可以由浏览器，如微软的IE，网景的Mozilla，直接浏览、显示。这是由于浏览器理解HTML的标签的含义，而且HTML中存在着的大量描述表现形式的标签，更是为了显示输出而存在的，如标签 &lt;font&gt;、&lt;b&gt;、&lt;i&gt;。
+</p>
+<p>
+单独的SGML/XML文件却没有通用的浏览器直接显示，这是由于利用SGML/XML可能创建的标签不计其数，没有哪个工具能够完全理解。而真正要以一定的格式显示SGML/XML文件，需要借助样式表，如：CSS、DSSSL、XSL。
+</p>
+<p>
+DocBook作为一种SGML/XML的应用，也具有这个特征。DocBook是绝对的面向结构的文档，不包含任何带有表现语义的标签。
+</p>
+</li>
+<li>
+<p>
+广义的DocBook
+</p>
+<p>
+正如我们要了解HTML，就必然要熟悉浏览器、WWW的概念那样，广义的DocBook也不仅仅包括一套由SGML/XML定义的面向文档撰写的标记语言，还需要学习SGML/XML相关概念、样式表、工具软件等等。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4603664"></a>2.3. DocBook历史</h3></div></div></div>
+<p>
+DocBook 已经有十来年的历史了。它起源于1991年，HaL Computer Systems和O'Reilly公司的一个合作项目。该项目负责推动和以Troff标记语言标记的Unix文档资料的交互。随着该项目不断壮大，该项目的维护便由论坛——Davenport小组维护。1998年，在OASIS(Organization for the Advancement of Structured Information Standards，结构化信息标准促进组织)下成立了一个专门的技术委员会。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+HaL 和 O'Reilly公司阶段
+</p>
+<p>
+DocBook的DTD首先由HaL 和 O'Reilly公司联合在1991年设计和实施。O'Reilly公司作为一个出版公司，在开源项目的文档的出版和发行方面是领导者，当年的项目就是为了在Unix的使用了troff格式标记的文档和出版格式之间的转换。
+</p>
+<p>
+当1.1版本的DocBook设计出来后，O'Reilly公司便开设了一个论坛——Davenport小组，在论坛讨论和维护DocBook。1994年，Davenport小组成为了DocBook官方的维护组织。
+</p>
+</li>
+<li>
+<p>
+Davenport小组阶段
+</p>
+<p>
+在Davenport小组的主持下，DocBook DTD扩展了它的应用范围，越来越多的用户使用，使用的范围也越来越广——不再被单单当作转换的工具，而是直接用具备SGML功能的工具编辑、撰写DocBook文件，直接出版成为出版物。作为当时DocBook两大主要客户，Novell 和 Sun 公司，对于DocBook的设计影响深远。
+</p>
+<p>
+为了帮助用户理解和管理DocBook变更，Davenport小组为DocBook DTD的版本建立了如下规则：
+</p>
+<div class="itemizedlist"><ul type="circle">
+<li><p>
+小版本号的变化（如：2.1到2.2版本的变化），	可以添加新的标签，但是不能影响版本的向下兼容。因此遵守 n.0 版本的DocBook DTD规范的文档，也必定遵守 n.m 版本的DocBook DTD规范。
+</p></li>
+<li><p>
+主版本号的变化（如：2.2和3.0版本之间的变化），除了添加了新标签外，并不保证向下兼容。变更，必须在最新的变更说明中提及。
+</p></li>
+<li><p>
+主版本号的变更的时间间隔至少在一年以上。
+</p></li>
+</ul></div>
+<p>
+DocBook DTD 3.0 于1997年1月发布。虽然，之后的DocBook用户群仍在增加，但是由于Davenport小组的很多中坚力量把更多的经历投入到XML当中，DocBook的开发速度减慢了。虽然提出了创建一个XML版本的DocBook想法，但是没有实施。
+</p>
+<p>
+于是赞助者提出了关闭Davenport，并且用更加正式的方式为DocBook用户提供支持。于是OASIS成为了DocBook新的家。OASIS DocBook技术委员会于1998年7月成立，Sun Microsystems的Eduardo Gutentag为主席。
+</p>
+</li>
+<li>
+<p>
+OASIS阶段
+</p>
+<p>
+OASIS DocBook技术委员会继续着Davenport小组的工作。这次转换非常的顺利，因为两个组织的核心设计人员未变。
+</p>
+<p>
+DocBook 3.1 于1999年2月发布，这是OASIS的第一个版本。目前最新版本是4.2。
+</p>
+<p>
+目前除了DTD格式的DocBook之外，已经有了三个其它格式的实验性的版本，分别是：XML Schema，RELAX，TREX。
+</p>
+</li>
+</ul></div>
+<p>
+DocBook仍在继续发展当中，欲了解DocBook的最新动态，请参考：<a href="http://oasis-open.org" target="_top">oasis-open.org</a>。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4619920"></a>2.4. 本书的组织</h3></div></div></div>
+<p>
+接下来的章节中，我们先通过一个最为简单的例子《Hello World》，来学习DocBook环境的搭建；
+</p>
+<p>
+
+</p>
+<p>
+
+</p>
+<p>
+
+</p>
+<p>
+
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="helloworld"></a>3. Hello World —— DocBook 起步</h2></div></div></div>
+<p>
+学习 DocBook，最好的方法是实践。熟悉编程的读者，一定对 Hello World 非常亲切，它几乎是各种语言的入门的第一个范例。在这里，也借用一下这个概念，让我们从一个最基本的DocBook文档开始学起。通过本章的学习，读者可以掌握在Windows平台、Unix平台实践 DocBook 的基本方法。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4688912"></a>3.1. 撰写 Hello World</h3></div></div></div>
+<p>
+下面是一个符合 sgml 标准的 DocBook 文档——"Hello World!"。虽然它还非常简陋，但是麻雀虽小，五脏俱全。它完全是一个合格的DocBook文档。
+</p>
+<pre class="programlisting">
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN"&gt;	<a name="co.hw.prologue"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+&lt;article&gt;		<a name="co.hw.article"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+&lt;articleinfo&gt;
+  &lt;title&gt;Hello World!&lt;/title&gt;
+  &lt;author&gt;&lt;firstname&gt;名&lt;/firstname&gt;&lt;surname&gt;姓&lt;/surname&gt;&lt;/author&gt; <a name="co.hw.author"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+&lt;/articleinfo&gt;
+
+&lt;sect1&gt;&lt;title&gt;Hello World!&lt;/title&gt;	<a name="co.hw.sect1"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+  &lt;para&gt;
+  Hello world! 这是我的第一个 DocBook 文档。
+  &lt;/para&gt;
+&lt;/sect1&gt;
+&lt;/article&gt;	<a name="co.hw.article.end"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hw.prologue"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+文档类型声明（Document Type Declaration），声明该文档的根元素是 article。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hw.article"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+文档中的唯一的根元素——article
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hw.author"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+在此处添上作者的姓名
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hw.sect1"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+第一章开始。根元素article可以包含任意多的sect1元素。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hw.article.end"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+本文档的根元素结束。
+</p></td>
+</tr>
+</table></div>
+<p>
+即使还没有接触过 DocBook，也不会有人认为以上的 Hello World 文档是一个天书。DocBook 文档是自解释的，通过一个个元素（由尖括号封闭起来的），定义了清晰的文档结构。这片文档是一篇文章（article），它有自己的标题——“Hello World!”，和作者的姓名，它还包含一个章节（sect1），章节的标题是“Hello World!”，内容则是简简单单的一句话。我们把这个文件保存为 <code class="filename">helloworld.sgml</code>。
+</p>
+<p>
+这就大功告成了么？还没有，我们仅仅完成了 DocBook 文档的撰写。借用程序开发的概念，我们仅仅完成了源代码的编写，还没有生成最终的软件产品（可执行文件）呢，甚至还没有测试过。那么，接下来我们的工作就是先通过安装工具软件来搭建环境，再进行文档的编译，形成所需要的输出格式——HTML、RTF等等。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4702432"></a>3.2. 搭建编译环境</h3></div></div></div>
+<p>
+我们在前面提到过，DocBook最早采用的是SGML技术，目前已经有了相应XML技术的实现。为什么不直接选用XML，仍然在SGML上浪费时间呢？这是因为：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+SGML的实现已经足够好了，相应的工具如：使用DSSSL的文档格式化工具OpenJade，Linux文档工程对DSSSL的定制，已经完全能够满足需要。
+</p></li>
+<li>
+<p>
+DocBook最早是基于SGML的实现，因此网上的资源较多，很多用DocBook写的文档都是SGML格式。
+</p>
+<p>
+当你想参与某个开放源码项目，需要修改其DocBook格式的文档，你不能期望大家都去赶时髦，都去用XML格式，这就需要你熟悉SGML及相应工具、环境的部署。
+</p>
+</li>
+<li>
+<p>
+DocBook格式的文档，使用SGML还是使用XML语法，差别非常细微，基本上只要注意标记名用小写，就可以保证顺利的在两种语法之间转换。但是SGML格式和XML格式对DocBook的部署环境和工具的要求就差别很大，这也是采用SGML格式的人迟迟不愿意向XML转换的原因之一。
+</p>
+<p>
+XML脱胎于SGML，如果沿用SGML的文档描述语言DTD和SGML的样式表DSSSL，则也可以沿用SGML的相应工具。如使用下面将要介绍的OpenJade来对SGML和XML两种DocBook实现完成格式转换。
+</p>
+</li>
+<li>
+<p>
+XML的规范仍在发展当中。比如XML的文档格式描述语言就计划采用Schema来代替SGML的DTD，采用XSL来代替DSSSL，但是DocBook的XML相关实现尚处在实验阶段。
+</p>
+<p>
+但是考虑到XML的发展是大势所趋，本书并不想成为一本很快就过时的东西，因此本书将同时兼顾SGML与XML。两者兼顾，应该不会给读者带来更多的工作量，因为不要忘了XML是SGML的子集。
+</p>
+</li>
+</ul></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4711296"></a>3.2.1. DocBook DTD</h4></div></div></div>
+<p>
+我们说 DocBook 实际上是用SGML/XML定义的一种针对文档撰写的方言，指的就是用SGML/XML定义了一套DTD。DTD可以说就是DocBook的灵魂。目前DocBook DTD由Oasis-Open 组织的一个技术委员会维护，并在其网站发布关于DocBook DTD的最新消息和DTD下载。DTD的下载格式有符合SGML规范的DTD、符合XML规范的DTD、使用最新的Schema格式描述的DTD格式等。但目前只有前两个版本是正式版本，使用其它格式描述的DTD还在不断发展中。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Oasis-Open 的 DocBook 技术委员会
+</p>
+<p>
+<a href="http://www.oasis-open.org/docbook/" target="_top">http://www.oasis-open.org/docbook/</a>
+</p>
+</li>
+<li>
+<p>
+SGML格式的DocBook DTD下载
+</p>
+<p>
+可以从<a href="http://www.oasis-open.org/docbook/sgml/4.2/index.shtml" target="_top">http://www.oasis-open.org/docbook/sgml/4.2/index.shtml</a> 下载；也可以从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。目前版本是4.2，文件名为：“docbook-4.2.zip”
+</p>
+</li>
+<li>
+<p>
+XML格式的DocBook DTD下载
+</p>
+<p>
+可以从<a href="http://www.oasis-open.org/docbook/xml/4.2/index.shtml" target="_top">http://www.oasis-open.org/docbook/xml/4.2/index.shtml</a> 下载；也可以从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。目前版本是4.2，文件名为：“docbook-xml-4.2.zip”
+</p>
+</li>
+</ul></div>
+<p>
+分别下载SGML和XML格式的DTD，展开压缩包，并进行目录比较，就可以发现SGML格式的DTD多了两个文件，其它的文件基本相同！实际上SGML和XML格式的DTD只有细微的差别，通过使用参数实体的技术，做到了SGML和XML的DTD共用同一组文件。关于参数实体的详细概念，我们稍后会提到。实际上我们完全可以共用同一套 DTD——SGML的DTD，同时满足SGML和XML格式文档的需要。
+</p>
+<p>
+有两个文件需要注意：<code class="filename">docbook.cat</code>和<code class="filename">catalog.xml</code>。它们分别是SGML和XML格式的目录文件（catalog），负责将SGML和XML文档中声明的公共标识符（public Identifier）来和本地文件建立映射。这两个文件的格式不同但含义相同，关于这两个文件的语法我们将在后面的章节具体讲解。
+</p>
+<p>
+如果打开目录文件，我们会发现其中有关于 ISO 8879:1986 ENTITIES 文件的引用，但是在 DTD 的压缩包中可能找不到相应的文件。这些文件为处理一些特殊字符、不可打印字符提供了描述方法，如用 &amp;lt; 代表 &lt;，用 &amp;amp; 代表 &amp;。ISO ENTITIES并不由Oasis-Open 的 DocBook 技术委员会维护，因此并没有绑定在 DTD 的压缩包一并提供，需要单独下载和安装。ISO Entities的下载方法：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+SGML格式的ISO Entities
+</p>
+<p>
+可以从 <a href="http://www.oasis-open.org/cover/ISOEnts.zip" target="_top">http://www.oasis-open.org/cover/ISOEnts.zip</a>下载；也可以从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+<li>
+<p>
+XML格式的ISO Entities
+</p>
+<p>
+可以从 <a href="http://www.oasis-open.org/committees/docbook/xmlcharent/0.3/xmlcharent-0.3.zip" target="_top">http://www.oasis-open.org/committees/docbook/xmlcharent/0.3/xmlcharent-0.3.zip</a>下载；也可以从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+</ul></div>
+<p>
+安装过程：
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+创建配置文件的根目录
+</p>
+<p>
+创建一个目录作为DocBook的DTD以及后面提到的DSSSL、XSL等配置文件的根目录：在Windows上，我们创建 C:\share，在Unix上我们创建 /share。实际上，可以是使用任何目录名，这里我们只是举一个典型的例子。后面我们要经常提到的配置文件根目录，就指的是这个目录。
+</p>
+</li>
+<li>
+<p>
+安装 DTD
+</p>
+<p>
+在配置文件根目录（Windows上的C:\share，Unix上的/share），创建子目录 dtd/4.2，并在子目录下展开压缩包“docbook-4.2.zip”（4.2版本，SGML格式的DTD）。
+</p>
+</li>
+<li>
+<p>
+关于 ISO 8879:1986 ENTITIES
+</p>
+<p>
+DTD中引用了ISO 8879:1986 ENTITIES，但 ISO ENTITIES并不由Oasis-Open 的 DocBook 技术委员会维护，因此并没有绑定在 DTD 的压缩包一并提供，需要单独下载和安装。我们或者可以将下载的ENTITIES放到DTD制定的目录下，或者修改相应的目录文件，修改Entities文件本地存储的位置。我们选择第二种方法。
+</p>
+</li>
+<li>
+<p>
+安装 ISO Entities
+</p>
+<p>
+我们或者可以将下载的ENTITIES放到DTD制定的目录下，或者修改相应的目录文件，修改Entities文件本地存储的位置。我们选择第二种方法。
+</p>
+<p>
+在配置文件根目录（Windows上的C:\share，Unix上的/share），创建子目录 entity/xml，并在该目录下，展开压缩包“xmlcharent-0.3.zip”。
+</p>
+<p>
+在配置文件根目录下，创建子目录 entity/sgml，并在该目录下，展开压缩包“ISOEnts.zip”。
+</p>
+</li>
+<li>
+<p>
+为Entities添加目录文件（catalog）
+</p>
+<p>
+在Entities目录（Windows上的C:\share\entity，Unix上的/share/entity），创建SGML格式的目录文件：<code class="filename">catalog.sgml</code>和XML格式的目录文件：<code class="filename">catalog.xml</code>，如下：
+</p>
+<p>
+文件：<code class="filename">catalog.sgml</code>
+</p>
+<pre class="screen">
+
+
+OVERRIDE YES
+
+-- ...................................................................... --
+-- ISO entity sets for DocBook SGML ..................................... --
+
+PUBLIC "ISO 8879:1986//ENTITIES Diacritical Marks//EN"
+       "sgml/iso-dia.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN"
+       "sgml/iso-num.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Publishing//EN"
+       "sgml/iso-pub.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES General Technical//EN"
+       "sgml/iso-tech.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 1//EN"
+       "sgml/iso-lat1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 2//EN"
+       "sgml/iso-lat2.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Greek Letters//EN"
+       "sgml/iso-grk1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Monotoniko Greek//EN"
+       "sgml/iso-grk2.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Greek Symbols//EN"
+       "sgml/iso-grk3.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN"
+       "sgml/iso-grk4.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN"
+       "sgml/iso-amsa.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN"
+       "sgml/iso-amsb.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN"
+       "sgml/iso-amsc.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN"
+       "sgml/iso-amsn.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN"
+       "sgml/iso-amso.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN"
+       "sgml/iso-amsr.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Box and Line Drawing//EN"
+       "sgml/iso-box.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Russian Cyrillic//EN"
+       "sgml/iso-cyr1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN"
+       "sgml/iso-cyr2.ent"
+
+-- End of ISO entity sets for DocBook SGML .............................. --
+-- ...................................................................... --
+
+-- ...................................................................... --
+-- ISO entity sets for DocBook XML ...................................... --
+
+PUBLIC "ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
+       "xml/iso-dia.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
+       "xml/iso-num.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Publishing//EN//XML"
+       "xml/iso-pub.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES General Technical//EN//XML"
+       "xml/iso-tech.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
+       "xml/iso-lat1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
+       "xml/iso-lat2.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
+       "xml/iso-grk1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
+       "xml/iso-grk2.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
+       "xml/iso-grk3.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
+       "xml/iso-grk4.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
+       "xml/iso-amsa.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
+       "xml/iso-amsb.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
+       "xml/iso-amsc.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
+       "xml/iso-amsn.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
+       "xml/iso-amso.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
+       "xml/iso-amsr.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
+       "xml/iso-box.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
+       "xml/iso-cyr1.ent"
+
+PUBLIC "ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
+       "xml/iso-cyr2.ent"
+
+-- End of ISO entity sets for DocBook XML ............................... --
+-- ...................................................................... --
+
+</pre>
+<p>
+文件：<code class="filename">catalog.xml</code>
+</p>
+<pre class="screen">
+
+&lt;?xml version='1.0'?&gt;
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"&gt;
+
+&lt;!-- ...................................................................... --&gt;
+&lt;!-- ISO entity sets ...................................................... --&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
+        uri="xml/iso-dia.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
+        uri="xml/iso-num.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
+        uri="xml/iso-pub.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
+        uri="xml/iso-tech.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
+        uri="xml/iso-lat1.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
+        uri="xml/iso-lat2.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
+        uri="xml/iso-grk1.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
+        uri="xml/iso-grk2.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
+        uri="xml/iso-grk3.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
+        uri="xml/iso-grk4.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
+        uri="xml/iso-amsa.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
+        uri="xml/iso-amsb.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
+        uri="xml/iso-amsc.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
+        uri="xml/iso-amsn.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
+        uri="xml/iso-amso.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
+        uri="xml/iso-amsr.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
+        uri="xml/iso-box.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
+        uri="xml/iso-cyr1.ent"/&gt;
+
+&lt;public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
+        uri="xml/iso-cyr2.ent"/&gt;
+&lt;/catalog&gt;
+
+</pre>
+</li>
+<li>
+<p>
+修改DTD的目录文件
+</p>
+<p>
+DTD的目录文件<code class="filename">docbook.cat</code>和<code class="filename">catalog.xml</code>中包含错误的Entities文件映射，因此需要删除文件中关于ISO Entities的文件映射。
+</p>
+</li>
+<li>
+<p>
+建立全局的目录文件
+</p>
+<p>
+在配置文件的根目录创建目录文件。一个是SGML格式的目录文件 <code class="filename">catalog.sgml</code>，一个是XML格式的目录文件 <code class="filename">catalog.xml</code>。这两个目录文件分别将DTD文件和Entities文件包含在一起。
+</p>
+<p>
+文件：<code class="filename">catalog.sgml</code>
+</p>
+<pre class="screen">
+
+-- ...................................................................... --
+--                "export SGML_CATALOG_FILES=/PATH/catalog"               --
+
+OVERRIDE YES
+
+SGMLDECL "dtd/4.2/docbook.dcl"
+
+CATALOG "dtd/4.2/docbook.cat"
+CATALOG "entity/catalog.sgml"
+
+DOCTYPE book	dtd/4.2/docbook.dtd
+DOCTYPE article	dtd/4.2/docbook.dtd
+DOCTYPE chapter	dtd/4.2/docbook.dtd
+
+</pre>
+<p>
+文件：<code class="filename">catalog.xml</code>
+</p>
+<pre class="screen">
+
+&lt;?xml version='1.0'?&gt;
+&lt;catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog"&gt;
+
+&lt;!-- ...................................................................... --&gt;
+&lt;!-- DocBook driver file .................................................. --&gt;
+&lt;nextCatalog  catalog="dtd/4.2/catalog.xml" /&gt; 
+
+&lt;!-- ...................................................................... --&gt;
+&lt;!-- ISO entity sets ...................................................... --&gt;
+&lt;nextCatalog  catalog="entity/xml/catalog.xml" /&gt; 
+
+&lt;/catalog&gt;
+
+</pre>
+</li>
+<li>
+<p>
+设置环境变量
+</p>
+<p>
+SGML/XML的应用程序需要通过环境变量SGML_CATALOG_FILES和XML_CATALOG_FILES来确认目录文件的位置，进而找到相应的DTD等文件。
+</p>
+<p>
+Windows通过控制面板中的系统来设置环境变量，设置 SGML_CATALOG_FILES 为 C:\share\catalog.sgml，设置 XML_CATALOG_FILES 为 C:\share\catalog.xml。
+</p>
+<p>
+Unix 通过以下命令来设置
+</p>
+<pre class="screen">
+export SGML_CATALOG_FILES=/share/sgml/catalog.sgml
+export XML_CATALOG_FILES=/share/xml/catalog.xml
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4757728"></a>3.2.2. 安装样式表</h4></div></div></div>
+<p>
+DTD定义了DocBook的元素，描述了DocBook文档的结构，但是DTD并没有包含一点点文档格式化的信息。无论如何，文档的漂亮的表现形式——格式，都是非常重要的。这些就依靠样表来解决了。SGML的样表是DSSSL，XML还可以用XSL来描述。
+</p>
+<p>
+如果只使用OpenJade来转换 SGML格式和XML格式的DocBook文档，我们完全可以只安装 DSSSL样表。因为 OpenJade 是专门针对 DSSSL 技术的实现。但是目前有更多的XML应用（如针对收藏夹的XBEL，和DocBook一样是另外一种XML方言），使用XSL作为样式表，使用其它工具（如 xsltproc）来完成XML文档的格式转换。DocBook的样式表，目前有DSSSL格式的实现，也有XSL格式的实现，我们这里就权且兼收并蓄吧。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+DSSSL
+</p>
+<p>
+当前版本为：1.77。下载地址：<a href="http://sourceforge.net/projects/docbook/" target="_top">http://sourceforge.net/projects/docbook/</a>；或从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+<li>
+<p>
+XSL
+</p>
+<p>
+当前版本为：1.58.1。下载地址：<a href="http://sourceforge.net/projects/docbook/" target="_top">http://sourceforge.net/projects/docbook/</a>；或从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+<li>
+<p>
+LDP
+</p>
+<p>
+LDP（Linux文档计划）使用DocBook格式撰写文档，并且在 Norman Walsh DSSSL 的基础上进行了一定的扩充。我们使用 LDP 的DSSSL扩充，一方面使自己撰写的文档具有LDP的统一的风格，另一方面可以学习到定制 DSSSL 的知识。
+</p>
+<p>
+下载地址：<a href="http://www.tldp.org/authors/tools/ldp.dsl" target="_top">http://www.tldp.org/authors/tools/ldp.dsl</a>；或从 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p>
+</li>
+</ul></div>
+<p>
+安装
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+展开压缩包
+</p>
+<p>
+在配置文件根目录（Windows上的C:\share，Unix上的/share），创建子目录 style，作为样表的根目录。并在该子目录下，在分别创建 dsssl目录和xsl目录。
+</p>
+<p>
+在 style/dsssl 目录下创建 1.77 目录，展开当前版本号为1.77的dsssl包。
+</p>
+<p>
+在 style/xsl 目录下创建 1.58.1 目录，展开当前版本号为1.58.1的xsl包。
+</p>
+</li>
+<li>
+<p>
+更新目录文件
+</p>
+<p>
+更新配置文件根目录下的目录文件（catalog.sgml），如下内容：
+</p>
+<pre class="screen">
+CATALOG "style/dsssl/1.77/catalog"
+</pre>
+</li>
+<li>
+<p>
+安装 LDP DSSSL扩展
+</p>
+<p>
+将文件 <code class="filename">ldp.dsl</code> 拷贝到 style/dsssl 目录下；
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4776736"></a>3.2.3. OpenJade</h4></div></div></div>
+<p>
+OpenJade 是一个DSSSL语言的实现工具，它可以把SGML和XML文档通过DSSSL转换为其它格式，如转换为 RTF、TeX、HTML等格式。OpenJade 源自 James Clark's 的工具 JADE (James' DSSSL Engine)，现在作为开放源码，由Source Forge维护。
+</p>
+<p>
+可以从<a href="http://sourceforge.net/projects/openjade/" target="_top">http://sourceforge.net/projects/openjade/</a>下载。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+安装 OpenJade
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Windows平台
+</p>
+<p>
+可以从<a href="http://sourceforge.net/projects/openjade/" target="_top">http://sourceforge.net/projects/openjade/</a>下载Windows平台的安装包 <code class="filename">openjade-1.3-1.exe</code>。
+</p>
+<p>
+如同大部分Windows软件一样，安装过程非常简单，只需要按照提示一步一步执行即可。安装完毕之后，需要做的一件事是将OpenJade的可执行文件的目录（如：<code class="filename">C:\Program Files\OpenJade-1.3\bin</code>）加到系统的环境变量 PATH 中，以便可以在Windows命令行直接调用 openjade。
+</p>
+</li>
+<li>
+<p>
+Linux
+</p>
+<p>
+可以从<a href="http://sourceforge.net/projects/openjade/" target="_top">http://sourceforge.net/projects/openjade/</a>下载源码 <code class="filename">OpenSP-1.5.tar.gz</code>和<code class="filename">openjade-1.3.2.tar.gz</code>。
+</p>
+<p>
+同其他使用了autoconf, automake 的Unix软件包一样，安装过程也非常简单。
+</p>
+<pre class="screen">
+$ tar zxvf OpenSP-1.5.tar.gz
+$ cd OpenSP-1.5
+$ ./configure
+$ make
+$ make install
+
+$ cd ..
+
+$ tar zxvf openjade-1.3.2.tar.gz
+$ cd openjade-1.3.2
+$ ./configure
+$ make
+$ make install
+</pre>
+</li>
+<li>
+<p>
+Cygwin
+</p>
+<p>
+Cygwin 是一个伟大的软件，通过一些DLL文件，建立了一个Windows平台上运行Unix命令的虚拟接口。Cygwin 还有一个好处是，它是开放源码，完全免费的。对于那些对Windows命令行和定制能力感到失望的人，和Unix命令行嗜好者，Cygwin是一个好的选择。
+</p>
+<p>
+安装 Cygwin 非常的简单，下载安装启动程序 Setup.exe，通过网络下载其它安装包，或者直接开始安装。在选择安装包时，可以选择 openjade。
+</p>
+<p>
+下载地址：<a href="http://www.cygwin.com" target="_top">http://www.cygwin.com</a>。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+修改目录文件
+</p>
+<p>
+将OpenJade自带的DTD，加入到目录文件中。先拷贝安装目录中的 dsssl子目录，将该子目录下所有文件拷贝到配置根目录下的 dtd/openjade 目录下。修改目录文件，增加如下一行。
+</p>
+<pre class="screen">
+CATALOG "dtd/openjade/catalog"
+</pre>
+<p>
+现在配置文件根目录下的目录文件 catalog.sgml 算是修改完毕，内容如下：
+</p>
+<pre class="screen">
+
+-- ...................................................................... --
+--                "export SGML_CATALOG_FILES=/PATH/catalog"               --
+OVERRIDE YES
+
+SGMLDECL "dtd/4.2/docbook.dcl"
+
+CATALOG "dtd/4.2/docbook.cat"
+CATALOG "entity/catalog.sgml"
+CATALOG "style/dsssl/1.77/catalog"
+CATALOG "dtd/openjade/catalog"
+
+DOCTYPE book	dtd/4.2/docbook.dtd
+DOCTYPE article	dtd/4.2/docbook.dtd
+DOCTYPE chapter	dtd/4.2/docbook.dtd
+
+</pre>
+</li>
+<li>
+<p>
+设置环境变量
+</p>
+<p>
+OpenJade 可以通过读取环境变量 SGML_CATALOG_FILES，确认 DTD 的本地存储位置。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Windows
+</p>
+<p>
+Windows通过控制面板中的系统来设置环境变量，设置 SGML_CATALOG_FILES 为 C:\share\catalog.sgml。
+</p>
+</li>
+<li>
+<p>
+Unix
+</p>
+<p>
+Unix 通过以下命令来设置：
+</p>
+<pre class="screen">
+export SGML_CATALOG_FILES=/share/sgml/catalog.sgml
+</pre>
+</li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4802432"></a>3.2.4. XSLTPROC</h4></div></div></div>
+<p>
+xsltproc 和 OpenJade 一样，是为 DocBook 文档完成向其它格式转换的工具。但是它们的不同点是 xsltproc 只能对 XML 格式的文档进行处理，而且其使用的样表也只能是 XSL 格式的样式表，而不能是 DSSSL 格式的样式表。
+</p>
+<p>
+xsltproc 可以安装在 Unix 系统上，或者借助 Cygwin，运行在 Windows 平台。
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4804720"></a>3.3. 编译文档</h3></div></div></div>
+<p>
+下面我们就学习通过我们上面建立的编译环境，将我们的 Hello World 文档转换成可以用来显示的HTML格式和可以打印的RTF格式。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4805952"></a>3.3.1. 准备测试文档——《Hello World》</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+SGML格式
+</p>
+<p>
+在本章一开始，介绍了我们的第一个文档——《Hello World》，它是SGML格式的文档，读者可以照着录入到文件：<code class="filename">helloworld.sgml</code>。读者可以直接在如下网址下载，以减轻文字录入的负担。网址：<a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a>。
+</p>
+</li>
+<li>
+<p>
+XML格式
+</p>
+<p>
+我们再来准备一个xml格式的文档——<code class="filename">helloworld.xml</code>，如下：
+</p>
+<pre class="programlisting">
+&lt;?xml version="1.0" ?&gt;
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"&gt;	<a name="co.hwx.prologue"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+&lt;article&gt;		<a name="co.hwx.article"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+&lt;articleinfo&gt;
+  &lt;title&gt;Hello World!&lt;/title&gt;
+  &lt;author&gt;&lt;firstname&gt;名&lt;/firstname&gt;&lt;surname&gt;姓&lt;/surname&gt;&lt;/author&gt; <a name="co.hwx.author"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+&lt;/articleinfo&gt;
+
+&lt;sect1&gt;&lt;title&gt;Hello World!&lt;/title&gt;	<a name="co.hwx.sect1"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+  &lt;para&gt;
+  Hello world! 这是我的第一个 DocBook 文档。
+  &lt;/para&gt;
+&lt;/sect1&gt;
+&lt;/article&gt;	<a name="co.hwx.article.end"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hwx.prologue"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+文档类型声明（Document Type Declaration），声明该文档的根元素是 article。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hwx.article"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+文档中的唯一的根元素——article
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hwx.author"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+在此处添上作者的姓名
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hwx.sect1"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+第一章开始。根元素article可以包含任意多的sect1元素。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.hwx.article.end"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+本文档的根元素结束。
+</p></td>
+</tr>
+</table></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+该文件也可以直接从网站 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 下载。
+</p></td></tr>
+</table></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4823248"></a>3.3.2. 用 OpenJade 进行格式转换</h4></div></div></div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4823760"></a>3.3.2.1. Windows 平台</h5></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+  转换为 HTML
+  </p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -d c:\share\style\dsssl\1.77\html\docbook.dsl helloworld.sgml
+    </pre>
+</li>
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -d c:\share\style\dsssl\1.77\html\docbook.dsl helloworld.xml
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -i html -d c:\share\style\dsssl\ldp.dsl#html helloworld.sgml
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -i html -d c:\share\style\dsssl\ldp.dsl#html helloworld.xml
+    </pre>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+  转换为 单一HTML文件
+  </p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -V nochunks -d c:\share\style\dsssl\1.77\html\docbook.dsl helloworld.sgml &gt; index.html
+    </pre>
+</li>
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -V nochunks -d c:\share\style\dsssl\1.77\html\docbook.dsl helloworld.xml &gt; index.html
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -i html -V nochunks -d c:\share\style\dsssl\ldp.dsl#html helloworld.sgml &gt; index.html
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -i html -V nochunks -d c:\share\style\dsssl\ldp.dsl#html helloworld.xml &gt; index.html
+    </pre>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+  转换为 Word 文档
+  </p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t rtf -d c:\share\style\dsssl\1.77\print\docbook.dsl helloworld.sgml
+    </pre>
+</li>
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t rtf -d c:\share\style\dsssl\1.77\print\docbook.dsl helloworld.xml
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t rtf -i print -d c:\share\style\dsssl\ldp.dsl#print helloworld.sgml
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t rtf -i print -d c:\share\style\dsssl\ldp.dsl#print helloworld.xml
+    </pre>
+</li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4848624"></a>3.3.2.2. Linux 平台</h5></div></div></div>
+<p>
+同样的命令，在其它Unix平台、Windows+Cygwin 平台同样有效。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+  转换为 HTML
+  </p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -d /share/style/dsssl/1.77/html/docbook.dsl helloworld.sgml
+    </pre>
+</li>
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -d /share/style/dsssl/1.77/html/docbook.dsl helloworld.xml
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -i html -d /share/style/dsssl/ldp.dsl\#html helloworld.sgml
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -i html -d /share/style/dsssl/ldp.dsl\#html helloworld.xml
+    </pre>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+  转换为 单一HTML文件
+  </p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -V nochunks -d /share/style/dsssl/1.77/html/docbook.dsl helloworld.sgml &gt; index.html
+    </pre>
+</li>
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -V nochunks -d /share/style/dsssl/1.77/html/docbook.dsl helloworld.xml &gt; index.html
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -i html -V nochunks -d /share/style/dsssl/ldp.dsl\#html helloworld.sgml &gt; index.html
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t sgml -i html -V nochunks -d /share/style/dsssl/ldp.dsl\#html helloworld.xml &gt; index.html
+    </pre>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+  转换为 Word 文档
+  </p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t rtf -d /share/style/dsssl/1.77/print/docbook.dsl helloworld.sgml
+    </pre>
+</li>
+<li>
+<p>
+    使用 docbook.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t rtf -d /share/style/dsssl/1.77/print/docbook.dsl helloworld.xml
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 sgml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t rtf -i print -d /share/style/dsssl/ldp.dsl\#print helloworld.sgml
+    </pre>
+</li>
+<li>
+<p>
+    使用 ldp.dsl 样式表，转换 xml 格式文件：
+    </p>
+<pre class="screen">
+    openjade -E 0 -t rtf -i print -d /share/style/dsssl/ldp.dsl\#print helloworld.xml
+    </pre>
+</li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4874224"></a>3.3.3. 还需进一步完善</h4></div></div></div>
+<p>
+经过了上面的实践，对于 DocBook 一定有了直观的了解。我们已经可以通过在《Hello World》文档基础上一步一步扩充，逐渐熟悉 DocBook 的标签和元素的用法，写出更加复杂和实用的 DocBook 文档。在前面的实践过程中，也有一些不完美的地方：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+命令行复杂
+</p>
+<p>
+复杂的命令行格式既容易出错，又会导致效率低下。但是命令行工具优越于图形界面工具的一个特点就是更容易的实现任务的自动化。在后续的章节我们可以通过例子，了解一些基本方法，对这些复杂命令行进行封装，有效的完成任务。
+</p>
+</li>
+<li>
+<p>
+转换出来的 HTML 文件的格式单调
+</p>
+<p>
+大家可以对比一下在我的网站 <a href="http://www.worldhello.net" target="_top">http://www.worldhello.net</a> 上的 DocBook 文档，就发现在我的网站上的 DocBook 文档转换出来的 HTML 格式文件，有背景图、文字颜色更加丰富，等等。这是如何实现的呢？
+</p>
+</li>
+<li>
+<p>
+转换后的格式不符合习惯
+</p>
+<p>
+例如：DocBook源文件中，用 “&lt;firstname&gt;名&lt;/firstname&gt;&lt;surname&gt;姓&lt;/surname&gt;&lt;/author&gt;”标识作者姓名，而转换出来的目标文件中则对应为“名姓”，即作者的“名”放在了“姓”的前面。这符合西方人的习惯，但不符合中国人的习惯。我们该如何定制呢？
+</p>
+</li>
+</ul></div>
+<p>
+我们将在后续章节，介绍对 DocBook 定制的方法。
+</p>
+</div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="sgml-primary"></a>4. SGML/XML入门</h2></div></div></div>
+<p>
+我们在上一个章节囫囵吞枣的浏览了一下撰写和编译DocBook的全部过程。现在是我们静下心来，好好补一补我们的基础知识了。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5067312"></a>4.1. 基础概念</h3></div></div></div>
+<p>
+SGML/XML有着陡峭的学习曲线，主要是因为一开始就要面对铺天盖地的新概念。学习DocBook，虽然并不需要对SGML/XML的所有概念都去透彻了解，但是需要掌握的也仍是够怕人的。下面的这些概念都熟悉么？如果答案是肯定的，那么你可以轻松的跳过这一章。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+什么是标记语言？
+</p>
+<p>
+传统意义上的标记（markup），我们都应该不会陌生。当我们还在读书的时候，老师改过的试卷，经常是满篇的红色的醒目的对号、错号、问号、波浪线，或者意味深长的评语，这些都是标记。广义上来说，一篇文章中的标点符号、空格也都可以称作是标记。看看韩愈是怎么说的，“句读之不知，惑之不解也”，就是这些语法标记对于帮助我们读懂文章，实在是太重要了。
+</p>
+<p>
+标记语言（markup language），则特指用一系列约定好的标记来对电子文档进行标记，来实现对电子文档的语义、结构、格式的定义。这些标记必须能够和容易的和内容相区分，易于识别。标记语言必须定义什么样的标记是允许的，什么样的标记是必须的，标记是如何与文档的内容向区分的，以及标记的含义是什么？
+</p>
+</li>
+<li>
+<p>
+什么是SGML？
+</p>
+<p>
+标准通用标记语言（Standard Generalized Markup Language ，SGML）,它是用来描述电子文档标记的国际标准，SGML 通过这些标记来描述文档结构，以便于存储、提取、处理文档中的数据。更准确地说，SGML 是一种元语言——关于语言的语言。为我们熟知的HTML就是源自SGML的一种语言，或者说方言。
+</p>
+</li>
+<li>
+<p>
+什么是元素？
+</p>
+<p>
+元素（Elements），就是SGML/XML文档中的具有一定结构的文字片断，是标记语言的基本组成部分。大多数元素的开头和结尾分别由一对相匹配的起始标签和结束标签构成，例如：HTML中的段落标记“&lt;p&gt;”和“&lt;/p&gt;”和所标记的内容构成了一个段落元素。也有一些元素可以是空标签，没有结束标签和它相匹配，就像HTML中的断行标签“&lt;br&gt;”。
+</p>
+<p>
+还要说明的是，不同类型的元素被赋予了不同的名称，但SGML本身并不关心这些元素的含义，而是关心这些元素的语法、相互之间的嵌套等。具体对这些元素的理解，则交给应用程序去完成，这就如同不同浏览器对于同一个网页可能有不同的表现形式。
+</p>
+</li>
+<li>
+<p>
+什么是实体？
+</p>
+<p>
+实体（Entities），就是一个被命名了的标记数据块，可以是一个字符串，也可以是一个完整的文件。实体可以包含已析（parsed）数据或未析（unparsed）数据。已析数据由字符组成，其中一些字符组成字符数据，另一些字符组成标记。未析数据则是那些不进行语法解析的数据，如图形文件等。
+</p>
+<p>
+引用一个已经定义的实体的格式为：&amp;实体名称;，即在实体名称前面加上“&amp;”符号，在实体名称后面加上分号“;”。如HTML中的“&amp;lt;” 即代表小于号“&lt;”。
+</p>
+</li>
+<li>
+<p>
+什么是DTD？
+</p>
+<p>
+SGML引入了文档类型的概念，并由此引入了文档类型定义（Document Type Definition: DTD）。文档按照其内容和结构可能分属于不同的类，如数学家能够用文档来记录数学公式，化学家用SGML文档来描述分子结构式，DocBook被用来撰写文档，等等，这些都是不同的文档类型的例子。
+</p>
+<p>
+每种不同类型的文档，遵守各自的DTD规范。例如，一个DocBook文档，需要包含一个标题、作者信息、摘要、和由段落组成的文章内容。而缺少标题的文档，便不符合DocBook的DTD，不是合格的DocBook文档。具有标题，但是标题放在了正文的最后，也不符合DocBook DTD，也不是合格的DocBook文档。
+</p>
+<p>
+文档类型定义 (DTD) 实际上就是一套关于标记符的语法规则，它包含了对元素的定义，指出可以在文档中使用哪些标记符, 它们应该按什么次序出现, 哪些标记符可以出现于其它标记符中, 哪些标记符有属性, 等等。属于某种类型的文档，可以通过一个应用程序来解析，检查是否所有的元素都被定义以及元素出现的次序是否正确。属于同一种类别的文档可以按照一致的方式来处理。
+</p>
+<p>
+并不存在一个通用的DTD，想使用SGML/XML进行数据交换的行业或组织可以定义它们自己的DTD。HTML，DocBook都仅仅是DTD的一种，SGML的一个实例。
+</p>
+<p>
+我们所熟知的HTML是SGML的一个实例，它的DTD作为标准被固定下来，因此，HTML不能作为定义其它置标语言的元语言。而目前的热点XML则是SGML的一个子集，严格地讲，XML也还是SGML。与HTML不同的是，XML有DTD，因而也可以象SGML那样，作为元语言，来定义其它文件系统，或称其它标记语言。
+</p>
+</li>
+<li>
+<p>
+什么是XML？
+</p>
+<p>
+可扩展标记语言（Extensible Markup Language，XML），它是标准通用标记语言（Standard Generic Markup Language，SGML）的一个子集。其目的在于使得在 Web 上能以现有超文本标记语言（Hypertext Markup Language，HTML）的使用方式提供，接收和处理通用的 SGML 成为可能。XML 的设计既考虑了实现的方便性，同时也顾及了与 SGML 和 HTML 的互操作性。
+</p>
+<p>
+SGML的相关概念，对于 XML 也是有效的，虽然有着细微的差别。我们在本章的讨论，没有特殊说明，对于SGML和XML来说都是有效的，并且我们会在本章的最后，用单独的章节比较SGML和XML的异同。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5087744"></a>4.2. 关于标记语言</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5088256"></a>4.2.1. 什么是标记语言</h4></div></div></div>
+<p>
+超文本置标语言HTML（HyperText Markup Language）是当今信息高速公路上最为风光的主角。它与它的老祖宗SGML和当今IT新星XML都属于一个大家族——标记语言家族。那么什么是标记语言？
+</p>
+<p>
+传统意义上的标记（markup），我们都应该不会陌生。当我们还在读书的时候，老师改过的试卷，经常是满篇的红色的醒目的对号、错号、问号、波浪线，或者意味深长的评语，这些都是标记。我们在看书的时候，也喜欢用荧光笔将重要的内容加亮，以帮助我们在日后重读文章时，能够提纲挈领，迅速抓住要害，这也是标记。从广义上来说，一篇文章中的标点符号、空格也都可以称作是标记。看看韩愈是怎么说的，“句读之不知，惑之不解也”，就是这些语法标记对于帮助我们读懂文章，实在是太重要了。
+</p>
+<p>
+标记语言（markup language），则特指用一系列约定好的标记来对电子文档进行标记，来实现对电子文档的语义、结构、格式的定义。这些标记必须能够和容易的和内容相区分，易于识别。标记语言必须定义什么样的标记是允许的，什么样的标记是必须的，标记是如何与文档的内容向区分的，以及标记的含义是什么。
+</p>
+<p>
+我们来看看一段HTML代码：
+</p>
+<div class="informalexample"><pre class="programlisting">
+
+&lt;p&gt;标记语言的代表：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTML&lt;/li&gt;
+  &lt;li&gt;SGML&lt;/li&gt;
+  &lt;li&gt;XML&lt;/li&gt;
+&lt;/ul&gt;
+
+</pre></div>
+<p>
+文中的标签特征分明，很容易就可以和实际的内容区分开。标签由小于符号（&lt;）和大于符号（&gt;）括起来的文字组成标签，浏览器能够解读这些标签，并按照预定义的格式显示如下：
+</p>
+<div class="informalexample">
+<p>
+标记语言的代表：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+HTML
+</p></li>
+<li><p>
+SGML
+</p></li>
+<li><p>
+XML
+</p></li>
+</ul></div>
+</div>
+<p>
+当我们对“置标”的含义有了一个明确的理解后，让我们再看看标记语言的发展历史。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5098112"></a>4.2.2. 标记语言的历史</h4></div></div></div>
+<p>
+了解标记语言发展的历史，将对于HTML，SGML，XML之间的联系和正确理解标记语言这一技术更有帮助。
+</p>
+<p>
+为了促进数据的交换和操作，人们早就产生了将文件结构化为标准的格式的动机。IBM在20世纪60年代，创建了GML（Generalized Markup Language，通用标记语言），以在其出版系统内部实现这一需求。IBM使用GML来用单一类型的源文件维护书籍、报表以及其他文件。
+</p>
+<p>
+SGML（Standard Generalized Markup Language，标准通用标记语言）从IBM的GML演化而来，是第一个标准化的信息结构化技术。SGML成为了IBM内部格式化和维护合法文件的手段。SGML后来被扩展和修改，作为一种全面的信息标准以适应工业范围的广泛应用。但直到1986年，SGML才成为了ISO标准。尽管SGML的功能非常强大，但是由于它非常复杂，需要一大堆昂贵的软件配合运行，因而在很长一段时间都没有被推广。
+</p>
+<p>
+1989年，欧洲粒子物理实验室（CERT）的研究员 Tim Berners-Lee 和 Anders Berglund 两人创建了一种基于标记的语言，为在Internet上共享的文章做标记，于是HTML诞生了。HTML可以看作是SGML的简化的应用，它的诞生，推动了信息产业的大发展。
+</p>
+<p>
+HTML当初仅仅提供了一种对静态文本信息表现的方法，但显然并不能适应越来越多的需要。随后越来越多的标签诞生了，象&lt;img&gt;用于描述图片，&lt;script&gt;通过为网页加入脚本支持，提供动态网页内容，两大浏览器厂商微软和网景，甚至创建了由自己的产品兼容的标签。于是HTML成了一个大而不当，失去了严谨结构化的怪物。
+</p>
+<p>
+1996年，W3C寻找一种在WEB中应用SGML的灵活性和强大功能的方法，这导致了1998年2月，XML1.0规范的发布。XML（eXtensible Markup Language，可扩展的标记语言）具备了SGML的核心特性，又非常的简洁，XML规范的内容甚至不到SGML的十分之一，XML的简洁可见一斑。XML的应用随即如雨后春笋般的展开，它被看作是IT的明日之星。
+</p>
+<p>
+SGML和HTML之间，XML和HTML之间的差别是巨大的，HTML可以看作是SGML/XML的一种具体应用，SGML/XML则作为元语言，则可以定义出无数新的标记语言，如DocBook即是一种。SGML和XML之间的差别则是微小的，XML作为SGML的子集，继承了SGML的优点：扩展性、结构化和有效性。因此为了学习DocBook，我们需要从SGML/XML学起。
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5105024"></a>4.3. SGML/XML语法基础</h3></div></div></div>
+<p>
+SGML/XML文件由字符数据和标记组成，下面就是SGML/XML所支持的几种不同的标记：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+元素标记
+</p></li>
+<li><p>
+处理指令
+</p></li>
+<li><p>
+文件类型声明
+</p></li>
+<li><p>
+实体引用
+</p></li>
+<li><p>
+注释
+</p></li>
+<li><p>
+标记片段
+</p></li>
+</ul></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5111136"></a>4.3.1. 标记</h4></div></div></div>
+<p>
+标记（Tag）用来描述元素，是语法中最显而易见的组成部分。例如：在DocBook中段落元素由标记&lt;para&gt;和标记&lt;/para&gt;构成。
+</p>
+<p>
+元素（Elements），这一术语，和标记的概念密不可分。它指的是SGML/XML文档中的具有一定结构的文字片断，大多数元素的开头和结尾分别由一对相匹配的起始标签和结束标签构成，也有一些元素可以是空标签，没有结束标签和它相匹配，就像HTML中的断行标签“&lt;br&gt;”。
+</p>
+<p>
+SGML和XML对于标记的规范略有不同。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+SGML是大小写不敏感的，XML大小写敏感
+</p>
+<p>
+对于SGML，标签&lt;para&gt;和&lt;PAra&gt;是同一个标签，而对于XML则是不同的标签。DocBook中的标签都应该是小写的，因此我们无论在XML还是在SGML中，都应该养成用小写字母书写元素标签的习惯。
+</p>
+</li>
+<li>
+<p>
+SGML允许存在不匹配的标签，而XML必须严格匹配
+</p>
+<p>
+根本原因是，XML省略了SGML中定义DTD的语法中的一些细节，这在后面讲述DTD时，将要谈到。SGML允许出现不匹配的标签，如: &lt;anchor id="..."&gt;用来描述文挡中的内部跳转，可以单独存在。而这样的语法在XML中，是不允许的，即使对于&lt;anchor&gt;这样的空标签，也必须用独特的空标签表示方法表示。如：文内的跳转标志，XML中必须以 &lt;anchor id="..."/&gt;（在大于号的前面加上一个斜杠）表示。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5118192"></a>4.3.2. 实体引用</h4></div></div></div>
+<p>
+实体（Entities），就是一个被命名了的标记数据块，可以是一个字符串，也可以是一个完整的文件。实体可以包含已析（parsed）数据或未析（unparsed）数据。已析数据由字符组成，其中一些字符组成字符数据，另一些字符组成标记。未析数据则是那些不进行语法解析的数据，如图形文件等。
+</p>
+<p>
+引用一个已经定义的实体的格式为：&amp;实体名称;，即在实体名称前面加上“&amp;”符号，在实体名称后面加上分号“;”。如HTML中的“&amp;lt;” 即代表小于号“&lt;”。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5120960"></a>4.3.3. 注释</h4></div></div></div>
+<p>
+注释为文件和数据提供说明，并且被处理程序所忽略。SGML/XML的注释格式和HTML一样，都是以 &lt;!-- 开始，以 --&gt; 结束。对注释的唯一限制就是注释不能嵌套。示例如下：
+</p>
+<pre class="screen">
+
+&lt;!-- 这是一端注释... --&gt;
+
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5122704"></a>4.3.4. 处理指令</h4></div></div></div>
+<p>
+处理指令是向SGML/XML处理程序传递的特殊指令。例如：xml处理指令，必须作为XML文件的第一行存在。
+</p>
+<pre class="screen">
+
+&lt;?xml version="1.0" ?&gt;
+
+</pre>
+<p>
+这条命令对于XML这一发展中的标记语言的向下兼容有着非常重要的作用。当前的XML版本为1.0，但为避免给XML的发展设置历史的障碍，用这条处理指令向XML处理的应用程序提供了带兼容性信息的处理指令。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5125552"></a>4.3.5. 文件类型声明</h4></div></div></div>
+<p>
+文件类型声明位于SGML/XML文件头部，主要有如下作用：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+指定文件的根元素。
+</p></li>
+<li><p>
+指出文件的外部DTD。
+</p></li>
+<li><p>
+内部DTD，为文件定义元素、属性和实体等。
+</p></li>
+</ul></div>
+<p>
+如下的例子即是本书的文件类型声明：
+</p>
+<pre class="screen">
+
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&lt;!ENTITY author "&lt;ulink url='mailto:johnson@worldhello.net'&gt;Johnson&lt;/ulink&gt;"&gt;
+&lt;!ENTITY orgname "&lt;ulink url='http://www.worldhello.net'&gt;worldhello.net&lt;/ulink&gt;"&gt;
+&lt;!ENTITY chap1  system "chap1.sgml"&gt;
+&lt;!ENTITY chap2  system "chap2.sgml"&gt;
+&lt;!ENTITY chap3  system "chap3.sgml"&gt;
+&lt;!ENTITY chap4  system "chap4.sgml"&gt;
+&lt;!ENTITY chap5  system "chap5.sgml"&gt;
+&lt;!ENTITY chap6  system "chap6.sgml"&gt;
+&lt;!ENTITY chap7  system "chap7.sgml"&gt;
+&lt;!ENTITY chap8  system "chap8.sgml"&gt;
+&lt;!ENTITY chap9  system "chap9.sgml"&gt;
+&lt;!ENTITY chap10 system "chap10.sgml"&gt;
+&lt;!ENTITY appendix system "appendix.sgml"&gt;
+]&gt;
+
+</pre>
+<p>
+该文件类型声明指定了文件的根元素是 article 元素，文件的外部DTD是 PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN" 。而且通过内部DTD，定义了诸如作者姓名、各个章节的外部实体等。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5131392"></a>4.3.6. CDATA片段</h4></div></div></div>
+<p>
+CDATA片段，即是未解析字符数据片段。扩在CDATA片段中的内容，将不被XML解析器处理，而直接提供给应用程序。
+</p>
+<p>
+如果不用CDATA片段，想在文中显示上例中的文件类型声名，需要用如下方法表示，非常的不直观。
+</p>
+<pre class="screen">
+
+&lt;screen&gt;
+&amp;lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&amp;lt;!ENTITY author "&amp;lt;ulink url='mailto:johnson@worldhello.net'&amp;gt;Johnson&amp;lt;/ulink&amp;gt;"&amp;gt;
+&amp;lt;!ENTITY orgname "&amp;lt;ulink url='http://www.worldhello.net'&amp;gt;worldhello.net&amp;lt;/ulink&amp;gt;"&amp;gt;
+&amp;lt;!ENTITY chap1  system "chap1.sgml"&amp;gt;
+&amp;lt;!ENTITY chap2  system "chap2.sgml"&amp;gt;
+&amp;lt;!ENTITY chap3  system "chap3.sgml"&amp;gt;
+&amp;lt;!ENTITY chap4  system "chap4.sgml"&amp;gt;
+&amp;lt;!ENTITY chap5  system "chap5.sgml"&amp;gt;
+&amp;lt;!ENTITY chap6  system "chap6.sgml"&amp;gt;
+&amp;lt;!ENTITY chap7  system "chap7.sgml"&amp;gt;
+&amp;lt;!ENTITY chap8  system "chap8.sgml"&amp;gt;
+&amp;lt;!ENTITY chap9  system "chap9.sgml"&amp;gt;
+&amp;lt;!ENTITY chap10 system "chap10.sgml"&amp;gt;
+&amp;lt;!ENTITY appendix system "appendix.sgml"&amp;gt;
+]&amp;gt;
+&lt;/screen&gt;
+
+</pre>
+<p>
+但是采用CDATA段，就非常的简单而直观。
+</p>
+<pre class="screen">
+
+&lt;screen&gt;
+&lt;![CDATA[
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&lt;!ENTITY author "&lt;ulink url='mailto:johnson@worldhello.net'&gt;Johnson&lt;/ulink&gt;"&gt;
+&lt;!ENTITY orgname "&lt;ulink url='http://www.worldhello.net'&gt;worldhello.net&lt;/ulink&gt;"&gt;
+&lt;!ENTITY chap1  system "chap1.sgml"&gt;
+&lt;!ENTITY chap2  system "chap2.sgml"&gt;
+&lt;!ENTITY chap3  system "chap3.sgml"&gt;
+&lt;!ENTITY chap4  system "chap4.sgml"&gt;
+&lt;!ENTITY chap5  system "chap5.sgml"&gt;
+&lt;!ENTITY chap6  system "chap6.sgml"&gt;
+&lt;!ENTITY chap7  system "chap7.sgml"&gt;
+&lt;!ENTITY chap8  system "chap8.sgml"&gt;
+&lt;!ENTITY chap9  system "chap9.sgml"&gt;
+&lt;!ENTITY chap10 system "chap10.sgml"&gt;
+&lt;!ENTITY appendix system "appendix.sgml"&gt;
+]&gt;
+
+]]&gt;
+&lt;/screen&gt;
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5135248"></a>4.4. 数据模型</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5135760"></a>4.4.1. 元素</h4></div></div></div>
+<p>
+我们已经在前面概要的介绍了元素（Elements）的概念。由一对相匹配的起始标签和结束标签组成的语义片断，就称为元素。例如：HTML中的段落标记“&lt;p&gt;”和“&lt;/p&gt;”和所标记的内容构成了一个段落元素。也有一些元素可以是空标签，没有结束标签和它相匹配，就像HTML中的断行标签“&lt;br&gt;”。
+</p>
+<p>
+标签由左右尖括号封闭起来的文字构成，形如：“&lt;...&gt;”。对于结束标签，则还要在左尖括号后加一个斜线，形如：“&lt;/...&gt;”。SGML允许某些元素已没有结束标签的形式存在，但XML则需要更严格的语法，不允许没有结束标签匹配的空标签，即使对于空标签，也要在结束的右尖括号前，加一个斜线，构成形如“&lt;.../&gt;”的格式，如：“&lt;br/&gt;”。
+</p>
+<p>
+一个文档中只能有一个根元素，就像一个标准的HTML网页，有且只有一个根元素“&lt;html&gt;”。该元素可以包含其他元素，这些元素构成了一个以根元素为根的树状结构。
+</p>
+<p>
+元素之间不能相互重叠，如下面的文字在SGML中就是不合法的。
+</p>
+<pre class="screen">
+
+&lt;B&gt;Welcome to my homepage. There are some &lt;I&gt;DocBook&lt;B&gt; examples.&lt;/I&gt;
+
+</pre>
+<p>
+上面的示例中，&lt;B&gt;&lt;/B&gt;标签和&lt;I&gt;&lt;/I&gt;标签发生了重叠，这是不允许的。
+</p>
+<p>
+在标签中可以定义属性。以下是一个HTML中定义表格的标签，table是元素名，width="100%"和border="1"是其属性。
+&lt;table width="100%" border="1"&gt;
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5142336"></a>4.4.2. 子元素和属性</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5143360"></a>4.4.3. 元素的定义</h4></div></div></div>
+<p>
+元素的定义是在 DTD 中完成的。
+</p>
+<p>
+以下就是在DTD中定义元素的示例：
+</p>
+<pre class="screen">
+
+    &lt;!ELEMENT anthology      - -  (poem+)&gt;
+    &lt;!ELEMENT poem           - -  (title?, stanza+)&gt;
+    &lt;!ELEMENT title          - O  (#PCDATA) &gt;
+    &lt;!ELEMENT stanza         - O  (line+)   &gt;
+    &lt;!ELEMENT line           O O  (#PCDATA) &gt;
+
+</pre>
+<p>
+上面几个元素声明的语法是SGML的DTD定义标准，XML和它稍有区别，我们在后面单辟一章来介绍。
+</p>
+<p>
+元素声明的语法，类似元素本身，也是由尖括号括起来的。在左尖括号之后的第一个字符一定是一个感叹号“!”。在感叹号之后，是一个关键字，指出所要声明的对象类型是什么。ELEMENT是少数关键字之一，指出所要声明的是元素本身。接下来的声明部分，由三部分组成。先是一个或者一组元素名，然后是由字符"-"和"O"组成的缩写规则（minimization rules），它指出起始标签和结束标签是否可有可无。最后是内容模型（content model），即该元素的内容由什么构成？是一些子元素或者字符？
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+缩写规则（Minimization Rules）
+</p>
+<p>
+缩写规则定义了该元素的起始标签和结束标签是否可以省略。第一个字符定义了起始标签的状态，第二个字符定义了结束标签的状态，两个字符之间用空格分隔。字符"-"的含义是必须存在，不可省略，而字符"O"意味着标签可以省略。
+</p>
+</li>
+<li>
+<p>
+内容模型（Content Model）
+</p>
+<p>
+由括号括起来的部分构成了元素定义的内容模型，定义了元素应该包含什么样的内容。内容模型由保留字或者其它子元素名称等构成。保留字中最常见的是“#PCDATA”，代表着可以被解析的字符，即定义的该元素可以包含任何可用字符。
+</p>
+<p>
+内容模型可以借助频度指示字（Occurrence Indicators）、分组连接符（Group Connectors）、例外处理（Exception）等，构成复杂的内容模型表达式，表示复杂的内容模型。
+</p>
+</li>
+<li>
+<p>
+频度指示字（Occurrence Indicators）
+</p>
+<p>
+可以在内容模型中，为保留字或者元素名称上加上频度指示字，如："+"，"?"，"*"。
+</p>
+<p>
+加号"+"，代表包含一个或者一个以上，但不能一个都没有。
+</p>
+<p>
+问号"?"，代表包含最多一个，当然也可以不出现。
+</p>
+<p>
+星号"*"，代表包含任意多个，也可以一个都不出现。
+</p>
+</li>
+<li>
+<p>
+分组连接符（Group Connectors）
+</p>
+<p>
+通过三种连接符，可以连接子元素构成复杂的内容模型表达式。这三种连接符是：","，"|"和"&amp;"符号。
+</p>
+<p>
+逗号连接的子元素，含意为子元素必须都出现，而且以指定的次序出现。
+</p>
+<p>
+"&amp;"连接的子元素，含意为子元素必须都出现，但对出现的次序不做要求。
+</p>
+<p>
+竖线，含意为所连接的子元素只出现一个。
+</p>
+</li>
+<li>
+<p>
+例外处理（Exception）
+</p>
+<p>
+在定义DTD时，有时候会发现有的元素几乎会出现在所有的元素中，如注释就可能出现在文章的各个部分。在规模比较小的DTD中，这个可能不是问题，但是要在一个非常庞大的DTD中，如DocBook的DTD，具有几百个元素，就会非常复杂。就需要利用这里讲例外处理，和后面要提到的参数实体来解决。
+</p>
+<p>
+例外处理，包括两种语法，一种是“包含”：可以在该元素的内容模型中的任何位置包含所指定的元素。另一种是“排除”：在当前内容模型中不能包含所指定的元素。其记法为在内容模型的最后用前置的加号或者减号建立包含或者排除元素列表。
+</p>
+</li>
+</ol></div>
+<p>
+属性
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5161744"></a>4.4.4. 外部DTD和内部DTD</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5162768"></a>4.4.5. 其它方式构造数据模型</h4></div></div></div>
+<p>
+XML SCHEMA
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5163792"></a>4.4.6. DocBook的数据模型</h4></div></div></div>
+<p>
+SGML DTD
+</p>
+<p>
+XML DTD
+</p>
+<p>
+XML SCHEMA
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5165712"></a>4.5. 用样式表进行格式化</h3></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5166736"></a>4.6. DSSSL</h3></div></div></div>
+<p>
+DSSSL? 不要被这个缩略语吓坏，它是（Document Style Semantics and Specification Language）的缩写。DSSSL和SGML的关系，就如同CSS和HTML的关系一样。对于DTD来说，只关心元素之间的结构关系，并不关心元素的意义和具体的表现形式，而这正好是DSSSL的天下。一个DocBook文档，通过各种元素将文档内容结构化，但是看起来并不直观，不能提供诸如Word、PDF、网页一样的表现。DSSSL提供了一个将SGML文档到其他输出格式的标准方法。
+</p>
+<p>
+让我们先看一段 DSSSL 片断：
+</p>
+<pre class="screen">
+
+(define (book-titlepage-recto-elements)
+  ;; elements on a book's titlepage
+  ;; note: added revhistory to the default list
+  (list (normalize "title")
+        (normalize "subtitle")
+        (normalize "graphic")
+        (normalize "mediaobject")
+        (normalize "corpauthor")
+        (normalize "authorgroup")
+        (normalize "author")
+        (normalize "editor")
+        (normalize "copyright")
+        (normalize "pubdate")
+        (normalize "revhistory")
+        (normalize "abstract")
+        (normalize "legalnotice")))
+
+(element emphasis
+  ;; make role=strong equate to bold for emphasis tag
+  (if (equal? (attribute-string "role") "strong")
+     (make element gi: "STRONG" (process-children))
+     (make element gi: "EM" (process-children))))
+
+</pre>
+<p>
+也许那些骨灰级程序设计师和计算机史学家会对上述代码感到亲切，而对于像我这样了解程序设计语言是从basic、c开始的新手，一定会对这种语法一头雾水。这段代码的语法来自于 Scheme语言（LISP的一个变种）。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5170288"></a>4.6.1. Scheme语言入门</h4></div></div></div>
+<p>
+最早听说 LISP，是 Stallman 的 GNU Emacs 中将 LISP 作为嵌入语言，定制和增强 Emacs。GNU Emacs 是一个文本编辑器，文本就是一种符号，而 Lisp 正好就是针对符号计算发明的，因此在GNU Emacs 中使用 Lisp 是顺理成章的事情。
+</p>
+<p>
+Lisp 语言的历史已经很久了，几乎与 Fortran 一样长。二十世纪五十年代，计算机科学家先是发明了针对数字计算的 Fortran 语言，后来针对符号计算，由MIT 的John McCarthy于1960年开发出了Lisp(List processing)语言。该语言原来是为表处理而设计的编程语言，后来广泛用于处理人工智能问题。Lisp 程序中充满了一对对嵌套的小括号，这些嵌套的符号表达式体现着递归。递归是数学上的基本概念之一，从递归理论出发，一切可以计算的函数最终都可以划归为几种基本的递归函数的种种组合。
+</p>
+<p>
+1994年时众多 Lisp 版本又得到了相当的统一，统一之后的版本称为Common LISP。Common Lisp 含有非常丰富的库，仅仅语言的规范就长达千页以上，包括面向对象的 CLOS。 
+</p>
+<p>
+Scheme 语言是 Lisp 的一个现代变种、方言，诞生于1975年，由 MIT 的 Gerald J. Sussman and Guy L. Steele Jr. 完成。Scheme语言的规范很短，总共只有50页，甚至连Common Lisp 规范的索引的长度都不到，但是却被称为是现代编程语言王国的皇后。它与以前和以后的 Lisp 实现版本都存在一些差异，但是却易学易用。
+</p>
+<p>
+DSSSL需要完成的工作是解析文档，它的设计就采用了Scheme语言。本书时介绍DocBook的专著，因此并不打算写一个Scheme大全，只是想通过蜻蜓点水的介绍使读者认识Scheme，能够达到看懂和简单的修改DSSSL。
+</p>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp5175056"></a>4.6.1.1. Scheme特点</h5></div></div></div>
+<p>
+Scheme语言具有它独特的魅力，看看Scheme的语法特点：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+括号嵌套
+</p>
+<p>
+Lisp 程序中充满了一对对嵌套的小括号，这些嵌套的符号体现了最基本的数学思想——递归。
+</p>
+</li>
+<li>
+<p>
+语法简洁
+</p>
+<p>
+Scheme语言的规范很短，总共只有50页。
+</p>
+</li>
+<li>
+<p>
+函数编程语言
+</p>
+<p>
+一个函数（Function）是这个编程语言中所谓的第一等的公民。也就是说函式可以像一个 int 或者 float 一样被很方便的传递来传递去。这也就是所谓"Functional 编程语言"中，Functional 一词的由来。
+</p>
+</li>
+<li>
+<p>
+自动内存管理
+</p>
+<p>
+自动内存管理可不是JAVA的专利呦。
+</p>
+</li>
+<li>
+<p>
+可移植性好
+</p>
+<p>
+Scheme开发的程序有很好的可移植性，这是由于Scheme是一种解释语言，在不同的平台都可以有相应的解释器。
+</p>
+</li>
+<li>
+<p>
+适合于作为脚本语言和嵌入语言
+</p>
+<p>
+语法简洁，这使得Scheme的实现可以非常的经济，一个Scheme解释器可以非常的小巧。Scheme可以作为脚本语言而内嵌于一些工具之中，如：GNU Emacs。
+</p>
+</li>
+</ul></div>
+<p>
+其他特点还有，关键字对大小写不敏感。
+</p>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp5185680"></a>4.6.1.2. 数据结构</h5></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+数字
+</p>
+<p>
+下面都是合法的数字表示方法：47，1/3，2.3，4.3e14，1+3i。
+</p>
+</li>
+<li>
+<p>
+字符
+</p>
+<p>
+字符前面需要用#\做前缀。如下面都是合法字符：
+</p>
+<p>
+#\a #\A #\b #\B #\space #\newline
+</p>
+</li>
+<li>
+<p>
+字符串
+</p>
+<p>
+由双引号括起来的字符组成字符串。如："A little string"
+</p>
+</li>
+<li>
+<p>
+布尔值
+</p>
+<p>
+布尔值True和False分别用 #t 和 #f 表示。
+</p>
+</li>
+<li>
+<p>
+列表
+</p>
+<p>
+用圆括号括起来的，可以包含任何数据类型的称为列表。如： (a little (list of) (lists))
+</p>
+</li>
+<li>
+<p>
+数组（vector）
+</p>
+<p>
+用#为前缀，如： #(1 2 "string" #\x 5)
+</p>
+</li>
+<li>
+<p>
+函数（或称为过程）
+</p>
+<p>
+把函数作为一种数据类型，是Scheme语言的特色。
+</p>
+</li>
+<li>
+<p>
+符号
+</p>
+<p>
+符号除了不能够以数字开头的任何字符可组成符号。如：Symbols: this-is-a-symbol foo a32 c$23*4&amp;7+3-is-a-symbol-too!
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp5197600"></a>4.6.1.3. 表达式和函数</h5></div></div></div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5198112"></a>4.6.1.3.1. 注释</h6></div></div></div>
+<p>
+分号开始一段注释。如：
+</p>
+<pre class="screen">
+(+ 3 1) ;return 4
+</pre>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5199824"></a>4.6.1.3.2. 常量表达式</h6></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+常量表达式
+</p>
+<p>
+常量表达式返回本身的值。如：
+</p>
+<pre class="screen">
+3.14	; 返回 3.14
+#t	; 返回布尔值 #t
+#\c	; 返回字符 #\c
+"Hi!"	; 返回字符串 "Hi!"
+</pre>
+</li>
+<li>
+<p>
+引用（Quotation）
+</p>
+<p>
+语法：(quote obj)  或者简写为 'obj 
+</p>
+<pre class="screen">
+(+ 2 3)  	; 返回 5
+'(+ 2 3) 	; 返回列表 (+ 2 3)
+(quote (+ 2 3)) ; 返回列表 (+ 2 3)
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5205408"></a>4.6.1.3.3. 表达式记法</h6></div></div></div>
+<p>
+Scheme的表达式的写法有些特别，表达式用括号括起来。括号里面的第一个出线的是函数名或者操作符，其它是参数。Scheme的这种表达式写法可以叫做前置式。下面是一些Scheme的表达式的例子以及其对应的C语言的写法。
+</p>
+<pre class="screen">
+
+  Scheme                               C
+------------------------------------------------------------------
+(+ 2 3 4)                       (2 + 3 + 4) 
+(&lt; low x high)                  ((low &lt; x) &amp;&amp; (x &lt; high)) 
+(+ (* 2 3)                      (* 4 5)) ((2 * 3) + (4 * 5)) 
+(f x y)                         f(x, y) 
+(define (sq x) (* x x))         int sq(int x) { return (x * x) } 
+
+</pre>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5207632"></a>4.6.1.3.4. 赋值和函数定义</h6></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+let 表达式和赋值
+</p>
+<p>
+语法：(let ((var val) ...) exp1 exp2 ...) 
+</p>
+<p>
+说明：let 表达式的赋值只在表达式内部有效。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(let ((x 2) (y 3)) (+ x y))
+</pre>
+<p>
+; 先赋值： x=2, y=3，再计算x+y的值，结果为5。注意 (x 2) 和 (y 3) 外还有一层括号。
+</p>
+<p>
+更多的示例：
+</p>
+<pre class="screen">
+(let ((f +))
+  (f 2 3))  ; return 5 
+
+(let ((f +) (x 2))
+  (f x 3))  ; return 5 
+
+(let ((f +) (x 2) (y 3))
+  (f x y))  ; return 5 
+</pre>
+</li>
+<li>
+<p>
+用define 和 set! 赋值
+</p>
+<p>
+语法：(define var exp)  , (set! var exp)
+</p>
+<p>
+说明：define和 set! 表达式的赋值在全局有效。define 和 set! 的区别是define既能赋值又能定义变量，而set!只能对已经定义的变量赋值。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+
+(define a 1)	 
+a				; return 1
+(set! a 2)
+a				; return 2
+(let ((a 3)) a) 		; return 3
+a				; return 2
+(let ((a 3)) (set! a 4) a)	; return 4
+a				; return 2
+(let ((a 3)) (define a 5) a)	; return 5
+a				; return 2
+(set! b 1)			; 错误，b尚未定义
+
+</pre>
+<p>
+</p>
+</li>
+<li>
+<p>
+lambda 表达式和函数定义
+</p>
+<p>
+语法：(lambda (var ...) exp1 exp2 ...) 
+</p>
+<p>
+说明：lambda 表达式用于定义函数。var ... 是参数，exp1 exp2 ...是函数的执行 部分。通常需要结合局部定义 let 或者全局定义表达式 define，再进行函数调用。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+((lambda (x) (+ x x)) (* 3 4))  ; return 24
+</pre>
+<p>
+说明：先用lambda定义了函数，参数是x，函数返回x+x。同时该语句也完成了函数调用，实参是 12 (等于3*4)，因此返回值是 24 （等于12＋12）。
+</p>
+</li>
+<li>
+<p>
+在let表达式中定义函数。
+</p>
+<p>
+Scheme语言中，函数作为一种数据类型，通过赋值语句，将lambda表达式赋值给相应的函数。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(let ((double (lambda (x) (+ x x))))
+  (list (double (* 3 4))
+        (double (/ 99 11))
+        (double (- 2 7))))     ; return (24 18 -10) 
+</pre>
+<p>
+说明：let表达式将lambda定义的函数赋值给double，参数是x，返回 x+x。接下来分别三次调用 double 函数，并将结果以列表形式返回。list 表达式负责生成列表。
+</p>
+</li>
+<li>
+<p>
+用define全局定义表达式来定义函数。
+</p>
+<p>
+用 let 定义的函数只能在 let 表达式中有效，如果想定义在整个程序中有效的函数定义，需要用到全局定义表达式——define。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(define double (lambda (x) (+ x x)))
+(double 12)            ; return 24
+(double (* 3 4))       ; return 24
+</pre>
+<p>
+说明：define表达式定义了全局有效的函数 double。两次调用double的返回值都是 24。
+</p>
+</li>
+<li>
+<p>
+定义函数的简写
+</p>
+<p>
+用 define 定义的函数的语法可以简化，即将 lambda 去掉。即将语法
+</p>
+<pre class="screen">
+(define var0
+  (lambda (var1 ... varn)
+    e1 e2 ...)) 
+</pre>
+<p>
+简写为：
+</p>
+<pre class="screen">
+(define (var0 var1 ... varn)
+  e1 e2 ...) 
+</pre>
+<p>
+示例：
+</p>
+<pre class="screen">
+(define (double x) (+ x x))
+(double 12)            ; return 24
+(double (* 3 4))       ; return 24
+</pre>
+<p>
+说明：本例是前一个例子的简化版本。更简介，明了。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5233648"></a>4.6.1.3.5. 顺序计算表达式</h6></div></div></div>
+<p>
+语法：(begin exp1 exp2 ...) 
+</p>
+<p>
+说明：顺序执行表达式 exp1, exp2, ...，返回最后一个表达式的结果
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(define x 3)
+(begin
+  (set! x (+ x 1))
+  (+ x x))             ; 返回结果 8
+</pre>
+<p>
+说明：begin 表达式，依次先用set!表达式为x赋值为4，在运算x+x，返回结果8。
+</p>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5237152"></a>4.6.1.3.6. 条件表达式</h6></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+关系运算符
+</p>
+<pre class="screen">
+
+(&lt; -1 0)  		#t
+(&gt; -1 0)  		#f 
+(eqv? 'a 'a) 		#t
+
+</pre>
+</li>
+<li>
+<p>
+逻辑运算
+</p>
+<pre class="screen">
+(not #t)  		#f
+(not #f) 		#t 
+
+(not 1)  		#f
+(not '(a b c))  	#f 
+
+
+(or)  			#f
+(or #f)  		#f
+(or #f #t)  		#t
+(or #f 'a #f)  		a 
+
+(and)  			#t
+(and #f)  		#f
+(and #f #t)  		#f
+(and #f 'a #f)  	#f
+(and 'a #t 'b)		'b
+</pre>
+</li>
+<li>
+<p>
+if 表达式
+</p>
+<p>
+语法：(if test consequent alternative) 
+</p>
+<p>
+说明：如果test表达式为真，返回 consequent，否则返回 alternative。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+
+(define (abs n)
+    (if (&lt; n 0)
+        (- 0 n)
+        n)) 
+
+</pre>
+<p>
+说明：函数abs功能为取绝对值。
+</p>
+</li>
+<li>
+<p>
+cond 表达式
+</p>
+<p>
+语法：(cond (test exp) ... (else exp)) 
+</p>
+<p>
+说明：多路分支判断表达式，类似于C语言的 "if ... else if ... else"。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+
+(define abs
+  (lambda (n)
+    (cond
+      ((= n 0) 0)
+      ((&lt; n 0) (- 0 n))
+      (else n)))) 
+
+</pre>
+<p>
+说明：用cond表达式重新实现取绝对值函数 abs。
+</p>
+</li>
+<li>
+<p>
+case 表达式
+</p>
+<p>
+语法：(case exp0 clause1 clause2 ... ) 
+</p>
+<p>
+clause 的语法结构为：((key1 ...) exp1 ...)
+最后一个表达式的结构可以为：(else exp1 exp2 ...) 
+</p>
+<p>
+说明：类似于C语言的 "switch ... case..." 语句。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+(let ((x 4) (y 5))
+  (case (+ x y)
+    ((1 3 5 7 9) 'odd)
+    ((0 2 4 6 8) 'even)
+    (else 'out-of-range)))
+; 返回 odd
+</pre>
+<p>
+说明：case 表达式先计算 x+y 的值为9，接下来在key中进行匹配，并返回对应的表达式的值 'odd。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect5" lang="zh-cn">
+<div class="titlepage"><div><div><h6 class="title">
+<a name="idp5253040"></a>4.6.1.3.7. 循环</h6></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+do 表达式
+</p>
+<p>
+语法：(do ((var1 val1 update1) ...) (test res ...) exp ...) 
+</p>
+<p>
+说明：类似于C语言的for循环。先将val1赋值给var1，...，之后循环开始，在每次循环的开始，先执行表达式 test，如果返回布尔值真，则循环终止，并返回结果 res，如果表达式 test返回布尔值#f，则运行表达式 exp...，之后依次用 update1 ... 的值来为变量 var1 ... 重新赋值。
+</p>
+<p>
+示例1：计算阶乘 n! = n*(n-1)! 
+</p>
+<pre class="screen">
+(define factorial
+  (lambda (n)
+    (do ((i n (- i 1)) (a 1 (* a i)))
+        ((zero? i) a)))) 
+
+(factorial 10)  ; 返回 3628800 
+</pre>
+<p>
+说明：其对应的C语言实现如下
+</p>
+<pre class="screen">
+long factorial(int n)
+{
+	int  i=n;
+	long a=1;
+	
+	for (i=n;; i--)
+	{
+		if (i == 0)
+			return a;
+		a *= i;
+	}
+}
+</pre>
+<p>
+示例2：计算fibonacci数列：f(n+1)=f(n)+f(n-1) , n&gt;0, f(1)=1, f(0)=0
+</p>
+<pre class="screen">
+(define fibonacci
+  (lambda (n)
+    (if (= n 0)
+        0
+        (do ((i n (- i 1)) (a1 1 (+ a1 a2)) (a2 0 a1))
+            ((= i 1) a1))))) 
+
+(fibonacci 6)  ; 返回 8
+</pre>
+<p>
+说明：其对应的C语言实现如下
+</p>
+<pre class="screen">
+long fibonacci(int n)
+{
+	long f=1;
+	
+	int i = n;
+	int a1= 1;
+	int a2= 0;
+	
+	if (n == 0)
+		return 0;
+	while(1)
+	{
+		if (i == 1)
+			return a1;
+		i--;
+		a1=a1+a2;
+		a2=a1;
+	}
+}
+</pre>
+</li>
+<li>
+<p>
+map 表达式
+</p>
+<p>
+语法：(map procedure list1 list2 ...) 
+</p>
+<p>
+说明：列表 list1 list2 ... 必须具有同样的长度；过程 procedure 接受的参数个数同列表的个数，各个列表中对应的变量分别作为过程 procedure 的参数被执行， 将每次的运算结果以列表形式返回。
+</p>
+<pre class="screen">
+(map abs '(1 -2 3 -4 5 -6)) 	; 返回 (1 2 3 4 5 6)，abs接受一个参数
+
+(map (lambda (x y) (* x y))
+     '(1 2 3 4)
+     '(8 7 6 5))		返回(8 14 18 20) ，lambda (x y) 接收两个参数
+</pre>
+</li>
+<li>
+<p>
+for-each 表达式
+</p>
+<p>
+语法：(for-each procedure list1 list2 ...) 
+</p>
+<p>
+说明：同 map表达式， 但是不返回结果列表。
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5267392"></a>4.7. 格式化</h3></div></div></div>
+<p>
+DTD定义了SGML文档的结构。在元素的一节，我们已经介绍了元素声明的语法，元素声明即是DTD的最重要的内容。
+</p>
+<p>
+一个DTD就是用SGML语法表达的一系列语法声明。下面让我们通过一个例子，来学习DTD。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5269216"></a>4.7.1. DTD: 我的收藏夹</h4></div></div></div>
+<p>
+常用的浏览器软件，都具有收藏夹的实现，如 Mozilla，IE就都有自己相应的收藏夹实现方式，但是它们之间不能相互兼容，而且不能方便的进行组织和备份。利用SGML/XML可以抽象出一个适合收藏夹的数据格式——收藏夹DTD，并用该数据格式撰写收藏夹，可以方便的实现数据提取、显示、以及转换为浏览器兼容格式。
+</p>
+<p>
+看看这个例子：
+</p>
+<pre class="screen">
+
+
+
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5272080"></a>4.8. 公共标识符、系统标识符和目录文件</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5272592"></a>4.8.1. 公共标识符、系统标识符</h4></div></div></div>
+<p>
+When a DTD or other external file is referenced from a document, the reference can 
+be specified in three ways: using a public identifier, a system identifier, or both. 
+</p>
+<p>
+Public Identifiers: -//OASIS//DTD DocBook V3.1//EN
+</p>
+<p>
+System Identifiers: /usr/local/sgml/docbook/3.1/docbook.dtd
+</p>
+<p>
+In XML, System Identifiers must be URIs. such as file:///usr/local/sgml/docbook/3.1/docbook.dtd.
+or "http://nwalsh.com/docbook/xml/1.3/db3xml.dtd".
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5275232"></a>4.8.2. 目录文件：DocBook的粘合剂</h4></div></div></div>
+<pre class="screen">
+-- Comments are delimited by pairs of double-hyphens,
+   as in SGML and XML comments. --
+OVERRIDE YES
+SGMLDECL "n:/share/sgml/docbook/3.1/docbook.dcl"
+DOCTYPE  BOOK  n:/share/sgml/docbook/3.1/docbook.dtd
+PUBLIC "-//OASIS//DTD DocBook V3.1//EN" 
+  n:/share/sgml/docbook/3.1/docbook.dtd
+SYSTEM "http://nwalsh.com/docbook/xml/1.3/db3xml.dtd"
+  n:/share/sgml/Norman_Walsh/db3xml/db3xml.dtd
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5277008"></a>4.9. 好形、合法性——DocBook文档遵循的规范</h3></div></div></div>
+<p>SGML/XML要遵从如下两个规则，一个是好形（well-formed）规则，一个是合法性（Valid）
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>好形规范（Well-formed）
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>所有的标记都必须要有一个相应的结束标记；</p></li>
+<li><p>所有的XML标记都必须合理嵌套；</p></li>
+<li><p>所有XML标记都区分大小写；</p></li>
+<li><p>所有标记的属性必须用""括起来；</p></li>
+</ul></div>
+</li>
+<li>
+<p>合法性
+</p>
+<div class="itemizedlist"><ul type="disc"><li><p>
+符合相应的DTD规范
+</p></li></ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5284304"></a>4.10. 元素、实体和属性——DocBook文档的积木</h3></div></div></div>
+<p>SGML/XML的文件主要由如下三部分构成：Elements, Attributes and Entities。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>Elements（元素）
+</p>
+<p>Describe a document's content and structure. 如：&lt;sect1&gt;
+&lt;/sect1&gt;.
+</p>
+</li>
+<li>
+<p>Attributes（元素的属性）
+</p>
+<p>
+Elements can, but don't necessarily, include one or more attributes, 
+which are additional terms that extend the function or refine the content 
+of a given element. 
+</p>
+<p>
+&lt;sect1 id="idvalue"&gt;, id 是 元素 sect1的属性。
+</p>
+</li>
+<li>
+<p>Entities（实体）
+</p>
+<p>
+In the most general terms, entities allow you to assign a name to some chunk 
+of data, and use that name to refer to that data. 
+</p>
+<p>
+general entities and parameter entities:
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>General Entities（一般实体：包括内部实体和外部实体）
+</p>
+<p>由 &amp; 和 ; 分隔的为实体。包括内部实体（定义在文件内部，引用的文本数据等）
+和外部实体（指向文件外部的文件等）。
+</p>
+<p>
+如： &lt;!ENTITY ora "O'Reilly &amp; Associates"&gt; 为内部实体。
+如： "lt; 为指向 &lt; 的内部实体。
+&lt;!ENTITY ch01 SYSTEM "ch01.sgm"&gt; 为外部实体。
+再入： &lt;!ENTITY tree SYSTEM "tree.eps" NDATA EPS&gt; 为指向外部图形的实体。
+</p>
+</li>
+<li>
+<p>Parameter Entities（参数实体）
+</p>
+<p>
+只用在DTD中的实体声明。是由 % 和 ; 分隔的。在“标记块”中引用，实现标记块是被
+忽略还是包含。对于SGML，“标记块”可以出现在DTD和SGML文档中；而对于XML，只出现
+在DTD中。
+</p>
+<p>
+marked sections 中常用的关键字为 INCLUDE 和 IGNORE。
+</p>
+<p>
+Parameter entities are most frequently used to customize the DTD. 
+</p>
+<p>
+You might use a parameter entity reference in an SGML document in a marked 
+section. Marking sections is a mechanism for indicating that special 
+processing should apply to a particular block of text. Marked sections are 
+introduced by the special sequence &lt;![keyword[ and end with ]]&gt;. In SGML, 
+marked sections can appear in both DTDs and document instances. In XML, 
+they're only allowed in the DTD.
+</p>
+</li>
+</ul></div>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5297840"></a>4.11. Why XML?</h3></div></div></div>
+<p>
+是SGML的一个子集，它简化了SGML的设计。既然XML就是SGML，而DocBook已经有了SGML的实现，我们有必要学习XML么？
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+XML是当今技术热点
+</p></li>
+<li>
+<p>
+浏览器支持
+</p>
+<p>
+XML被设计成可以直接支持WEB应用，很多浏览器都支持XML。而SGML不被浏览器支持。
+</p>
+</li>
+<li>
+<p>
+应用程序支持
+</p>
+<p>
+支持XML的应用程序越来越多，这也是XML优越于SGML的地方。但这并不说明XML就比SGML强。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5303088"></a>4.12. SGML和XML的异同</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+SGML和XML的异同？
+</p>
+<p>
+SGML is more customizable (thus flexible and more "powerful") at the expense of being (much) more expensive to implement. In an SGML language you could say &lt;COVER PAGES&gt;, whereas in XML this construct could not be DTD valid. 
+</p>
+</li>
+<li>
+<p>
+SGML DTD 到 XML DTD的转换
+</p>
+<p>
+</p>
+</li>
+<li>
+<p>
+SGML 文档 到 XML 文档的转换
+</p>
+<p>
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="idp5532096"></a>5. 深入 DocBook 文档</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5532896"></a>5.1. SGML 格式的DocBook文档</h3></div></div></div>
+<p>
+文档的要素：
+An SGML Declaration, A Document Type Declaration, An Internal Subset, and The Document (or Root) Element
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+An SGML Declaration
+</p>
+<p>
+可选。但是 DocBook 有预定义设置，无需改变。主要内容有：&lt;和&gt;作为标记的分隔符，标记名称的
+可用字符，长度等。
+</p>
+</li>
+<li>
+<p>
+A Document Type Declaration
+</p>
+<p>
+一个DocBook文档，必须以 Document Type Declaration 开始，指明该文档的根元素是什么。如：
+</p>
+<pre class="screen">
+&lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN"&gt;
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+An Internal Subset
+</p>
+<p>
+在一个Document Type Declaration 中，可以包含一个或者多个 Internal Subset，如：
+</p>
+<pre class="screen">
+&lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+&lt;!ENTITY nwalsh "Norman Walsh"&gt;
+&lt;!ENTITY chap1 SYSTEM "chap1.sgm"&gt;
+&lt;!ENTITY chap2 SYSTEM "chap2.sgm"&gt;
+]&gt;
+</pre>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p>
+The Document (or Root) Element
+</p>
+<p>
+如下面的 &lt;boot&gt; 和 &lt;/boot&gt; 即是该文档的唯一根元素。
+</p>
+<pre class="screen">
+&lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+&lt;!ENTITY nwalsh "Norman Walsh"&gt;
+&lt;!ENTITY chap1 SYSTEM "chap1.sgm"&gt;
+&lt;!ENTITY chap2 SYSTEM "chap2.sgm"&gt;
+]&gt;
+&lt;book&gt;
+&amp;chap1;
+&amp;chap2;
+&lt;/book&gt;
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5543440"></a>5.2. XML 格式的DocBook文档</h3></div></div></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+其实XML和SGML并无太大区别，只要在写SGML格式的DocBook时遵从：
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+If you are interested in future XML compatibility, input all element and attribute names strictly in lowercase. 
+</p></li>
+<li><p>
+If you are interested in future XML compatibility, always quote all attribute values. 
+</p></li>
+</ol></div>
+</td></tr>
+</table></div>
+<p>
+用 XML 撰写DocBook文档
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+An XML Declaration
+</p>
+<p>
+不像 SGML的Declaration 可有可无，XML 文档必须以 An XML Declaration开始。
+</p>
+<pre class="screen">
+&lt;?xml version="1.0" standalone="no"?&gt;
+</pre>
+</li>
+<li>
+<p>
+A Document Type Declaration
+</p>
+<p>
+DocBook XML documents 需要有一个 Document Type Declaration ，虽然这并不是XML所必须。
+</p>
+<pre class="screen">
+&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE book PUBLIC "-//Norman Walsh//DTD DocBk XML V3.1.4//EN"
+                         "http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd"&gt;
+</pre>
+</li>
+<li>
+<p>
+An Internal Subset
+</p>
+<p>
+在一个Document Type Declaration 中，可以包含一个或者多个 Internal Subset，如：
+</p>
+<pre class="screen">
+&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE book PUBLIC "-//Norman Walsh//DTD DocBk XML V3.1.4/EN"
+                         "http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd" [
+&lt;!ENTITY nwalsh "Norman Walsh"&gt;
+&lt;!ENTITY chap1 SYSTEM "chap1.sgm"&gt;
+&lt;!ENTITY chap2 SYSTEM "chap2.sgm"&gt;
+]&gt;
+</pre>
+</li>
+<li>
+<p>
+The Document (or Root) Element
+</p>
+<p>
+如下面的 &lt;boot&gt; 和 &lt;/boot&gt; 即是该文档的唯一根元素。
+</p>
+<pre class="screen">
+&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE book PUBLIC "-//Norman Walsh//DTD DocBk XML V3.1.4//EN"
+                         "http://nwalsh.com/docbook/xml/3.1.4/db3xml.dtd" [
+&lt;!ENTITY nwalsh "Norman Walsh"&gt;
+&lt;!ENTITY chap1 SYSTEM "chap1.sgm"&gt;
+&lt;!ENTITY chap2 SYSTEM "chap2.sgm"&gt;
+]&gt;
+&lt;book&gt;...&lt;/book&gt;
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5558160"></a>5.3. DocBook文档的物理分割</h3></div></div></div>
+<p>
+Breaking a Document into Physical Chunks
+</p>
+<pre class="screen">
+&lt;!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+&lt;!ENTITY chap1 SYSTEM "chap1.sgm"&gt;
+&lt;!ENTITY chap2 SYSTEM "chap2.sgm"&gt;
+&lt;!ENTITY chap3 SYSTEM "chap3.sgm"&gt;
+&lt;!ENTITY appa SYSTEM "appa.sgm"&gt;
+&lt;!ENTITY appb SYSTEM "appb.sgm"&gt;
+]&gt;
+&lt;book&gt;&lt;title&gt;My First Book&lt;/title&gt;
+&amp;chap1;
+&amp;chap2;
+&amp;chap3;
+&amp;appa;
+&amp;appb;
+&lt;/book&gt;
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5559792"></a>5.4. DocBook文档的逻辑分割</h3></div></div></div>
+<p>
+The Categories of Elements in DocBook
+</p>
+<pre class="screen">
+Sets 
+Books 
+Divisions, which divide books into parts 
+Components, which divide books or divisions into chapters 
+Sections, which subdivide components 
+Meta-information elements 
+Block elements : lists, admonitions, line-specific environments, synopses of several sorts, tables, figures, examples, ...
+Inline elements : Acronym, Emphasis ...
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5562480"></a>5.5. DocBook示例</h3></div></div></div>
+<p>
+撰写DocBook文档的过程，就是熟悉和使用DocBook元素的过程。Norman Walsh 和 Leonard Muellner 提供的可供免费下载的《DocBook: The Definitive Guide
+》，是最佳参考。本书并不罗列这400个元素的语法声明，而是对常用的元素作以总结和示范。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5563984"></a>5.5.1. Book,Chapter,Article</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5565008"></a>5.5.2. 章节</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5566032"></a>5.5.3. anchor，link, ulink</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5567056"></a>5.5.4. 文章头部信息</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5568080"></a>5.5.5. 列表</h4></div></div></div>
+<p>
+itemizedlist, orderedlist, ...
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5569104"></a>5.5.6. 表格</h4></div></div></div>
+<p>
+itemizedlist, orderedlist, ...
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5570128"></a>5.5.7. 嵌入图片</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5571152"></a>5.5.8. Screen, programlist, co</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5572176"></a>5.5.9. emphsis, phrase, quote, system, filename, ...</h4></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5573200"></a>5.5.10. faq</h4></div></div></div>
+<p>
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5574352"></a>5.6. DTD 与 DSSSL</h3></div></div></div>
+<p>
+DTD 规定语法、语义；DSSSL 定义样式。
+</p>
+<p>
+A Survey of Stylesheet Languages
+</p>
+<p>
+Over the years, a number of attempts have been made to produce a standard 
+stylesheet language and, failing that, a large number of proprietary languages 
+have been developed. 
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+DSSSL
+</p>
+<p>
+International Organization for Standardization (ISO) created DSSSL, 
+the Document Style Semantics and Specification Language. Subsets of 
+DSSSL are supported by Jade and a few other tools, but it never achieved 
+widespread support. 
+</p>
+</li>
+<li>
+<p>
+CSS
+</p>
+<p>
+The W3C CSS Working Group created CSS as a style attachment language 
+for HTML, and, more recently, XML. 
+</p>
+</li>
+<li>
+<p>
+XSL
+</p>
+<p>
+Most recently, the XML effort has identified a standard Extensible 
+Style Language (XSL) as a requirement. The W3C XSL Working Group is 
+currently pursuing that effort. 
+</p>
+</li>
+<li>
+<p>
+示例，对于如下的DocBook片断，相应的各种样式表的定义如下：
+</p>
+<pre class="screen">
+&lt;para&gt;
+This is an example paragraph. It should be presented in a
+reasonable body font. &lt;emphasis&gt;Emphasized&lt;/emphasis&gt; words
+should be printed in italics. A single level of 
+&lt;emphasis&gt;Nested &lt;emphasis&gt;emphasis&lt;/emphasis&gt; should also
+be supported.&lt;/emphasis&gt;
+&lt;/para&gt;
+</pre>
+<p>
+dsssl
+</p>
+<pre class="screen">
+(element para
+  (make paragraph
+    (process-children)))
+
+(element emphasis
+  (make sequence
+    font-posture: 'italic
+    (process-children)))
+
+(element (emphasis emphasis)
+  (make sequence
+    font-posture: 'upright
+    (process-children)))
+</pre>
+<p>
+css
+</p>
+<pre class="screen">
+para              { display: block }
+emphasis          { display: inline;
+                    font-style: italic; }
+emphasis emphasis { display: inline;
+                    font-style: upright; }
+</pre>
+<p>
+xsl
+</p>
+<pre class="screen">
+&lt;?xml version='1.0'?&gt;
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/XSL/Transform/1.0"
+                xmlns:fo="http://www.w3.org/XSL/Format/1.0"&gt;
+
+&lt;xsl:template match="para"&gt;   
+  &lt;fo:block&gt;
+    &lt;xsl:apply-templates/&gt;  
+  &lt;/fo:block&gt;
+&lt;/xsl:template&gt;  
+
+&lt;xsl:template match="emphasis"&gt;
+  &lt;fo:sequence font-style="italic"&gt;
+    &lt;xsl:apply-templates/&gt;  
+  &lt;/fo:sequence&gt;
+&lt;/xsl:template&gt;  
+
+&lt;xsl:template match="emphasis/emphasis"&gt;
+  &lt;fo:sequence font-style="upright"&gt;
+    &lt;xsl:apply-templates/&gt;  
+  &lt;/fo:sequence&gt;
+&lt;/xsl:template&gt;  
+
+&lt;/xsl:stylesheet&gt;
+</pre>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="docbook-dtd"></a>6. DocBook的DTD组织框架和定制</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5641120"></a>6.1. DTD组织框架</h3></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5642144"></a>6.2. DTD的定制</h3></div></div></div>
+<p>
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="docbook-dsssl"></a>7. DocBook的DSSSL组织框架和定制</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5647536"></a>7.1. DSSSL组织框架</h3></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5648560"></a>7.2. DSSSL的定制</h3></div></div></div>
+<p>
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="docbook-xsl"></a>8. DocBook的XSL组织框架和定制</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5653936"></a>8.1. XSL组织框架</h3></div></div></div>
+<p>
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5654960"></a>8.2. XSL的定制</h3></div></div></div>
+<p>
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="doc-project"></a>9. 文档的软件工程</h2></div></div></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5660176"></a>9.1. CVS进行版本控制</h3></div></div></div>
+<p>
+cvs...
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5661952"></a>9.2. 目录结构和Web发布</h3></div></div></div>
+<p>
+apache...
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5662992"></a>9.3. Nightly Build</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5663504"></a>9.3.1. 自动化编译</h4></div></div></div>
+<p>
+make...
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5664528"></a>9.3.2. 计划任务</h4></div></div></div>
+<p>
+crontab...
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5665680"></a>9.4. 文档检索</h3></div></div></div>
+<p>
+htdig...
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="docbook-apply"></a>10. DocBook在实际中的应用</h2></div></div></div>
+<p>
+本章我们通过几个实例，体会一下 DocBook 在软件开发和管理过程中的应用。但 DocBook的应用不仅限于此，更多的应用等待着我们去实践。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5675744"></a>10.1. 测试用例</h3></div></div></div>
+<p>
+测试人员一直背负着效率低下的恶名。在大多数公司中，他们是中最不受重视的一个角色，在出现软件危机时，也是最先要受到“株连”的。我的一位担任测试经理的朋友，对此是深有感触。下面是他的牢骚：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+给测试留的时间不充分，又期望过高；
+</p></li>
+<li><p>
+屡犯错误的开发人员被调到测试部门“改造”，导致测试人员的自尊受到挫折；
+</p></li>
+<li><p>
+测试的计划性不强，谁也说不清一个回归测试到底测试了多少测试用例；
+</p></li>
+<li><p>
+测试用例完全不成体系，即使有某个可以参照，又往往是落后和过时的；
+</p></li>
+<li><p>
+测试部门不能有效的开发和维护测试工具，也没有对测试用例文档版本控制（Word格式的测试用例，实在是难以版本控制、难以多人维护）。
+</p></li>
+</ul></div>
+<p>
+您是否也遇到了同样的问题呢？
+</p>
+<p>
+我们来帮助他寻找一下问题的症结所在吧。是什么原因导致测试的工作没有得到足够的重视呢？是因为看不到测试工作的价值。这又是为什么呢？测试工作没有秩序的，难以及时发现问题，当软件产品抱着极大的期望值上市的时候，漏洞百出，人们当然习惯性的反推，为什么没有能够测试出来？进一步会问，到底测试了哪些功能？如果这时测试部门回答不出，那么可能就要有人要承担责任了。这当然不一定是测试的错。但是测试部门能够拿出一整套测试用例文档，告诉项目经理，这些都是我们测试通过的。那么问题的焦点就回到了分析测试用例上了。是不是有发现问题的测试用例？如果有，是哪个测试人员的疏忽导致问题没有找到？如果是测试用例没有覆盖到，那么就应该借这个代价昂贵的机进一步补充和完善测试用例，确保不会再出现类似问题。
+</p>
+<p>
+如果以上的分析大致正确的话，测试用例文档的积累，是重树测试部门形象的良机。DocBook正好适合这种需要持续积累的技术文档的撰写，再配合版本控制软件，建立一套可行的测试用例撰写和维护规范应该不难。当我把DocBook介绍给我的这位担任测试经理的朋友之后，他真的用 DocBook 改进了他的工作，得到领导的赏识。这不能不说是一个奇迹。
+</p>
+<p>
+下面是改进的测试部门的工作流程：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+一个回归测试周期的整个过程，都要以文档化的测试用例为基础。任何工作都体现在文档中，工作就做到了心中有数；
+</p></li>
+<li><p>
+测试用例要有统一的编号，一次回归测试测试就是有这一系列测试用例组成的；
+</p></li>
+<li><p>
+测试用例要由全体测试人员共同维护，随时随地更新，而这还需要版本控制系统的介入；
+</p></li>
+<li><p>
+规范的测试用例格式，内容要涵盖测试方法、输入和输出，还要包括测试中用到的模拟数据、自动化脚本等等；
+</p></li>
+<li><p>
+采用DocBook，撰写可以持续维护的测试用例文档，享受版本控制。
+</p></li>
+</ul></div>
+<p>
+如<a href="#g-9-1">图9-1</a>，是一个DocBook撰写测试用例的示例，后面是其代码。
+</p>
+<div class="mediaobject">
+<img src="images/sample-testcase.png" alt="测试用例"><div class="caption"><p>
+<a name="g-9-1"></a>图9-1. 用DocBook编写可以持续维护的测试用例
+</p></div>
+</div>
+<p>
+测试用例的 DocBook 源代码
+</p>
+<pre class="programlisting">
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&lt;!ENTITY compname "&lt;ulink url='mailto:yourname@email.address'&gt;某某公司&lt;/ulink&gt;"&gt;
+]&gt;
+&lt;article&gt;
+&lt;articleinfo&gt;
+  &lt;title&gt;B2B网站测试用例汇总&lt;/title&gt;
+  &lt;author&gt;&lt;firstname&gt;测试部&lt;/firstname&gt;&lt;/author&gt;
+  &lt;revhistory&gt;
+    &lt;revision&gt;
+      &lt;revnumber&gt;1.1&lt;/revnumber&gt;
+      &lt;date&gt;2002/12/11&lt;/date&gt;
+      &lt;authorinitials&gt;David&lt;/authorinitials&gt;
+      &lt;revremark&gt;添加测试用例2&lt;/revremark&gt;
+    &lt;/revision&gt;
+    &lt;revision&gt;
+      &lt;revnumber&gt;1.0&lt;/revnumber&gt;
+      &lt;date&gt;2002/12/10&lt;/date&gt;
+      &lt;authorinitials&gt;Johnson&lt;/authorinitials&gt;
+      &lt;revremark&gt;添加测试用例1&lt;/revremark&gt;
+    &lt;/revision&gt;
+  &lt;/revhistory&gt;
+  &lt;abstract&gt;
+    &lt;para&gt;
+    本文档作为公司的测试部门的测试用例汇总，是测试部门测试工作中的参考。有任何补充和更改的需要，请用 CVS 从服务器中Checkout本文档的源代码，修改完毕后，提交 CVS 服务器。测试部门的内部网站会在每小时重新编译改动过的文档。
+    &lt;/para&gt;
+    &lt;para&gt;
+    &amp;compname;, $Revision$, $Date$
+    &lt;/para&gt;
+  &lt;/abstract&gt;
+&lt;/articleinfo&gt;
+
+&lt;sect1&gt;&lt;title&gt;TESTB2B-0001&lt;/title&gt;
+&lt;informaltable  frame='all'&gt;	<a name="co.sample.testcase.informaltbl"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+&lt;tgroup cols='8' align='left' colsep='1' rowsep='1'&gt;
+  &lt;colspec colname='c1'/&gt;
+  &lt;colspec colname='c2'/&gt;
+  &lt;colspec colname='c3'/&gt;
+  &lt;colspec colname='c4'/&gt;
+  &lt;colspec colname='c5'/&gt;
+  &lt;colspec colname='c6'/&gt;
+  &lt;colspec colname='c7'/&gt;
+  &lt;colspec colname='c8'/&gt;
+&lt;tbody&gt;
+  &lt;row&gt;
+    &lt;entry&gt;项目编号&lt;/entry&gt;
+    &lt;entry&gt;B2B&lt;/entry&gt;
+    &lt;entry&gt;项目名称&lt;/entry&gt;
+    &lt;entry&gt;电子商务网站测试&lt;/entry&gt;
+    &lt;entry&gt;测试日期&lt;/entry&gt;
+    &lt;entry&gt;&lt;/entry&gt;			<a name="co.sample.testcase.blank"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+    &lt;entry&gt;测试人员&lt;/entry&gt;		
+    &lt;entry&gt;&lt;/entry&gt;
+  &lt;/row&gt;
+  &lt;row&gt;
+    &lt;entry&gt;测试用例编号&lt;/entry&gt;
+    &lt;entry&gt;TESTB2B-0001&lt;/entry&gt;
+    &lt;entry&gt;测试用例名称&lt;/entry&gt;
+    &lt;entry&gt;用户登录测试&lt;/entry&gt;
+    &lt;entry&gt;作者&lt;/entry&gt;
+    &lt;entry&gt;Johnson&lt;/entry&gt;
+  &lt;/row&gt;
+  &lt;row&gt;
+    &lt;entry&gt;测试用例描述(方法和目的)&lt;/entry&gt;
+    &lt;entry namest="c2" nameend="c8"&gt;
+      &lt;para&gt;测试登录界面对不同浏览器的兼容性；&lt;/para&gt;
+      &lt;para&gt;测试异常输入对CGI的影响；&lt;/para&gt;
+    &lt;/entry&gt;
+  &lt;/row&gt;
+  &lt;row&gt;
+    &lt;entry&gt;测试环境设置&lt;/entry&gt;
+    &lt;entry namest="c2" nameend="c8"&gt;
+      &lt;para&gt;测试平台：Windows 98 + IE4.0；Windows 98 + IE5.0；Windows 98 + IE6.0；Windows 2000 + IE5.0；Linux + Mozilla&lt;/para&gt;
+    &lt;/entry&gt;
+  &lt;/row&gt;
+&lt;/tbody&gt;
+&lt;/tgroup&gt;
+&lt;/informaltable &gt;
+
+&lt;table  frame='topbot'&gt;&lt;title&gt;测试步骤&lt;/title&gt;
+&lt;tgroup cols='4' align='left' colsep='1' rowsep='1'&gt;
+  &lt;colspec colwidth='1*'/&gt;
+  &lt;colspec colwidth='20*'/&gt;
+  &lt;colspec colwidth='10*'/&gt;
+  &lt;colspec colwidth='5*'/&gt;
+&lt;thead&gt;
+  &lt;row&gt;
+    &lt;entry&gt;序号&lt;/entry&gt;&lt;entry&gt;操作&lt;/entry&gt;&lt;entry&gt;预期结果&lt;/entry&gt;&lt;entry&gt;实际结果&lt;/entry&gt;
+  &lt;/row&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;row&gt;
+    &lt;entry&gt;1&lt;/entry&gt;
+    &lt;entry&gt;
+      &lt;para&gt;Windows 98 + IE4.0登录开发服务器:"http://10.0.0.99/servlet/login"；&lt;/para&gt;
+      &lt;para&gt;输入用户名密码:test/test555&lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+      &lt;para&gt;登录成功，进入用户自定义界面。&lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    &lt;/entry&gt;
+  &lt;/row&gt;
+  &lt;row&gt;
+    &lt;entry&gt;2&lt;/entry&gt;
+    &lt;entry&gt;
+      &lt;para&gt;Windows 98 + IE5.0登录开发服务器:"http://10.0.0.99/servlet/login"；&lt;/para&gt;
+      &lt;para&gt;输入用户名密码:test/test555&lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+      &lt;para&gt;登录成功，进入用户自定义界面。&lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    &lt;/entry&gt;
+  &lt;/row&gt;
+  &lt;row&gt;
+    &lt;entry&gt;...&lt;/entry&gt;
+    &lt;entry&gt;
+      &lt;para&gt;...&lt;/para&gt;
+      &lt;para&gt;...&lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+      &lt;para&gt;...&lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    &lt;/entry&gt;
+  &lt;/row&gt;
+&lt;/table&gt;
+
+&lt;note&gt;
+  &lt;para&gt;
+  其他注意事项：
+  &lt;/para&gt;
+&lt;/note&gt;
+&lt;/sect1&gt;
+
+
+&lt;sect1&gt;&lt;title&gt;TESTB2B-0002&lt;/title&gt;	<a name="co.sample.testcase.next"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+&lt;para&gt;
+...
+&lt;/para&gt;
+&lt;/sect1&gt;
+
+&lt;/article&gt;
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.sample.testcase.informaltbl"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+不带标题行的表格。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.sample.testcase.blank"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+作为模板，此项留空，在实际测试过程中，该表格打印，手工填写存档。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.sample.testcase.next"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+以追加方式增加新的测试用例。
+</p></td>
+</tr>
+</table></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5702112"></a>10.2. 项目日志</h3></div></div></div>
+<p>
+目前介绍软件工程和项目管理的书是越来越多了。遍历各家之说，体会最深的是两个字：“沟通”。没有沟通，开发人员单枪匹马，重复着“前辈们”走过的路，缓慢的成长着。没有沟通，测试和开发团队就在没完没了的争吵中迎接项目的延期。没有沟通，部门之间的鸿沟足可以吓退客户。没有沟通，公司的决策人还在期盼着项目的成功的那一天，而不知道危险已经临近。沟通是这么样的重要，而项目经理就是这些沟通途径的交汇点。
+</p>
+<p>
+每个公司都会对项目经理有着这样或者那样的沟通上的要求，比如常见的周计划、月计划。它们是是项目经理分解任务以及向直接上级汇报工作的重要工具。自从南开大学毕业以来的几年间，我做得最多的职位就是项目经理，已经不记得写了多少计划。很长一段时间，一旦写完计划，发出邮件便了事，计划也就在本地磁盘中不知去向。后来，在做项目总结时，有些里程碑事件实在是想不起来，只是依稀记得在某个项目计划中曾经提到过。于是，从邮件的故纸堆中查找，经常是费了半天劲一无所获。从此就有了把项目总结和项目日志积累起来的习惯。最开始的文档管理手段是比较落后的，直接放到文件服务器中，对于项目日志，就是每天在 Word 文档后面追加，直到有一天，一个不留神把项目日志整个覆盖掉了，那是可真是后悔不迭。有什么技术，可以对文档像对代码一样的版本控制呢？我发现了 DocBook，从此便用 DocBook 开始我的新的项目日志。
+</p>
+<p>
+项目日志的文件格式是以一周为一个章节，每章节分为两个部分，日志部分是每天的“流水账”（记录比较重要的事件），周计划部分，是上周的项目总结和下一个星期的工作计划。如<a href="#g-9-2">图9-2</a>。用 DocBook 维护你的项目日志，让你的领导对你刮目相看。
+</p>
+<div class="mediaobject">
+<img src="images/sample-diary.png" alt="项目日志"><div class="caption"><p>
+<a name="g-9-2"></a>图9-2. 用DocBook编写项目日志
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/sample-weekly.png" alt="项目周计划"><div class="caption"><p>
+<a name="g-9-3"></a>图9-3. 用DocBook编写项目周计划
+</p></div>
+</div>
+<p>
+以下是DocBook 源代码：
+</p>
+<pre class="programlisting">
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&lt;!ENTITY yourname "&lt;ulink url='mailto:yourname@email.address'&gt;Your Name&lt;/ulink&gt;"&gt;
+]&gt;
+&lt;article&gt;
+&lt;articleinfo&gt;
+  &lt;title&gt;项目日志&lt;/title&gt;
+  &lt;author&gt;&lt;firstname&gt;作者姓名&lt;/firstname&gt;&lt;/author&gt;
+  &lt;abstract&gt;
+    &lt;para&gt;
+    项目日志和项目计划，为项目组同志提供参考。
+    &lt;/para&gt;
+    &lt;para&gt;
+    &amp;yourname;, $Revision$, $Date$
+    &lt;/para&gt;
+  &lt;/abstract&gt;
+&lt;/articleinfo&gt;
+
+&lt;sect1 id="w021028"&gt;&lt;title&gt;1028--1101&lt;/title&gt; <a name="co.diary.w021028"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+
+&lt;sect2 id="daily021028"&gt;&lt;title&gt;日志&lt;/title&gt;
+&lt;itemizedlist&gt;
+  &lt;listitem&gt;	<a name="co.diary.1030"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+    &lt;para&gt;
+    2002/10/30, 3
+    &lt;/para&gt;
+    &lt;orderedlist&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        完成任务：******
+        &lt;/para&gt;
+        &lt;para&gt;
+        David
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        完成任务：******
+        &lt;/para&gt;
+        &lt;para&gt;
+        Johnson
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+    &lt;/orderedlist&gt;
+  &lt;/listitem&gt;
+  
+  &lt;listitem&gt;
+    &lt;para&gt;
+    2002/10/29, 2
+    &lt;/para&gt;
+    &lt;orderedlist&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        Seminar: ******
+        &lt;/para&gt;
+        &lt;para&gt;
+        yzw
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+    &lt;/orderedlist&gt;
+  &lt;/listitem&gt;
+  
+  &lt;listitem&gt;
+    &lt;para&gt;
+    2002/10/28, 1
+    &lt;/para&gt;
+    &lt;orderedlist&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        讨论需求：******
+        &lt;/para&gt;
+        &lt;para&gt;
+        Mahui
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+    &lt;/orderedlist&gt;
+  &lt;/listitem&gt;
+&lt;/itemizedlist&gt;
+&lt;/sect2&gt;
+
+&lt;sect2 id="weekly021028"&gt;&lt;title&gt;周报&lt;/title&gt; <a name="co.diary.weekly021028"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+
+&lt;segmentedlist&gt;
+  &lt;segtitle&gt;填表日期&lt;/segtitle&gt;&lt;segtitle&gt;填表人&lt;/segtitle&gt;&lt;segtitle&gt;时 间&lt;/segtitle&gt;&lt;segtitle&gt;主要工作&lt;/segtitle&gt;
+  &lt;seglistitem&gt;
+    &lt;seg&gt;2002/10/28&lt;/seg&gt;
+    &lt;seg&gt;Johnson&lt;/seg&gt;
+    &lt;seg&gt;2002/10/28－2002/11/01&lt;/seg&gt;
+    &lt;seg&gt;******&lt;/seg&gt;
+  &lt;/seglistitem&gt;
+&lt;/segmentedlist&gt;
+
+&lt;orderedlist&gt;
+  &lt;listitem&gt;                              <a name="co.diary.weekplan"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+    &lt;table frame='all'&gt;&lt;title&gt;本周工作计划表&lt;/title&gt;
+    &lt;tgroup cols='2' align='left' colsep='1' rowsep='1'&gt;
+    &lt;colspec colname='c1' colwidth="300pt" &gt;
+    &lt;colspec colname='c2' colwidth="80pt" &gt;
+    &lt;thead&gt;
+    &lt;row&gt;
+    &lt;entry&gt;本周工作任务&lt;/entry&gt;
+    &lt;entry&gt;相关人员&lt;/entry&gt;
+    &lt;/row&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    &lt;para&gt;
+    工作任务1...
+    &lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员1
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    &lt;para&gt;
+    工作任务1...
+    &lt;/para&gt;
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员2
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    工作任务3...
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员3
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;/tbody&gt;
+    &lt;/tgroup&gt;
+    &lt;/table&gt;
+    &lt;note&gt;
+    &lt;title&gt;备注&lt;/title&gt;
+    &lt;para&gt;
+    &lt;/para&gt;
+    &lt;/note&gt;
+  &lt;/listitem&gt;
+  
+  &lt;listitem&gt;               <a name="co.diary.weeksummery"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+    &lt;table frame='all'&gt;&lt;title&gt;上周项目进展&lt;/title&gt;
+    &lt;tgroup cols='2' align='left' colsep='1' rowsep='1'&gt;
+    &lt;colspec colname='c1' colwidth="300pt" &gt;
+    &lt;colspec colname='c2' colwidth="80pt" &gt;
+    &lt;thead&gt;
+    &lt;row&gt;
+    &lt;entry&gt;任务名称&lt;/entry&gt;
+    &lt;entry&gt;负责人&lt;/entry&gt;
+    &lt;/row&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    完成上周任务1...
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员1
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    完成上周任务2...
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员2
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;row&gt;
+    &lt;entry&gt;
+    完成上周任务3...
+    &lt;/entry&gt;
+    &lt;entry&gt;
+    人员3
+    &lt;/entry&gt;
+    &lt;/row&gt;
+    
+    &lt;/tbody&gt;
+    &lt;/tgroup&gt;
+    &lt;/table&gt;
+    &lt;note&gt;
+    &lt;title&gt;备注&lt;/title&gt;
+    &lt;para&gt;
+    &lt;/para&gt;
+    &lt;/note&gt;
+  &lt;/listitem&gt;
+&lt;/orderedlist&gt;
+
+&lt;/sect2&gt;
+&lt;/sect1&gt;
+
+&lt;sect1 id="w021021"&gt;&lt;title&gt;1021--1025&lt;/title&gt;  <a name="co.diary.weeklast"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+&lt;sect2 id="daily021021"&gt;&lt;title&gt;日志&lt;/title&gt;
+&lt;para&gt;
+...
+&lt;para&gt;
+&lt;/sect2&gt;
+&lt;sect2 id="weekly021021"&gt;&lt;title&gt;周报&lt;/title&gt;
+&lt;para&gt;
+...
+&lt;para&gt;
+&lt;/sect2&gt;
+&lt;/sect1&gt;
+
+&lt;/article&gt;
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.w021028"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+10月28日到11月1日的一个星期的日志和周计划。每周开始一个新的章节。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.1030"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+10月30日（星期三）的项目日志。最新的日期总是在最前。每天的项目日志只需要重复拷贝一下前一天日志的结构即可。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weekly021028"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+周计划开始，包括本周计划和上周项目进展。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weekplan"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+本周工作计划。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weeksummery"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+上周项目进展。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weeksummery"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+上周项目进展。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.diary.weeklast"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+上一个星期的项目日志和工作计划。
+</p></td>
+</tr>
+</table></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5742656"></a>10.3. 版本变更说明</h3></div></div></div>
+<p>
+版本变更说明，又叫做"Release Notes"，"Changes"，经常伴随着软件产品一道发布，提供给最终用户。该文档也可以在开发小组内部的参考。该文档的维护，意味着开发工作在继续，否则意味着项目的终结。该文档的维护也反映了软件开发中配置管理的水平以及软件开发对市场、对BUG的响应能力。
+</p>
+<p>
+同时，该文档的维护非常频繁，而且用户需要的格式也是五花八门，如常见的网页格式，纯文本格式，PDF格式等。如何尽量保证该文档的更新和产品版本提升保持同步，是困扰很多项目组的一个难题。使用 DocBook 不难作出国际水准的版本变更说明。
+</p>
+<p>
+<a href="#g-9-4">图9-4</a> 就是一个版本变更说明的范例。
+</p>
+<div class="mediaobject">
+<img src="images/sample-changes.png" alt="版本变更说明"><div class="caption"><p>
+<a name="g-9-4"></a>图9-4. 版本变更说明
+</p></div>
+</div>
+<p>
+以下是DocBook 源代码：
+</p>
+<pre class="programlisting">
+
+&lt;!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2b1//EN"  [
+&lt;!ENTITY yourname "&lt;ulink url='mailto:yourname@email.address'&gt;Your Name&lt;/ulink&gt;"&gt;
+]&gt;
+&lt;article&gt;
+&lt;articleinfo&gt;
+  &lt;title&gt;Linktrust Cyberwall 2.4版本变更说明书&lt;/title&gt;
+  &lt;author&gt;&lt;firstname&gt;作者姓名&lt;/firstname&gt;&lt;/author&gt;
+  &lt;revhistory&gt;
+    &lt;revision&gt;
+      &lt;revnumber&gt;1.4&lt;/revnumber&gt;
+      &lt;date&gt;2002/11/29&lt;/date&gt;
+      &lt;authorinitials&gt;caijm&lt;/authorinitials&gt;
+      &lt;revremark&gt;
+      补充 2.4.0040版本更改记录；
+      &lt;/revremark&gt;
+    &lt;/revision&gt;
+  &lt;/revhistory&gt;
+  &lt;abstract&gt;
+    &lt;para&gt;
+    记录当前版本号（build number）下，添加的新功能和修改的BUG。
+    &lt;/para&gt;
+    &lt;para&gt;
+    &amp;yourname;, $Revision$, $Date$
+    &lt;/para&gt;
+  &lt;/abstract&gt;
+&lt;/articleinfo&gt;
+
+
+&lt;sect1&gt;&lt;title&gt;Build 2.4.0040 Major changes&lt;/title&gt;
+  &lt;sect2&gt;&lt;title&gt;版本信息&lt;/title&gt;
+  &lt;segmentedlist&gt;&lt;title&gt;版本信息&lt;/title&gt;
+    &lt;segtitle&gt;版本号&lt;/segtitle&gt;
+    &lt;segtitle&gt;编译日期&lt;/segtitle&gt;
+    &lt;segtitle&gt;Cyberwall Label&lt;/segtitle&gt;
+    &lt;segtitle&gt;LTOS Tag&lt;/segtitle&gt;
+    &lt;segtitle&gt;描述&lt;/segtitle&gt;
+    &lt;seglistitem&gt;
+      &lt;seg&gt;2.4.0040&lt;/seg&gt;
+      &lt;seg&gt;20021128&lt;/seg&gt;
+      &lt;seg&gt;2.4.0040-last&lt;/seg&gt;
+      &lt;seg&gt;LTOS24B_021128_DONTPANIC&lt;/seg&gt;
+      &lt;seg&gt;collect crash data&lt;/seg&gt;
+    &lt;/seglistitem&gt;
+  &lt;/segmentedlist&gt;
+  &lt;/sect2&gt;
+
+  &lt;sect2&gt;&lt;title&gt;New features or changes since Build 2.4.0039&lt;/title&gt;
+    &lt;itemizedlist&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        panic后把信息写到磁盘；[xucm]
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        加入了对Intel 82543/82544/82545 系列千兆卡的支持；[xucm]
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        change lt software dog timeout from 10 seconds to 8 seconds；[song]
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        修改tcp状态机算法；[song]
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        WEB界面ha增加心跳线设置；[wuzj]
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+    &lt;/itemizedlist&gt;
+  &lt;/sect2&gt;
+
+  &lt;sect2&gt;&lt;title&gt;Bugs fixed since Build 2.4.0039&lt;/title&gt;
+    &lt;itemizedlist&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        fix vrrp interface number checking problem; [qianxb]
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+      &lt;listitem&gt;
+        &lt;para&gt;
+        改正WEB界面“应用”后ie浏览器上方的显示调用情况的黑色地球标志一直转动的问题；[mahui]
+        &lt;/para&gt;
+      &lt;/listitem&gt;
+    &lt;/itemizedlist&gt;
+  &lt;/sect2&gt;
+&lt;/sect1&gt;
+&lt;/article&gt;
+</pre>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="reference"></a>11. 参考</h2></div></div></div>
+<p>
+参考资料
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+<a href="http://www.docbook.org/tdg/en/html/docbook.html" target="_top">
+DocBook: The Definitive Guide
+</a>
+</p></li>
+<li><p>
+<a href="http://www.tldp.org/authors/index.html" target="_top">
+LDP Author Guide
+</a>
+</p></li>
+<li><p>
+<a href="http://developer.gnome.org/documents/style-guide/" target="_top">
+GNOME Documentation Style Guide
+</a>
+</p></li>
+<li><p>
+<a href="http://www.linuxdoc.org/HOWTO/mini/Howtos-with-LinuxDoc.html" target="_top">
+Howtos-with-LinuxDoc-mini-HOWTO
+</a>
+</p></li>
+<li><p>
+<a href="http://www.linuxdoc.org/HOWTO/mini/Linuxdoc-Reference.html" target="_top">
+Linuxdoc Reference
+</a>
+</p></li>
+<li><p>
+<a href="http://www.linuxdoc.org/HOWTO/mini/docbook-Install/" target="_top">
+DocBook Install mini-HOWTO
+</a>
+</p></li>
+<li><p>
+<a href="http://www.jclark.com" target="_top">
+James Clark's Home Page
+</a>
+</p></li>
+<li><p>
+<a href="http://www.nwalsh.com" target="_top">
+Norman Walsh's Home Page
+</a>
+</p></li>
+<li>
+<p>
+<a name="DocBook-OpenJade-SGML-XML-HOWTO"></a>
+DocBook XML/SGML Processing Using OpenJade
+</p>
+<p>
+This HOWTO explains setting up OpenJade to process SGML/XML DocBook documents.
+</p>
+<p>
+<a href="http://www.tldp.org/HOWTO/DocBook-OpenJade-SGML-XML-HOWTO/" target="_top">
+Get it ...
+</a>
+</p>
+</li>
+<li>
+<p>
+Visual Introduction to DSSSL
+</p>
+<p>
+Markus Reinsch created a very good tutorial about the DSSSL language. A java 
+applet provides visual animations giving clues to what is happening at each 
+stage of an SGML or XML document transformation. To prevent the applet from 
+being downloaded for each tutorial step we recommend downloading the complete 
+tutorial which includes all HTML pages and associated Java applets 
+</p>
+<p>
+<a href="http://coli.lili.uni-bielefeld.de/Texttechnologie/dsssl_ma/dsssl/index.html" target="_top">
+Get tutorial ...
+</a>
+</p>
+</li>
+<li>
+<p>
+Style Construction Rules, by Didier PH Martin
+</p>
+<p>
+A DSSSL style specification is mostly composed of construction rules. 
+But what is a construction rule?
+</p>
+<p>
+<a href="http://www.netfolder.com/DSSSL/MarkupRule.htm" target="_top">
+Learn more about construction rules... 
+</a>
+</p>
+</li>
+<li>
+<p>
+DSSSL Cookbook
+</p>
+<p>
+The DSSSL Cookbook is a series of hints about using DSSSL, including style 
+and techniques for writing DSSSL style sheets as well as the use of specific 
+DSSSL functions and flow object classes. 
+</p>
+<p>
+<a href="http://www.mulberrytech.com/dsssl/dsssldoc/cookbook/cookbook.html" target="_top">
+Get cookbook...
+</a>
+</p>
+</li>
+<li>
+<p>
+Procedure Library
+</p>
+<p>
+Mulberry Technologies maintain the DSSSL procedure library. This library is 
+a collection of useful DSSSL procedures that can be freely included in DSSSL 
+script projects. 
+</p>
+<p>
+<a href="http://www.mulberrytech.com/dsssl/dsssldoc/procedures/index.html" target="_top">
+Get library...
+</a>
+</p>
+</li>
+<li>
+<p>
+Crane Softwrights libraries
+</p>
+<p>
+These libraries contain several DSSSL scripts such as, for example, an SGML 
+application for frame-based presentation slide-shows with DSSSL scripts for 
+the rendering of the slides to HTML and RTF final forms, an environment supporting 
+the writing and documentation of annotated DSSSL style sheets, colour information, 
+and more.  
+</p>
+<p>
+<a href="http://www.cranesoftwrights.com/resources/" target="_top">
+Get library...
+</a>
+</p>
+</li>
+<li><p>
+<a href="http://www.jimweller.net/jim/dbxmlqs/" target="_top">
+DocBook XML 4.1.2 Quick Start Guide
+</a>
+</p></li>
+<li><p>
+<a href="http://www.ibiblio.org/godoy/" target="_top">
+Godoy's DocBook SGML/XML reference page
+</a>
+</p></li>
+<li><p>
+<a href="http://2ti.com/xml_book/index.html" target="_top">
+*ֻϻ*վ
+</a>
+</p></li>
+<li><p>
+<a href="http://www.aka.org.cn/Docs/HOWTO-Release-Your-Software/3.0_translated/x306.html" target="_top">
+õĵд
+</a>
+</p></li>
+</ul></div>
+<p>
+SOFTWARE
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+<a name="download-jade"></a>
+Jade
+</p>
+<p>
+Jade is a DSSSL engine running in different environments. The actual version 
+is a console application. It support SGML and XML transformation into RTF, 
+MIF, Tex, SGML, XML.  
+</p>
+<p>
+<a href="http://www.jclark.com/jade/" target="_top">
+Dowload JadeJames' DSSSL Engine...
+</a>
+</p>
+</li>
+<li>
+<p>
+OpenJade
+</p>
+<p>
+Avi Kivity maintains the OpenJade source code library. 
+This is the official DSSSL user group Open source library.
+</p>
+<p>
+<a href="http://sourceforge.net/project/openjade" target="_top">
+Dowload OpenJade...
+</a>
+</p>
+</li>
+<li>
+<p>
+DSSSLPrint
+</p>
+<p>
+DSSSLPrint is a NextSolution co. DSSSL package allowing SGML or XML 
+transformations into PDF or Postscript. Runs on different Unix platforms.
+</p>
+<p>
+<a href="http://www.nextsolution.co.jp/English/index.html" target="_top">
+Dowload DSSSLPrint...
+</a>
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

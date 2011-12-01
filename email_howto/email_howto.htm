@@ -1,0 +1,2183 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>知识管理</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="工作需要，不得不配置一个自己的 Mail Server。发现 sendmail 并不想以前感觉那样难配置。从网上东拼西凑出一个个人心得，有机会就不断完善。对本文档有任何补充或建议，欢迎联系作者 Johnson。 （编译自版本: 30b6c89，最后更新时间: 2007-07-31）">
+<link rel="start" href="#index" title="知识管理">
+<link rel="next" href="#qmail" title="2. qmail">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>知识管理</h1></div>
+<div><h3 class="subtitle"><i>Email Howto</i></h3></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.2.1</td>
+<td align="left">2003/03/05</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">sendmail 8.12.7 发现安全漏洞</td></tr>
+<tr>
+<td align="left">修订 0.2</td>
+<td align="left">2003/2/22</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">补充 <a href="#procmail" title="1.10.2. procmail">procmail</a>
+</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2003/2/11</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">东拼西凑出一个个人 Sendmail 配置心得</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+工作需要，不得不配置一个自己的 Mail Server。发现 sendmail 并不想以前感觉那样难配置。从网上东拼西凑出一个个人心得，有机会就不断完善。对本文档有任何补充或建议，欢迎联系作者 <a href="mailto:johnson.AT.worldhello.net" target="_top">Johnson</a>。
+</p>
+<p>
+（编译自版本: 30b6c89，最后更新时间: 2007-07-31）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#sendmail">1. Sendmail</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4461168">1.1. M4 和 sendmail.cf</a></span></dt>
+<dt><span class="sect2"><a href="#idp4502832">1.2. mail relay 规则详解
+
+</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4505584">1.2.1. 配置允许本地用户RELAY</a></span></dt>
+<dt><span class="sect3"><a href="#idp4537152">1.2.2. 口令验证下的 open relay
+
+</a></span></dt>
+<dt><span class="sect3"><a href="#idp4569456">1.2.3. 提高安全性：SMTP over SSL</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp4571216">1.3. 别名 aliases 和 .forward 文件</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4571728">1.3.1. /etc/mail/aliases</a></span></dt>
+<dt><span class="sect3"><a href="#idp4585104">1.3.2. ~/.forward</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp4591968">1.4. 用 virtusertable 管理虚拟域</a></span></dt>
+<dt><span class="sect2"><a href="#idp4607360">1.5. 其它配置文件</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4608848">1.5.1. /etc/mail/domaintable</a></span></dt>
+<dt><span class="sect3"><a href="#idp4615168">1.5.2. genericstable和genericsdomain</a></span></dt>
+<dt><span class="sect3"><a href="#idp4618816">1.5.3. /etc/mail/mailertable</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp4622240">1.6. 地址伪装</a></span></dt>
+<dt><span class="sect2"><a href="#idp4646320">1.7. DNS 和 Email</a></span></dt>
+<dt><span class="sect2"><a href="#configpop3">1.8. 配置pop3
+
+</a></span></dt>
+<dt><span class="sect2"><a href="#idp4652512">1.9. 从头安装 Sendmail</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4653632">1.9.1. 下载软件包</a></span></dt>
+<dt><span class="sect3"><a href="#idp4660096">1.9.2. 安装 SASL，以支持SMTP认证
+<sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
+</a></span></dt>
+<dt><span class="sect3"><a href="#smtpoverssl">1.9.3. 支持SMTP over SSL
+
+</a></span></dt>
+<dt><span class="sect3"><a href="#idp4684496">1.9.4. 安装 sendmail</a></span></dt>
+<dt><span class="sect3"><a href="#idp4685744">1.9.5. 配置 sendmail — 支持 SMTP 认证
+<sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
+</a></span></dt>
+<dt><span class="sect3"><a href="#idp4688160">1.9.6. 配置 sendmail — 支持 SMTP over SSL
+<sup>[<a href="#ftn.fn.starttls">4</a>]</sup>
+</a></span></dt>
+<dt><span class="sect3"><a href="#idp4695632">1.9.7. 配置 sendmail — 证书管理
+
+</a></span></dt>
+<dt><span class="sect3"><a href="#idp4711504">1.9.8. 配置pop3</a></span></dt>
+<dt><span class="sect3"><a href="#idp4713136">1.9.9. 关于权限</a></span></dt>
+<dt><span class="sect3"><a href="#idp4714672">1.9.10. 启动 sendmail</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp4717168">1.10. 邮件分拣</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4719584">1.10.1. vacation 自动回信
+</a></span></dt>
+<dt><span class="sect3"><a href="#procmail">1.10.2. procmail</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#idp4756976">1.11. FAQ</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#qmail">2. qmail</a></span></dt>
+<dt><span class="sect1"><a href="#mailarchive">3. Mail Archive</a></span></dt>
+<dt><span class="appendix"><a href="#background">A. 基础知识</a></span></dt>
+<dd><dl>
+<dt><span class="sect1"><a href="#appendix-1">A.1. 基本概念</a></span></dt>
+<dt><span class="sect1"><a href="#appendix-2">A.2. 相关资源</a></span></dt>
+</dl></dd>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="sendmail"></a>1. Sendmail</h2></div></div></div>
+<p>
+可以通过命令 <span><strong class="command">telnet &lt;email_server&gt; 25</strong></span> , 或者命令 <span><strong class="command">sendmail -dt -d0*</strong></span> , 来查看sendmail版本号。如果需要配置 smtp over ssl，则最好使用 8.12版本以上的 sendmail。
+</p>
+<p>
+由于 Sendmail 有着长期的安全漏洞历史，更需要着重注意 sendmail 的版本更新。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+Recent Sendmail Vulnerabilities:
+</p>
+<div class="orderedlist"><ol type="1"><li>
+<p>
+2003.3.3, Sendmail 检查接收邮件标题字段的代码中，发现了缓冲区溢出的安全漏洞。
+</p>
+<p>
+美国CERT/CC、美国Internet Security Systems（ISS）以及美国Sendmail.org等公司
+于美国当地时间3月3日发出警告，在具有代表性的邮件服务器软件“Sendmail”中发现
+了严重的安全漏洞。影响版本涉及 5.79 至 8.12.7。请立即升级至 8.12.8。
+</p>
+</li></ol></div>
+</td></tr>
+</table></div>
+<p>
+Sendmail 作为 Linux, BSD 和其它 Unix 平台的“标配”，被广泛使用。再加上众多的相关软件支持，Sendmail 配置应该算得上是系统管理员的基本技能。Sendmail 主要的配置文件如下：
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+/etc/sendmail.cf
+</p>
+<p>
+Sendmail 核心配置文件
+</p>
+</li>
+<li>
+<p>
+/etc/aliases
+</p>
+<p>
+邮件别名文件
+</p>
+</li>
+<li>
+<p>
+/etc/mail/relay-domains
+</p>
+<p>
+设定可RELAY的域名
+</p>
+</li>
+<li>
+<p>
+/etc/mail/access
+</p>
+<p>
+设定处理来信的方式：RELAY等
+</p>
+</li>
+</ol></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4461168"></a>1.1. M4 和 sendmail.cf</h3></div></div></div>
+<p>
+Sendmail的配置文件 sendmail.cf 算得上“臭名昭著”，看看这个文件一定会让你头大，几乎没有人从头来写这个文件。关于 sendmail.cf 的详细内容，参见：<a href="http://www.sendmail.org/~ca/email/doc8.12/op-sh-5.html" target="_top">Sendmail Installation and Operation Guide --- THE WHOLE SCOOP ON THE CONFIGURATION FILE</a>。
+</p>
+<p>
+通过使用 m4 宏处理命令，由宏文件 sendmail.mc 来生成复杂的配置文件 sendmail.cf，一切变得简单多了。
+</p>
+<p>
+/etc/mail/sendmail.mc 文件即是原始宏文件。生成配置文件 sendmail.cf 的命令为：
+</p>
+<pre class="screen">
+
+$ m4 sendmail.mc &gt; sendmail.cf
+
+</pre>
+<p>
+默认的配置文件仅仅能在本机发送邮件，如果需要更强的功能，需要修改宏文件：<code class="filename">sendmail.mc</code>
+</p>
+<p>
+缺省的<code class="filename">sendmail.mc</code>文件：
+</p>
+<pre class="screen">
+divert(-1)                                     <a name="co.divert"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+dnl This is the sendmail macro config file. If you make changes to this file,
+dnl you need the sendmail-cf rpm installed and then have to generate a
+dnl new /etc/sendmail.cf by running the following command:
+dnl
+dnl        m4 /etc/mail/sendmail.mc &gt; /etc/sendmail.cf
+dnl
+include(`/usr/share/sendmail-cf/m4/cf.m4')
+VERSIONID(`linux setup for Red Hat Linux')dnl  <a name="co.versionid"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+OSTYPE(`linux')                                <a name="co.ostype"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+dnl Uncomment and edit the following line if your mail needs to be sent out
+dnl through an external mail server:
+dnl define(`SMART_HOST',`smtp.your.provider')  <a name="co.dnl1"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+define(`confDEF_USER_ID',``8:12'')dnl          <a name="co.dnl2"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+undefine(`UUCP_RELAY')dnl
+undefine(`BITNET_RELAY')dnl
+define(`confAUTO_REBUILD')dnl
+define(`confTO_CONNECT', `1m')dnl
+define(`confTRY_NULL_MX_LIST',true)dnl
+define(`confDONT_PROBE_INTERFACES',true)dnl
+define(`PROCMAIL_MAILER_PATH',`/usr/bin/procmail')dnl
+define(`ALIAS_FILE', `/etc/aliases')dnl        <a name="co.mc.aliases"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+dnl define(`STATUS_FILE', `/etc/mail/statistics')dnl
+define(`UUCP_MAILER_MAX', `2000000')dnl
+define(`confUSERDB_SPEC', `/etc/mail/userdb.db')dnl
+define(`confPRIVACY_FLAGS', `authwarnings,novrfy,noexpn,restrictqrun')dnl
+define(`confAUTH_OPTIONS', `A')dnl
+dnl TRUST_AUTH_MECH(`DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+dnl define(`confAUTH_MECHANISMS', `DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+dnl define(`confTO_QUEUEWARN', `4h')dnl
+dnl define(`confTO_QUEUERETURN', `5d')dnl
+dnl define(`confQUEUE_LA', `12')dnl
+dnl define(`confREFUSE_LA', `18')dnl
+dnl FEATURE(delay_checks)dnl
+FEATURE(`no_default_msa',`dnl')dnl
+FEATURE(`smrsh',`/usr/sbin/smrsh')dnl        <a name="co.feature.smrsh"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0">
+FEATURE(`mailertable',`hash -o /etc/mail/mailertable.db')dnl
+FEATURE(`virtusertable',`hash -o /etc/mail/virtusertable.db')dnl <a name="co.feature.virtuser"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0">
+FEATURE(redirect)dnl
+FEATURE(always_add_domain)dnl                <a name="co.feature.alwaysadddom"></a><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0">
+FEATURE(use_cw_file)dnl                      <a name="co.feature.usecwfile"></a><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0">
+FEATURE(use_ct_file)dnl                      <a name="co.feature.usectfile"></a><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0">
+dnl The '-t' option will retry delivery if e.g. the user runs over his quota.
+FEATURE(local_procmail,`',`procmail -t -Y -a $h -d $u')dnl
+FEATURE(`access_db',`hash -o /etc/mail/access.db')dnl
+FEATURE(`blacklist_recipients')dnl
+EXPOSED_USER(`root')dnl
+dnl This changes sendmail to only listen on the loopback device 127.0.0.1
+dnl and not on any other network devices. Comment this out if you want
+dnl to accept email over the network.
+DAEMON_OPTIONS(`Port=smtp,Addr=127.0.0.1, Name=MTA')
+dnl NOTE: binding both IPv4 and IPv6 daemon to the same port requires
+dnl       a kernel patch
+dnl DAEMON_OPTIONS(`port=smtp,Addr=::1, Name=MTA-v6, Family=inet6')
+dnl We strongly recommend to comment this one out if you want to protect
+dnl yourself from spam. However, the laptop and users on computers that do
+dnl not have 24x7 DNS do need this.
+FEATURE(`accept_unresolvable_domains')dnl     <a name="co.unresolv.domain"></a><img src="/docbook/includes/images/callouts/12.png" alt="12" border="0">
+dnl FEATURE(`relay_based_on_MX')dnl
+MAILER(smtp)dnl
+MAILER(procmail)dnl
+Cwlocalhost.localdomain
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.divert"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+divert(-1），从这行以下到divert(0)之间会被忽略，不会加到产生出来的*.cf文件中，通常放一些版权信息之类。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.versionid"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+放入一些版本信息
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.ostype"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+根据平台设置，产生相关环境设定
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.dnl1"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+行首的 dnl 相当于注释
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.dnl2"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+行尾的 dnl 用于去掉行尾的空格、回车换行，以避免生成的文件包含过多的空行。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mc.aliases"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置别名文件。亦可设置多个别名文件，如：define(`ALIAS_FILE', `/etc/aliases,/usr/local/majordomo/majordomo.aliases')dnl
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.smrsh"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+smrsh 即 sendmail restricted shell。简而言之smrsh限制了攻击者可以执行的程序集。当它与sendmail程序一起使用的时候，smrsh有效的将sendmail可以执行的程序的范围限制在smrsh目录之下。 
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.virtuser"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left"><p>
+允许在同一个主机上使用多个虚拟域
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.alwaysadddom"><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0"></a> </td>
+<td valign="top" align="left"><p>
+即使是本地传送的信件，也会加上domain-name。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.usecwfile"><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0"></a> </td>
+<td valign="top" align="left"><p>
+会参考 /etc/mail/local-host-names 来决定哪些domain-name是local-host。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.usectfile"><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0"></a> </td>
+<td valign="top" align="left"><p>
+会参考 /etc/mail/trust-users 文件，来决定哪些用户可以以其它身份发信而不产生警告。Majordomo 用户需要属于 trust-users。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.unresolv.domain"><img src="/docbook/includes/images/callouts/12.png" alt="12" border="0"></a> </td>
+<td valign="top" align="left"><p>
+发件人的地址如果不能解析，也能发送成功。避免由于域名解析受限制而拒收邮件。
+</p></td>
+</tr>
+</table></div>
+<p>
+修改该配置如下：
+</p>
+<pre class="screen">
+dnl Dmworldhello.net
+dnl Dwmail
+dnl define(`confDOMAIN_NAME', `$w.$m')dnl                    <a name="co.domainname"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+... ...
+FEATURE(`domaintable',`hash -o /etc/mail/domaintable')       <a name="co.domaintable"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+... ...
+FEATURE(`genericstable',`hash -o /etc/mail/genericstable')   <a name="co.genericstable"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+... ...
+GENERICS_DOMAIN_FILE(`/etc/mail/genericsdomain')             <a name="co.genericsdomain"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+... ...
+<span class="emphasis"><em>dnl</em></span>  DAEMON_OPTIONS(`Port=smtp,Addr=127.0.0.1, Name=MTA')     <a name="co.pubservice"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+... ...
+FEATURE(`accept_unqualified_senders')dnl                     <a name="co.unqual.sender"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+... ...
+define(confMAX_HOP,30)                                       <a name="co.mc.maxhop"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0">
+... ...
+Cwlocalhost.localdomain <span class="emphasis"><em>your_real_domain</em></span>                      <a name="co.cw"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0">
+... ...
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.domainname"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+如果sendmail不能正确判断本机域名，使用由变量 $w 和 $m 确定的域名。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.domaintable"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加配置，提供地址重写方式
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.genericstable"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加配置，提供地址重写方式
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.genericsdomain"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加配置，提供地址重写方式
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.pubservice"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+注释掉本语句的目的是侦听所有网卡，为整个网络提供服务
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.unqual.sender"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+允许未加域名的发件人发送邮件，默认禁止。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mc.maxhop"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置转发的地址不能超过30个。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cw"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+定义类$w，在此处或者外部文件中定义。用于设置服务器提供服务的域名，即本地主机名。
+</p>
+<p>
+外部文件通常为 sendmail.cw，新版本为 local-host-names。但也有可能是其他名称，用如下命令查看：
+</p>
+<pre class="screen">
+
+$ grep "^Fw" sendmail.cf 
+Fw/etc/mail/local-host-names
+
+</pre>
+</td>
+</tr>
+</table></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4502832"></a>1.2. mail relay 规则详解
+<sup>[<a name="fn.relay" href="#ftn.fn.relay">1</a>]</sup>
+</h3></div></div></div>
+<p>
+在默认情况下,也就是安装完系统(Sendmail服务器)不做任何设置的情况下,则只能在本机上收发邮件,网络上(局域网或Internet)的任何其它主机不能向该SMTP服务器发送邮件。这往往并不能满足需要。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4505584"></a>1.2.1. 配置允许本地用户RELAY</h4></div></div></div>
+<p>
+对于内部的邮件服务器或者相对简单的网络环境，允许发送邮件的用户的IP地址相对固定或者完全是内部IP地址，则配置非常简单。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+允许其他机器使用邮件服务器发送邮件
+</p>
+<p>
+若希望能实现发送,则需满足下面的任何一个条件即可(不需要同时满足)：1. <span class="emphasis"><em>发送者身份属于“本地或者被允许的发送者”</em></span>；2. <span class="emphasis"><em>接收者身份属于“本地或者被允许的接收者”</em></span>。 
+</p>
+</li>
+<li>
+<p>
+/etc/mail/relay-domains
+</p>
+<p>
+在配置文件<code class="filename">/etc/sendmail.cf</code>中，指定了该文件的路径：
+</p>
+<pre class="screen">
+# Hosts for which relaying is permitted ($=R)
+FR-o /etc/mail/relay-domains
+</pre>
+<p>
+<code class="filename">/etc/mail/relay-domains</code>示例：
+</p>
+<pre class="screen">
+localhost.localdomain
+localhost
+127.0.0.1
+10.0.0
+</pre>
+<p>
+即在列表中出现的主机，可以使用本邮件服务器发送邮件。
+</p>
+</li>
+<li>
+<p>
+/etc/mail/access
+</p>
+<p>
+除了使用文件<code class="filename">relay-domains</code>外，还可以使用<code class="filename">access</code>文件确定允许relay的主机，在配置文件<code class="filename">/etc/sendmail.cf</code>中，指定了该文件的路径：
+</p>
+<pre class="screen">
+# Access list database (for spam stomping)
+Kaccess hash -o /etc/mail/access.db
+</pre>
+<p>
+<code class="filename">/etc/mail/access</code>示例：
+</p>
+<pre class="screen">
+localhost.localdomain           RELAY
+localhost                       RELAY
+127.0.0.1                       RELAY
+10.0.0                          RELAY
+</pre>
+<p>
+access文件和relay-domains格式的区别在于access文件中，允许relay的主机名添加<span class="emphasis"><em>RELAY</em></span>关键字。
+</p>
+<p>
+其它的关键字还有：
+</p>
+<div class="itemizedlist"><ul type="circle">
+<li>
+<p>
+OK
+</p>
+<p>
+当有别的规则阻挡，仍旧允许
+</p>
+</li>
+<li>
+<p>
+RELAY
+</p>
+<p>
+允许转寄
+</p>
+</li>
+<li>
+<p>
+REJECT
+</p>
+<p>
+拒绝这个来源的信件
+</p>
+</li>
+<li>
+<p>
+DISCARD
+</p>
+<p>
+丢弃。这种情况下，邮件看上去是正常投递了，但是由于没有人接 受，邮件会自动地“消失”在网络中。
+</p>
+</li>
+<li>
+<p>
+错误代码+任何其他字符串
+</p>
+<p>
+将向发信者返回这个字符串作为出错信息。错误代码是R FC 822定义的标准出错代码。如： 550 We don like a spammer! 
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+属于本地/被允许的发送者，则RELAY
+</p>
+<p>
+如果在<code class="filename">relay-domains</code>或者<code class="filename">access</code>文件中列出的是域名，则对发送者的IP地址先查找<code class="filename">/etc/hosts</code>文件（一般是如此，如果文件<code class="filename">/etc/host.conf</code>采用默认配置的话），如果没有，再查找DNS。查找DNS的过程是：先做IP地址的反向DNS查找，如果能够反向查找出来，且查找出来的主机的域部分属于上面两个文件中列出的域名，再对该主机名做正向DNS查找，若查找出的IP地址（主机的A记录）与发送者IP地址相同，则允许relay邮件，这表明发送者属于被允许的发送者。 
+</p>
+<p>
+如果正反向解析不一致，则会在/var/log/maillog中记录一行警告信息说"may be forged"（可能被伪造的）。如果收信人也不在access文件列表中，则拒发邮件。
+</p>
+</li>
+<li>
+<p>
+本地或者被允许的接收者，则RELAY
+</p>
+<p>
+相对于发送者，这个就非常简单了。只要接收者的email地址的域部分被列在/etc/mail/relay-domains或者/etc/mail/access 文件中，邮件被允许接收。 
+</p>
+</li>
+<li><p>
+文件<a name="a.local-host-names"></a><code class="filename">/etc/mail/local-host-names</code>，服务的域名亦可作为本地接收者的判断依据。
+</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4537152"></a>1.2.2. 口令验证下的 open relay
+<sup>[<a name="fn.sasl" href="#ftn.fn.sasl">2</a>]</sup>
+</h4></div></div></div>
+<p>
+对于移动用户的情况，往往网络拓扑复杂，设置<code class="filename">/etc/mail/relay-domains</code>，或者<code class="filename">/etc/mail/access</code>就不够了。
+</p>
+<p>
+当前的解决办法有: 
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+公司设置自己的拨入服务器,仅仅公司员工可以用自己的用户名和密码拨入后发送邮件. 
+</p></li>
+<li><p>
+SMTP-After-POP3方法, 修改POP3程序,拨到ISP后先收一次自己的信,POP3检测到收信者IP地址后再动态地加这个IP地址到relay-domains或者access文件中,允许relay默认半个小时. 
+</p></li>
+<li><p>
+sendmail 8.10加入了SMTP用户认证功能,发送邮件时提示输入用户名和密码后允许relay. 
+</p></li>
+</ol></div>
+<p>
+显然第三种方法是最理想的。
+</p>
+<p>
+首先检查是否支持 SASL 认证：
+</p>
+<pre class="screen">
+#/usr/sbin/sendmail -d0.1 -bv root |grep SASL
+NAMED_BIND NETINET NETINET6 NETUNIX NEWDB NIS QUEUE <span class="emphasis"><em>SASL</em></span> SCANF
+</pre>
+<p>
+如果出现了 SASL，则sendmail编译时编译了SASL模块，否则需要重新编译 SASL，
+</p>
+<p>
+设置口令验证，需要修改宏文件 sendmail.mc，如下：
+</p>
+<pre class="screen">
+define(QUEUE_DIR,`/var/spool/mqueue/q*')                            <a name="co.auth.queue"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+TRUST_AUTH_MECH(`DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl               <a name="co.auth.trust"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+define(`confAUTH_MECHANISMS', `DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl <a name="co.auth.mech"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+dnl define(`confDEF_AUTH_INFO', `/etc/mail/auth/auth-info')         <a name="co.auth.info"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+dnl FEATURE(`no_default_msa') 
+dnl DAEMON_OPTIONS(`Port=smtp,Name=MTA')dnl                         <a name="co.auth.smtp"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+DAEMON_OPTIONS(`Port=25,Name=MSA,M=Ea')dnl                          <a name="co.auth.msa"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.auth.queue"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+和认证无关，但是启动了多个邮件队列，希望得到更好的队列处理和性能改进。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.auth.trust"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+"TRUST_AUTH_MECH"的作用是使sendmail不管access文件中如何设置，都能 relay 那些通过LOGIN，PLAIN或DIGEST-MD5方式验证的邮件。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.auth.mech"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+"confAUTH_MECHANISMS"的作用是确定系统的认证方式。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.auth.info"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+"confDEF_AUTH_INFO"的作用是当你的计算机作为客户机时，向另外一台有smtp认证功能的主机进行认证，用户和密码存放在auth-info文件中，在这个例子中并不需要这个功能，所以注释掉了。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.auth.smtp"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置非口令验证的SMTP端口
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.auth.msa"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+注释本行，则25端口可以同时进行口令验证和非口令验证，否则只能有完成口令验证，方可发送邮件。
+</p></td>
+</tr>
+</table></div>
+<p>
+测试：输入如下命令
+</p>
+<pre class="screen">
+$ <span><strong class="command">telnet localhost 25</strong></span>
+Connected to localhost.
+Escape character is '^]'.
+220 localhost.localdomain ESMTP Sendmail 8.11.6/8.11.6; Wed, 12 Feb 2003 16:38:34 +0800
+<span><strong class="command">ehlo localhost</strong></span>
+250-xxxxxxxxxxxxxxxxxxxxxxxxx, pleased to meet you
+250-ENHANCEDSTATUSCODES
+250-8BITMIME
+250-SIZE
+250-DSN
+250-ONEX
+250-ETRN
+250-XUSR
+250-AUTH LOGIN PLAIN         <a name="co.auth.output"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+250 HELP
+<span><strong class="command">auth login</strong></span>
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list"><tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.auth.output"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+看到本行，则支持口令验证。
+</p>
+<p>
+Outlook Express使用LOGIN认证，Netscape Mail使用PLAIN认证，Foxmail 3.11 一般使用LOGIN认证
+</p>
+</td>
+</tr></table></div>
+<p>
+文件：<code class="filename">/usr/lib/sasl/Sendmail.conf</code>
+</p>
+<pre class="screen">
+pwcheck_method:pam
+</pre>
+<p>
+既然Redhat Linux普遍使用PAM,我们就用PAM 认证。为了支持加密验证，则需要使用SASLDB方式的认证。
+</p>
+<p>
+文件：<code class="filename">/etc/pam.d/smtp</code>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4569456"></a>1.2.3. 提高安全性：SMTP over SSL</h4></div></div></div>
+<p>
+参见<a href="#smtpoverssl" title="1.9.3. 支持SMTP over SSL">从头安装 sendmail</a>
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4571216"></a>1.3. 别名 aliases 和 .forward 文件</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4571728"></a>1.3.1. /etc/mail/aliases</h4></div></div></div>
+<p>
+一个重要的邮件重写规则。root 用户可以通过对该文件的配置，建立邮件组、重定向本地用户等等。别名文件会循环检查，直到影射到的邮件地址不在本机接收之列（参见配置文件<a href="#a.local-host-names"><code class="filename">/etc/mail/local-host-names</code></a>）。
+</p>
+<p>
+示例：
+</p>
+<pre class="screen">
+user1:        me@otherdomain.com,user2,user3    <a name="co.alias.mult"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+user2:        user2@otherdomain.com
+alises:       :include:/etc/mail/filealiases    <a name="co.alias.file"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+list-request: |/usr/local/bin/auto_reply        <a name="co.alias.pipe"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+nobody:       /dev/null                         <a name="co.alias.dev"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.alias.mult"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+逗号分隔多个地址。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.alias.file"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+对于经常变化的邮件列表，可以采用外部文件方式。一个邮件一行。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.alias.pipe"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+管道
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.alias.dev"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设备文件
+</p></td>
+</tr>
+</table></div>
+<p>
+更改别名文件后使用newaliases或sendmail -bi建立邮件别名文件的二进制数据文件。
+</p>
+<p>
+特殊的别名
+</p>
+<div class="orderedlist"><ol type="1"><li>
+<p>
+owner-aliasname : address
+</p>
+<p>
+设置该别名后，退信将退回到owner-xxx 别名下。
+</p>
+</li></ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4585104"></a>1.3.2. ~/.forward</h4></div></div></div>
+<p>
+别名文件一般由root用户管理，而普通用户则可以通过用户主目录下的 .forward 文件，实现邮件别名、转发等一系列处理功能。
+</p>
+<p>
+当一个别名解析成一个本地用户地址后，sendmail 察看该用户主目录是否存在 .forward 文件，如果存在，读取该文件中的内容，决定进一步的处理方式。
+</p>
+<p>
+.forward 文件可以通过三种不同的处理方式，对接受的邮件进行处理：定义存储邮件的邮箱文件名(以字符“/”开始的文件名)、进行转发的目的地址、管道（以字符“|”开始，对电子邮件进行处理的外部应用程序）。可以使用第三种方法“管道”，来启动 <a href="#procmail" title="1.10.2. procmail">Procmail</a>。 该文件格式类似 aliases 文件，但是省略了冒号之前的部分，毕竟.forward只针对一个特定的本地用户么。
+</p>
+<p>
+例如：用户 johnson，需要将其邮件拷贝一份给 jiangxin，再回复给发信人说本人正在度假（通过 vocation 程序实现），但仍然保留给自己一份。如果 .forward 内容如下，则会造成死循环：
+</p>
+<pre class="screen">
+jiangxin
+"|/usr/ucb/vacation johnson"
+johnson
+</pre>
+<p>
+解决办法是在 johnson 前面加上斜线 \，则再次发送给 johnson 时，则不会再次处理 .forward 文件。修改后如下：
+</p>
+<pre class="screen">
+jiangxin,"|/usr/ucb/vacation johnson",\johnson
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4591968"></a>1.4. 用 virtusertable 管理虚拟域</h3></div></div></div>
+<p>
+如同Apache一样，sendmail也允许使用虚拟主机功能，这是通过FEATURE(virtusertable)功能实现的，而虚拟主机的文件缺省是/etc/mail/virtusertable。这个文件的形式类似于aliases文件，即：左地址 右地址 ，中间用Tab键分开。<span class="emphasis"><em>还需要注意的是，虚拟域（左地址的域名），应该属于本机接收之列</em></span>。
+</p>
+<pre class="screen">
+joe@yourdomain.com      jschmoe                         <a name="co.virt.local"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+bogus@yourdomain.com    error:nouser No such user here  <a name="co.virt.error"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+@testdomain.com         test@mydomain.com               <a name="co.virt.domain"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+@yourdomain.com         %1@othercompany.com             <a name="co.virt.param"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.virt.local"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+这样一行意味着本来应该发送给 joe@yourdomain.com 的邮件现在要发送给本机的 用户 jschmoe。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.virt.error"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+发向 bogus@yourdomain.com 的邮件，返回错误信息。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.virt.domain"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+意味着所有发往 xxx@testdomain 的邮件都会被发送到 test@mydomain.com。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.virt.param"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+代表参数转义，例如 user1@yourdomain.com 的邮件被发送到user1@othercompany.com。
+</p></td>
+</tr>
+</table></div>
+<p>
+aliases 文件同样可以将本地用户，映射到其它地址，那么和 virtusertable 的优先级如何？<sup>[<a href="#ftn.fn.relay">1</a>]</sup>
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+当接收者邮件地址的域部分在 /etc/mail/local-host-names 中又在/etc/mail/virtusertable中时,优先检查virtusertable文件,应用该文件中的定义规则.
+</p></li>
+<li><p>
+要应用virtusertable规则,则接收者邮件地址的域部分必须在 /etc/mail/local-host-names 文件中存在
+</p></li>
+<li><p>
+若接收者邮件地址的域部分在 /etc/mail/local-host-names 文件中但不在 virtusertable 文件中有相应的定义则先只应用 aliases 中的定义去扩展别名,一旦扩展出的别名接收者邮件的域部分在 virtusertable 中有定义行时则决不再别名下去,马上运行virtusertable中的定义规则。 
+</p></li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4607360"></a>1.5. 其它配置文件</h3></div></div></div>
+<p>
+优先级：domaintable &gt; virtusertable &gt; local-host-names &gt; mailertable &gt; DNS MX记录
+</p>
+<p>
+
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4608848"></a>1.5.1. /etc/mail/domaintable</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+无论什么时候，domaintable都是优先检查，且没有任何附加条件，无条件检查，与/etc/mail/local-host-names中是否有某域名无关。
+</p>
+<p>
+而 virtusertable 要求域名属于本机接收之列。
+</p>
+</li>
+<li>
+<p>
+一般地用来做域名更换，假如你的公司@abc.com可能被员工误打为abd.com，则放入下面的行到 /etc/mail/domaintable 
+</p>
+<pre class="screen">
+abd.com  abc.com 
+</pre>
+</li>
+<li>
+<p>
+使用 domaintable ，发件人和收件人的地址全部被替换。
+</p>
+<p>
+而使用 virtusertable 仅仅将邮件的信封地址替换、信头地址不变，而且也仅仅替换收件人地址。
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4615168"></a>1.5.2. genericstable和genericsdomain</h4></div></div></div>
+<p>
+若文件/etc/mail/genericstable 的内容为：
+</p>
+<pre class="screen">
+jwu jwu@sources.com 
+</pre>
+<p>
+若文件/etc/mail/genericsdomain的内容为：
+</p>
+<pre class="screen">
+test.com 
+</pre>
+<p>
+如果该SMTP服务器从互联网上收到一封发送者邮件地址为jwu@test.com的信,则发送者邮件地址被重写为jwu@sources.com,且message envelope中的return address也是jwu@sources.com 
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4618816"></a>1.5.3. /etc/mail/mailertable</h4></div></div></div>
+<p>
+跨越DNS的MX的记录,优先于MX记录,可以与MX记录指定的主机设定不同. mailertable的运用不需要接收者邮件地址的域部分在/etc/mail/local-host-names中存在.
+</p>
+<pre class="screen">
+sh.abc.com relay:[192.168.11.1]
+bj.abc.com smtp:mail.bj.abc.com
+</pre>
+<p>
+则发送给jwu@sh.abc.com，发送给192.168.11.1， 并且邮件头显示：“received by shmail[192.168.11.] for jwu@sh.abc.com”
+</p>
+<p>
+发送给 user@bj.abc.com，通过服务器 mail.bj.abc.com 转发。
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4622240"></a>1.6. 地址伪装</h3></div></div></div>
+<p>
+我遇到的一个需要地址伪装的例子是，一个应用软件需要频繁在用户之间发送邮件，公司的邮件服务器要求身份认证，而该软件不支持，于是配置了一个内部邮件服务器作为该软件要求的SMTP服务器。但是问题又来了，如果发件人地址属于公司的邮件地址，则邮件回被退回，仍旧报告发件人需要身份验证。于是想到了将发件人地址伪装。
+</p>
+<p>
+那么何为邮件的地址伪装呢？地址伪装只伪装邮件的发送者部分。凡是转发邮件的发送者地址属于"本地域"（不包含"@域名"只有用户名的地址，或者由 class{w}）或者包含在 MASQUERADE_DOMAIN 的定义当中，则将发送者地址伪装为 MASQUERADE_AS 定义的地址。例如：采用如下配置后，user1@domain1.com 发送给 user2@domain1.com 的邮件，被重写为由 user1@domain2.com 发送给 user2@domain1.com；同样根据定义，本地域发出的邮件，也要将发送者的邮件地址写为MASQUERADE_AS 定义的地址，即 @domain2.com。配置如下：
+</p>
+<pre class="screen">
+
+FEATURE(masquerade_envelope)
+MASQUERADE_DOMAIN(domain1.com)
+MASQUERADE_AS(domain2.com)
+
+</pre>
+<p>
+FEATURE(masquerade_envelope) 很重要。如果没有定义该 Feature，则只修改邮件 header 部分的 From 地址，而不修改信封地址，邮件回复仍然回复到伪装前的地址。
+</p>
+<p>
+常用的几个伪装规则： 
+</p>
+<pre class="screen">
+MASQUERADE_AS(domain2.com)                 <a name="co.mas.as"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+MASQUERADE_DOMAIN(domain1.com)             <a name="co.mas.domain"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+MASQUERADE_DOMAIN_FILE(`filename')         <a name="co.mas.domainfile"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+FEATURE(allmasquerade)                     <a name="co.mas.all"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+FEATURE(masquerade_entire_domain)          <a name="co.mas.ent"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+MASQUERADE_EXCEPTION(`host.domain1.com')   <a name="co.mas.except"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+EXPOSED_USER(`root majordomo')             <a name="co.mas.expose"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0">
+EXPOSED_USER_FILE(`filename')              <a name="co.mas.exposefile"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0">
+FEATURE(masquerade_envelope)               <a name="co.mas.env"></a><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mas.as"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+指出将要伪装成的域名
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mas.domain"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+除了本地域以外，其它需要被替换的地址
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mas.domainfile"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+除了本地域以外，其它需要被替换的地址，列在文件 <code class="filename">filename</code> 中
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mas.all"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+还伪装message header中的To:地址 
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mas.ent"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+若选择，则 *.domain1.com 都被转化为 domain2.com，否则只有 domain1.com 被转化为 domain2.com
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mas.except"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+当设置了伪装整个域时，需要排除的个别不要伪装的主机地址
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mas.expose"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+个别用户不需要伪装，允许暴露出真实的邮件主机名，则在此设置。如 root, majordomo 用户。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mas.exposefile"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left"><p>
+同上，但用户名保存在文件中。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mas.env"><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0"></a> </td>
+<td valign="top" align="left"><p>
+伪装message envelope部分的return address，当不能交付邮件并退回给发送者时会用到该地址
+</p></td>
+</tr>
+</table></div>
+<p>
+关于地址伪装的几个重要参考：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+<a href="http://www.connact.com/~esj/sendmail/masquerade.html" target="_top">Sendmail Masquerade Capabilities</a>
+</p></li>
+<li><p>
+<a href="http://www.sendmail.org/m4/masquerading.html" target="_top">MASQUERADING AND RELAYING</a>
+</p></li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4646320"></a>1.7. DNS 和 Email</h3></div></div></div>
+<p>
+sendmail 使用类$w列出主机名。对于DNS中的A记录，必须在$w类中列出，但对于CNAME别名记录，DNS会自动检索出来。
+</p>
+<p>
+如果DNS中有MX记录，则只需要在sendmail主机名中列出域名即可。
+</p>
+<p>
+DNS的设置参见：<a href="http://www.worldhello.net/doc/dns_howto/" target="_top">《DNS 配置示例》</a>。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="configpop3"></a>1.8. 配置pop3
+<sup>[<a name="fn.pop3" href="#ftn.fn.pop3">3</a>]</sup>
+</h3></div></div></div>
+<p>
+需要安装imap。打开系统的pop3端口。
+</p>
+<p>
+请查看/usr/sbin/下是否含有ipop2d、ipop3d文件，如没有，请安装imap-4.7c2-12.i386.rpm软件包。支持pop3，pop3 over ssl，imap，imap over ssl等。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4652512"></a>1.9. 从头安装 Sendmail</h3></div></div></div>
+<p>
+如果系统中没有安装 sendmail，或者功能达不到需要而需要升级，就需要重新安装。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4653632"></a>1.9.1. 下载软件包</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+sendmail
+</p>
+<p>
+<a href="ftp://ftp.sendmail.org/pub/sendmail/sendmail.8.12.8.tar.gz" target="_top">下载 sendmail...</a>
+</p>
+</li>
+<li>
+<p>
+imap
+</p>
+<p>
+<a href="ftp://ftp.redhat.com/pub/redhat/linux/7.2/en/os/i386/RedHat/RPMS/imap-2000c-15.i386.rpm" target="_top">下载 imap-2000c-15.i386.rpm ...</a>
+</p>
+</li>
+<li>
+<p>
+sasl
+</p>
+<p>
+<a href="ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/" target="_top">下载 cyrus-sasl-1.5.28.tar.gz ...</a>
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4660096"></a>1.9.2. 安装 SASL，以支持SMTP认证
+<sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
+</h4></div></div></div>
+<p>
+首先要<a href="ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/" target="_top">下载sasl库</a>，该函数库提供了安全认证所需函数，当前版本是1.5.28。注意2.X 版本无法与sendmail结合,因为API还未做修改。安装过程如下：
+</p>
+<pre class="screen">
+$ gzip cyrus-sasl-1.5.27.tar.gz 
+$ tar -xvf cyrus-sasl-1.5.27.tar
+$ cd cyrus-sasl-1.5.27
+$ ./configure -prefix=/usr --disable-krb4 --disable-gssapi --enable-login
+$ make
+$ make install
+</pre>
+<p>
+接下来，在编译sendmail之前，需要修改（或添加）配置文件： &lt;sendmail代码树&gt;/devtools/Site/site.config.m4，如下：
+</p>
+<pre class="screen">
+dnl APPENDDEF(`confLIBDIRS',`-L/usr/local/lib')
+dnl PPENDDEF(`confINCDIRS',`-I/usr/local/include')
+APPENDDEF(`confENVDEF',`-DSASL')
+APPENDDEF(`conf_sendmail_LIBS',`-lsasl')
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="smtpoverssl"></a>1.9.3. 支持SMTP over SSL
+<sup>[<a name="fn.starttls" href="#ftn.fn.starttls">4</a>]</sup>
+</h4></div></div></div>
+<p>
+修改配置文件： &lt;sendmail代码树&gt;/devtools/Site/site.config.m4，如下：
+</p>
+<pre class="screen">
+dnl Stuff for TLS
+APPENDDEF(`confINCDIRS', `-I/usr/local/include')
+APPENDDEF(`confLIBDIRS', `-L/usr/local/lib')
+APPENDDEF(`conf_sendmail_ENVDEF', `-DSTARTTLS')
+dnl add to previous direction APPENDDEF(`conf_sendmail_LIBS', `-lssl -lcrypto')
+APPENDDEF(`conf_sendmail_LIBS', `-lsasl -lssl -lcrypto')
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4684496"></a>1.9.4. 安装 sendmail</h4></div></div></div>
+<pre class="screen">
+$ sh Build
+$ sh Build install
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4685744"></a>1.9.5. 配置 sendmail — 支持 SMTP 认证
+<sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
+</h4></div></div></div>
+<p>
+修改 sendmail.mc 如下：
+</p>
+<pre class="screen">
+TRUST_AUTH_MECH(`LOGIN PLAIN DIGEST-MD5')dnl
+define(`confAUTH_MECHANISMS', `LOGIN PLAIN DIGEST-MD5')dnl
+dnl define(`confDEF_AUTH_INFO', `/etc/mail/auth/auth-info')
+FEATURE(`no_default_msa')dnl
+DAEMON_OPTIONS(`Port=25, Name=MSA, M=Ea')dnl
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4688160"></a>1.9.6. 配置 sendmail — 支持 SMTP over SSL
+<sup>[<a href="#ftn.fn.starttls">4</a>]</sup>
+</h4></div></div></div>
+<p>
+修改 sendmail.mc 如下：
+</p>
+<pre class="screen">
+dnl define(`CERT_DIR', `MAIL_SETTINGS_DIR`'certs')dnl
+define(`CERT_DIR', `/etc/mail/certs')dnl
+define(`confCACERT_PATH', `CERT_DIR')dnl
+define(`confCACERT', `CERT_DIR/cacert.pem')dnl      <a name="co.ssl.cacert"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+define(`confSERVER_CERT', `CERT_DIR/cert.pem')dnl   <a name="co.ssl.cert"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+define(`confSERVER_KEY', `CERT_DIR/key.pem')dnl     <a name="co.ssl.key"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+define(`confCLIENT_CERT', `CERT_DIR/cert.pem')dnl
+define(`confCLIENT_KEY', `CERT_DIR/key.pem')dnl
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.ssl.cacert"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+cacert.pem : Certificate Authority (CA) certificate 
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.ssl.cert"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+cert.pem : x.509 certificate, signed by CA 
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.ssl.key"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+key.pem : x.509 private key 
+</p></td>
+</tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4695632"></a>1.9.7. 配置 sendmail — 证书管理
+<sup>[<a name="fn.cert" href="#ftn.fn.cert">5</a>]</sup>
+</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+To make certificate authority: 
+</p>
+<pre class="screen">
+$ mkdir CA
+$ cd CA
+$ mkdir certs crl newcerts private
+$ echo "01" &gt; serial
+$ cp /dev/null index.txt
+$ cp /usr/local/openssl/openssl.cnf.sample openssl.cnf
+$ vi openssl.cnf   (set values)
+$ openssl req -new -x509 -keyout private/cakey.pem -out cacert.pem -days 365 -config openssl.cnf
+</pre>
+</li>
+<li>
+<p>
+To make a new certificate: 
+</p>
+<pre class="screen">
+$ cd CA        #(same directory created above)   <a name="co.cert.newreq"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+$ openssl req -nodes -new -x509 -keyout newreq.pem -out newreq.pem -days 365 -config openssl.cnf
+$ 
+$ #cd CA       #(same directory created above)
+$ openssl x509 -x509toreq -in newreq.pem -signkey newreq.pem -out tmp.pem
+$ openssl ca -config openssl.cnf -policy policy_anything -out newcert.pem -infiles tmp.pem  <a name="co.cert.newcert"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+$ rm -f tmp.pem
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cert.newreq"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+(certificate and private key in file newreq.pem) To sign new certificate with certificate authority: 
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cert.newreq"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+(newcert.pem contains signed certificate, newreq.pem still contains unsigned certificate and private key) 
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+Edit newreq.pem 
+</p>
+<p>
+Remove the unsigned certificate (leaving the private key)
+</p>
+</li>
+<li>
+<p>
+Copy files
+</p>
+<pre class="screen">
+$ cp cacert.pem   /etc/mail/certs/cacert.pem
+$ cp newreq.pem   /etc/mail/certs/key.pem
+$ cp newcert.pem  /etc/mail/certs/cert.pem
+</pre>
+</li>
+<li>
+<p>
+Set permissions
+</p>
+<pre class="screen">
+$ chmod 400 key.pem
+</pre>
+</li>
+<li>
+<p>
+Check key properties
+</p>
+<pre class="screen">
+$ openssl x509 -noout -in cacert.pem -text
+
+</pre>
+<p>
+Make sure that the CN of the CA certificate and CN of the server certificate are different, because newer versions of Mozilla and Netscape won't accept the server certificate if it is self-signed.
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4711504"></a>1.9.8. 配置pop3</h4></div></div></div>
+<p>
+参见: <a href="#configpop3" title="1.8. 配置pop3">前面章节的描述。</a>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4713136"></a>1.9.9. 关于权限</h4></div></div></div>
+<pre class="screen">
+    -r-xr-sr-x  root   smmsp    ... /PATH/TO/sendmail
+    drwxrwx---  smmsp  smmsp    ... /var/spool/clientmqueue
+    drwx------  root   wheel    ... /var/spool/mqueue
+    -r--r--r--  root   wheel    ... /etc/mail/sendmail.cf
+    -r--r--r--  root   wheel    ... /etc/mail/submit.cf
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4714672"></a>1.9.10. 启动 sendmail</h4></div></div></div>
+<pre class="screen">
+$ sendmail -bd -q1h 
+</pre>
+<p>
+-bd  参数，表示将sendmail作为一个守护进程来运行；
+</p>
+<p>
+-q1h 参数，表示每隔一个小时发送一次邮件，类似地，-q15m是15分钟，等等。
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4717168"></a>1.10. 邮件分拣</h3></div></div></div>
+<p>
+.forward 配置文件，可以调用外部程序处理邮件，包括邮件杀毒、自动回复、邮件转发、备份、丢弃等等。
+</p>
+<p>
+sendmail 如果配置了 smrsh，则对调用外部程序有所限制，需要针对 smrsh 作特殊处理，参见：<a href="#faq.smrsh" title="Question">FAQ</a>
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4719584"></a>1.10.1. vacation 自动回信<sup>[<a name="fn.vacation" href="#ftn.fn.vacation">6</a>]</sup>
+</h4></div></div></div>
+<p>
+在 .forward 文件中设置使用 vacation 处理邮件：
+</p>
+<pre class="screen">
+\ric, "|/usr/bin/vacation -a allman eric"
+</pre>
+<p>
+which would send messages to you (assuming your login name was eric) and reply to any messages for ``eric'' or ``allman''.
+</p>
+<p>
+Vacation returns a message, ~/.vacation.msg by default, to the sender informing them that you are currently not reading your mail. The message is only sent to each sender once per reply interval (see -r below).  The intended use is in a .forward file. For example, your .forward file might have:
+</p>
+<p>
+~/.vacation.msg 范例
+</p>
+<pre class="screen">
+Subject: Re:$SUBJECT
+From:    Song ( 由 vacation 程式自动回信 )
+$FROM 您好：
+我目前无法看到这封信。
+当我回来上班并看过这封信後，我会尽快给您回信。
+谢谢。
+</pre>
+<p>
+如果想在回信中使用 Reply-To:，需要用参数 -r 调用 vacation。
+</p>
+<p>
+vacation 会把回过信的邮件地址存入 .vacation.db 中，同时在 7 天之中不会再自动回覆相同的邮件地址。7 天是系统预设值，如要修改可在启动时使用 -tN 的参数，N 是天数，如：vacation -I -r -t1 song ，这样隔 1 天就会再自动回覆相同的邮件地址了。
+</p>
+<p>
+vacation 执行时要用到使用者的 shell，如果使用者的 shell 被设成 /dev/null或是 /bin/false 的话，会有错误出现。
+</p>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="procmail"></a>1.10.2. procmail</h4></div></div></div>
+<p>
+procmail就是一个用于过滤用户接收到的电子邮件，并能对其自动分类、处理的一个应用软件。
+</p>
+<p>
+在 .forward 文件中设置使用 procmail 处理邮件：
+</p>
+<pre class="screen">
+"|/usr/bin/procmail"
+</pre>
+<p>
+procmail 的配置文件为：/etc/procmailrc，或者用户主目录下的文件 ~/.procmailrc 由环境变量和过滤规则组成。邮件的投递动作由第一个匹配的过滤规则确定。如果没有匹配任何规则，则执行确省的投递动作。
+</p>
+<p>
+投递规则的格式如下（man procmailrc）：
+</p>
+<pre class="screen">
+
+:0 [flags] [ : [locallockfile] ]
+&lt;zero or more conditions (one per line)&gt;
+&lt;exactly one action line&gt;
+
+</pre>
+<p>
+冒号——`:'，开始一条规则。后面的 0，代表下面列出的条件表达式的个数不限制。
+</p>
+<p>
+可能用到的标志有：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+H (确省)
+</p>
+<p>
+只对信头进行常规表达式匹配。
+</p>
+</li>
+<li>
+<p>
+B
+</p>
+<p>
+对信体亦作常规表达式匹配。
+</p>
+</li>
+<li>
+<p>
+D
+</p>
+<p>
+大小写敏感匹配。确省是大小写不敏感。
+</p>
+</li>
+<li>
+<p>
+A, a
+</p>
+<p>
+只有当前一个不带A或者a的条件表达式匹配，才进行条件判断。
+</p>
+</li>
+<li>
+<p>
+E，e
+</p>
+<p>
+相当于 Else If。
+</p>
+</li>
+<li>
+<p>
+h（确省）
+</p>
+<p>
+将信头送入管道、文件、目的地
+</p>
+</li>
+<li>
+<p>
+b（确省）
+</p>
+<p>
+将信体送入管道、文件、目的地
+</p>
+</li>
+<li>
+<p>
+f
+</p>
+<p>
+将管道视为过滤器
+</p>
+</li>
+<li>
+<p>
+c
+</p>
+<p>
+信件拷贝，即使匹配本条规则，仍去匹配其它规则
+</p>
+</li>
+</ul></div>
+<p>
+接下来是条件部分。条件判断以星号开始——`*'，后面跟一个常规表达式。可以有零个或多个条件表达式。如果是多个条件表达式，则需要各个条件均匹配，即 and 的关系。如果没有条件表达式，则结果确省为真。
+</p>
+<p>
+范例（man procmailex）：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+处理由crontab出发的邮件。对于不关心的邮件予以删除，对于关心的邮件，发送到邮件列表 list-cron。
+</p>
+<pre class="screen">
+
+:0:
+* ^Subject: Cron .* /bin/sh /www/up.sh
+/dev/null
+
+:0:
+* ^Subject: Cron .*
+list-cron
+
+</pre>
+</li>
+<li>
+<p>
+Forward all mail from peter about compilers to william (and keep a copy of it here in petcompil).
+</p>
+<pre class="screen">
+
+:0
+* ^From.*peter
+* ^Subject:.*compilers
+{
+   :0 c
+   ! william@somewhere.edu
+
+   :0
+   petcompil
+}
+
+</pre>
+</li>
+<li>
+<p>
+等价的表达式
+</p>
+<pre class="screen">
+
+:0 c
+* ^From.*peter
+* ^Subject:.*compilers
+! william@somewhere.edu
+
+   :0 A
+   petcompil
+
+</pre>
+</li>
+<li>
+<p>
+等价的，但是速度稍慢的表达式
+</p>
+<pre class="screen">
+
+:0 c
+* ^From.*peter
+* ^Subject:.*compilers
+! william@somewhere.edu
+
+:0
+* ^From.*peter
+* ^Subject:.*compilers
+petcompil
+
+</pre>
+</li>
+<li>
+<p>
+Forward all mails shorter than 1000 bytes to my home address (no  lockfile needed on this recipe).
+</p>
+<pre class="screen">
+
+:0
+* &lt; 1000
+! myname@home
+
+</pre>
+</li>
+</ul></div>
+<p>
+Procmail 的FAQ，参见：<a href="http://www.uwasa.fi/~ts/info/proctips.html" target="_top">Timo's procmail tips and recipes</a>
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4756976"></a>1.11. FAQ</h3></div></div></div>
+<div class="qandaset">
+<dl>
+<dt>1.11.1. <a href="#idp4757968">
+安装 majordomo，aliases 文件中有：majordomo:  "|/usr/local/majordomo/wrapper majordomo"。majordomo运行时报错：smrsh: "wrapper" not available for sendmail programs (stat failed)。为什么？
+</a>
+</dt>
+<dt>1.11.2. <a href="#idp4764288">
+尤其是在和其它软件配合使用时，Sendmail经常会因为文件或者目录的权限问题——组写权限，而报错。怎么办？
+</a>
+</dt>
+<dt>1.11.3. <a href="#idp4768576">
+如何让sendmail具有泛email支持？即无需设置本机账号的邮件账户？
+</a>
+</dt>
+<dt>1.11.4. <a href="#idp4772752">
+一个用户离开了公司,但仍然收到许多关于他/她的邮件,我怎么让别人知道此人已经使用新的邮件地址？
+</a>
+</dt>
+<dt>1.11.5. <a href="#idp4777216">
+为什么我更改了上面各种配置文件后仍然不起作用? 
+</a>
+</dt>
+<dt>1.11.6. <a href="#idp4783792">
+怎么检查一封邮件的发封过程? 
+</a>
+</dt>
+<dt>1.11.7. <a href="#idp4786832">
+如果用 POP3 命令，直接在服务器上操作邮件？
+</a>
+</dt>
+<dt>1.11.8. <a href="#idp4796304">
+如何用 SMTP 命令，远程登录到服务器上发送邮件？
+</a>
+</dt>
+</dl>
+<table border="0" summary="Q and A Set">
+<col align="left" width="1%">
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4757968"></a><a name="faq.smrsh"></a><b>1.11.1.</b>
+</td>
+<td align="left" valign="top"><p>
+安装 majordomo，aliases 文件中有：<span><strong class="command">majordomo:  "|/usr/local/majordomo/wrapper majordomo"</strong></span>。majordomo运行时报错：smrsh: "wrapper" not available for sendmail programs (stat failed)。为什么？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+因为Sendmail使用 smrsh (SendMail Restricted SHell)。smrsh程序的目的是作为在mailer中为sendmail定义的"/bin/sh"的替代shell。smrsh是一种受限shell工具，它通过"/etc/smrsh"目录来明确指定可执行文件的列表。简而言之smrsh限制了攻击者可以执行的程序集。当它与sendmail程序一起使用的时候，smrsh有效的将sendmail可以执行的程序的范围限制在smrsh目录之下。 
+</p>
+<p>
+在 sendmail.mc 文件中的配置：
+</p>
+<pre class="screen">
+FEATURE(`smrsh',`/usr/sbin/smrsh')dnl
+</pre>
+<p>
+smrsh 允许执行的程序，需要在 "/usr/adm/sm.bin" 目录中创建符号连接。如果定义了环境变量 SMRSH_CMDDIR，则smrsh允许运行的程序放在该环境变量定义的目录中，否则该目录为："/usr/adm/sm.bin"。测试 smrsh:
+</p>
+<pre class="screen">
+$ ln -s /usr/bin/vim /usr/adm/sm.bin/
+$ /usr/sbin/smrsh -c /usr/bin/vim
+</pre>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4764288"></a><a name="faq.dontblamesendmail"></a><b>1.11.2.</b>
+</td>
+<td align="left" valign="top"><p>
+尤其是在和其它软件配合使用时，Sendmail经常会因为文件或者目录的权限问题——组写权限，而报错。怎么办？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+如果不想对文件、目录的设置过于苛刻的话，可以考虑使用 <a href="http://www.sendmail.org/tips/DontBlameSendmail.html" target="_top">DontBlameSendmail</a> 选项。例如：
+</p>
+<div class="informalexample"><pre class="screen">
+
+define(`confDONT_BLAME_SENDMAIL', `AssumeSafeChown')
+define(`confDONT_BLAME_SENDMAIL', `GroupWritableAliasFile')
+define(`confDONT_BLAME_SENDMAIL', `GroupWritableDirPathSafe')
+define(`confDONT_BLAME_SENDMAIL', `GroupWritableIncludeFileSafe')
+define(`confDONT_BLAME_SENDMAIL', `IncludeFileInGroupWritableDirPath')
+define(`confDONT_BLAME_SENDMAIL', `IncludeFileInUnsafeDirPath')
+
+</pre></div>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4768576"></a><a name="idp4769680"></a><b>1.11.3.</b>
+</td>
+<td align="left" valign="top"><p>
+如何让sendmail具有泛email支持？即无需设置本机账号的邮件账户？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+通过设置 LUSER_RELAY，还和 procmail 配合使用。
+</p>
+<div class="informalexample"><pre class="screen">
+
+define(`LUSER_RELAY', `local:root')
+
+</pre></div>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4772752"></a><a name="idp4773008"></a><b>1.11.4.</b>
+</td>
+<td align="left" valign="top"><p>
+一个用户离开了公司,但仍然收到许多关于他/她的邮件,我怎么让别人知道此人已经使用新的邮件地址？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+加下面的行到M4宏配置文件中 
+</p>
+<pre class="screen">
+FEATURE(`redirect')dnl
+</pre>
+<p>
+然后加下面的行到aliases文件中:
+</p>
+<pre class="screen">
+olduser: him@new.address.REDIRECT
+</pre>
+<p>
+所有发到旧的邮件地址的人将收到一个新邮件地址的通知消息. 
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4777216"></a><a name="idp4777472"></a><b>1.11.5.</b>
+</td>
+<td align="left" valign="top"><p>
+为什么我更改了上面各种配置文件后仍然不起作用? 
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+更改配置后，需要进入到/etc/mail 目录下，执行：
+</p>
+<pre class="screen">
+
+cd /etc/mail
+make
+newaliases
+/etc/init.d/sendmail restart
+
+</pre>
+<p>
+或者：在任意配置文件更改后都要运行makemap,例如: 
+</p>
+<pre class="screen">
+
+# makemap hash virtusertable.db &lt; virtusertable
+
+</pre>
+<p>
+但是对于local-host-names和relay-domains文件的更改要用下面的命令重启Sendmail 
+</p>
+<pre class="screen">
+
+#killall -HUP sendmail 
+
+</pre>
+<p>
+对aliases文件的更改要运行 
+</p>
+<pre class="screen">
+#newaliases 
+</pre>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4783792"></a><a name="idp4784048"></a><b>1.11.6.</b>
+</td>
+<td align="left" valign="top"><p>
+怎么检查一封邮件的发封过程? 
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+在Sendmail邮件服务器上执行下面的命令. 
+</p>
+<pre class="screen">
+
+# echo testing | /usr/sbin/sendmail -f sender@somedomain.com -v someone@somedomain.com 
+
+</pre>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4786832"></a><a name="idp4787088"></a><b>1.11.7.</b>
+</td>
+<td align="left" valign="top"><p>
+如果用 POP3 命令，直接在服务器上操作邮件？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+telnet 登陆服务器的 110 端口，执行 POP3 命令：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+USER &lt;username&gt;
+</p></li>
+<li><p>
+PASS &lt;password&gt;
+</p></li>
+<li><p>
+LIST [msg]
+</p></li>
+<li><p>
+TOP [msg] [count_n]
+</p></li>
+<li><p>
+UIDL [msg]
+</p></li>
+<li><p>
+APOP name digest
+</p></li>
+<li><p>
+DELE [msg]
+</p></li>
+<li><p>
+NOOP
+</p></li>
+<li><p>
+QUIT
+</p></li>
+</ul></div>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4796304"></a><a name="idp4796560"></a><b>1.11.8.</b>
+</td>
+<td align="left" valign="top"><p>
+如何用 SMTP 命令，远程登录到服务器上发送邮件？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+telnet 登陆服务器的 25 端口，执行 SMTP 命令：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+HELO &lt;your.site.name&gt;
+</p>
+<p>
+或者：EHLO &lt;your.site.name&gt;
+</p>
+</li>
+<li><p>
+MAIL FROM：&lt;user@somewherer.net&gt;
+</p></li>
+<li><p>
+RCPT TO: &lt;username@dest.domain&gt;
+</p></li>
+<li><p>
+DATA
+</p></li>
+<li><p>
+QUIT
+</p></li>
+</ul></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="qmail"></a>2. qmail</h2></div></div></div>
+<p>
+两年前配过。记得有网上有一个不错的文档<a href="http://www.lifewithqmail.org" target="_top">《Life with qmail》</a>，去 Google 上查一查吧。
+</p>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="mailarchive"></a>3. Mail Archive</h2></div></div></div>
+<p>
+邮件如何归档？<a href="http://www.mhonarc.org/" target="_top">MHonarc</a>，一个强大的邮件归档工具，将邮件转换为 html，是一个不错的选择。
+</p>
+<p>
+但是如何将 Outlook 的邮件转换为 MHonarc 能够识别的格式呢？在 SourceForge.net 上有几个开放源码项目：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+<a href="http://sourceforge.net/projects/ol2mbox" target="_top">ol2mbox</a>
+</p>
+<p>
+Outlook to unix mail converter. 可以将 Outlook 的 PST 格式转换为 mailbox 格式。
+</p>
+</li>
+<li>
+<p>
+<a href="http://sourceforge.net/projects/mbx2mbox" target="_top">mbx2mbox</a>
+</p>
+<p>
+Converts Outlook .mbx and .dbx files into standard RFC822 mail files.
+</p>
+</li>
+</ul></div>
+<p>
+MHonarc 的配置参见：<a href="/doc/mailinglist/" target="_top">Maillist Howto</a>。
+</p>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="background"></a>A. 基础知识</h2></div></div></div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="appendix-1"></a>A.1. 基本概念</h2></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+MUA
+</p>
+<p>
+邮件阅读或发送程序，如 outlook, 在邮件系统中用户只与 MUA 打交道，MUA将邮件系统的复杂性与用户隔离开。 
+</p>
+</li>
+<li>
+<p>
+Mail Router
+</p>
+<p>
+程序，从用户处接收邮件并决定其目的地址以及如何到达目的地。比如根据接收者的地址不同，电子邮件可能通过TCP/IP网络发送，或者通过UUCP或FAX发送。邮件路由使用接收者地址及其内部的配置信息来选择一个最好的MTA，然后将邮信件转给此MTA。 
+</p>
+</li>
+<li>
+<p>
+MTA(Mail Transport agent)
+</p>
+<p>
+一个专用程序，其作用类似于邮局，用于在两个机器之间发送邮件。通常，一个机器上只有一个MTA。sendmail程序就是一个MTA，此外还有其他MTA，如MMDF,Smail 3.x, qmail以及zmailer等。
+</p>
+<p>
+MTA能够理解特定网络的EMAIL协议并通过网络传输信件，如UUCP可通过UUCP连接发送信件，但无法处理SMTP信件。
+</p>
+</li>
+<li>
+<p>
+MDA(Mail Delivery Agent：投递代理)
+</p>
+<p>
+sendmail自己并不完成最终的邮件发送，它要调作其他的程序来完成最后的投递服务。在SVR4系统中一般是/bin/mail.
+</p>
+</li>
+<li>
+<p>
+信封（envelope）和内容（content）
+</p>
+<p>
+一个email消息由两部分组成：信封（envelope）和内容（content）。
+</p>
+<p>
+信封告诉SMTP代理（sendmail或者postfix）如何投递消息。
+</p>
+<p>
+内容又包括信头（Header）和 消息内容。Header 和消息内容之间用一个空行分隔。内容包括能被人们阅读的消息本身和一些标题（header）（比如消息subject），而一些内容中的header可能和envelope中的重复（比如"To"地址），这些重复的header用来显示时候使用，而envelope中的则是用来投递使用。（这也是为什么你会收到"To"地址不是你的垃圾邮件）
+</p>
+</li>
+<li>
+<p>
+Envelope sender (ES), Envelope recipient (ER), Header sender (HS), Header recipient (HR)
+</p>
+<p>
+Envelope sender (ES) -- The address provided by the MAIL FROM: SMTP command. Mail transport agents send delivery errors to this address, and often check for the existence of the hostname portion of this email address in DNS. For this reason, if you are rewriting/masquerading the HS, it may be a good idea to masquerade the ES.
+</p>
+<p>
+Envelope recipient (ER) -- The address provided by the RCPT TO: SMTP command. It is the final destination address of the email. This may differ from the HR if the address is rewritten using the user database, aliases database, or virtusertable.
+</p>
+<p>
+Header sender (HS) -- The From: address in the message header. This address is frequently masqueraded/rewritten from user@host.domain.com to user@domain.com, especially when host.domain.com is not configured to handle mail directly.
+</p>
+<p>
+Header recipient (HR) -- The To: address in the message header. This is the recipient address specified by the author of the message. It is left intact unless you use the allmasquerade feature or domaintable.
+</p>
+<p>
+</p>
+<pre class="screen">
+$ telnet smtp.mydomain.com 25    <a name="smtpsess.telnet"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+Trying smtp.mydomain.com...
+Connected to smtp.mydomain.com.
+Escape character is '^]'.
+220 smtp.mydomain.com ESMTP
+mail from: mailfrom@mydomain.com    <a name="smtpsess.es"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+250 ok
+rcpt to: jiangxin    <a name="smtpsess.er"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+250 ok
+data    <a name="smtpsess.data"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+354 go ahead          
+Date: Tue, 1 Mar 2008 16:10:44 +0800    <a name="smtpsess.header"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"> 
+From: Header-From &lt;header-from@mydomain.com&gt;    <a name="smtpsess.hs"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"> 
+To: Header-to@mydomain.com    <a name="smtpsess.hr"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"> 
+Subject: smtp test    <a name="smtpsess.headersubject"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"> 
+    <a name="smtpsess.blankline"></a><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0"> 
+Hi,    <a name="smtpsess.msgcontent"></a><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0"> 
+This mail contains only a test message. Ignore it.
+
+Sincerely yours, Johnson
+.    <a name="smtpsess.msgend"></a><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0"> 
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.telnet"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+telnet 邮件服务器的 smtp 端口，开始 SMTP 会话；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.es"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户输入，作为 Envelope sender (ES)。此处输入的地址必须是要送达的真实的邮件地址；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.er"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户输入，作为 Envelope recipient (ER)。应该输入发送者的地址，出现在邮件头的路由信息中；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.data"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+输入 data 命令，开始输入信件内容；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.header"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+信件的开始输入信头。信头可以包含 发送邮件的时间、Header Sender、Header Recipient、信件标题；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.hs"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户输入，作为 Header sender (HS)；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.hr"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户输入，作为 Header recipient (HR)；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.headersubject"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用户输入，作为信件标题
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.blankline"><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0"></a> </td>
+<td valign="top" align="left"><p>
+输入一个空行，作为信头和信件内容的分隔；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.msgcontent"><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0"></a> </td>
+<td valign="top" align="left"><p>
+开始输入信件内容；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#smtpsess.msgend"><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0"></a> </td>
+<td valign="top" align="left"><p>
+输入一个点`.' 作为信件结束的标志；
+</p></td>
+</tr>
+</table></div>
+</li>
+</ul></div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="appendix-2"></a>A.2. 相关资源</h2></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+RFC 821 STMP  
+</p></li>
+<li><p>
+RFC 822 EMAIL格式规范  
+</p></li>
+<li><p>
+RFC 1425 ESMTP  
+</p></li>
+<li><p>
+RFC 1123 对主机的要求及对前面的RFC的一些修改  
+</p></li>
+<li><p>
+SIOG: Sendmail Installation and Operation Guide  
+</p></li>
+</ul></div>
+</div>
+</div>
+<div class="footnotes">
+<br><hr width="100" align="left">
+<div class="footnote"><p><sup>[<a name="ftn.fn.relay" href="#fn.relay">1</a>] </sup>来源：<a href="http://www.fanqiang.com/a6/b3/20010725/0800001019.html" target="_top">Sendmail relay规则及配置文件用法汇总</a></p></div>
+<div class="footnote"><p><sup>[<a name="ftn.fn.sasl" href="#fn.sasl">2</a>] </sup>来源：<a href="http://linux.softhouse.com.cn/linux/knowledge/tech/6236.html" target="_top">Redhat 7.1下的Sendmail SASL认证的实现</a></p></div>
+<div class="footnote"><p><sup>[<a name="ftn.fn.pop3" href="#fn.pop3">3</a>] </sup>来源：<a href="http://www.chinaunix.net/bbsjh/1/5245.html" target="_top">关于linux配置sendmail的问题</a></p></div>
+<div class="footnote"><p><sup>[<a name="ftn.fn.starttls" href="#fn.starttls">4</a>] </sup>来源：<a href="http://www.ofb.net/~jheiss/sendmail/tlsandrelay.shtml" target="_top">Configuring Sendmail's STARTTLS (SSL) and Relaying</a></p></div>
+<div class="footnote"><p><sup>[<a name="ftn.fn.cert" href="#fn.cert">5</a>] </sup>来源：<a href="http://www.sendmail.org/~ca/email/other/cagreg.html" target="_top">Very brief introduction to create a CA and a CERT </a></p></div>
+<div class="footnote"><p><sup>[<a name="ftn.fn.vacation" href="#fn.vacation">6</a>] </sup>来源：<a href="http://www.jimmy-lam.com/studyarea/tips/vacation.htm" target="_top">Vacation 自动回信程序</a></p></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,1037 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>BCP (Basic)</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="BCP 不过是我在 2002 年听到的一个让人好奇的名字而已，本文主要涉及数据备份以及数据恢复等技术。拿出来与大家分享，一方面希望对大家有用，另外一方面看看大家是如何做备份的。 （编译自版本: fd1d52f，最后更新时间: 2011-12-01）">
+<link rel="start" href="#index" title="BCP (Basic)">
+<link rel="next" href="#bcp-basic" title="2. SSH 之 无口令认证">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>BCP (Basic)</h1></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.2.0</td>
+<td align="left">2006/04/18</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">修改文档结构，补充 unision，版本控制系统等，提交文档到 WHODO。
+</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2002/10/26</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">init version for BCP.
+</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+BCP 不过是我在 2002 年听到的一个让人好奇的名字而已，本文主要涉及数据备份以及数据恢复等技术。拿出来与大家分享，一方面希望对大家有用，另外一方面看看大家是如何做备份的。
+</p>
+<p>
+（编译自版本: fd1d52f，最后更新时间: 2011-12-01）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#preface">1. 前言</a></span></dt>
+<dt><span class="sect1"><a href="#bcp-basic">2. SSH 之 无口令认证</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4453248">2.1. 无口令认证 SSH 如何实现的呢？</a></span></dt>
+<dt><span class="sect2"><a href="#idp4455904">2.2. 第一步：在客户端创建自己的公钥－私钥对</a></span></dt>
+<dt><span class="sect2"><a href="#idp4466608">2.3. 第二步，新生成的公钥拷贝到远程服务器</a></span></dt>
+<dt><span class="sect2"><a href="#idp4475632">2.4. 第三步，在远程服务器中进行设置</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#mirror">3. 镜像，数据同步</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#rsync">3.1. sync 命令</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4489568">3.1.1. 介绍</a></span></dt>
+<dt><span class="sect3"><a href="#idp4491184">3.1.2. A Simple Example</a></span></dt>
+<dt><span class="sect3"><a href="#idp4495680">3.1.3. Rsync over SSH</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#unison">3.2. unison 命令</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4501824">3.2.1. unison 命令行</a></span></dt>
+<dt><span class="sect3"><a href="#idp4510768">3.2.2. 常用参数</a></span></dt>
+<dt><span class="sect3"><a href="#idp4530112">3.2.3. 模式匹配</a></span></dt>
+<dt><span class="sect3"><a href="#idp4548320">3.2.4. 应用举例</a></span></dt>
+<dt><span class="sect3"><a href="#idp4559904">3.2.5. unison 配置文件</a></span></dt>
+<dt><span class="sect3"><a href="#idp4579872">3.2.6. FAQ</a></span></dt>
+</dl></dd>
+</dl></dd>
+<dt><span class="sect1"><a href="#batch">4. 自动任务</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#crontab">4.1. Crontab</a></span></dt>
+<dt><span class="sect2"><a href="#idp4589552">4.2. Windows计划任务</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#cygwin">5. 吉祥三宝——Cygwin 版</a></span></dt>
+<dt><span class="sect1"><a href="#idp4597040">6. 建立个人的版本控制</a></span></dt>
+<dt><span class="sect1"><a href="#idp4598528">7. 一键恢复：电脑的保护神</a></span></dt>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="preface"></a>1. 前言</h2></div></div></div>
+<p>
+为了丰富 WHODO 的内容，拣起2002年的这个文档。仍然沿用 BCP 这个看起来怪怪的名字，主要是为了和以前的名称兼容。实际上 BCP 只是本文的一个引子。
+</p>
+<p>
+BCP: 灾难恢复和业务连续性计划（Disaster Recovery and Business Continuity Plan），是任何公司都不可以忽视的一个话题。备份什么？备份的策略？如何有效的执行备份计划？
+</p>
+<p>
+BCP 对于个人也是大有裨益的。
+</p>
+<p>
+第一次听到 BCP 这个词儿是在 CISSSP安全专家培训中。回公司的第一件事情，就是完善数据备份计划。并且在日后的 WorldHello.net 网站维护以及个人数据管理中，不断实施及完善。备份的数据可能涉及隐私，但备份的技术却应该是公开、共享、一起研讨的。
+</p>
+<p>
+下面就分专题，从几个方面讨论 Unix 和 Windows 的备份技术。
+</p>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="bcp-basic"></a>2. SSH 之 无口令认证</h2></div></div></div>
+<p>
+无口令认证 SSH，英文叫做 Passwordless SSH Authentication。之所以写出英文，是便于本文有更大的机会被搜索引擎命中。 8）
+</p>
+<p>
+重要数据的同步，往往涉及网络操作，而基于 SSL 的信道加密，是必需之选。怀念以前使用 Telnet 的岁月，登录到 校园网 BBS，无拘无束。今天，还有人敢用 Telnet 了么？可能转瞬间，你的口令就被窃取了，SSH 事实上是目前最常用的开启远程服务器的钥匙。
+</p>
+<p>
+为什么要 SSH？——因为安全；为什么要无密码登录 SSH 呢？——因为方便。如果每次和远程服务器之间数据同步，都要输入密码，那么为了实现自动化，管理员很有可能将密码写在脚本里，而且明文存储，实在是太可怕了。因此无密码登录 SSH 不但方便，而且还安全呢。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4453248"></a>2.1. 无口令认证 SSH 如何实现的呢？</h3></div></div></div>
+<p>
+实际上，无口令认证绝对不是清空口令，或者取消身份认证，而是采用“公钥－私钥”进行密钥交换，实现认证，具体可以参见 <a href="http://www.worldhello.net/doc/pgp" target="_top">《PGP Howto》</a> 文档中关于非对称加密的算法介绍。
+</p>
+<p>
+无口令认证和口令验证并不矛盾，是可以共存的，一个客户端上可以用任何方法连通远程服务器。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4455904"></a>2.2. 第一步：在客户端创建自己的公钥－私钥对</h3></div></div></div>
+<p>
+下面的命令的演示是在 Unix 系统中实现的，但是并不是说 Windows 不能用，参见后面的“<a href="#cygwin" title="5. 吉祥三宝——Cygwin 版">吉祥三宝——Cygwin版</a>”，看看 Windows 中是如何使用的。
+</p>
+<p>
+SSH 有版本1 和版本2 的区别，为了能兼容低版本的 SSHD（D: 即 Daemon，服务/服务器是也），下面示例中，对两种版本的协议都支持。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+创建 ssh 1 兼容的公钥私钥对
+</p>
+<pre class="screen">
+localshell$ <span><strong class="command">cd $HOME</strong></span>
+localshell$ <span><strong class="command">ssh-keygen -t rsa1</strong></span>
+Generating public/private rsa1 key pair.
+Enter file in which to save the key (/home/localshell/.ssh/identity
+):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /localshell/.ssh/identity.
+Your public key has been saved in /home/localshell/.ssh/identity.pub.
+</pre>
+</li>
+<li>
+<p>
+创建 ssh 2 兼容的公钥私钥对
+</p>
+<p>
+分别演示用两种算法，生成两套公钥－私钥对。
+</p>
+<pre class="screen">
+localshell$ <span><strong class="command">cd $HOME</strong></span>
+localshell$ <span><strong class="command">ssh-keygen -t dsa</strong></span>
+Generating public/private dsa key pair.
+Enter file in which to save the key (/home/localshell/.ssh/id_dsa
+):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /localshell/.ssh/id_dsa.
+Your public key has been saved in /home/localshell/.ssh/id_dsa.pub.
+localshell$ <span><strong class="command">ssh-keygen -t rsa</strong></span>
+... ...
+</pre>
+</li>
+</ol></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+在创建公钥－私钥对的时候，系统询问对私钥加密的密码：Enter passphrase (empty for no passphrase)。为了实现无口令SSH认证，不要将私钥加密，因此在询问此口令时，直接按回车。
+</p></td></tr>
+</table></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4466608"></a>2.3. 第二步，新生成的公钥拷贝到远程服务器</h3></div></div></div>
+<p>
+有几点要注意：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+第一步创建的公钥－私钥对，保存在目录 ~/.ssh 下，扩展名为 .pub 的文件即为公钥；
+</p></li>
+<li><p>
+千万不要把私钥泄漏！只是把公钥（*.pub 文件）复制给远程服务器，公钥就是要对外公开的。
+</p></li>
+<li><p>
+拷贝公钥的过程，不要偷懒，也要考虑安全性。
+</p></li>
+</ul></div>
+<p>
+如何安全拷贝公钥？
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+最笨也是最安全的办法是手工传递。 8)
+</p>
+<p>
+拿个 U 盘拷贝过去。
+</p>
+</li>
+<li>
+<p>
+使用 scp 命令
+</p>
+<pre class="screen">
+localshell$ <span><strong class="command">scp ~/.ssh/*.pub username@remotehost:~/</strong></span>
+</pre>
+<p>
+说明：将本地公钥文件 ~/.ssh/*.pub，拷贝到远程服务器 remotehost。以 username 身份建立 SSH 信道进行安全的文件拷贝，文件复制到 username 用户在远程服务器的个人目录 ~ 中。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4475632"></a>2.4. 第三步，在远程服务器中进行设置</h3></div></div></div>
+<p>
+经过第二步，远程服务器上已经有了信赖客户端、信赖用户的公钥，要将这些文件增加到远程服务器的信任列表中。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+首先，服务器的管理员要确定该公钥是要登录服务器的哪个账号，如果是要无口令登录到服务器的 root 账号，可要小心行事。下面的示例，是用户要无口令登录服务器的 jiangxin 账号。
+</p></li>
+<li>
+<p>
+服务器管理员将客户端传来的公钥追加到用户的 .ssh 目录下的 authorized_keys 或 authorized_keys2 文件中。
+</p>
+<pre class="screen">
+服务器$ <span><strong class="command">cd ~jiangxin/.ssh</strong></span>
+服务器$ <span><strong class="command">cat ../identity.pub &gt;&gt; authorized_keys</strong></span>
+服务器$ <span><strong class="command">cat ../id_rsa.pub   &gt;&gt; authorized_keys2</strong></span>
+服务器$ <span><strong class="command">cat ../id_dsa.pub   &gt;&gt; authorized_keys2</strong></span>
+</pre>
+</li>
+</ul></div>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+上述命令可以一次性完成：
+</p>
+<pre class="screen">
+本地主机$ <span><strong class="command">ssh root@remote "cat &gt;&gt; /root/.ssh/authorized_keys2" &lt; /root/.ssh/id_rsa.pub</strong></span>
+</pre>
+</td></tr>
+</table></div>
+<p>
+之后用户就可以在创建了公钥－私钥对的客户端，无口令认证的登录远程服务器了。执行命令: <span><strong class="command">客户端$ ssh jiangxin@remotehost</strong></span>
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="mirror"></a>3. 镜像，数据同步</h2></div></div></div>
+<p>
+有的备份策略是在本机建立重要数据的备份存档，但这只相当于到“小崔”的“我的长征”报了个名，艰苦的还在后头呢。本机建立存档危险性没有降低多少，硬盘一玩完，什么都没有了。
+</p>
+<p>
+因此建立双机甚至多机间的数据镜像、数据同步非常之重要。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="rsync"></a>3.1. sync 命令</h3></div></div></div>
+<p>
+实话实说：我现在主要是用 unison ，已经基本上不用 sync 命令了。因为我更看中 unison 的双向同步，以及 unison 对上次同步状态的保持，同步速度快。
+</p>
+<p>
+2002年写的 sync 命令介绍，还是留着吧，有时候也需要单向数据备份吧。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4489568"></a>3.1.1. 介绍</h4></div></div></div>
+<p>
+Rsync is a tool for archiving and file transfer that employs a clever algorithm to minimize data transfers. 
+If two files are almost identical, only the differences will be transported over the network.
+</p>
+<p>
+Rsync 适合进行双机备份。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4491184"></a>3.1.2. A Simple Example</h4></div></div></div>
+<p>
+The following command, will sync local directory, public-html, to the remote server 10.0.0.x.
+i.e., copy date from local client to remote server.
+</p>
+<pre class="screen">
+$ <span><strong class="command">rsync -a public_html/ 10.0.0.x:public_html</strong></span>
+</pre>
+<p>
+The following command, will sync directory, public-html, from the remote server 10.0.0.x to the local client.
+i.e., copy data from remote server to local client.
+</p>
+<pre class="screen">
+$ <span><strong class="command">rsync -a 10.0.0.x:public_html/ public_html</strong></span>
+</pre>
+<p>
+考虑到安全性，和实现自动登陆以有利于自动同步数据，参见下节介绍的 Rsync over SSH 和 Passwordless SSH Authentication。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4495680"></a>3.1.3. Rsync over SSH</h4></div></div></div>
+<p>
+One of the best feature of rsync is that it works over multiple transport protocols.
+By default, rsync uses rsh to do its work, but since rsh is deprecated in the Queen's Physics Department, 
+we will use the secure shell (ssh) as the underlying transport mechanism, thus providing for secure, encrypted file transfers.
+</p>
+<pre class="screen">
+$ <span><strong class="command">rsync -av public_html/ -e ssh 10.0.0.x:public_html</strong></span>
+</pre>
+<p>
+A more complicate sample:
+</p>
+<pre class="screen">
+<span><strong class="command">$ /usr/bin/rsync -e ssh -avzp --exclude "*.journal" --exclude "dnscache/" --exclude "dnscachex/" \
+	--delete /home remotehost:/var/backups/mycomputer/ </strong></span>
+</pre>
+<p>
+Archive and mirror /home onto the remotehost's /var/backups/mycomputer directory and keep all the permissions. 
+Note that *.journal are the journal files on ext3 partitions and don't need to be copied 
+and the --delete flag can be omitted in case you want to keep old file that have been deleted 
+archived on the remotehost side permenently. 
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="unison"></a>3.2. unison 命令</h3></div></div></div>
+<p>
+Unison 是一个文件同步工具，采用 rsync 类似的算法，但是提高了一步，双向同步以及一个统一的版本控制系统。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4501824"></a>3.2.1. unison 命令行</h4></div></div></div>
+<p>
+可以用如下格式调用 unison
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+<span><strong class="command">unison profile_name [options]</strong></span>
+</p>
+<p>
+读取 ~/.unison 目录下的配置文件 "profile_name.prf"。
+</p>
+<p>
+注意到命令行没有指出要进行文件同步的两个地址，实际上应该在配置文件 &lt;profile_name.prf&gt; 中有相关的 root 指令进行了设置。如：
+</p>
+<pre class="screen">
+# Roots of the synchronization 	 
+root = /home/bcpierce 	 
+root = ssh://saul//home/bcpierce 	 
+
+# Paths to synchronize 	 
+path = current 	 
+path = common 	 
+path = .netscape/bookmarks.html 
+</pre>
+</li>
+<li>
+<p>
+<span><strong class="command">unison profile root1 root2 [options]</strong></span>
+</p>
+<p>
+root1, root2 分别是要执行同步的两个路径。这时 "profile.prf" 配置文件中，应该不包含 root 设置；
+</p>
+<p>
+root1, root2 路径的格式可以是本地目录，也可以是远程服务器的路径，例如: ssh://username@remotehost//home/jiangxin/work
+</p>
+</li>
+<li>
+<p>
+<span><strong class="command">unison root1 root2 [options]</strong></span>
+</p>
+<p>
+相当于 unison default root1 root2。即读取 "default.prf" 的配置。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4510768"></a>3.2.2. 常用参数</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+-testserver
+</p>
+<p>
+测试连通性，连接到服务器即退出。示例:
+</p>
+<pre class="screen">
+$ unison / ssh://opensou1@bluehost/    -servercmd=~/bin/unison -testserver
+</pre>
+<p>
+如果服务器端 unison 可执行文件不在默认目录下，甚至没有 unison 命令（需要你编译一个上传到服务器），则需要使用 -servercmd 参数告诉要执行的服务器 unison 命令位置。
+</p>
+<p>
+使用 -testserver 参数，则成功链接即退出，也不会去执行目录的比较等后续操作。
+</p>
+</li>
+<li>
+<p>
+-servercmd xxx
+</p>
+<p>
+告诉 unison， 服务器端的 unison 命令是什么。参见上面的示例。
+</p>
+</li>
+<li>
+<p>
+-auto
+</p>
+<p>
+接受缺省的动作，然后等待用户确认是否执行。
+</p>
+</li>
+<li>
+<p>
+-batch
+</p>
+<p>
+batch mode, 全自动模式，接受缺省动作，并执行。
+</p>
+</li>
+<li>
+<p>
+-ignore xxx
+</p>
+<p>
+增加 xxx 到忽略列表中
+</p>
+</li>
+<li>
+<p>
+-ignorecase [true|false|default]
+</p>
+<p>
+是否忽略文件名大小写
+</p>
+</li>
+<li>
+<p>
+-follow xxx
+</p>
+<p>
+是否支持对符号连接指向内容的同步；
+</p>
+<p>
+例如在我的 ~/.unison 的配置文件 default.prf 中有
+</p>
+<pre class="screen">
+# Unison preferences file
+follow = Path {unison_*}
+ignore = Path {WWWROOT/wiki_mirror}
+ignore = Name {,.}*{.~$lock}
+ignore = Name {a.out}
+</pre>
+<p>
+  我将预进行同步的系统文件在 xxx/src 下分别作符号链接，如 unison_httpd.conf
+  指向 c:/program files/apache/.../httpd.conf。
+  同步时，"follow = Path {unison_*}" 配置（或参数）将跟踪符号链接指向的实际文件。
+  如果没有该设置，符号链接不予同步。
+</p>
+</li>
+<li>
+<p>
+-immutable xxx  
+</p>
+<p>
+不变目录，扫描时即忽略
+</p>
+</li>
+<li>
+<p>
+-silent
+</p>
+<p>
+安静模式
+</p>
+</li>
+<li>
+<p>
+-times
+</p>
+<p>
+同步修改时间
+</p>
+</li>
+<li>
+<p>
+-path xxx 参数
+</p>
+<p>
+只同步 -path 参数指定的子目录以及文件，而非整个目录。例如
+</p>
+<pre class="screen">
+  unison /home/username ssh://remotehost//home/username \
+	-path shared \
+	-path pub \
+	-path .netscape/bookmarks.html
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4530112"></a>3.2.3. 模式匹配</h4></div></div></div>
+<p>
+如下参数 ignore/ignorenot, follow, sortfirst/sortlast, backup, merge 定义各自的匹配模式。
+例如: ignore = pattern
+</p>
+<p>
+pattern 的语法格式
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Regex regexp
+</p>
+<p>
+即常规表达式。
+</p>
+</li>
+<li>
+<p>
+Name name
+</p>
+<p>
+路径的最后一部分与 “name" 匹配。可以使用通配符，见下面描述。
+</p>
+</li>
+<li>
+<p>
+Path path
+</p>
+<p>
+全路径与 "path" 匹配。可以使用通配符，见下面描述。
+</p>
+</li>
+</ul></div>
+<p>
+以下通配符可以用在 Path 和 Name 中:
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+?
+</p>
+<p>
+匹配除了 "/" 之外，任意单个字符；
+</p>
+</li>
+<li>
+<p>
+*
+</p>
+<p>
+匹配除了 "/" 之外的任意字符；如果用在 "Name" 中，则不和以 "."开始的文件匹配，而用在 "Path" 中，可以和 "." 开始的向匹配。
+</p>
+</li>
+<li>
+<p>
+[xyz] 	 
+</p>
+<p>
+匹配 {x,y,z} 中任一字符；
+</p>
+</li>
+<li>
+<p>
+{a,bb,ccc}
+</p>
+<p>
+匹配 a, bb, ccc 中任何一个；
+</p>
+</li>
+</ul></div>
+<p>
+示例：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+忽略 CVS 目录以及以 .cmo 结尾的文件：
+</p>
+<pre class="screen">
+ignore = Name {CVS,*.cmo}
+</pre>
+</li>
+<li>
+<p>
+忽略路径 a/b:
+</p>
+<pre class="screen">
+ignore = Path a/b
+</pre>
+</li>
+<li>
+<p>
+忽略路径 */tmp。当 * 用在 Path 中，可以和以 "." 开始的文件、目录名匹配，如下面的和 ".foo/tmp" 匹配；
+</p>
+<pre class="screen">
+ignore = Path */tmp
+</pre>
+</li>
+<li>
+<p>
+忽略 a/b/ 开始，结尾是 .ml 的文件。
+</p>
+<pre class="screen">
+ignore = Regex a/b/.*\.ml
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4548320"></a>3.2.4. 应用举例</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+本地目录间的镜像
+</p>
+<pre class="screen">
+unison &lt;目录1&gt; &lt;目录2&gt;
+</pre>
+</li>
+<li>
+<p>
+获取远程 unison 版本
+</p>
+<pre class="screen">
+ssh remotehostname unison -version
+</pre>
+</li>
+<li>
+<p>
+测试
+</p>
+<pre class="screen">
+unison -testServer 本地目录 ssh://user@remotehostname/远程目录
+</pre>
+</li>
+<li>
+<p>
+执行数据同步
+</p>
+<pre class="screen">
+unison  &lt;本地目录&gt; ssh://remotehostname/&lt;远程目录&gt;
+</pre>
+</li>
+<li>
+<p>
+远程目录是绝对目录，不是用户主目录
+</p>
+<p>
+注意 在主机和目录间又多加了一个 "/"：
+</p>
+<pre class="screen">
+unison  &lt;本地目录&gt; ssh://remotehostname//&lt;绝对路径&gt;
+</pre>
+</li>
+<li>
+<p>
+参数 -path 指定同步的子目录。以下只同步 /home/username 下的 shared 目录。
+</p>
+<pre class="screen">
+unison /home/username ssh://remotehost//home/username -path shared
+</pre>
+<p>
+-path 可以多次出现
+</p>
+<pre class="screen">
+unison /home/username ssh://remotehost//home/username \
+	-path shared \
+	-path pub \
+	-path .netscape/bookmarks.html
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4559904"></a>3.2.5. unison 配置文件</h4></div></div></div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4560416"></a>3.2.5.1. .unison 目录</h5></div></div></div>
+<p>
+~/.unison 目录保存用户配置文件以及 Archive 文件。
+</p>
+<p>
+配置文件扩展名为 .prf，缺省的配置文件为: "default.prf"。
+</p>
+<p>
+Archive 文件可能有多个，每对同步的对象对应一个文件。这个文件记录了文件的状态，可以在后续的更新动作中更快速的判断文件的更新动作。
+Archive 文件名和双方的主机名、路径名等相关。
+</p>
+<p>
+Archive 虽然自动由 unison 维护，但是特殊情况下（如本机的地址经常变更），可以利用下面的方法：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+环境变量 "UNISONLOCALHOSTNAME" 可以用于本机地址经常变化的环境，unison 会采用该环境变量的值；
+</p></li>
+<li>
+<p>
+可以在缺省的配置文件中，用 rootalias 命令将新的主机、路径名称对应为老的主机名和路径名，
+ 然后再确定出 archive 名称。这样就不会造成由于主机名修改，导致 unison 更新状态的丢失，
+ 进而导致上次更新状态的丢失。
+</p>
+<pre class="screen">
+ rootalias = //new-hostname//new-path -&gt; //old-hostname//old-path
+</pre>
+</li>
+</ul></div>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4567136"></a>3.2.5.2. *.prf 配置文件</h5></div></div></div>
+<p>
+如果 unison 只带一个参数执行，如
+</p>
+<pre class="screen">
+unison &lt;name&gt;
+</pre>
+<p>
+则在 ~/.unison 目录下查找 "&lt;name&gt;.prf" 配置文件。
+</p>
+<p>
+如果不带参数执行 unison，则查找 "default.prf" 文件。
+</p>
+</div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4569856"></a>3.2.5.3.  .prf 文件示例</h5></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+简单的 default.prf 示例
+</p>
+<pre class="screen">
+# Roots of the synchronization 	 
+root = /home/bcpierce 	 
+root = ssh://saul//home/bcpierce 	 
+
+# Paths to synchronize 	 
+path = current 	 
+path = common 	 
+path = .netscape/bookmarks.html 	 
+</pre>
+</li>
+<li>
+<p>
+更复杂的配置文件:
+</p>
+<pre class="screen">
+# Roots of the synchronization
+root = /home/bcpierce
+root = ssh://saul//home/bcpierce
+
+# Paths to synchronize
+path = current
+path = common
+path = .netscape/bookmarks.html
+
+# Some regexps specifying names and paths to ignore
+ignore = Name temp.*
+ignore = Name *~
+ignore = Name .*~
+ignore = Path */pilot/backup/Archive_*
+ignore = Name *.o
+ignore = Name *.tmp
+
+# Window height
+height = 37
+
+# Keep a backup copy of the entire replica
+backup = Name *
+
+# Use this command for displaying diffs
+diff = diff -y -W 79 --suppress-common-lines
+
+# Log actions to the terminal
+log = true
+</pre>
+</li>
+<li><p>
+使用 include 包含文件
+</p></li>
+<li>
+<p>
+"unison workingset" 参照 "workingset.prf" 执行：
+</p>
+<pre class="screen">
+path = current/papers
+path = Mail/inbox
+path = Mail/drafts
+include common
+</pre>
+<p>
+"common" 文件内容:
+</p>
+<p>
+在 common 包含文件中，没有出现 PATH，毕竟要在包含文件中包含各个配置文件的交集么。
+</p>
+<pre class="screen">
+# Roots of the synchronization
+root = /home/bcpierce
+root = ssh://saul//home/bcpierce
+
+# (... other preferences ...)
+# If any new preferences are added by Unison (e.g. ’ignore’
+# preferences added via the graphical UI), then store them in the
+# file ’common’ rathen than in the top-level preference file
+addprefsto = common
+
+# regexps specifying names and paths to ignore
+ignore = Name temp.*
+ignore = Name *~
+ignore = Name .*~
+ignore = Path */pilot/backup/Archive_*
+ignore = Name *.o
+ignore = Name *.tmp
+</pre>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4579872"></a>3.2.6. FAQ</h4></div></div></div>
+<div class="sect4" lang="zh-cn">
+<div class="titlepage"><div><div><h5 class="title">
+<a name="idp4580384"></a>3.2.6.1. ssh 超时问题</h5></div></div></div>
+<p>
+和远程服务器同步大量数据，上传一部分数据后，超时：
+</p>
+<pre class="screen">
+  9%  559:15 ETARead from remote host bluehost: Connection reset by peer
+Fatal error: Lost connection with the server
+</pre>
+<p>
+Google 搜索类似问题：
+</p>
+<pre class="screen">
+该文章提出增大 ssh 超时时间设置：
+http://groups.yahoo.com/group/unison-users/message/3403
+
+hello users, I am trying to run unison to sync up 2 different servers.
+The directory I am syncing is pretty large... about 3000 subdirs and
+each of those subdirs has a couple dozen dirs under them. About 80 GBs
+of data total.
+
+I am using the following command:
+
+unison -batch /dir/path ssh://remoteserver//dir/path
+
+I originally used rsync to move the directory over to the remote
+server however I now have a need for bidirectional mirroring hence the
+reason why I now use unison.
+
+When I run this command, I get the usual warning about no prior index
+found since this is the first run.
+
+Unison then begins to list all the dirs and subdirs (building the
+index dbase I suppose). When it's almost finished, I get the following
+lines:
+
+Waiting for changes from server
+Fatal Error: Lost connection with server
+
+I have used unison before to mirror directories between these two
+machines, but none of which were this big with so many subdir branches.
+
+Nothing in any logs to give me any clues. I though it might be some
+sort of ssh timeout, so I added "ConnectTimeout 10" in
+/etc/ssh/ssh_config to give it a 10 second timeout, but I dont think
+this will help since the ssh session does indeed connect initially.
+
+ulimit -s shows I have an 8MB stack size.
+
+Can anyone shed any light onto this problem?
+
+Thank you
+</pre>
+<p>
+另外一个用户提出将一个任务分解成多个任务的方法：
+</p>
+<pre class="screen">
+http://groups.yahoo.com/group/unison-users/message/3651
+
+The connection between the client and the server can remain idle for a
+long time when checking for updates. So, if there is a masquerading
+router (or a firewall using stateful inspection) between the client
+and the server, it may wrongly consider that the connection is dead
+after some time.
+
+The usual workaround is to use the path directive to synchronize
+smaller parts of the replica at a time. This should necessary only
+for the first synchronization, as the subsequent ones are much faster.
+
+You could also try to use the ServerAliveInterval directive of ssh in
+order to keep the connection active.
+</pre>
+<p>
+实际操作中，第一次，我先把要上传的文件打成包，用 ftp 上传，然后展开到服务器中，之后执行一次 unison 同步即可。
+</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="batch"></a>4. 自动任务</h2></div></div></div>
+<p>
+在 Windows平台，通过计划任务或者通过 at 命令，实现工作的自动化；在 Unix 系统，当然是大名鼎鼎的 crontab.
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="crontab"></a>4.1. Crontab</h3></div></div></div>
+<p>
+Use crontab or windows schedule manager to accomplish batch work automatic.
+</p>
+<pre class="screen">
+# configuration of cvs &amp; news server
+# cvs and news backup
+30      6       1       *       *       /usr/local/bin/backup.sh /opt/news/spool /home/ftp/news/spool full
+30      5       *       *       *       /usr/local/bin/backup.sh /opt/news/spool /home/ftp/news/spool inc
+30      3       *       *       1       /usr/local/bin/backup.sh /opt/cvs-repos/repos-r    /home/ftp/cvs full
+30      4       *       *       1       /usr/local/bin/backup.sh /opt/cvs-repos/repos-user /home/ftp/cvs full
+0       11,14,17,19,3   *       *       *       /usr/local/bin/backup.sh /opt/cvs-repos/repos-r    /home/ftp/cvs inc
+0       13,20,5         *       *       *       /usr/local/bin/backup.sh /opt/cvs-repos/repos-user /home/ftp/cvs inc
+
+# configuration of backup server
+# backup data from remote server: sync data with cvs, news and nightly_build sever. 
+#minute hour    mday    month   wday    command
+#
+0       6       *       *       *      /usr/bin/rsync -a -e "/usr/bin/ssh -l root" 10.0.0.7:/home/ftp/news /opt/bcp
+0       7       *       *       *      /usr/bin/rsync -a -e "/usr/bin/ssh -l root" 10.0.0.7:/home/ftp/cvs  /opt/bcp
+0       5       *       *       *      /usr/bin/rsync -rLptgoD -e "/usr/bin/ssh -l root" 10.0.0.8:/server/bcp/  /opt/bcp/svr
+</pre>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4589552"></a>4.2. Windows计划任务</h3></div></div></div>
+<p>
+可以用 at 命令提交计划任务。
+</p>
+<pre class="screen">
+C:\&gt;at 23:00 /every:M,T,W,Th  "C:\cygwin\bin\bash.exe -c /bin/st_daily"
+C:\&gt;at 23:00 /every:F   "C:\cygwin\bin\bash.exe -c /bin/st_weekly"
+</pre>
+<p>
+但是在某些情况下，计划任务可能失败，如用户权限不够、密码不匹配等，但往往又找不到出错的原因。如果认为运行出现异常，不要犹豫，马上去看日至文件：<code class="filename">%SystemRoot%\SchedLgU.Txt</code>。
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="cygwin"></a>5. 吉祥三宝——Cygwin 版</h2></div></div></div>
+<p>
+布仁巴雅尔一家的“吉祥三宝”，我把它搬到 Cygwin 上，也非常好听耶。
+</p>
+<pre class="screen">
+——ABA
+——哎！
+——Windows 上能用 Unison 么？
+——Cygwin 呢
+——Windows 上能跑 SSHD 么。
+——Cygwin 呢
+——Windows 上能跑 crontab 么?
+——Cygwin 呢
+——Cygwin，永远吉祥
+</pre>
+<p>
+Cygwin，在 Windows 上提供模拟 Unix 环境，大多数 Unix 命令都可以在 Windows 上用，正如上面歌中唱道的那样。
+</p>
+<p>
+Cygwin 的网站：<a href="http://www.cygwin.com/" target="_top">http://www.cygwin.com/</a>
+</p>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="idp4597040"></a>6. 建立个人的版本控制</h2></div></div></div>
+<p>
+CVS，SVN 是开源软件的版本控制系统，为开源软件的成功立下汗马功劳。它们服务器端都既可以安装在 Unix 平台上，也可以安装在 Windows 平台上，这么好的东西赶快用吧。
+</p>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="idp4598528"></a>7. 一键恢复：电脑的保护神</h2></div></div></div>
+<p>
+最早见过一键恢复，是我的 IBM 笔记本，开机按 IBM 的恢复键，就可以将机器恢复到出厂状态。不过那时候磁盘空间紧张，还是选择了空间，牺牲了安全。
+</p>
+<p>
+不过 Windows 实在是脆弱，一般每半年，就可能重装一次，虽然自己的各种备份计划以及硬盘里的数据组织，使得 <span><strong class="command">Format C:</strong></span> 不会有数据损失，但是重装各种应用，还是需要一整天的时间。而此时我的笔记本硬盘已经是 100GB 了，如果让再次从空间和安全上选择，我会选择安全，我会选择牺牲 10 GB 空间，换回一天的时间。
+</p>
+<p>
+不过一键恢复的系统，网上找了好多，商业软件 Acronis True Image Server，是我尝试过的兼容性最好，最稳定可靠的。
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>D.1. Programming Tips and Rules</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="Website Construction Howto">
+<link rel="up" href="append-php.html" title="D. PHP开发规范和语法速查">
+<link rel="prev" href="append-php.html" title="D. PHP开发规范和语法速查">
+<link rel="next" href="php-oop.html" title="D.2. OOP (Object-Oriented Programming)">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">D.1. Programming Tips and Rules</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="append-php.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">D. PHP开发规范和语法速查</th>
+<td width="20%" align="right"> <a accesskey="n" href="php-oop.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="php-rules"></a>D.1. Programming Tips and Rules</h2></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+使用 &lt;?php 而不是 &lt;? 作为PHP语法标记，因为如果使用短格式，诸如 &lt;?xml 会被误判。
+</p></li>
+<li>
+<p>
+Heredoc
+</p>
+<p>
+Another way to delimit strings is by using heredoc syntax ("&lt;&lt;&lt;"). 
+</p>
+<pre class="screen">
+&lt;?php
+$str = &lt;&lt;&lt;EOD
+Example of string
+spanning multiple lines
+using heredoc syntax.
+EOD;
+
+echo &lt;&lt;&lt;EOT
+My name is "$name". I am printing some $foo-&gt;foo.
+Now, I am printing some {$foo-&gt;bar[1]}.
+This should print a capital 'A': \x41
+EOT;
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+Variable scope
+</p>
+<pre class="screen">
+function Sum()
+{
+   global $a, $b;
+
+   $b = $a + $b;
+}
+--- or ---
+function Sum()
+{
+   $GLOBALS["b"] = $GLOBALS["a"] + $GLOBALS["b"];
+} 
+</pre>
+</li>
+<li>
+<p>
+Variable variables
+</p>
+<pre class="screen">
+&lt;?php
+$a = "hello";
+$$a = "world";
+echo "$a ${$a}";
+// output: hello world
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+PHP Superglobals
+</p>
+<p>
+因为从 4.2.0 之后的 PHP, register_globals 缺省为 flase，使得不能用
+$GLOBALS["xxx"] 来访问用户提交的变量。而用如下所述的变量。
+</p>
+<p>
+但也可以用函数 import_request_variables ,将用户提交变量转换为全局变量。
+</p>
+<pre class="screen">
+// This will import GET and POST vars
+// with an "rvar_" prefix
+import_request_variables("gP", "rvar_");
+</pre>
+<div class="segmentedlist">
+<div class="title"><strong><span class="title">PHP Superglobals</span></strong></div>
+<table border="0">
+<thead><tr class="segtitle">
+<th>NewImplement</th>
+<th>obsolete</th>
+</tr></thead>
+<tbody>
+<tr class="seglistitem">
+<td class="seg">$GLOBALS</td>
+<td class="seg"></td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_SERVER</td>
+<td class="seg">$HTTP_SERVER_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_GET</td>
+<td class="seg">$HTTP_GET_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_POST</td>
+<td class="seg">$HTTP_POST_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_COOKIE</td>
+<td class="seg">$HTTP_COOKIE_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_FILES</td>
+<td class="seg">$HTTP_POST_FILES</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_ENV</td>
+<td class="seg">$HTTP_ENV_VARS</td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_REQUEST</td>
+<td class="seg"></td>
+</tr>
+<tr class="seglistitem">
+<td class="seg">$_SESSION</td>
+<td class="seg">$HTTP_SESSION_VARS</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+$_REQUEST USED FOR QUICK ACCESS:
+</p>
+<p>
+Variables provided to the script via any user input mechanism, and which therefore cannot be trusted. 
+</p>
+<p>
+The presence and order of variable inclusion in this array is defined according to the variables_order configuration directive. 
+</p>
+<p>
+(Variables_order configure directive: set the order of the EGPCS (Environment, GET, POST, Cookie, Server) )
+</p>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p>
+Variables from outside PHP
+</p>
+<pre class="screen">
+&lt;?php 
+// Available since PHP 4.1.0
+
+  print $_POST['username'];
+  print $_REQUEST['username'];
+
+  import_request_variables('p', 'p_');
+  print $p_username;
+
+// Available since PHP 3.
+
+  print $HTTP_POST_VARS['username'];
+
+// Available if the PHP directive register_globals = on.  As of 
+// PHP 4.2.0 the default value of register_globals = off.
+// Using/relying on this method is not preferred.
+
+  print $username;
+?&gt;
+
+</pre>
+</li>
+<li>
+<p>
+Defining Constants
+</p>
+<pre class="screen">
+&lt;?php
+define("CONSTANT", "Hello world.");
+echo CONSTANT; // outputs "Hello world."
+echo Constant; // outputs "Constant" and issues a notice.
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+Error Control Operators
+</p>
+<p>
+The at sign (@). When prepended to an expression in PHP, any error messages 
+that might be generated by that expression will be ignored. 
+</p>
+</li>
+<li>
+<p>
+Syntax: foreach
+</p>
+<pre class="screen">
+foreach(array_expression as $value) statement
+foreach(array_expression as $key =&gt; $value) statement
+</pre>
+<p>
+The first form loops over the array given by array_expression. On each loop, 
+the value of the current element is assigned to $value and the internal array 
+pointer is advanced by one (so on the next loop, you'll be looking at the 
+next element). 
+</p>
+<p>
+The second form does the same thing, except that the current element's key 
+will be assigned to the variable $key on each loop. 
+</p>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+You may have noticed that the following are functionally identical: 
+</p>
+<pre class="screen">
+reset ($arr);
+while (list(, $value) = each ($arr)) {
+   echo "Value: $value&lt;br&gt;\n";
+}
+
+foreach ($arr as $value) {
+   echo "Value: $value&lt;br&gt;\n";
+} 
+</pre>
+<p>
+The following are also functionally identical: 
+</p>
+<pre class="screen">
+reset ($arr);
+while (list($key, $value) = each ($arr)) {
+   echo "Key: $key; Value: $value&lt;br&gt;\n";
+}
+
+foreach ($arr as $key =&gt; $value) {
+   echo "Key: $key; Value: $value&lt;br&gt;\n";
+}
+</pre>
+</td></tr>
+</table></div>
+</li>
+<li>
+<p>
+Syntax: <span class="emphasis"><em>require()</em></span> and <span class="emphasis"><em>include()</em></span>
+</p>
+<p>
+require() and include() are identical in every way except how they handle failure. 
+include() produces a Warning while require() results in a Fatal Error. In other 
+words, don't hesitate to use require() if you want a missing file to halt processing
+of the page. 
+</p>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+There are another two function, <span class="emphasis"><em>require_once()</em></span> and <span class="emphasis"><em>include_once()</em></span>,
+which prevent a file being included twice. 
+But this can be done through a C header like declaration.
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+Syntax: Function variables - passed by value and by reference
+</p>
+<pre class="screen">
+// variable $string is passed by reference.
+function add_some_extra(&amp;$string)
+{
+   $string .= 'and something extra.';
+}
+</pre>
+</li>
+<li>
+<p>
+Syntax: Function variables - Default argument values
+</p>
+<pre class="screen">
+function makecoffee ($type = "cappuccino")
+{
+   return "Making a cup of $type.\n";
+}
+echo makecoffee ();
+echo makecoffee ("espresso"); 
+</pre>
+</li>
+<li>
+<p>
+Syntax: Function variables - Variable variables
+</p>
+<pre class="screen">
+&lt;?php
+function foo() {
+   $numargs = func_num_args();
+   echo "Number of arguments: $numargs\n";
+} 
+
+foo (1, 2, 3);    // Prints 'Number of arguments: 3'
+?&gt;
+&lt;?php
+function foo() {
+    $numargs = func_num_args();
+    echo "Number of arguments: $numargs&lt;br&gt;\n";
+    if ($numargs &gt;= 2) {
+    echo "Second argument is: " . func_get_arg (1) . "&lt;br&gt;\n";
+    }
+} 
+
+foo (1, 2, 3);
+?&gt;
+&lt;?php
+function foo() {
+   $numargs = func_num_args();
+   echo "Number of arguments: $numargs&lt;br&gt;\n";
+   if ($numargs &gt;= 2) {
+   echo "Second argument is: " . func_get_arg (1) . "&lt;br&gt;\n";
+   }
+   $arg_list = func_get_args();
+   for ($i = 0; $i &lt; $numargs; $i++) {
+   echo "Argument $i is: " . $arg_list[$i] . "&lt;br&gt;\n";
+   }
+} 
+
+foo (1, 2, 3);
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+Syntax: Function return - return a reference
+</p>
+<pre class="screen">
+function &amp;returns_reference()
+{
+   return $someref;
+}
+
+$newref =&amp; returns_reference(); 
+</pre>
+</li>
+<li>
+<p>
+Syntax: Variable functions
+</p>
+<pre class="screen">
+&lt;?php
+function foo()
+{
+   echo "In foo()&lt;br&gt;\n";
+}
+
+function bar($arg = '')
+{
+   echo "In bar(); argument was '$arg'.&lt;br&gt;\n";
+}
+
+$func = 'foo';
+$func();
+$func = 'bar';
+$func('test');
+?&gt;
+</pre>
+</li>
+<li>
+<p>
+Syntax: Class - Serializing objects
+</p>
+<p>
+可以将对象存储和恢复。
+</p>
+<pre class="screen">
+classa.inc:
+ class A 
+ {
+     var $one = 1;
+   
+     function show_one()
+     {
+         echo $this-&gt;one;
+     }
+ }
+ 
+page1.php:
+ include("classa.inc");
+ 
+ $a = new A;
+ $s = serialize($a);
+ // store $s somewhere where page2.php can find it.
+ $fp = fopen("store", "w");
+ fputs($fp, $s);
+ fclose($fp);
+
+page2.php:
+ // this is needed for the unserialize to work properly.
+ include("classa.inc");
+
+ $s = implode("", @file("store"));
+ $a = unserialize($s);
+
+ // now use the function show_one() of the $a object.  
+ $a-&gt;show_one(); 
+
+</pre>
+</li>
+<li>
+<p>
+Syntax: Class - :: and parent
+</p>
+<p>
+
+</p>
+<pre class="screen">
+class A
+{
+   function example()
+   {
+       echo "I am the original function A::example().&lt;br&gt;\n";
+   }
+}
+
+class B extends A
+{
+   function example()
+   {
+       echo "I am the redefined function B::example().&lt;br&gt;\n";
+       A::example();
+   }
+}
+
+// or
+
+class B extends A
+{
+   function example()
+   {
+       echo "I am B::example() and provide additional functionality.&lt;br&gt;\n";
+       parent::example();
+   }
+}
+
+</pre>
+</li>
+</ul></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="append-php.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="append-php.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="php-oop.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">D. PHP开发规范和语法速查 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> D.2. OOP (Object-Oriented Programming)</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

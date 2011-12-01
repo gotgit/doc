@@ -1,0 +1,174 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.12. 存储方式</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="inside-inn.html" title="4. 深入 INN">
+<link rel="prev" href="ar01s04s11.html" title="4.11. 喂信（News Feeds）设置">
+<link rel="next" href="inn-expire.html" title="4.13. 文档的过期设置">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.12. 存储方式</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s04s11.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. 深入 INN</th>
+<td width="20%" align="right"> <a accesskey="n" href="inn-expire.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4838816"></a>4.12. 存储方式</h3></div></div></div>
+<p>
+对于如何管理文章的存储方式，有四种存储方法，可供选择。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+tradspool
+</p>
+<p>
+在INN 2.0之前就已经使用的存储方式。文章以单独的文件存储，并分布在基于新闻组名的目录中。这种存储方式非常简单，并且很多第三方的INN插件依赖这种存储方式。缺点是效率不高。
+</p>
+</li>
+<li>
+<p>
+timehash 
+</p>
+<p>
+文章也是以单独的文件存储，但是目录名依据文章的时间而确定。这就保障了一个目录下不会存在有过多的文件。缺点是依旧没有解决过多文件操作造成的效率地下，而且文件的存储方式决定了难以像 tradspool 方式那样确定某个新闻组的文章数量和手工修改之。
+</p>
+</li>
+<li>
+<p>
+timecaf
+</p>
+<p>
+类似于 timehash，文章根据时间分类。不同点是，不再每篇文章一个文件，取而代之的是使用一个文件来存储。缺点是更难以理解和手工修改服务器端的存储结构，而且作为一种新的存储方式，并没有被广泛使用和测试。
+</p>
+</li>
+<li>
+<p>
+cnfs
+</p>
+<p>
+文章存储在预先定义好的文件缓冲区中，循环使用文件缓冲区，缓冲区满则覆盖前面的文章，因而对于 cnfs 存储方式，文章的过期设置比较特殊，且没有那么重要。
+</p>
+</li>
+</ul></div>
+<p>
+配置文件 <code class="filename">storage.conf</code> ：用来配置存储方式。
+</p>
+<p>
+该配置文件由一个或多个存储配置规则构成。
+</p>
+<pre class="screen">
+
+method &lt;methodname&gt; {                           <a name="co.store.method"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+     class: &lt;storage_class&gt;                     <a name="co.store.class"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+     newsgroups: &lt;wildmat&gt;                      <a name="co.store.newgroup"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+     size: &lt;minsize&gt;[,&lt;maxsize&gt;]
+     expires: &lt;mintime&gt;[,&lt;maxtime&gt;]
+     options: &lt;options&gt;
+}
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.store.method"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+下列可用的存储方式的一种：timecaf, timehash, cnfs, tradspool 和 trash。对于符合该规则的新闻组使用该储存方式。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.store.class"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+该存储配置规则的 ID。在整个配置文件中保持唯一的一个数字。这个 ID 被配置文件 <code class="filename">expire.ctl</code> 文件引用，对该存储规则设置过期策略。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.store.newgroup"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+用来匹配新闻组名。如果 inn.conf 中配置了 storeonxref: true，则和文章 header 中的 Xref 去匹配；否则（确省情况），和文章 header 中的Newsgroups匹配。
+</p></td>
+</tr>
+</table></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+修改文件<code class="filename">etc/storage.conf</code>中加入如下内容。
+</p>
+<pre class="screen">
+
+method tradspool {
+	newsgroups: *
+	class: 1
+}
+
+</pre>
+<p>
+tradspool 是最为简单的一种存储方式，我们也可以使用另外一种比较简单，但效率更高的存储方式 timehash。如下：
+</p>
+<pre class="screen">
+
+method timehash {
+        newsgroups: *
+        class: 0
+}
+
+</pre>
+<p>
+还有其它存储方式，如 CNFS 效率更高，但更为复杂。
+</p>
+</li>
+<li>
+<p>
+创建文件 <code class="filename">spool/tradspool.map</code>
+</p>
+<pre class="screen">
+$ <span><strong class="command">touch spool/tradspool.map</strong></span>
+</pre>
+</li>
+</ul></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s04s11.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="inside-inn.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="inn-expire.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.11. 喂信（News Feeds）设置 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.13. 文档的过期设置</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

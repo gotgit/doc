@@ -1,0 +1,137 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.2. 关于标记语言</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="DocBook 助你完成传世之作">
+<link rel="up" href="sgml-primary.html" title="4. SGML/XML入门">
+<link rel="prev" href="ar01s04s01.html" title="4.1. 基础概念">
+<link rel="next" href="ar01s04s03.html" title="4.3. SGML/XML语法基础">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.2. 关于标记语言</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s04s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. SGML/XML入门</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s04s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5088768"></a>4.2. 关于标记语言</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="ar01s04s02.html#idp5089280">4.2.1. 什么是标记语言</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s02.html#idp5099136">4.2.2. 标记语言的历史</a></span></dt>
+</dl></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5089280"></a>4.2.1. 什么是标记语言</h4></div></div></div>
+<p>
+超文本置标语言HTML（HyperText Markup Language）是当今信息高速公路上最为风光的主角。它与它的老祖宗SGML和当今IT新星XML都属于一个大家族——标记语言家族。那么什么是标记语言？
+</p>
+<p>
+传统意义上的标记（markup），我们都应该不会陌生。当我们还在读书的时候，老师改过的试卷，经常是满篇的红色的醒目的对号、错号、问号、波浪线，或者意味深长的评语，这些都是标记。我们在看书的时候，也喜欢用荧光笔将重要的内容加亮，以帮助我们在日后重读文章时，能够提纲挈领，迅速抓住要害，这也是标记。从广义上来说，一篇文章中的标点符号、空格也都可以称作是标记。看看韩愈是怎么说的，“句读之不知，惑之不解也”，就是这些语法标记对于帮助我们读懂文章，实在是太重要了。
+</p>
+<p>
+标记语言（markup language），则特指用一系列约定好的标记来对电子文档进行标记，来实现对电子文档的语义、结构、格式的定义。这些标记必须能够和容易的和内容相区分，易于识别。标记语言必须定义什么样的标记是允许的，什么样的标记是必须的，标记是如何与文档的内容向区分的，以及标记的含义是什么。
+</p>
+<p>
+我们来看看一段HTML代码：
+</p>
+<div class="informalexample"><pre class="programlisting">
+
+&lt;p&gt;标记语言的代表：&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;HTML&lt;/li&gt;
+  &lt;li&gt;SGML&lt;/li&gt;
+  &lt;li&gt;XML&lt;/li&gt;
+&lt;/ul&gt;
+
+</pre></div>
+<p>
+文中的标签特征分明，很容易就可以和实际的内容区分开。标签由小于符号（&lt;）和大于符号（&gt;）括起来的文字组成标签，浏览器能够解读这些标签，并按照预定义的格式显示如下：
+</p>
+<div class="informalexample">
+<p>
+标记语言的代表：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+HTML
+</p></li>
+<li><p>
+SGML
+</p></li>
+<li><p>
+XML
+</p></li>
+</ul></div>
+</div>
+<p>
+当我们对“置标”的含义有了一个明确的理解后，让我们再看看标记语言的发展历史。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5099136"></a>4.2.2. 标记语言的历史</h4></div></div></div>
+<p>
+了解标记语言发展的历史，将对于HTML，SGML，XML之间的联系和正确理解标记语言这一技术更有帮助。
+</p>
+<p>
+为了促进数据的交换和操作，人们早就产生了将文件结构化为标准的格式的动机。IBM在20世纪60年代，创建了GML（Generalized Markup Language，通用标记语言），以在其出版系统内部实现这一需求。IBM使用GML来用单一类型的源文件维护书籍、报表以及其他文件。
+</p>
+<p>
+SGML（Standard Generalized Markup Language，标准通用标记语言）从IBM的GML演化而来，是第一个标准化的信息结构化技术。SGML成为了IBM内部格式化和维护合法文件的手段。SGML后来被扩展和修改，作为一种全面的信息标准以适应工业范围的广泛应用。但直到1986年，SGML才成为了ISO标准。尽管SGML的功能非常强大，但是由于它非常复杂，需要一大堆昂贵的软件配合运行，因而在很长一段时间都没有被推广。
+</p>
+<p>
+1989年，欧洲粒子物理实验室（CERT）的研究员 Tim Berners-Lee 和 Anders Berglund 两人创建了一种基于标记的语言，为在Internet上共享的文章做标记，于是HTML诞生了。HTML可以看作是SGML的简化的应用，它的诞生，推动了信息产业的大发展。
+</p>
+<p>
+HTML当初仅仅提供了一种对静态文本信息表现的方法，但显然并不能适应越来越多的需要。随后越来越多的标签诞生了，象&lt;img&gt;用于描述图片，&lt;script&gt;通过为网页加入脚本支持，提供动态网页内容，两大浏览器厂商微软和网景，甚至创建了由自己的产品兼容的标签。于是HTML成了一个大而不当，失去了严谨结构化的怪物。
+</p>
+<p>
+1996年，W3C寻找一种在WEB中应用SGML的灵活性和强大功能的方法，这导致了1998年2月，XML1.0规范的发布。XML（eXtensible Markup Language，可扩展的标记语言）具备了SGML的核心特性，又非常的简洁，XML规范的内容甚至不到SGML的十分之一，XML的简洁可见一斑。XML的应用随即如雨后春笋般的展开，它被看作是IT的明日之星。
+</p>
+<p>
+SGML和HTML之间，XML和HTML之间的差别是巨大的，HTML可以看作是SGML/XML的一种具体应用，SGML/XML则作为元语言，则可以定义出无数新的标记语言，如DocBook即是一种。SGML和XML之间的差别则是微小的，XML作为SGML的子集，继承了SGML的优点：扩展性、结构化和有效性。因此为了学习DocBook，我们需要从SGML/XML学起。
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s04s01.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="sgml-primary.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s04s03.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.1. 基础概念 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.3. SGML/XML语法基础</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

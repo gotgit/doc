@@ -1,0 +1,176 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>7.6. 目录划分</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="steam-howto.html" title="7. Starteam Howto">
+<link rel="prev" href="label.html" title="7.5. Label">
+<link rel="next" href="delundel.html" title="7.7. 删除和反删除">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">7.6. 目录划分</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="label.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">7. Starteam Howto</th>
+<td width="20%" align="right"> <a accesskey="n" href="delundel.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="directory"></a>7.6. 目录划分</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="directory.html#idp5069760">7.6.1. 源码的版本控制</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5077104">7.6.2. 文档的版本控制</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5078336">7.6.3. 缺陷控制</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5085744">7.6.4. ProjectManagement目录</a></span></dt>
+</dl></div>
+<div class="table">
+<a name="idp5057440"></a><p class="title"><b>表 2. 项目工程目录结构</b></p>
+<div class="table-contents"><table summary="项目工程目录结构" border="1">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="center">目录</th>
+<th align="center">说明</th>
+<th align="center">权限</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">Development</td>
+<td align="left">程序源码，及帮助</td>
+<td align="left">组成员完全权限</td>
+</tr>
+<tr>
+<td align="left">Defect</td>
+<td align="left">用于记录缺陷控制的目录</td>
+<td align="left">组成员控制changRequest完全权限；所有人具有添加修改changeRequest权限
+  </td>
+</tr>
+<tr>
+<td align="left">Document</td>
+<td align="left">项目文档</td>
+<td align="left">组成员完全权限；文档工程师完全权限。（现已废弃不用）</td>
+</tr>
+<tr>
+<td align="left">ProjectManagement</td>
+<td align="left">项目范围控制，时间控制等</td>
+<td align="left">组成员读权限；项目经理完全权限</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break"><div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>以上各个目录，只有项目管理人员和系统管理员具有修改安全设置权限。
+</p></td></tr>
+</table></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5069760"></a>7.6.1. 源码的版本控制</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>Development目录下建立各个相关模块目录；
+</p></li>
+<li><p>模块的目录组织结构应该和 checkout 到本地的编译代码目录结构一致。
+</p></li>
+<li><p>
+注意二进制文件尽量不要放在 Starteam 中，而改用其它方式（如文件服务器），
+来进行存储！
+</p></li>
+</ul></div>
+<p>
+</p>
+<div class="mediaobject">
+<img src="images/st_layout.jpg" alt="CWAP 1.1分支视图目录结构图"><div class="caption"><p>CWAP 1.1分支视图目录结构图
+</p></div>
+</div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5077104"></a>7.6.2. 文档的版本控制</h4></div></div></div>
+<p>
+文档的管理，涉及到大量的二进制文档（WORD），改用文件服务器来存储。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5078336"></a>7.6.3. 缺陷控制</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>建立 Defect 目录，并在其下建立需要测试的相应模块的目录。
+</p></li>
+<li><p>目录的权限设置为只读（对QA经理开放建立目录权限等）。
+对于change request，设置为任何人/QA/组内人员具有添加，修改权限等。
+</p></li>
+<li><p>
+建立Defect Tracing目录，而不是在根目录下存放change request的好处是:
+1. 便于设置权限；2. 建立相应模块，便于bug归类存放，不用在category中填写
+易出错。
+</p></li>
+</ul></div>
+<p>
+</p>
+<div class="mediaobject">
+<img src="images/st_defect.jpg" alt="Defect 示例"><div class="caption"><p>Defect 示例
+</p></div>
+</div>
+<p>
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5085744"></a>7.6.4. ProjectManagement目录</h4></div></div></div>
+<p>
+ProjectManagement 下，通过文件和topic方式，存储TODO LIST, 
+编程规范，需求变更等信息。用户进行范围管理，工作管理等。
+</p>
+<p>
+ProjectManagement 权限设置为项目经理完全权限。
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="label.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="steam-howto.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="delundel.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">7.5. Label </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 7.7. 删除和反删除</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

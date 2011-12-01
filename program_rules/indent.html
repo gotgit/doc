@@ -1,0 +1,434 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.5. 用 indent 进行代码格式化</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="开发规范参考">
+<link rel="up" href="format.html" title="3. 格式规范">
+<link rel="prev" href="comment.html" title="3.4. 注释">
+<link rel="next" href="makefile.html" title="4. Makefile">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.5. 用 indent 进行代码格式化</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="comment.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. 格式规范</th>
+<td width="20%" align="right"> <a accesskey="n" href="makefile.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="indent"></a>3.5. 用 indent 进行代码格式化</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="indent.html#idp4615632">3.5.1. introduce indent</a></span></dt>
+<dt><span class="sect3"><a href="indent.html#indent-opt">3.5.2. Indent参数规范</a></span></dt>
+</dl></div>
+<p>
+一个范例，胜过前言万语。用 indent 格式化代码，再从格式化前后的格式变化，
+来学习格式化规范。
+</p>
+<p>
+可以用不同的参数调用 indent，
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4615632"></a>3.5.1. introduce indent</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>What is Indent
+</p>
+<p>The `indent' program can be used to make code easier to read. It can also convert from one style of writing C to another.
+</p>
+</li>
+<li>
+<p>Download
+</p>
+<p>Current Version: GNU indent 2.2.7。
+Download : <a href="ftp://ftp.gnu.org/gnu/indent/indent-2.2.7.tar.gz" target="_top">
+ftp.gnu.org/gnu/indent/indent-2.2.7.tar.gz</a>
+</p>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="indent-opt"></a>3.5.2. Indent参数规范</h4></div></div></div>
+<p>我们参照GNU，Kernighan &amp; Ritchie，Berkeley风格，制定了自己风格：
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>indent命令参数：
+</p>
+<p>-bad -bap -bbb -bbo -nbc -bl -bli0 -bls -c33 -cd33 -ncdb -ncdw -nce 
+ -cli0 -cp33 -cs -d0 -nbfda -di2 -nfc1 -nfca -hnl -ip5 -l75 -lp -pcs -nprs 
+ -psl -saf -sai -saw -nsc -nsob -nss -i4 -ts4 -ut
+</p>
+</li>
+<li>
+<p>indent配置文件
+</p>
+<p>如上参数可写入用户目录下的文件：".indent.pro"，作为运行indent的确省参数。
+</p>
+</li>
+<li>
+<p>indent配置说明
+</p>
+<div class="table">
+<a name="idp4628736"></a><p class="title"><b>表 1. Indent代码格式化说明</b></p>
+<div class="table-contents"><table summary="Indent代码格式化说明" border="1">
+<colgroup>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="center">使用的indent参数</th>
+<th align="center">值</th>
+<th align="center">含义</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">--blank-lines-after-declarations
+</td>
+<td align="left">bad
+</td>
+<td align="left">变量声明后加空行
+</td>
+</tr>
+<tr>
+<td align="left">--blank-lines-after-procedures
+</td>
+<td align="left">bap
+</td>
+<td align="left">函数结束后加空行
+</td>
+</tr>
+<tr>
+<td align="left">--blank-lines-before-block-comments
+</td>
+<td align="left">bbb
+</td>
+<td align="left">块注释前加空行
+</td>
+</tr>
+<tr>
+<td align="left">--break-before-boolean-operator
+</td>
+<td align="left">bbo
+</td>
+<td align="left">较长的行，在逻辑运算符前分行
+</td>
+</tr>
+<tr>
+<td align="left">--blank-lines-after-commas
+</td>
+<td align="left">nbc
+</td>
+<td align="left">变量声明中，逗号分隔的变量不分行
+</td>
+</tr>
+<tr>
+<td align="left">--braces-after-if-line
+</td>
+<td align="left">bl
+</td>
+<td align="left">"if"和"{"分做两行
+</td>
+</tr>
+<tr>
+<td align="left">--brace-indent 0
+</td>
+<td align="left">bli0
+</td>
+<td align="left">"{"不继续缩进
+</td>
+</tr>
+<tr>
+<td align="left">--braces-after-struct-decl-line
+</td>
+<td align="left">bls
+</td>
+<td align="left">定义结构，"struct"和"{"分行
+</td>
+</tr>
+<tr>
+<td align="left">--comment-indentationn
+</td>
+<td align="left">c33
+</td>
+<td align="left">语句后注释开始于行33
+</td>
+</tr>
+<tr>
+<td align="left">--declaration-comment-columnn
+</td>
+<td align="left">cd33
+</td>
+<td align="left">变量声明后注释开始于行33
+</td>
+</tr>
+<tr>
+<td align="left">--comment-delimiters-on-blank-lines
+</td>
+<td align="left">ncdb
+</td>
+<td align="left">不将单行注释变为块注释
+</td>
+</tr>
+<tr>
+<td align="left">--cuddle-do-while
+</td>
+<td align="left">ncdw
+</td>
+<td align="left">"do --- while"的"while"和其前面的"}"另起一行
+</td>
+</tr>
+<tr>
+<td align="left">--cuddle-else
+</td>
+<td align="left">nce
+</td>
+<td align="left">"else"和其前面的"}"另起一行
+</td>
+</tr>
+<tr>
+<td align="left">--case-indentation 0
+</td>
+<td align="left">cli0
+</td>
+<td align="left">switch中的case语句所进0个空格
+</td>
+</tr>
+<tr>
+<td align="left">--else-endif-columnn
+</td>
+<td align="left">cp33
+</td>
+<td align="left">#else, #endif后面的注释开始于行33
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-cast
+</td>
+<td align="left">cs
+</td>
+<td align="left">在类型转换后面加空格
+</td>
+</tr>
+<tr>
+<td align="left">--line-comments-indentation n
+</td>
+<td align="left">d0
+</td>
+<td align="left">单行注释（不从1列开始的），不向左缩进
+</td>
+</tr>
+<tr>
+<td align="left">--break-function-decl-args
+</td>
+<td align="left">nbfda
+</td>
+<td align="left">关闭：函数的参数一个一行
+</td>
+</tr>
+<tr>
+<td align="left">--declaration-indentationn
+</td>
+<td align="left">di2
+</td>
+<td align="left">变量声明，变量开始于2行，即不必对齐
+</td>
+</tr>
+<tr>
+<td align="left">--format-first-column-comments
+</td>
+<td align="left">nfc1
+</td>
+<td align="left">不格式化起于第一行的注释
+</td>
+</tr>
+<tr>
+<td align="left">--format-all-comments
+</td>
+<td align="left">nfca
+</td>
+<td align="left">不开启全部格式化注释的开关
+</td>
+</tr>
+<tr>
+<td align="left">--honour-newlines
+</td>
+<td align="left">hnl
+</td>
+<td align="left">Prefer to break long lines at the position of newlines in the input.
+</td>
+</tr>
+<tr>
+<td align="left">--indent-leveln
+</td>
+<td align="left">i4
+</td>
+<td align="left">设置缩进多少字符，如果为tab的整数倍，用tab来缩进，否则用空格填充。
+</td>
+</tr>
+<tr>
+<td align="left">--parameter-indentationn
+</td>
+<td align="left">ip5
+</td>
+<td align="left">旧风格的函数定义中参数说明缩进5个空格
+</td>
+</tr>
+<tr>
+<td align="left">--line-length 75
+</td>
+<td align="left">l75
+</td>
+<td align="left">非注释行最长75
+</td>
+</tr>
+<tr>
+<td align="left">--continue-at-parentheses
+</td>
+<td align="left">lp
+</td>
+<td align="left">续行从上一行出现的括号开始
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-procedure-calls
+</td>
+<td align="left">pcs
+</td>
+<td align="left">函数和"("之间插入一个空格
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-parentheses
+</td>
+<td align="left">nprs
+</td>
+<td align="left">在"（"后"）"前不插入空格
+</td>
+</tr>
+<tr>
+<td align="left">--procnames-start-lines
+</td>
+<td align="left">psl
+</td>
+<td align="left">将函数名和返回类型放在两行定义
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-for
+</td>
+<td align="left">saf
+</td>
+<td align="left">for后面有空格
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-if
+</td>
+<td align="left">sai
+</td>
+<td align="left">if后面有空格
+</td>
+</tr>
+<tr>
+<td align="left">--space-after-while
+</td>
+<td align="left">saw
+</td>
+<td align="left">while后面有空格
+</td>
+</tr>
+<tr>
+<td align="left">--start-left-side-of-comments
+</td>
+<td align="left">nsc
+</td>
+<td align="left">不在生成的块注释中加*
+</td>
+</tr>
+<tr>
+<td align="left">--swallow-optional-blank-lines
+</td>
+<td align="left">nsob
+</td>
+<td align="left">不去掉可添加的空行
+</td>
+</tr>
+<tr>
+<td align="left">--space-special-semicolon
+</td>
+<td align="left">nss
+</td>
+<td align="left">一行的for或while语句，在";"前不加空。
+</td>
+</tr>
+<tr>
+<td align="left">--tab-size
+</td>
+<td align="left">ts4
+</td>
+<td align="left">一个tab为4个空格（要能整除"-in"）
+</td>
+</tr>
+<tr>
+<td align="left">--use-tabs
+</td>
+<td align="left">ut
+</td>
+<td align="left">使用tab来缩进
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break">
+</li>
+</ol></div>
+<p>
+indent详细参数以及各种编程排版风格见: <a href="appendix-indent.html" title="A. 不同编程风格参考">附录</a>。
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="comment.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="format.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="makefile.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3.4. 注释 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4. Makefile</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

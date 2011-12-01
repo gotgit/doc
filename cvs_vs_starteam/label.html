@@ -1,0 +1,146 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>7.5. Label</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="steam-howto.html" title="7. Starteam Howto">
+<link rel="prev" href="branch.html" title="7.4. Branch">
+<link rel="next" href="directory.html" title="7.6. 目录划分">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">7.5. Label</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="branch.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">7. Starteam Howto</th>
+<td width="20%" align="right"> <a accesskey="n" href="directory.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="label"></a>7.5. Label</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="label.html#idp5041776">7.5.1. View Label</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5046128">7.5.2. Build label</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5049216">7.5.3. Promotion state</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5053504">7.5.4. Revision label</a></span></dt>
+</dl></div>
+<p>
+STARTEAM的标签（LABEL）主要用来记录事件，如里程碑，和代码分支没有
+必然的联系；而 CVS 的分支必须依靠 TAG 来完成。
+</p>
+<p>
+CVS 的TAG是记录在文件中，建立 tag ，耗时；Starteam 的 LABEL是建立在
+数据库基础上的，建立 label，属于毫秒及的动作。
+</p>
+<p>
+Starteam 地 LABEL 是建立在视图中，文件和视图脱离关系，该文件上的 label
+失去。
+</p>
+<p>
+如何使用LABEL管理项目的示例，参见：<a href="http://www.fox.se/english/starteam/best_practices/%20starteam_best_practices.htm" target="_top">
+http://www.fox.se/english/starteam/best_practices/starteam_best_practices.htm
+</a>，提供了STARTEAM利用LABEL协同工作的范例，这些工作有些是CVS很难做到的。
+</p>
+<p>
+下面具体介绍 label 的几个不同的变种： View Label, Build Label, Promotion State,
+Revision Label。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5041776"></a>7.5.1. View Label</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>View Label 针对一个View中所有文件，可以用来记录项目的里程碑。
+</p></li>
+<li><p>View Label非常灵活，可以将后来新增加的文件加入到View Label中。
+</p></li>
+<li><p>文件移到到其他视图和文件删除对view label 有不同影响：移出文件的
+View Label会自动去掉，并且历史视图，该文件也不存在了，因为文件被移动了。
+删除的文件则不然，仍可以通过历史被访问到，并且删除前的文件仍然具有该
+View Label
+</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5046128"></a>7.5.2. Build label</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>在创建View Label中有"Use as Build Label"的选项，默认创建的View Label
+就是Build Label。
+</p></li>
+<li><p>Build Label基本上等同于View Label，除了Build Label 在Change Request的
+工作流程中会被引用到。Build Label可以用来帮助测试人员了解Bug在哪一个
+Build Label中被解决了。
+</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5049216"></a>7.5.3. Promotion state</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+Promotion State 可以看作是是浮动的View Label， View Label 的标签；
+</p></li>
+<li><p>
+通常要建立的 Promotion State 有： Release, Beta Test, Alpha Test, ...。
+并且要按照顺序建立，这样可以通过提升，将 Beta Test 对应的 Build Label，
+提升为 Release，即用 Release 来指向 Beta Test 的Label。
+</p></li>
+<li><p>
+建立在View Label基础之上，为编译 Checkout 代码，提供一个一致的Label。
+可以方便地建立 Nightly Build 系统。
+</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp5053504"></a>7.5.4. Revision label</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+Revision label可以用来对一个视图中单独的文件或某些文件
+（或元素如change request），单独建立label。便于文件查找。
+</p></li>
+<li><p>
+同View Label一样，文件如果被移动到该视图之外，失去Revision Label。
+</p></li>
+</ul></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="branch.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="steam-howto.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="directory.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">7.4. Branch </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 7.6. 目录划分</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

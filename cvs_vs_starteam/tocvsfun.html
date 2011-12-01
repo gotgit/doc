@@ -1,0 +1,201 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1. Overview</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="index.html" title="软件配置管理 HOWTO">
+<link rel="prev" href="index.html" title="软件配置管理 HOWTO">
+<link rel="next" href="vs-svrsetup.html" title="2. CVS vs. STARTEAM——服务器设置">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1. Overview</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="index.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="vs-svrsetup.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="tocvsfun"></a>1. Overview</h2></div></div></div>
+<p>
+CVS 是开放源码的一个奇迹，亦是开放源码得以延续和发展的推动者，是版本控制的经典。CVS 是常用的版本控制工具。
+</p>
+<p>
+Starteam 是一个集合了版本控制和缺陷控制两种功能的软件，并且具有 CVS 没有的强大的图形界面，易学易用。2002年底被Borland公司收购，发展前景未知，它是我是用的第一个大型商用版本控制软件（真的付了Money的呦）。
+</p>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+评价 CVS、STARTEAM 孰优孰劣，是一个仁者见仁，智者见智的问题。
+</p>
+<p>
+Starteam 的图形化界面，能够使初学者易于接收，而且其缺陷控制功能的功能（基于数据库的Change Request），是CVS 不具有的，更是相应工具中独树一帜的。
+</p>
+<p>
+CVS的优秀跨平台能力、强大的命令行、清晰的服务器端数据结构更便于数据的备份、灾难恢复和可靠性。Simple is Butiful 送给 CVS 一定没错。
+</p>
+</td></tr>
+</table></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+侧重不同
+</p>
+<p>
+CVS专注于配置管理软件范畴中的版本管理系统。而配置管理系统除了包括版本管理外，还包括构建管理（Build Management）和缺陷跟踪系统。而Starteam包括了这三项。本文档也就只比较其版本管理系统的异同。
+</p>
+</li>
+<li>
+<p>
+权限控制
+</p>
+<p>
+一般来说，CVS的权限设置单一，通常只能通过CVSROOT/passwd, CVSROOT/readers, CVSROOT/writers 文件，同时还要设置CVS REPOS的物理目录权限来完成权限设置，无法完成复杂的权限控制；而STARTEAM无需通过物理路径的权限设置，而是通过自己的数据库管理，实现了类似WINDOWS NT的域用户管理和目录文件ACL控制。
+</p>
+<p>
+但是CVS通过CVSROOT目录下的脚本，提供了相应功能扩充的接口，不但可以完成精细的权限控制，还能完成更加个性化的功能。
+</p>
+</li>
+<li>
+<p>
+易用性
+</p>
+<p>
+Starteam的图形界面功能强大，但其命令行功能较CVS弱，需要自己编写shell脚本加强。而随着WINCVS作为图形客户端的可用性的增强，Starteam的强项正在被削弱。
+</p>
+</li>
+<li>
+<p>
+Label的管理
+</p>
+<p>
+CVS 的 label 建立在文件上，难以确定到底有多少存在的 label ，而STARTEAM（图形界面）可以很方便知道有哪些 View Label及Revision Label。
+</p>
+<p>
+CVS的版本分支， label是建立在文件上，工作在其他分支的程序同样会看到其它分支的label；而Starteam的label只在同一个视图内有效，有独立的命名空间。
+</p>
+<p>
+STARTEAM具有Promotion states，可以看作是label的标签。在label上又封装一层的 Promotion State 便于记录版本的提升，和建立自动编译；而CVS 没有浮动 label 的概念，只能通过文件记录方式实现（如我们使用 .promotion 文件记录当前稳定的 label）。
+</p>
+</li>
+<li>
+<p>
+文件缓存
+</p>
+<p>
+Starteam 存在CACHE目录，缓存了所有 Checkout的版本的文件，因此 Checkout速度快。而CVS没有缓存，check out过程较慢，尤其是分支的 Checkout。
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+但我对此表示怀疑。尤其是Starteam Unix客户端基于JAVA技术，速度明显比CVS要慢。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+操作文件名和目录名
+</p>
+<p>
+CVS的REPOSITORY的物理存储结构即为项目的组织结构，使得文件名修改和目录的重新组织成为难题，往往需要管理员权限去手动操作Repository；而STARTEAM的Repository的文件结构和视图的文件结构可以完全不同，目录、文件名修改和移动非常方便，基于数据库的文件名管理还可以方便地在不同工程之间共享文件，协同工作。
+</p>
+</li>
+<li>
+<p>
+CVS是程序员的工具，STARTEAM还是管理项目的工具
+</p>
+<p>
+个人文件管理或小项目的组织，需要轻量级的管理，和灵活的文件导入、导出，以及和自由代码的交互，则CVS，Perforce，PVCS，SourceSafe等面向文件的版本控制占优势。对于公司、大项目，需要独立的测试、QA等分工，还要更多的考虑多样的用户权限控制，易用性（图形界面），缺陷控制，则需要面向工程的STARTEAM来进行版本控制和开发。
+</p>
+</li>
+<li>
+<p>
+CVS的优势
+</p>
+<p>
+CVS的优势：项目文件可以方便的组合和移植，这是因为CVS以文件为核心，即面向文件的管理方式。而且目前网络上很多开放源码都采用CVS，可以很好沟通。
+</p>
+<p>
+CVS配置简单、健壮、可以很容易地移植；STARTEAM集成度较高，移植过程复杂，需要的管理负担大，需要完善的备份计划。
+</p>
+<p>
+CVS是开发源码，服务器端存储易于理解，便于控制；而Starteam为商业软件，服务器端存储方式封闭，难以管理。但是 CVS 不提供图形界面，有较长的学习曲线。
+</p>
+</li>
+<li>
+<p>
+Starteam 的劣势
+</p>
+<p>
+不支持分支的合并，需要过多的手动干预。而CVS可以自动完成。
+</p>
+<p>
+速度慢，一定程度上影响开发效率。
+</p>
+<p>
+不支持并行开发，不能很好解决Merge的问题。而CVS可以智能 Merge。
+</p>
+<p>
+故障恢复困难，需要有专职管理员维护。而CVS易于维护。
+</p>
+</li>
+<li>
+<p>
+评价优劣，不如先用先得
+</p>
+<p>
+不用刻意去取舍哪一个，只要用好，即可。况且，已经有了完美的CVS、STARTEAM互相转换的方法。（参见：《CVS, Starteam互相转换》）
+</p>
+</li>
+</ol></div>
+<p>
+下面通过对 CVS、STARTEAM 的服务器端和客户端对照，了解背后的真相。
+</p>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="index.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="vs-svrsetup.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">软件配置管理 HOWTO </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2. CVS vs. STARTEAM——服务器设置</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1.2. MHonArc 应用示例</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="webarchive.html" title="1. Web 存档">
+<link rel="prev" href="mhonarc-install.html" title="1.1. MHonArc 的安装配置">
+<link rel="next" href="mhonarc-custom.html" title="1.3. 定制 MHonArc">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1.2. MHonArc 应用示例</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="mhonarc-install.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">1. Web 存档</th>
+<td width="20%" align="right"> <a accesskey="n" href="mhonarc-custom.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="mhonarc-paradigm"></a>1.2. MHonArc 应用示例</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4458736">1.2.1. 任务1: 将邮件存档转换为网页</a></span></dt>
+<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4474224">1.2.2. 任务2: 新邮件直接转换为网页——别名</a></span></dt>
+<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4481920">1.2.3. 任务3: 新邮件直接转换为网页——procmail</a></span></dt>
+<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4491648">1.2.4. 任务4: 新闻转换为网页</a></span></dt>
+</dl></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4458736"></a>1.2.1. 任务1: 将邮件存档转换为网页</h4></div></div></div>
+<p>
+mbox 格式是Unix上存储邮件的最常见的格式，一个 mobx 文件可能包含零个到多个邮件。MHonArc 支持将 mbox 格式的文件批量转换为网页。
+</p>
+<pre class="screen">
+prompt&gt; mhonarc path/mbox <a name="co.mh.mbox"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+prompt&gt; mhonarc -outdir /home/johnson/archive /home/johnson/mail/inbox <a name="co.mh.outdir"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.mbox"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+将 mbox 中的邮件批量转换为网页存储在当前目录下。将会生成如下文件：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+maillist.html
+</p>
+<p>
+主要的索引文件，文件列表将按照时间排序。
+</p>
+</li>
+<li>
+<p>
+threads.html
+</p>
+<p>
+索引文件，按照线索显示列表
+</p>
+</li>
+<li>
+<p>
+msg*.html
+</p>
+<p>
+转换为网页的邮件。* 从 0 开始，顺次加一。
+</p>
+</li>
+<li>
+<p>
+.mhonarc.db
+</p>
+<p>
+MHonArc 维护的数据库，便于今后的目录更新。
+</p>
+</li>
+</ul></div>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.outdir"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+通过 -outdir 参数，指定转换后的网页的存储路径，确省是在当前路径。
+</p></td>
+</tr>
+</table></div>
+<p>
+可能大多数人和我一样使用 Outlook 处理邮件。SourceForge.net 上面有几个开放源码，可以将 Outlook 的文件夹格式转换为 mbox 格式，之后的过程就和前面一样了。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+<a href="http://sourceforge.net/projects/ol2mbox" target="_top">ol2mbox</a>
+</p>
+<p>
+Outlook to unix mail converter. 可以将 Outlook 的 PST 格式转换为 mailbox 格式。
+</p>
+</li>
+<li>
+<p>
+<a href="http://sourceforge.net/projects/mbx2mbox" target="_top">mbx2mbox</a>
+</p>
+<p>
+Converts Outlook .mbx and .dbx files into standard RFC822 mail files.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4474224"></a>1.2.2. 任务2: 新邮件直接转换为网页——别名</h4></div></div></div>
+<p>
+利用邮件别名，实现将新邮件直接用 MHonArc 转换为网页。这项功能对于将 Mail-List 内容转换为网页非常适合。
+</p>
+<p>
+例如在别名文件 <code class="filename">/etc/aliases</code> 中加入如下条目：
+</p>
+<pre class="screen">
+
+maillist2html: "|/usr/local/bin/mhonarc -add -quiet -umask 022 -idxfname index.html -rcfile /home/mhonarc/.mhonarc.mrc -outdir '/home/mhonarc/public_html/maillist1' -title 'Maillist 1 Archive'"
+
+</pre>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+上面的示例中，参数: -idxfname index.html，的作用是将主索引的文件名设置为 index.html 而不是 maillist.html；
+</p></li>
+<li><p>
+参数: -rcfile /home/mhonarc/.mhonarc.mrc ，的作用是使用文件 /home/mhonarc/.mhonarc.mrc 作为确省的模板文件，用以定制转换的网页的界面；
+</p></li>
+<li><p>
+参数: -outdir '/home/mhonarc/public_html/maillist1'，用来设置转换后的网页的储存路径；
+</p></li>
+<li><p>
+参数: -title 'Maillist 1 Archive'"，用来设置索引页的标题。
+</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4481920"></a>1.2.3. 任务3: 新邮件直接转换为网页——procmail</h4></div></div></div>
+<p>
+在上面描述的任务中，通过使用邮件别名将邮件转换为网页固然可以完成任务，但是如果想对订阅的大量的邮件列表进行 html 存档，就需要建立大量的对应的 aliases 条目，显然笨拙了一些。
+</p>
+<p>
+procmail 是一个用于过滤用户接收到的电子邮件，并能对其自动分类、处理的一个应用软件。可以用来分检来自不同邮件列表的邮件。
+</p>
+<p>
+在用户 mhonarc 的主目录下创建一个文件： /home/mhonarc/.procmailrc ，来实现将多个邮件组的邮件分检。如下：
+</p>
+<pre class="screen">
+VERBOSE=no
+MAILDIR=$HOME/mail
+WWWROOT=$HOME/public_html
+LOGFILE=$HOME/var/log.procmail
+
+MHONARC='/usr/local/bin/mhonarc -add -quiet -umask 022 -idxfname index.html'
+
+:0
+* ^Subject: [\/[^\]]+ <a name="co.mh.procmail.pattern"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+{
+        ##Directory needs to be created seperately, as Mhonarc is unable to
+        ##create the required directory.
+
+        :0c
+        | /bin/mkdir -m 755 -p $WWWROOT/$MATCH <a name="co.mh.procmail.mkdir"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+
+        :0 : $HOME/var/mhonarc.lock
+        | $MHONARC -rcfile $HOME/.mhonarc.mrc -outdir $WWWROOT/$MATCH -title "Maillist [$MATCH] Archive" <a name="co.mh.procmail.mh"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+
+}
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.procmail.pattern"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+匹配邮件标题，对于格式为："[邮件列表名称] 邮件标题..." 的邮件标题的邮件进行处理，将“邮件标题列表”部分存储在变量 $MATCH 中。
+</p>
+<p>
+例如邮件标题为： “[docbook] RE: how to ...” 的邮件，匹配条件继续处理，并且将变量 $MATCH 设置为 docbook。
+</p>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.procmail.mkdir"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+创建目录 $WWWROOT/$MATCH，目录名利用了刚刚获取的变量 $MATCH，该目录作为 MHonArc 的输出目录，即完成了邮件的分检。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.procmail.mh"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+交由 MHonArc 处理。即将邮件转换为网页。
+</p></td>
+</tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4491648"></a>1.2.4. 任务4: 新闻转换为网页</h4></div></div></div>
+<p>
+新闻组固然会给沟通带来便利之处，但是不足之处：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+无法通过 URL 定位到具体的文章，只能笼统的说在某某版在几月几号有关于这个问题的一篇文章；
+</p></li>
+<li><p>
+当某一板块有过多文章时，客户端下载会给服务器带来过多的负荷；
+</p></li>
+<li><p>
+不能进行检索。没有检索就不能叫做成功的知识管理系统，建立新闻组到网页的存档为建立全文检索准备了条件。
+</p></li>
+</ul></div>
+<p>
+如果能够将新闻转换为 WEB 页面，上述问题迎刃而解。首先配置 inn 的 newsfeed 文件，将新闻以邮件形式发送给用户（如上例的用户 mhonarc）。
+</p>
+<p>
+newsfeed 文件中相应条目：
+</p>
+<pre class="screen">
+
+n2m!:!*:Tc,Ac,Wn*:/usr/lib/news/bin/news2mail
+mail-archive@sample.com:worldhello.*,本站站务.*,!local.test:Tm:n2m!
+
+</pre>
+<p>
+对应的配置文件 news2mail.cf 的相关条目：
+</p>
+<pre class="screen">
+mail-archive@sample.com  mhonarc
+</pre>
+<p>
+重新启动 news，新来的新闻就可以出发 news2mail 将新闻以邮件形式发送给用户（mhonarc）。还要注意 news2mail （perl 脚本）是如何重组邮件标题的，后面使用 procmail 分检邮件需要依赖邮件标题的格式。
+</p>
+<p>
+接下来就是设置用户(mhonarc)的 .procmailrc，以实现分检邮件。照搬前一个例子即可。
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="mhonarc-install.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="webarchive.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="mhonarc-custom.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">1.1. MHonArc 的安装配置 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 1.3. 定制 MHonArc</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

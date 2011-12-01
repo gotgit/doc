@@ -1,0 +1,1073 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>缺陷追踪系统 HOWTO</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content=" （编译自版本: 720117e，最后更新时间: 2007-06-14）">
+<link rel="start" href="#index" title="缺陷追踪系统 HOWTO">
+<link rel="next" href="#starteam" title="2. Starteam Change Request Howto">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>缺陷追踪系统 HOWTO</h1></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.3</td>
+<td align="left">2006/04</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">增加 Mantis hacking</td></tr>
+<tr>
+<td align="left">修订 0.2</td>
+<td align="left">2003/06</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">Gnats Howto</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2002/02</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">Starteam Change Request Howto</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+
+</p>
+<p>
+（编译自版本: 720117e，最后更新时间: 2007-06-14）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#why-bug-tracking">1. 缺陷追踪</a></span></dt>
+<dt><span class="sect1"><a href="#starteam">2. Starteam Change Request Howto</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4458816">2.1. Starteam Change Request 工作流程</a></span></dt>
+<dt><span class="sect2"><a href="#idp4532144">2.2. Starteam 缺陷追踪的优缺点</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#gnats">3. GNATS</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4551424">3.1. GNATS 特点</a></span></dt>
+<dt><span class="sect2"><a href="#idp4569856">3.2. GNATS PR 流程示例</a></span></dt>
+<dt><span class="sect2"><a href="#idp4622272">3.3. GNATS 安装和配置</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#mantis">4. Mantis</a></span></dt>
+<dd><dl><dt><span class="sect2"><a href="#idp4709552">4.1. Mantis 改进</a></span></dt></dl></dd>
+<dt><span class="sect1"><a href="#bugzilla">5. Bugzilla</a></span></dt>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="why-bug-tracking"></a>1. 缺陷追踪</h2></div></div></div>
+<p>
+开发人员都希望自己的产品技术领先，好用，没有缺陷（BUG）。但一个能称为产品的软件项目，没有出现过 BUG 是不可以想像的，如果一个项目能够经过较充分的测试，也许可以将绝大多数 BUG 限制在软件发布前，在内部发现并解决，但用户的环境千差万别，总有挂万漏一。即便一时没有发现缺陷，但是需求变更总是有的，客户可能发现软件中有的功能不适用，于是便提出新的需求。这些软件缺陷、需求变更应被看做是软件不断成熟、发展的动力。软件开发中需要对这些缺陷报告、需求变更进行有效的跟踪和控制，这就是我们在这里要讨论的主题：缺陷追踪。
+</p>
+<p>
+缺陷追踪，或称为：Bug Tracking, Defect Tracking，是软件开发和维护过程中重要的辅助软件，用于跟踪记录软件的缺陷、需求变更等，作为沟通开发人员与测试人员、客户的沟通的桥梁，保障软件开发流程更加协调。让我们看一个典型的例子：
+</p>
+<p>
+测试人员、客户将软件的缺陷或称BUG，通过缺陷追踪软件提交给开发人员；开发人员根据测试人员、客户提交的 BUG 的现象、描述、重现条件等数据对该缺陷进行分析，修正完成后，除了将修正的代码提交，编译成产品，还要修改缺陷追踪软件中记录的对应的缺陷的状态，将其状态改为“已经修正”；现在球又传到了测试人员手中，测试人员对新编译的产品进行测试，看是否真的已经修正了这个缺陷，如果没有完成修正，重新将缺陷的状态改为“尚未修正”；如果经过测试发现已经修正，则将缺陷的状态改正为“关闭”。
+</p>
+<p>
+从上面的例子中，我们可以看出，缺陷有自己的生存周期。一般缺陷追踪软件把缺陷的生存周期的各个阶段用“状态”来描述，例如 Starteam 中描述 Change Request 就使用了如下的状态：
+</p>
+<p>
+"New" 代表新提交的 bug；"Open" 代表已经分配了的 bug；"In Progress" 代表已经进入修正阶段；"Fixed" 代表已经修正；"Cannot Reproduce" 代表未能重现的 Bug；"As Designed" 代表依据原设计正常的行为，并非 Bug；"Documented" 代表已经记录；"Is Duplicate" 代表重复提交的 Bug；"Deferred" 代表延期的 Bug；还有相应的确认状态，"Verified Cannot Reproduce", "Verified As Designed", "Verified Fixed", "Verified Documented", "Verified Is Duplicate", "Verified Deferred"；和相应的关闭状态，"Closed(Cannot Reproduce)", "Closed(As Designed)", "Closed(Fixed)", "Closed(Documented)", "Closed(Is Duplicate)", "Closed(Deferred)"。
+</p>
+<p>
+缺陷追踪软件应具有通知功能。Bug 的变更应该能够通过邮件通知相关的负责人。
+</p>
+<p>
+缺陷追踪软件应具有查询功能。例如：查询那些是属于本人负责的缺陷；查询仍处于 open 状态的 bug；
+</p>
+<p>
+缺陷追踪软件应具有统计功能，能够统计一段时期每个人发现的 BUG 数量，BUG 的平均修正时间，一个产品周期发现的 BUG 总数等等。这些统计数字对于软件测量具有重要意义。
+</p>
+<p>
+缺陷追踪的软件非常之多，在 Dave Eaton 的主页上，有一个 Bug Tracking 的软件列表：<a href="http://www.daveeaton.com/scm/PMTools.html" target="_top">http://www.daveeaton.com/scm/PMTools.html</a>，其中大部分我甚至闻所未闻。要在如此众多的缺陷追踪软件中做出选择，实在是困难的事情。Rational 的 ClearQuest，Starbase 的 Starteam （已被 Borland 收购），等是非常知名的商业软件，当然其价格也不菲，我们将先通过对 Starteam 的缺陷追踪流程做一演示，以理解缺陷追踪的概念。GNATS 和 BUGZILLA 是开放源码中的非常好的缺陷追踪软件，将在后面拿来作以详细介绍，因为它们不但功能够用，又没有 Licesnse 上的限制。
+</p>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="starteam"></a>2. Starteam Change Request Howto</h2></div></div></div>
+<p>
+Starteam 是 Starbase 公司在软件配置管理领域的重要的产品，集版本控制、缺陷追踪于一身。Starbase 于2002年底被 Borland 公司收购，Starteam 这一款产品将会紧密集成到 Borland 的产品中去，相信 Starteam 这一产品将伴随 Borland 深受开放人员爱戴的 RAD 开发工具一起，被更多的人所熟知。Delphi 8.0 已经将 Starteam 集成为内置的版本控制系统。我们这里主要介绍 Starteam 的缺陷追踪的功能。
+</p>
+<p>
+相关网址：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+<a href="http://www.starbase.com/" target="_top">http://www.starbase.com/</a>
+</p></li>
+<li><p>
+<a href="http://www.borland.com/starteam/index.html" target="_top">http://www.borland.com/starteam/index.html</a>
+</p></li>
+</ul></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4458816"></a>2.1. Starteam Change Request 工作流程</h3></div></div></div>
+<p>
+Starteam 中的称缺陷为 "Change Request"，简称 CR。下面通过一个实例介绍 Starteam 的缺陷追踪的工作流程。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+打开项目视图
+</p>
+<div class="mediaobject">
+<img src="images/st-1-openprj.png" alt="打开名为 StarDraw 的演示工程"><div class="caption"><p>
+打开名为 StarDraw 的演示工程
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-2-openview.png" alt="打开名为 WorldHello_Branch 的分支（视图）"><div class="caption"><p>
+打开名为 WorldHello_Branch 的分支（视图）
+</p></div>
+</div>
+</li>
+<li>
+<p>
+显示 Change Request 列表
+</p>
+<p>
+Starteam 的视图中，左侧的面板显示的是文件夹列表，右侧上边的面板是主要的任务区，选择 Change Request 页，则查看当前目录下的 Change Request 列表。
+</p>
+<div class="mediaobject">
+<img src="images/st-3-buglist.png" alt="缺陷控制目录下的 Change Request 列表"><div class="caption"><p>
+缺陷控制目录下的 Change Request 列表
+</p></div>
+</div>
+</li>
+<li>
+<p>
+以 test1（测试工程师1）登录，提交新发现的 bug；
+</p>
+<p>
+在模块1的目录下输入新的 Change Request。
+</p>
+<div class="mediaobject">
+<img src="images/st-4-test1-new.png"><div class="caption"><p>
+输入 Change Request 的概要（synopsis），指定模块的负责人。如果不清楚负责人，可以指定开发经理（devleader）为该 Change Request 的负责人（Responsibility）。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-5-test1-new-desc.png"><div class="caption"><p>
+输入该 Change Request 的详细描述、重现方法等信息。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-6-test1-new-bug.png"><div class="caption"><p>
+完成该 Change Request 的提交。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+开发经理收到邮件
+</p>
+<p>
+测试工程师1 在 Starteam 中提交 Change Request，并指定负责人为开发经理（devleader）后，Starteam 自动向开发经理发送通知邮件。
+</p>
+<div class="mediaobject">
+<img src="images/st-7-test1-sendmail.png"><div class="caption"><p>
+开发经理收到邮件
+</p></div>
+</div>
+</li>
+<li>
+<p>
+开发经理将修正该 Change Request 的任务分配到相应的开发工程师
+</p>
+<div class="mediaobject">
+<img src="images/st-8-devleader-view.png"><div class="caption"><p>
+开发经理打开 Starteam 相应视图，属于其本人负责的 Change Request 加亮显示。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-9-devleader-assign.png"><div class="caption"><p>
+开发经理将该 Change Request 的负责人指定为 dev1 （开发工程师1）。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+Starteam 的 Change Request 亦被版本控制
+</p>
+<p>
+test1 用户提交的 Change Request，再经过 devleader 用户的修改，产生了两版本，如下：
+</p>
+<div class="mediaobject">
+<img src="images/st-10-devleader-vc.png"><div class="caption"><p>
+右侧下方切换到 history 面板，显示两个版本。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-11-devleader-diff.png"><div class="caption"><p>
+比较两个版本的 Change Request 的差异。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+开发工程师 1 收到开发经理的邮件
+</p>
+<p>
+开发经理将Change Request 的负责人指定为 dev1 后，开发工程师 1 收到邮件。
+</p>
+<div class="mediaobject">
+<img src="images/st-12-devleader-mail.png"><div class="caption"><p>
+开发工程师 1 收到邮件
+</p></div>
+</div>
+</li>
+<li>
+<p>
+开发工程师修正 Bug，回填 Change Request。
+</p>
+<div class="mediaobject">
+<img src="images/st-14-dev1-status.png"><div class="caption"><p>
+开发工程师将 Change Request 的状态修改为 "In Progress"，表明自己已经注意到该问题，并正在修改当中。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-13-dev1-solution.png"><div class="caption"><p>
+修改完毕、提交代码、重新编译产品之后，在 Solution（解决方案）域填写解决方案，并将 Change Request 的状态修改为 "Fixed"。Starteam 会自动向该 Change Request 的提出者 test1 发出该 Change Request 已经修复的 Email 通知。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+测试工程师对修正进行测试，测试通过则将该 Change Request 状态设置为 "Verified Fixed"
+</p>
+<div class="mediaobject">
+<img src="images/st-15-test1-verify.png"><div class="caption"><p>
+测试工程师对该 Change Request 的修正进行测试，测试通过则将该 Change Request 状态设置为 "Verified Fixed"
+</p></div>
+</div>
+</li>
+<li>
+<p>
+测试经理（testleader）定期检查 Change Request 状态，复核并关闭 Change Request
+</p>
+<p>
+测试经理可以利用 Starteam 的 Filter 中的 "By Status &amp; Responsibility"，以分组的形式查看所有的 Change Request。对于长时间处于 "New" 和 "Open" 的 
+Change Request 要督促相关人员注意，对于处于 "Verified Fixed" 的 Change Request，要进行复核，对于确实完成修正的将状态改为 "Closed"。
+</p>
+<div class="mediaobject">
+<img src="images/st-16-testleader-list.png"><div class="caption"><p>
+按照状态和负责人格式查看 Change Request
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-17-testleader-close.png"><div class="caption"><p>
+对于处于 "Verified Fixed" 的 Change Request，要进行复核，对于确实完成修正的将状态改为 "Closed"
+</p></div>
+</div>
+</li>
+</ol></div>
+<p>
+如上，就是一个最基本的 Change Request 生存期模型。如果我们再查看这个 Change Request 的改动历史，更加直观。
+</p>
+<div class="mediaobject">
+<img src="images/st-cr-history.png"><div class="caption"><p>
+该 Change Request 的版本控制历史
+</p></div>
+</div>
+<p>
+上面的例子中，涉及到好几个角色，这些角色的名字，是可以由用户自定义的。
+</p>
+<div class="mediaobject">
+<img src="images/st-usrmgr.png"><div class="caption"><p>
+Starteam 的用户管理界面
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-usrmgr-mailconf.png"><div class="caption"><p>
+设置用户的邮件地址
+</p></div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4532144"></a>2.2. Starteam 缺陷追踪的优缺点</h3></div></div></div>
+<p>
+优点：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+易用的图形界面；
+</p></li>
+<li><p>
+支持工程的分支管理，即不同的分支管理各自的 Change Request；
+</p></li>
+<li>
+<p>
+支持 Change Quest 本身的版本控制；
+</p>
+<p>
+Change Request 和代码一样可以进行版本控制，亦可以对不同版本的 Change Request 进行对比；
+</p>
+</li>
+</ul></div>
+<p>
+缺点：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+商业软件，价格不菲；
+</p></li>
+<li><p>
+商业软件，功能扩展受限；
+</p></li>
+<li>
+<p>
+依赖于数据库，如果数据库崩溃，难以恢复；
+</p>
+<p>
+但是除了 GNATS 等以外的缺陷追踪系统都依赖数据库，看来功能、性能和一些管理上的便捷、安全性有时是矛盾的。
+</p>
+</li>
+</ul></div>
+<p>
+Starteam 还有一个特点：即必须手工指定 CR 的责任人，一般是由 Bug 提交者，而在有的情况下几乎不可能，因此有时需要靠他人如开发经理指定。后面介绍的缺陷追踪软件有的可以根据提交的缺陷的分类自动指定责任人，并发送邮件通知。说不清这个特点到底是优点还是缺点，只能是仁者见仁，智者见智了。
+</p>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="gnats"></a>3. GNATS</h2></div></div></div>
+<p>
+GNATS 是大名鼎鼎的 GNU 维护和使用的 Bug 跟踪系统。GNATS 将受管理的缺陷叫做 "Problem Report" （问题报告），简称为 "PR"。用户可以直接使用 Email 向系统提交 PR，亦可以使用基于 WEB 的图形界面提交。GNATS 的功能大体上等同于前面介绍的 Starteam 的 Change Request 管理。
+</p>
+<p>
+gnat 在英文字典中含义为：“小昆虫，小烦扰”，其读音中 g 不发音，而单词 GNATS 中的 G 是发音的。
+</p>
+<p>
+相关网址：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+GNATS 官方网址
+</p>
+<p>
+<a href="http://www.gnu.org/software/gnats/" target="_top">http://www.gnu.org/software/gnats</a>
+</p>
+</li>
+<li>
+<p>
+GNATS 下载地址
+</p>
+<p>
+<a href="ftp://ftp.gnu.org/pub/gnu/gnats/" target="_top">ftp://ftp.gnu.org/pub/gnu/gnats/</a>
+</p>
+</li>
+<li>
+<p>
+源代码
+</p>
+<p>
+<a href="http://savannah.gnu.org/projects/gnats" target="_top">http://savannah.gnu.org/projects/gnats</a>
+</p>
+</li>
+<li>
+<p>
+Gnatsweb
+</p>
+<p>
+<a href="http://savannah.gnu.org/projects/gnatsweb" target="_top">http://savannah.gnu.org/projects/gnatsweb</a>
+</p>
+</li>
+</ul></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4551424"></a>3.1. GNATS 特点</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+GNATS 特点
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+将通过 Email 或者 Web 界面提交的问题报告管理起来，并通过 Email 报告给责任人；
+</p></li>
+<li><p>
+GNATS 通过设置 PR 的分类（category）和分类的负责人，实现当一个 PR 提交后，自动向负责人发送邮件通知。而且，GNATS 也可以配置当一个 PR 在设定的时间没有响应的时候，自动向负责人再次发送邮件询问；
+</p></li>
+<li><p>
+可以通过界面对问题报告进行后续的变更，也提供了查询问题报告的界面；
+</p></li>
+<li><p>
+通过文件而不是数据库来存储和管理问题报告，因此更可靠；
+</p></li>
+<li><p>
+开放源码，没有版权问题；
+</p></li>
+<li><p>
+提供了扩充接口，并且用户可以进行二次开放，以扩充功能。
+</p></li>
+</ul></div>
+</li>
+<li>
+<p>
+GNATS 确省使用如下术语语描述 PR （问题报告）的状态：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+open
+</p>
+<p>
+初始状态是 "Open"，表明一个 PR 已经提交但尚未处理，相关的负责人会收到 Email 通知；
+</p>
+</li>
+<li>
+<p>
+analyzed
+</p>
+<p>
+当一个 PR 被提交之后，负责人收到通知，将 PR 状态设置为 "analyzed"，开始着手处理该 PR；
+</p>
+</li>
+<li>
+<p>
+feedback
+</p>
+<p>
+当责任人找到相应的解决方案后，将该 PR 的状态设置为 "feedback"，并回填 PR 中解决方案（solution）字段；
+</p>
+</li>
+<li>
+<p>
+closed
+</p>
+<p>
+当 PR 的提交者，确认该 PR 描述的问题已经解决，就将该 PR 的状态设置为 "closed"。
+</p>
+</li>
+<li>
+<p>
+suspended
+</p>
+<p>
+当一个 PR 没有时间或者当前存在困难，可以设置为 "suspended"，意为延期。
+</p>
+</li>
+</ul></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+上面描述的是 GNATS 的确省的状态和工作方式，最新版本的 GNATS 4 已经支持用户定制 PR 的状态，后面我们将举例说明；
+</p>
+<p>
+GNATS 不像 Starteam 那么直观的对缺陷进行版本控制，而是通过 PR 的一个名为 "Audit-Trail" 的字段跟踪修改记录。
+</p>
+</td></tr>
+</table></div>
+</li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4569856"></a>3.2. GNATS PR 流程示例</h3></div></div></div>
+<p>
+GNU 开放源码的很多项目的缺陷追踪即使用 GNATS，我们先到 GNU 的缺陷追踪网站上面看一看：<a href="http://bugs.gnu.org/cgi-bin/gnatsweb.pl" target="_top">http://bugs.gnu.org/cgi-bin/gnatsweb.pl</a>。
+</p>
+<div class="mediaobject">
+<img src="images/gnats-1-gnu-login.png" alt="GNU Bug Tracking 网站登录画面"><div class="caption"><p>
+GNU Bug Tracking 网站登录画面
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/gnats-2-gnu-query1.png" alt="查询 Bug"><div class="caption"><p>
+查询 Bug 画面：输入查询条件
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/gnats-3-gnu-query2.png" alt="查询 Bug"><div class="caption"><p>
+查询 Bug 画面：显示查询结果
+</p></div>
+</div>
+<p>
+如果读者在 GNU 的缺陷追踪网站上没有正式的用户账号，就不能体验一个完整的缺陷追踪流程。下面通过搭建的一个临时服务器作为演示，服务器搭建流程见后面的章节。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+以 test1（测试工程师1）登录，提交新发现的 bug；
+</p>
+<p>
+test1 的权限是 "edit"，以 test1 用户的身份登录后，在模块1的分类下输入新的 PR。
+</p>
+<div class="mediaobject">
+<img src="images/gnats-4-test1-main.png"><div class="caption"><p>
+test1 用户登录后的主画面
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/gnats-5-test1-new.png"><div class="caption"><p>
+向模块１提交 PR，模块的负责人无需指定，选择好分类（Category） 即可。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+test1 用户收到反馈邮件
+</p>
+<p>
+test1 用户收到 gnats-admin 用户发送的反馈邮件，表明正确提交了 PR；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-6-test1-feedback.png"><div class="caption"><p>
+test1 用户收到的反馈邮件
+</p></div>
+</div>
+</li>
+<li>
+<p>
+模块1 的负责人收到邮件通知
+</p>
+<p>
+dev1 用户是模块1 的负责人，test1 用户提交 PR 之后，dev1 用户收到系统发出的邮件通知；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-7-dev1-mail.png"><div class="caption"><p>
+dev1 用户收到 test1 用户发出的邮件通知
+</p></div>
+</div>
+</li>
+<li>
+<p>
+dev1 用户对相应的 PR 描述的问题处理完毕后，将 PR 的状态修改为 "analyzed"；
+</p>
+<p>
+dev1 用户是模块1 的负责人，收到 test1 的邮件通知之后，根据邮件通知，解决相应 PR 描述的问题，解决问题之后，dev1 用户登录 Bug Tracking 系统，将状态修改为 "ananyzed"；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-8-dev1-query.png"><div class="caption"><p>
+dev1 查询 PR，点击 "edit" 链接，进入编辑界面
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/gnats-9-dev1-analyzed.png"><div class="caption"><p>
+将 PR 状态修改为 "ananyzed"，在 Fixed 字段填入相应的解决方案的描述
+</p></div>
+</div>
+</li>
+<li>
+<p>
+每次对 PR 的修改，都在 Audit Trail 字段里留下修改记录；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-10-dev1-trail.png"><div class="caption"><p>
+Audit Trail 字段里显示修改记录
+</p></div>
+</div>
+</li>
+<li>
+<p>
+dev1 用户对 PR 的修改，将以邮件形式通知 PR 的创建者 test1；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-11-dev1-mailto-test1.png"><div class="caption"><p>
+test1 用户收到 dev1 用户关于 Bug 已经修正的邮件通知
+</p></div>
+</div>
+</li>
+<li>
+<p>
+test1 用户检验 dev1 的改动，如果 PR 确实已经修正，修改相应 PR 的状态为 "closed"
+</p>
+<div class="mediaobject">
+<img src="images/gnats-12-test1-closed.png"><div class="caption"><p>
+test1 将 PR 的状态修改为 "closed"
+</p></div>
+</div>
+</li>
+<li>
+<p>
+dev1 用户收到 test1 用户发出的 PR 已经关闭的邮件通知；
+</p>
+<div class="mediaobject">
+<img src="images/gnats-13-test1-mailto-dev1.png"><div class="caption"><p>
+dev1 用户收到 PR 已经 "closed" 的邮件通知
+</p></div>
+</div>
+</li>
+</ul></div>
+<p>
+从上面的流程可以看出，GNATS 的 PR 管理工作流程和 Starteam Change Request 管理流程是多么的相似，而且 GNATS 用户可以随意定制 PR 的状态，模拟出和 Starteam 一模一样的工作流程。下面介绍 GNATS 的安装和配置。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4622272"></a>3.3. GNATS 安装和配置</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+下载最新的安装包，确认 GNATS 和 Gnatsweb 版本是否匹配
+</p>
+<p>
+下载 GNATS 4 beta2: <a href="ftp://ftp.gnu.org/gnu/gnats/gnats-3.999.2.tar.gz" target="_top">ftp://ftp.gnu.org/gnu/gnats/gnats-3.999.2.tar.gz</a> ；
+</p>
+<p>
+直接从 CVS 服务器检出 Gnatsweb 4: <span><strong class="command">cvs -z3 -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnatsweb co gnatsweb</strong></span> ；
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+注意 GNATSWEB 和 GNATS 的版本是否兼容，Gnatsweb 2.9.x 和 GNATS 3.113.1 版本兼容，Gnatsweb 3.99.x 和 GNATS 3.999.x 兼容。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+建立名为 gnats 的账号
+</p>
+<p>
+创建 gnats 用户账号，系统维护以 gnats 身份运行，以减少系统安全风险。
+</p>
+<pre class="screen">
+$ useradd gnats
+</pre>
+</li>
+<li>
+<p>
+安装 GNATS
+</p>
+<p>
+以 root 用户登录，执行下列命令
+</p>
+<pre class="screen">
+$ tar zxvf gnats-3.999.2.tar.gz <a name="co.gnats.unzip"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+$ cd gnats-3.999.2 
+$ configure --prefix=/usr/local/gnats <a name="co.gnats.configure"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+$ make all info <a name="co.gnats.make"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+$ make install install-info <a name="co.gnats.makeinstall"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.gnats.unzip"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+下载的 GNATS 4 安装包解包至路径 gnats-3.999.2 下。3.999... = 4 ？ 不觉想起来上小学时，问老师 0.999...（无限循环）和 1 谁大的趣事。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.gnats.configure"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+将 GNATS 安装在路径 /usr/local/gnats 下，确省为 /usr/local。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.gnats.make"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+make all: 编译所有的应用程序；make info：生成帮助信息；
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.gnats.makeinstall"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+make install: 安装编译完毕的的应用程序；make install-info：安装帮助信息；
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+到底安装了些什么？
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+/usr/local/gnats/bin
+</p>
+<p>
+GNATS 工具。应将此路径加入 PATH 环境变量，或者在 /usr/local/bin 中建立符号链接。
+</p>
+</li>
+<li>
+<p>
+/usr/local/gnats/libexec/gnats/
+</p>
+<p>
+GNATS 维护工具。应将此路径加入 PATH 环境变量，或者在 /usr/local/bin 中建立符号链接。
+</p>
+</li>
+<li>
+<p>
+/usr/local/gnats/etc/gnats/
+</p>
+<p>
+GNATS 全局配置信息。可以由 databases 文件将一台服务器配置为多个项目提供缺陷追踪服务（database）；gnatsd.host_access 用于控制基于主机地址的安全选项。
+</p>
+</li>
+<li>
+<p>
+/usr/local/gnats/etc/gnats/defaults/
+</p>
+<p>
+GNATS 服务器配置信息模板。每配置一个 GNATS 缺陷追踪服务（database），将该路径下的文件作为模板复制到项目各自独立的配置目录中，如确省的配置目录为 /usr/local/gnats/com/gnatsdb/gnats-adm。其中 gnatsd.user_access 用于配置用户名和口令，dbconfig 数据库配置文件；categories 文件用于设置类别；responsible 设置负责人的邮件地址等。
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+配置确省的数据库
+</p>
+<p>
+这里说的数据库不是我们经常听到的关系型数据库，而是指 GNATS 为一个项目提供缺陷追踪的一组配置文件和相应数据，GNATS 实际上是以文本文件形式存储的。
+在配置文件文件 databases 中，确省设置了一个名为 default 的数据库。
+</p>
+<pre class="screen">
+default:Bug database:/usr/local/gnats/com/gnatsdb
+</pre>
+<p>
+运行 mkdb 维护工具，初始化确省数据库。
+</p>
+<pre class="screen">
+$ <span><strong class="command">mkdb default</strong></span>
+Copying default files from /usr/local/gnats/etc/gnats/defaults
+</pre>
+<p>
+mkdb 简单的将配置文件模板从 /usr/local/gnats/etc/gnats/defaults 目录下拷贝到指定的路径下。
+</p>
+<p>
+/usr/local/gnats/com/gnatsdb/gnats-adm 目录存放配置文件，初始来自于配置文件模板的拷贝；
+</p>
+<p>
+/usr/local/gnats/com/gnatsdb/pending 目录存放未知分类（Category）的 PR；
+</p>
+<p>
+/usr/local/gnats/com/gnatsdb/gnats-queue 目录存放等待处理的 PR；
+</p>
+<p>
+其它目录对应于各自的 Category 名称，存储对应 Category 的 PR，由此我们看出 PR 的 Category 命名为上述的三个保留名称。
+</p>
+</li>
+<li>
+<p>
+设置 crontab
+</p>
+<p>
+为避免 DOS 攻击，用户提交的 PR，先进入缓冲队列，待 queue-pr 命令执行时，方进行投递。因此将 queue-pr 加入 crontab，定时执行。
+</p>
+<pre class="screen">
+$ crontab -e
+0,10,20,30,40,50 * * * * exec-prefix/libexec/gnats/queue-pr --run
+</pre>
+</li>
+<li>
+<p>
+设置邮件别名
+</p>
+<p>
+因为 GNATS 初始设计为使用 Email 即可工作，因此需要设置邮件别名，通过管道，将邮件送交 GNATS 工具处理。将如下内容加入邮件别名文件（/etc/aliases）：
+</p>
+<pre class="screen">
+gnats-admin: root
+bugs: "| exec-prefix/libexec/gnats/queue-pr -q"
+query-pr: "| exec-prefix/libexec/gnats/mail-query"
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+注意：如果 sendmail 设置了 smrsh，需要将 queue-pr 和 mail-query 配置为 sendmail 可以执行的命令。简单的，可能只需要在 /etc/smrsh 目录下建立相应的符号链接。
+</p></td></tr>
+</table></div>
+</li>
+<li>
+<p>
+运行守护进程
+</p>
+<p>
+GNATS 的守护进程是最为重要的一环，它使 GNATS 支持多种 PR 方式。
+</p>
+<p>
+确认是否在 /etc/services 中配置了相应的服务，服务名为 support
+</p>
+<pre class="screen">
+support 1529/tcp # GNATS
+</pre>
+<p>
+配置以 inetd 或 xinetd 方式执行 gnatsd （守护进程）。
+</p>
+<p>
+对于 inetd，在 /etc/inetd.conf 中加入：
+</p>
+<pre class="screen">
+support stream tcp nowait gnats /usr/local/gnats/libexec/gnats/gnatsd gnatsd
+</pre>
+<p>
+对于 inetd，在 /etc/xinetd.d/ 目录下加入文件 support，内容如下：
+</p>
+<pre class="screen">
+service support
+{
+disable = no
+socket_type = stream
+protocol = tcp
+wait = no
+user = gnats
+server = /usr/local/gnats/libexec/gnats/gnatsd
+}
+</pre>
+</li>
+</ol></div>
+<p>
+至此，完成了 GNATS 的安装。但是，如果只凭借命令行工具 send-pr，和 Email 来提交和管理 PR，显然太专业而难以推广，不具有竞争力。因此 Gnatsweb 几乎成了唯一选择。下面马上来安装 Gnatsweb。</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+注意版本兼容
+</p>
+<p>
+Gnatsweb 2.9.x 和 GNATS 3.113.1 版本兼容，Gnatsweb 3.99.x 和 GNATS 3.999.x 兼容。Gnatsweb 3.99.x 在本文撰写之时，只能通过 CVS 检出代码。
+</p>
+<pre class="screen">
+$ <span><strong class="command">cvs -z3 -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnatsweb login</strong></span>
+$ <span><strong class="command">cvs -z3 -d:pserver:anoncvs@subversions.gnu.org:/cvsroot/gnatsweb co gnatsweb</strong></span>
+</pre>
+</li>
+<li>
+<p>
+GNATS 权限设置
+</p>
+<p>
+Gnatsweb 作为 cgi 程序运行在 WEB 服务器上，需要在 GNATS 服务器上配置 WEB服务器的访问权限。
+</p>
+<p>
+有两种方法，一种是在全局的 gnatsd.host_access 配置文件中设置 WEB 服务器的 IP 地址具有 edit 权限，如下：
+</p>
+<pre class="screen">
+127.0.0.1:edit:
+</pre>
+<p>
+由于 GNATS 的权限设置的特殊性，权限只能升不能降，因此各自数据库设置的用户权限全部实效，所有用户都至少拥有 edit 权限，即修改 PR 的权限。
+</p>
+<p>
+另外，就是在全局的 gnatsd.host_access 配置文件中设置 WEB 服务器的 IP 地址具有比较低的权限：
+</p>
+<pre class="screen">
+127.0.0.1:listdb:
+</pre>
+<p>
+再在各自独立的数据库配置文件中设置用户的权限。
+</p>
+</li>
+<li>
+<p>
+修改 gnatsweb-site.pl 脚本中的 GNATS 主机名和端口号
+</p>
+<p>
+确省的主机名为 localhost，确省端口为 1529。若实际配置有变，灵活修改之。
+</p>
+</li>
+<li>
+<p>
+确认是否安装了所需的 PERL 包
+</p>
+<pre class="screen">
+$ perl -MCPAN -e 'install CGI'
+$ perl -MCPAN -e 'install MIME::Base64'
+</pre>
+</li>
+<li>
+<p>
+测试链接
+</p>
+<pre class="screen">
+$ make test USERNAME=user PASSWORD=password DATABASE=default
+</pre>
+<p>
+错误的输出：
+</p>
+<pre class="screen">
+
+connect...........................................FAIL
+
+Gnatsweb was unable to connect to the GNATS server.
+
+There are several possible reasons for this.  Start off by checking
+that the USERNAME, PASSWORD and DATABASE parameters you supplied are
+valid.  If they are, there may be a problem in the configuration of
+your GNATS server.  Check your GNATS installation, particularly the
+host access files (remember that the web server needs access to the
+GNATS server), then run the tests again.
+
+make: *** [test] Error 9
+
+</pre>
+<p>
+正确的输出：
+</p>
+<pre class="screen">
+
+connect...........................................pass
+query.............................................pass
+fix_email_addrs 1.................................pass
+fix_email_addrs 2.................................pass
+fix_email_addrs 3.................................pass
+fix_email_addrs 4.................................pass
+fix_email_addrs 5.................................pass
+trim_responsible 1................................pass
+trim_responsible 2................................pass
+trim_responsible 3................................pass
+All tests passed.
+
+</pre>
+</li>
+<li>
+<p>
+开始安装
+</p>
+<p>
+需要指定网站的 cgi-bin 目录。关于 Apache 配置 CGI，请参见相关章节，在此不再赘述。
+</p>
+<pre class="screen">
+$ make install CGI_DIR=/usr/local/apache/cgi-bin
+</pre>
+<p>
+其实，只是将脚本 gnatsweb.pl 和 gnatsweb-site.pl 简单的拷贝到路径 /usr/local/apache/cgi-bin 之下。
+</p>
+</li>
+<li>
+<p>
+访问 Gnatsweb
+</p>
+<p>
+打开浏览器，访问网址：<a href="http://localhost/cgi-bin/gnatsweb.pl" target="_top">http://localhost/cgi-bin/gnatsweb.pl</a>。
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="mantis"></a>4. Mantis</h2></div></div></div>
+<p>
+Mantis —— 螳螂，名字一望便知是一个不错的除虫能手。Mantis 一个多么适合 Bug Tracking 的软件名字啊。
+</p>
+<p>
+Mantis是基于 PHP/MySQL 的 Web-based 缺陷跟踪系统 。
+</p>
+<p>
+链接
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+网站
+</p>
+<p>
+<a href="http://www.mantisbt.org/" target="_top">http://www.mantisbt.org/</a>
+</p>
+</li>
+<li>
+<p>
+代码
+</p>
+<p>
+<span><strong class="command">cvs -z3 -d:pserver:anonymous@cvs.sourceforge.net:/cvsroot/mantisbt co -P -d mantis  .</strong></span>
+</p>
+</li>
+</ul></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4709552"></a>4.1. Mantis 改进</h3></div></div></div>
+<p>
+WHODO 的 Bug tracking 系统采用的就是 Mantis，做了如下改动：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+<a href="http://bugs.mantisbt.org/view.php?id=6844" target="_top">修改 Bug 状态后，显示邮件发送的目标地址</a>
+</p>
+<p>
+虽然 mantis 的邮件发送管理相当完善，但是我比较不喜欢他的黑箱操作，更喜欢明明白白的知道，到底邮件发到哪里去了。
+相关补丁，已经提供 bugs.mantisbt.org 提交了。
+</p>
+</li>
+<li>
+<p>
+修改 manage_config_workflow_page.php 对于权限阈值的处理
+</p>
+<p>
+参见: <a href="http://bugs.mantisbt.org/view.php?id=6845" target="_top">Bug 0006845</a>
+</p>
+</li>
+<li>
+<p>
+界面风格的改动
+</p>
+<p>
+参见: <a href="http://bugs.mantisbt.org/view.php?id=6849" target="_top">Bug 0006849</a>
+</p>
+</li>
+<li>
+<p>
+其它小的 bugfix
+</p>
+<p>
+如: <a href="http://bugs.mantisbt.org/view.php?id=6843" target="_top">Bug 0006843</a>, 
+<a href="http://bugs.mantisbt.org/view.php?id=6850" target="_top">Bug 0006850</a>, 
+<a href="http://bugs.mantisbt.org/view.php?id=6852" target="_top">Bug 0006852</a>, 
+<a href="http://bugs.mantisbt.org/view.php?id=6867" target="_top">Bug 0006867</a>, 
+<a href="http://bugs.mantisbt.org/view.php?id=6868" target="_top">Bug 0006868</a>, 
+<a href="http://bugs.mantisbt.org/view.php?id=6869" target="_top">Bug 0006869</a>, 
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="bugzilla"></a>5. Bugzilla</h2></div></div></div>
+<p>
+应该算是老牌的 Bug tracking 系统了，基于 Perl + MySQL 开发的。不过本人的 Perl 水平仅限于几十行的小脚本。因此一直没有深入研究 Bugzilla。
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

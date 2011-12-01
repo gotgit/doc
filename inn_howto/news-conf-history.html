@@ -1,0 +1,149 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.4. history 文件维护</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="inside-inn.html" title="4. 深入 INN">
+<link rel="prev" href="news-conf-active.html" title="4.3. active 文件格式">
+<link rel="next" href="news-conf-overview.html" title="4.5. overview 维护">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.4. history 文件维护</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="news-conf-active.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. 深入 INN</th>
+<td width="20%" align="right"> <a accesskey="n" href="news-conf-overview.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="news-conf-history"></a>4.4. history 文件维护</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+history 的功用:
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+do expire
+</p></li>
+<li><p>
+check duplicate message ID (收 article 时)
+</p></li>
+<li><p>
+find article to be cancelled
+</p></li>
+</ol></div>
+</li>
+<li>
+<p>
+因此 history 不小心误杀, entry 有缺, 或毁损, 通常非必要不用重新 rebuild. 因为其影响顶多涉及:
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+article 无法 expire 掉 (有不用停 server 的方法, 已 post 在前)
+</p></li>
+<li><p>
+重复收到相同 article (不会太多)
+</p></li>
+<li><p>
+无法 cancel (影响不大)
+</p></li>
+</ol></div>
+</li>
+<li>
+<p><a name="help-cmd-makehistory"></a>
+命令 <span><strong class="command">makehistory</strong></span> 用来维护 history 和overview 数据库。
+</p>
+<div class="itemizedlist"><ul type="circle">
+<li>
+<p>
+-O
+</p>
+<p>
+生成新的 overview 数据库。如果使用了buffindexed方式的数据库，在调用 makehistory -O 重新生成 overview 前，先清除现有的 overview 数据。注意只有需要提供客户端服务的新闻组服务器才有必要建立 overview 数据库，对于只提供新闻中转的，无需建立和维护 overview 数据库。
+</p>
+</li>
+<li>
+<p>
+-F
+</p>
+<p>
+启用另外的进程写 overview 数据库。优点是效率高，但是资源要求高。只有同时使用参数 -O 才有意义。对于buffindexed方式，调用overchan处理overview数据库。
+</p>
+</li>
+<li>
+<p>
+-I
+</p>
+<p>
+对于文章ID低于 active 文件中的最低ID值的，不建立 overview 数据库。这适合于磁盘中存在旧的文章，但并不想让用户看到的情况。
+</p>
+</li>
+<li>
+<p>
+-x
+</p>
+<p>
+不改动 history 文件。适合于只想重建 overview 数据库（使用 -O 参数），但是不影响现有 history 文件。
+</p>
+</li>
+<li>
+<p>
+-b
+</p>
+<p>
+删除没有 Message-ID 的文章。
+</p>
+</li>
+<li>
+<p>
+-f &lt;filename&gt;
+</p>
+<p>
+将 history 文件写入指定文件
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="news-conf-active.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="inside-inn.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="news-conf-overview.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.3. active 文件格式 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.5. overview 维护</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

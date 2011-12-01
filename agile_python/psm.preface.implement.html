@@ -1,0 +1,193 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1.2. 最终的实现</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="敏捷 Web 开发实践">
+<link rel="up" href="psm.preface.html" title="1. 前言">
+<link rel="prev" href="psm.preface.background.html" title="1.1. 项目背景">
+<link rel="next" href="psm.tdd.html" title="2. 模型的敏捷开发">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1.2. 最终的实现</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="psm.preface.background.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">1. 前言</th>
+<td width="20%" align="right"> <a accesskey="n" href="psm.tdd.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.preface.implement"></a>1.2. 最终的实现</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="psm.preface.implement.html#psm.preface.implement.install">1.2.1. 软件安装</a></span></dt>
+<dt><span class="sect3"><a href="psm.preface.implement.html#psm.preface.implement.deploy">1.2.2. 网站部署</a></span></dt>
+<dt><span class="sect3"><a href="psm.preface.implement.html#psm.preface.implement.config">1.2.3. 配置</a></span></dt>
+<dt><span class="sect3"><a href="psm.preface.implement.html#psm.preface.implement.start">1.2.4. 运行应用</a></span></dt>
+<dt><span class="sect3"><a href="psm.preface.implement.html#psm.preface.implement.snapshot">1.2.5. 软件截屏</a></span></dt>
+</dl></div>
+<p>我们先来看看如何部署最终的实现。下面的安装配置过程中的命令是在
+      Debian Linux 下完成。至于 Windows 或其他平台，应该与之类似。</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.install"></a>1.2.1. 软件安装</h4></div></div></div>
+<p>理论上最简单的安装模式：</p>
+<pre class="screen">
+$ <span class="emphasis"><em>sudo easy_install pySvnManager</em></span>
+Searching for pySvnManager
+Reading http://pypi.python.org/simple/pySvnManager/
+Reading https://sourceforge.net/projects/pysvnmanager
+</pre>
+<p>理论上很简单的东西，却奈何不了复杂的现实：</p>
+<p>在项目刚刚开发完成，就出现了相当长一段时间的 <code class="uri">SourceForge.net</code> 无法访问！
+        导致 <span><strong class="command">easy_install</strong></span> 为了搜索最新版本，在连接到 
+        <a href="http://pysvnmanager.sourceforge.net" target="_top">http://pysvnmanager.sourceforge.net</a> 时发生了死锁而阻塞。
+        虽然我打算把项目移到别处，但发现一些依赖的包如: <span class="package">python-ldap</span>
+        也是要访问 <code class="uri">SourceForge.net</code> 网站。因此我取消了搬家的打算，耐心且无助的等待解封。
+        同时将代码镜像在网址：<a href="http://svn.worldhello.net/svn/pysvnmanager" target="_top">http://svn.worldhello.net/svn/pysvnmanager</a>
+        上，供不能访问 <a href="http://pysvnmanager.sourceforge.net" target="_top">http://pysvnmanager.sourceforge.net</a> 的用户参考。</p>
+<p>如果遇到阻塞，则需要花费更多的时间，手工下载软件包。<span><strong class="command">easy_install</strong></span>
+        也可以安装已经下载到本地的软件包。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>wget http://pypi.python.org/packages/source/p/pySvnManager/pySvnManager... </em></span>
+$ <span class="emphasis"><em>sudo easy_install pySvnManager-... </em></span>
+</pre>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>PySvnManager 的软件包有两种格式。一种是二进制的格式：<code class="filename">pysvnmanager-xxx.egg</code>，
+          另外一种是源码包 <code class="filename">pysvnmanager-xxx.tar.gz</code>。</p>
+<p>二进制包，是针对特定的 Python 版本编译的，如果您当前的 Python 版本和二进制包的版本不符，
+          就必须从源码包开始安装过程。无论源码包还是二进制的 Egg 包，都可以方便的使用
+          <span><strong class="command">easy_install</strong></span> 进行安装。</p>
+</td></tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.deploy"></a>1.2.2. 网站部署</h4></div></div></div>
+<p>执行 <span><strong class="command">make-config</strong></span> 和 <span><strong class="command">setup-app</strong></span>
+        完成部署。部署过程的细节参见后面软件集成的相关内容。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>mkdir deploy</em></span>
+$ <span class="emphasis"><em>cd deploy</em></span>
+$ <span class="emphasis"><em>paster make-config pySvnManager config.ini</em></span>
+Distribution already installed:
+pySvnManager 0.1.2dev-r9 from /home/jiangxin/pyenv/lib/python2.5/site-packages/pySvnManager-0.1.2dev_r9-py2.5.egg
+Creating config.ini
+Now you should edit the config files
+config.ini
+$ <span class="emphasis"><em>paster setup-app config.ini</em></span>
+Running setup_config() from pysvnmanager.websetup
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.config"></a>1.2.3. 配置</h4></div></div></div>
+<p>部署目录下的四个配置文件：</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p><span class="emphasis"><em><code class="filename">config.ini</code> ：</em></span>
+            
+            应用默认运行于5000端口，可以在此文件中定制</p></li>
+<li><p><span class="emphasis"><em><code class="filename">config/localconfig.py</code> ：</em></span>
+            
+            设置应用缺省的认证方式，缺省用 “<span class="quote"><code class="filename">config/svn.passwd</code></span>” 口令认证</p></li>
+<li><p><span class="emphasis"><em><code class="filename">config/svn.passwd</code> ：</em></span>
+            
+            缺省该口令文件内所有用户的口令均为 "guess"</p></li>
+<li><p><span class="emphasis"><em><code class="filename">config/svn.access</code> ：</em></span>
+            
+            svn路径授权文件，本应用要处理的文件。注意该文件开头的注释是版本号和版本库管理员帐号设置，
+            不要随意删除！</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.start"></a>1.2.4. 运行应用</h4></div></div></div>
+<p>启动应用，自动开启Web服务于5000端口。用Web浏览器访问。推荐使用 Firefox。</p>
+<pre class="screen">
+$ <span class="emphasis"><em>paster serve config.ini</em></span>
+Starting server in PID 28937.
+serving on 0.0.0.0:5000 view at http://127.0.0.1:5000 
+</pre>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.preface.implement.snapshot"></a>1.2.5. 软件截屏</h4></div></div></div>
+<p>参见演示网站：<a href="http://demo.ossxp.com/svnadmin/security/submit?username=admin&amp;password=admin" target="_top">http://demo.ossxp.com/svnadmin/</a></p>
+<p>Subversion 的授权机制，可能存在互相冲突的策略，导致用户权限的设置可能并不符合预期。
+        可以通过“权限检查”的功能对用户权限进行检查。参见：
+        <a href="psm.preface.implement.html#psm.preface.implement.snapshot.check" title="图 1. 用户权限测试功能">图 1 “用户权限测试功能”</a></p>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<div class="figure">
+<a name="psm.preface.implement.snapshot.check"></a><div class="figure-contents"><div><img src="images/snapshot_check.png" alt="用户权限测试功能"></div></div>
+<p class="title"><b>图 1. 用户权限测试功能</b></p>
+</div>
+<br class="figure-break">
+</div>
+<p>管理员可以用图形界面对用户帐号进行角色管理，可以对版本库的授权进行设置。参见：
+        <a href="psm.preface.implement.html#psm.preface.implement.snapshot.acl" title="图 2. 路径授权设置功能">图 2 “路径授权设置功能”</a></p>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<div class="figure">
+<a name="psm.preface.implement.snapshot.acl"></a><div class="figure-contents"><div><img src="images/snapshot_acl.png" alt="路径授权设置功能"></div></div>
+<p class="title"><b>图 2. 路径授权设置功能</b></p>
+</div>
+<br class="figure-break">
+</div>
+<p>PySvnManager 还提供的版本库创建和删除（仅限空版本库），
+        以及版本库钩子脚本的设置界面。参见：
+        <a href="psm.preface.implement.html#psm.preface.implement.snapshot.hooks" title="图 3. 版本库创建及钩子脚本扩展">图 3 “版本库创建及钩子脚本扩展”</a></p>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<div class="figure">
+<a name="psm.preface.implement.snapshot.hooks"></a><div class="figure-contents"><div><img src="images/snapshot_hooks.png" alt="版本库创建及钩子脚本扩展"></div></div>
+<p class="title"><b>图 3. 版本库创建及钩子脚本扩展</b></p>
+</div>
+<br class="figure-break">
+</div>
+<p>下面将整个开发过程进行概要的介绍，展示如何用 Python 进行敏捷的 Web 开发。</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="psm.preface.background.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="psm.preface.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="psm.tdd.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">1.1. 项目背景 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2. 模型的敏捷开发</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.1. Starteam Change Request 工作流程</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="缺陷追踪系统 HOWTO">
+<link rel="up" href="starteam.html" title="2. Starteam Change Request Howto">
+<link rel="prev" href="starteam.html" title="2. Starteam Change Request Howto">
+<link rel="next" href="ar01s02s02.html" title="2.2. Starteam 缺陷追踪的优缺点">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.1. Starteam Change Request 工作流程</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="starteam.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. Starteam Change Request Howto</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s02s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4459088"></a>2.1. Starteam Change Request 工作流程</h3></div></div></div>
+<p>
+Starteam 中的称缺陷为 "Change Request"，简称 CR。下面通过一个实例介绍 Starteam 的缺陷追踪的工作流程。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+打开项目视图
+</p>
+<div class="mediaobject">
+<img src="images/st-1-openprj.png" alt="打开名为 StarDraw 的演示工程"><div class="caption"><p>
+打开名为 StarDraw 的演示工程
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-2-openview.png" alt="打开名为 WorldHello_Branch 的分支（视图）"><div class="caption"><p>
+打开名为 WorldHello_Branch 的分支（视图）
+</p></div>
+</div>
+</li>
+<li>
+<p>
+显示 Change Request 列表
+</p>
+<p>
+Starteam 的视图中，左侧的面板显示的是文件夹列表，右侧上边的面板是主要的任务区，选择 Change Request 页，则查看当前目录下的 Change Request 列表。
+</p>
+<div class="mediaobject">
+<img src="images/st-3-buglist.png" alt="缺陷控制目录下的 Change Request 列表"><div class="caption"><p>
+缺陷控制目录下的 Change Request 列表
+</p></div>
+</div>
+</li>
+<li>
+<p>
+以 test1（测试工程师1）登录，提交新发现的 bug；
+</p>
+<p>
+在模块1的目录下输入新的 Change Request。
+</p>
+<div class="mediaobject">
+<img src="images/st-4-test1-new.png"><div class="caption"><p>
+输入 Change Request 的概要（synopsis），指定模块的负责人。如果不清楚负责人，可以指定开发经理（devleader）为该 Change Request 的负责人（Responsibility）。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-5-test1-new-desc.png"><div class="caption"><p>
+输入该 Change Request 的详细描述、重现方法等信息。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-6-test1-new-bug.png"><div class="caption"><p>
+完成该 Change Request 的提交。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+开发经理收到邮件
+</p>
+<p>
+测试工程师1 在 Starteam 中提交 Change Request，并指定负责人为开发经理（devleader）后，Starteam 自动向开发经理发送通知邮件。
+</p>
+<div class="mediaobject">
+<img src="images/st-7-test1-sendmail.png"><div class="caption"><p>
+开发经理收到邮件
+</p></div>
+</div>
+</li>
+<li>
+<p>
+开发经理将修正该 Change Request 的任务分配到相应的开发工程师
+</p>
+<div class="mediaobject">
+<img src="images/st-8-devleader-view.png"><div class="caption"><p>
+开发经理打开 Starteam 相应视图，属于其本人负责的 Change Request 加亮显示。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-9-devleader-assign.png"><div class="caption"><p>
+开发经理将该 Change Request 的负责人指定为 dev1 （开发工程师1）。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+Starteam 的 Change Request 亦被版本控制
+</p>
+<p>
+test1 用户提交的 Change Request，再经过 devleader 用户的修改，产生了两版本，如下：
+</p>
+<div class="mediaobject">
+<img src="images/st-10-devleader-vc.png"><div class="caption"><p>
+右侧下方切换到 history 面板，显示两个版本。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-11-devleader-diff.png"><div class="caption"><p>
+比较两个版本的 Change Request 的差异。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+开发工程师 1 收到开发经理的邮件
+</p>
+<p>
+开发经理将Change Request 的负责人指定为 dev1 后，开发工程师 1 收到邮件。
+</p>
+<div class="mediaobject">
+<img src="images/st-12-devleader-mail.png"><div class="caption"><p>
+开发工程师 1 收到邮件
+</p></div>
+</div>
+</li>
+<li>
+<p>
+开发工程师修正 Bug，回填 Change Request。
+</p>
+<div class="mediaobject">
+<img src="images/st-14-dev1-status.png"><div class="caption"><p>
+开发工程师将 Change Request 的状态修改为 "In Progress"，表明自己已经注意到该问题，并正在修改当中。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-13-dev1-solution.png"><div class="caption"><p>
+修改完毕、提交代码、重新编译产品之后，在 Solution（解决方案）域填写解决方案，并将 Change Request 的状态修改为 "Fixed"。Starteam 会自动向该 Change Request 的提出者 test1 发出该 Change Request 已经修复的 Email 通知。
+</p></div>
+</div>
+</li>
+<li>
+<p>
+测试工程师对修正进行测试，测试通过则将该 Change Request 状态设置为 "Verified Fixed"
+</p>
+<div class="mediaobject">
+<img src="images/st-15-test1-verify.png"><div class="caption"><p>
+测试工程师对该 Change Request 的修正进行测试，测试通过则将该 Change Request 状态设置为 "Verified Fixed"
+</p></div>
+</div>
+</li>
+<li>
+<p>
+测试经理（testleader）定期检查 Change Request 状态，复核并关闭 Change Request
+</p>
+<p>
+测试经理可以利用 Starteam 的 Filter 中的 "By Status &amp; Responsibility"，以分组的形式查看所有的 Change Request。对于长时间处于 "New" 和 "Open" 的 
+Change Request 要督促相关人员注意，对于处于 "Verified Fixed" 的 Change Request，要进行复核，对于确实完成修正的将状态改为 "Closed"。
+</p>
+<div class="mediaobject">
+<img src="images/st-16-testleader-list.png"><div class="caption"><p>
+按照状态和负责人格式查看 Change Request
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-17-testleader-close.png"><div class="caption"><p>
+对于处于 "Verified Fixed" 的 Change Request，要进行复核，对于确实完成修正的将状态改为 "Closed"
+</p></div>
+</div>
+</li>
+</ol></div>
+<p>
+如上，就是一个最基本的 Change Request 生存期模型。如果我们再查看这个 Change Request 的改动历史，更加直观。
+</p>
+<div class="mediaobject">
+<img src="images/st-cr-history.png"><div class="caption"><p>
+该 Change Request 的版本控制历史
+</p></div>
+</div>
+<p>
+上面的例子中，涉及到好几个角色，这些角色的名字，是可以由用户自定义的。
+</p>
+<div class="mediaobject">
+<img src="images/st-usrmgr.png"><div class="caption"><p>
+Starteam 的用户管理界面
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/st-usrmgr-mailconf.png"><div class="caption"><p>
+设置用户的邮件地址
+</p></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="starteam.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="starteam.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s02s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2. Starteam Change Request Howto </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2.2. Starteam 缺陷追踪的优缺点</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,1035 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>A. 不同编程风格参考</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="开发规范参考">
+<link rel="up" href="index.html" title="开发规范参考">
+<link rel="prev" href="docbook.html" title="5. 用DocBook来写文档">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">A. 不同编程风格参考</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="docbook.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> </td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="appendix" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title">
+<a name="appendix-indent"></a>A. 不同编程风格参考</h2></div></div></div>
+<p>通过indent参数分析，比较自定义风格和GNU，KR，BSD编程风格。
+</p>
+<div class="table">
+<a name="idp4906544"></a><p class="title"><b>表 A.1. 自定义风格和GNU，KR，BSD风格比较</b></p>
+<div class="table-contents"><table summary="自定义风格和GNU，KR，BSD风格比较" border="1">
+<colgroup>
+<col>
+<col>
+<col>
+<col>
+<col>
+<col>
+</colgroup>
+<thead><tr>
+<th align="center">参数</th>
+<th align="center">含义</th>
+<th align="center">我们的风格</th>
+<th align="center">GNU风格</th>
+<th align="center">KR风格</th>
+<th align="center">BSD风格</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left">-bad
+</td>
+<td align="left">--blank-lines-after-declarations
+</td>
+<td align="left">y
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-bap
+</td>
+<td align="left">--blank-lines-after-procedures
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-bbb
+</td>
+<td align="left">--blank-lines-before-block-comments
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-bbo
+</td>
+<td align="left">--break-before-boolean-operator
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-bc
+</td>
+<td align="left">--blank-lines-after-commas
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-bl
+</td>
+<td align="left">--braces-after-if-line
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-blin
+</td>
+<td align="left">--brace-indent n
+</td>
+<td align="left">0
+</td>
+<td align="left">2
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-bls
+</td>
+<td align="left">--braces-after-struct-decl-line
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-br
+</td>
+<td align="left">--braces-on-if-line
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-brs
+</td>
+<td align="left">--braces-on-struct-decl-line
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-bs
+</td>
+<td align="left">--blank-before-sizeof
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-cn
+</td>
+<td align="left">--comment-indentationn
+</td>
+<td align="left">33
+</td>
+<td align="left">
+</td>
+<td align="left">33
+</td>
+<td align="left">33
+</td>
+</tr>
+<tr>
+<td align="left">-cbin
+</td>
+<td align="left">--case-brace-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-cdn
+</td>
+<td align="left">--declaration-comment-columnn
+</td>
+<td align="left">33
+</td>
+<td align="left">
+</td>
+<td align="left">33
+</td>
+<td align="left">33
+</td>
+</tr>
+<tr>
+<td align="left">-cdb
+</td>
+<td align="left">--comment-delimiters-on-blank-lines
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-cdw
+</td>
+<td align="left">--cuddle-do-while
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ce
+</td>
+<td align="left">--cuddle-else
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-cin
+</td>
+<td align="left">--continuation-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">4
+</td>
+<td align="left">4
+</td>
+</tr>
+<tr>
+<td align="left">-clin
+</td>
+<td align="left">--case-indentationn
+</td>
+<td align="left">0
+</td>
+<td align="left">
+</td>
+<td align="left">0
+</td>
+<td align="left">0
+</td>
+</tr>
+<tr>
+<td align="left">-cpn
+</td>
+<td align="left">--else-endif-columnn
+</td>
+<td align="left">33
+</td>
+<td align="left">1
+</td>
+<td align="left">33
+</td>
+<td align="left">33
+</td>
+</tr>
+<tr>
+<td align="left">-cs
+</td>
+<td align="left">--space-after-cast
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-dn
+</td>
+<td align="left">--line-comments-indentationn
+</td>
+<td align="left">0
+</td>
+<td align="left">
+</td>
+<td align="left">0
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ndj
+</td>
+<td align="left">indents declarations the same as code 
+</td>
+<td align="left">
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-bfda
+</td>
+<td align="left">--break-function-decl-args
+</td>
+<td align="left">n
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-din
+</td>
+<td align="left">--declaration-indentationn
+</td>
+<td align="left">2
+</td>
+<td align="left">2
+</td>
+<td align="left">1
+</td>
+<td align="left">16
+</td>
+</tr>
+<tr>
+<td align="left">-fc1
+</td>
+<td align="left">--format-first-column-comments
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-fca
+</td>
+<td align="left">--format-all-comments
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-gnu
+</td>
+<td align="left">--gnu-style
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-hnl
+</td>
+<td align="left">--honour-newlines
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-in
+</td>
+<td align="left">--indent-leveln
+</td>
+<td align="left">4
+</td>
+<td align="left">2
+</td>
+<td align="left">4
+</td>
+<td align="left">4
+</td>
+</tr>
+<tr>
+<td align="left">-ipn
+</td>
+<td align="left">--parameter-indentationn
+</td>
+<td align="left">5
+</td>
+<td align="left">5
+</td>
+<td align="left">0
+</td>
+<td align="left">4
+</td>
+</tr>
+<tr>
+<td align="left">-kr
+</td>
+<td align="left">--k-and-r-style
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ln
+</td>
+<td align="left">--line-lengthn
+</td>
+<td align="left">75
+</td>
+<td align="left">
+</td>
+<td align="left">75
+</td>
+<td align="left">75
+</td>
+</tr>
+<tr>
+<td align="left">-cs
+</td>
+<td align="left">--space-after-cast
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-dn
+</td>
+<td align="left">--line-comments-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-bfda
+</td>
+<td align="left">--break-function-decl-args
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-din
+</td>
+<td align="left">--declaration-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-fc1
+</td>
+<td align="left">--format-first-column-comments
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-fca
+</td>
+<td align="left">--format-all-comments
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-gnu
+</td>
+<td align="left">--gnu-style
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-hnl
+</td>
+<td align="left">--honour-newlines
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-in
+</td>
+<td align="left">--indent-leveln
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ipn
+</td>
+<td align="left">--parameter-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-kr
+</td>
+<td align="left">--k-and-r-style
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-ln
+</td>
+<td align="left">--line-lengthn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-lcn
+</td>
+<td align="left">--comment-line-lengthn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-lp
+</td>
+<td align="left">--continue-at-parentheses
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-lps
+</td>
+<td align="left">--leave-preprocessor-space
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-orig
+</td>
+<td align="left">--original
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-npro
+</td>
+<td align="left">--ignore-profile
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-pcs
+</td>
+<td align="left">--space-after-procedure-calls
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-pin
+</td>
+<td align="left">--paren-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-pmt
+</td>
+<td align="left">--preserve-mtime
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-prs
+</td>
+<td align="left">--space-after-parentheses
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-psl
+</td>
+<td align="left">--procnames-start-lines
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-saf
+</td>
+<td align="left">--space-after-for
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-sai
+</td>
+<td align="left">--space-after-if
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-saw
+</td>
+<td align="left">--space-after-while
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-sbin
+</td>
+<td align="left">--struct-brace-indentationn
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-sc
+</td>
+<td align="left">--start-left-side-of-comments
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">y
+</td>
+</tr>
+<tr>
+<td align="left">-sob
+</td>
+<td align="left">--swallow-optional-blank-lines
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-ss
+</td>
+<td align="left">--space-special-semicolon
+</td>
+<td align="left">n
+</td>
+<td align="left">
+</td>
+<td align="left">n
+</td>
+<td align="left">n
+</td>
+</tr>
+<tr>
+<td align="left">-st
+</td>
+<td align="left">--standard-output
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-T typenames
+</td>
+<td align="left">Tell indent the name of typenames.
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-tsn
+</td>
+<td align="left">--tab-sizen
+</td>
+<td align="left">4
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">8
+</td>
+</tr>
+<tr>
+<td align="left">-ut
+</td>
+<td align="left">--use-tabs
+</td>
+<td align="left">y
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-v
+</td>
+<td align="left">--verbose
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+<tr>
+<td align="left">-version
+</td>
+<td align="left">Output the version number of indent.
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+<td align="left">
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<br class="table-break"><p>$Date$</p>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="docbook.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> </td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">5. 用DocBook来写文档 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> </td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

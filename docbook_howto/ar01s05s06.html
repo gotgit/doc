@@ -1,0 +1,173 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>5.6. DTD 与 DSSSL</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="DocBook 助你完成传世之作">
+<link rel="up" href="ar01s05.html" title="5. 深入 DocBook 文档">
+<link rel="prev" href="ar01s05s05.html" title="5.5. DocBook示例">
+<link rel="next" href="docbook-dtd.html" title="6. DocBook的DTD组织框架和定制">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">5.6. DTD 与 DSSSL</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s05s05.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">5. 深入 DocBook 文档</th>
+<td width="20%" align="right"> <a accesskey="n" href="docbook-dtd.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp5575376"></a>5.6. DTD 与 DSSSL</h3></div></div></div>
+<p>
+DTD 规定语法、语义；DSSSL 定义样式。
+</p>
+<p>
+A Survey of Stylesheet Languages
+</p>
+<p>
+Over the years, a number of attempts have been made to produce a standard 
+stylesheet language and, failing that, a large number of proprietary languages 
+have been developed. 
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+DSSSL
+</p>
+<p>
+International Organization for Standardization (ISO) created DSSSL, 
+the Document Style Semantics and Specification Language. Subsets of 
+DSSSL are supported by Jade and a few other tools, but it never achieved 
+widespread support. 
+</p>
+</li>
+<li>
+<p>
+CSS
+</p>
+<p>
+The W3C CSS Working Group created CSS as a style attachment language 
+for HTML, and, more recently, XML. 
+</p>
+</li>
+<li>
+<p>
+XSL
+</p>
+<p>
+Most recently, the XML effort has identified a standard Extensible 
+Style Language (XSL) as a requirement. The W3C XSL Working Group is 
+currently pursuing that effort. 
+</p>
+</li>
+<li>
+<p>
+示例，对于如下的DocBook片断，相应的各种样式表的定义如下：
+</p>
+<pre class="screen">
+&lt;para&gt;
+This is an example paragraph. It should be presented in a
+reasonable body font. &lt;emphasis&gt;Emphasized&lt;/emphasis&gt; words
+should be printed in italics. A single level of 
+&lt;emphasis&gt;Nested &lt;emphasis&gt;emphasis&lt;/emphasis&gt; should also
+be supported.&lt;/emphasis&gt;
+&lt;/para&gt;
+</pre>
+<p>
+dsssl
+</p>
+<pre class="screen">
+(element para
+  (make paragraph
+    (process-children)))
+
+(element emphasis
+  (make sequence
+    font-posture: 'italic
+    (process-children)))
+
+(element (emphasis emphasis)
+  (make sequence
+    font-posture: 'upright
+    (process-children)))
+</pre>
+<p>
+css
+</p>
+<pre class="screen">
+para              { display: block }
+emphasis          { display: inline;
+                    font-style: italic; }
+emphasis emphasis { display: inline;
+                    font-style: upright; }
+</pre>
+<p>
+xsl
+</p>
+<pre class="screen">
+&lt;?xml version='1.0'?&gt;
+&lt;xsl:stylesheet xmlns:xsl="http://www.w3.org/XSL/Transform/1.0"
+                xmlns:fo="http://www.w3.org/XSL/Format/1.0"&gt;
+
+&lt;xsl:template match="para"&gt;   
+  &lt;fo:block&gt;
+    &lt;xsl:apply-templates/&gt;  
+  &lt;/fo:block&gt;
+&lt;/xsl:template&gt;  
+
+&lt;xsl:template match="emphasis"&gt;
+  &lt;fo:sequence font-style="italic"&gt;
+    &lt;xsl:apply-templates/&gt;  
+  &lt;/fo:sequence&gt;
+&lt;/xsl:template&gt;  
+
+&lt;xsl:template match="emphasis/emphasis"&gt;
+  &lt;fo:sequence font-style="upright"&gt;
+    &lt;xsl:apply-templates/&gt;  
+  &lt;/fo:sequence&gt;
+&lt;/xsl:template&gt;  
+
+&lt;/xsl:stylesheet&gt;
+</pre>
+</li>
+</ul></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s05s05.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="ar01s05.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="docbook-dtd.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">5.5. DocBook示例 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 6. DocBook的DTD组织框架和定制</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

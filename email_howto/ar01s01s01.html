@@ -1,0 +1,324 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1.1. M4 和 sendmail.cf</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="sendmail.html" title="1. Sendmail">
+<link rel="prev" href="sendmail.html" title="1. Sendmail">
+<link rel="next" href="ar01s01s02.html" title="1.2. mail relay 规则详解">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1.1. M4 和 sendmail.cf</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="sendmail.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">1. Sendmail</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s01s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4461440"></a>1.1. M4 和 sendmail.cf</h3></div></div></div>
+<p>
+Sendmail的配置文件 sendmail.cf 算得上“臭名昭著”，看看这个文件一定会让你头大，几乎没有人从头来写这个文件。关于 sendmail.cf 的详细内容，参见：<a href="http://www.sendmail.org/~ca/email/doc8.12/op-sh-5.html" target="_top">Sendmail Installation and Operation Guide --- THE WHOLE SCOOP ON THE CONFIGURATION FILE</a>。
+</p>
+<p>
+通过使用 m4 宏处理命令，由宏文件 sendmail.mc 来生成复杂的配置文件 sendmail.cf，一切变得简单多了。
+</p>
+<p>
+/etc/mail/sendmail.mc 文件即是原始宏文件。生成配置文件 sendmail.cf 的命令为：
+</p>
+<pre class="screen">
+
+$ m4 sendmail.mc &gt; sendmail.cf
+
+</pre>
+<p>
+默认的配置文件仅仅能在本机发送邮件，如果需要更强的功能，需要修改宏文件：<code class="filename">sendmail.mc</code>
+</p>
+<p>
+缺省的<code class="filename">sendmail.mc</code>文件：
+</p>
+<pre class="screen">
+divert(-1)                                     <a name="co.divert"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+dnl This is the sendmail macro config file. If you make changes to this file,
+dnl you need the sendmail-cf rpm installed and then have to generate a
+dnl new /etc/sendmail.cf by running the following command:
+dnl
+dnl        m4 /etc/mail/sendmail.mc &gt; /etc/sendmail.cf
+dnl
+include(`/usr/share/sendmail-cf/m4/cf.m4')
+VERSIONID(`linux setup for Red Hat Linux')dnl  <a name="co.versionid"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+OSTYPE(`linux')                                <a name="co.ostype"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+dnl Uncomment and edit the following line if your mail needs to be sent out
+dnl through an external mail server:
+dnl define(`SMART_HOST',`smtp.your.provider')  <a name="co.dnl1"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+define(`confDEF_USER_ID',``8:12'')dnl          <a name="co.dnl2"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+undefine(`UUCP_RELAY')dnl
+undefine(`BITNET_RELAY')dnl
+define(`confAUTO_REBUILD')dnl
+define(`confTO_CONNECT', `1m')dnl
+define(`confTRY_NULL_MX_LIST',true)dnl
+define(`confDONT_PROBE_INTERFACES',true)dnl
+define(`PROCMAIL_MAILER_PATH',`/usr/bin/procmail')dnl
+define(`ALIAS_FILE', `/etc/aliases')dnl        <a name="co.mc.aliases"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+dnl define(`STATUS_FILE', `/etc/mail/statistics')dnl
+define(`UUCP_MAILER_MAX', `2000000')dnl
+define(`confUSERDB_SPEC', `/etc/mail/userdb.db')dnl
+define(`confPRIVACY_FLAGS', `authwarnings,novrfy,noexpn,restrictqrun')dnl
+define(`confAUTH_OPTIONS', `A')dnl
+dnl TRUST_AUTH_MECH(`DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+dnl define(`confAUTH_MECHANISMS', `DIGEST-MD5 CRAM-MD5 LOGIN PLAIN')dnl
+dnl define(`confTO_QUEUEWARN', `4h')dnl
+dnl define(`confTO_QUEUERETURN', `5d')dnl
+dnl define(`confQUEUE_LA', `12')dnl
+dnl define(`confREFUSE_LA', `18')dnl
+dnl FEATURE(delay_checks)dnl
+FEATURE(`no_default_msa',`dnl')dnl
+FEATURE(`smrsh',`/usr/sbin/smrsh')dnl        <a name="co.feature.smrsh"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0">
+FEATURE(`mailertable',`hash -o /etc/mail/mailertable.db')dnl
+FEATURE(`virtusertable',`hash -o /etc/mail/virtusertable.db')dnl <a name="co.feature.virtuser"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0">
+FEATURE(redirect)dnl
+FEATURE(always_add_domain)dnl                <a name="co.feature.alwaysadddom"></a><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0">
+FEATURE(use_cw_file)dnl                      <a name="co.feature.usecwfile"></a><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0">
+FEATURE(use_ct_file)dnl                      <a name="co.feature.usectfile"></a><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0">
+dnl The '-t' option will retry delivery if e.g. the user runs over his quota.
+FEATURE(local_procmail,`',`procmail -t -Y -a $h -d $u')dnl
+FEATURE(`access_db',`hash -o /etc/mail/access.db')dnl
+FEATURE(`blacklist_recipients')dnl
+EXPOSED_USER(`root')dnl
+dnl This changes sendmail to only listen on the loopback device 127.0.0.1
+dnl and not on any other network devices. Comment this out if you want
+dnl to accept email over the network.
+DAEMON_OPTIONS(`Port=smtp,Addr=127.0.0.1, Name=MTA')
+dnl NOTE: binding both IPv4 and IPv6 daemon to the same port requires
+dnl       a kernel patch
+dnl DAEMON_OPTIONS(`port=smtp,Addr=::1, Name=MTA-v6, Family=inet6')
+dnl We strongly recommend to comment this one out if you want to protect
+dnl yourself from spam. However, the laptop and users on computers that do
+dnl not have 24x7 DNS do need this.
+FEATURE(`accept_unresolvable_domains')dnl     <a name="co.unresolv.domain"></a><img src="/docbook/includes/images/callouts/12.png" alt="12" border="0">
+dnl FEATURE(`relay_based_on_MX')dnl
+MAILER(smtp)dnl
+MAILER(procmail)dnl
+Cwlocalhost.localdomain
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.divert"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+divert(-1），从这行以下到divert(0)之间会被忽略，不会加到产生出来的*.cf文件中，通常放一些版权信息之类。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.versionid"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+放入一些版本信息
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.ostype"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+根据平台设置，产生相关环境设定
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.dnl1"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+行首的 dnl 相当于注释
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.dnl2"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+行尾的 dnl 用于去掉行尾的空格、回车换行，以避免生成的文件包含过多的空行。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mc.aliases"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置别名文件。亦可设置多个别名文件，如：define(`ALIAS_FILE', `/etc/aliases,/usr/local/majordomo/majordomo.aliases')dnl
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.smrsh"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+smrsh 即 sendmail restricted shell。简而言之smrsh限制了攻击者可以执行的程序集。当它与sendmail程序一起使用的时候，smrsh有效的将sendmail可以执行的程序的范围限制在smrsh目录之下。 
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.virtuser"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left"><p>
+允许在同一个主机上使用多个虚拟域
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.alwaysadddom"><img src="/docbook/includes/images/callouts/9.png" alt="9" border="0"></a> </td>
+<td valign="top" align="left"><p>
+即使是本地传送的信件，也会加上domain-name。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.usecwfile"><img src="/docbook/includes/images/callouts/10.png" alt="10" border="0"></a> </td>
+<td valign="top" align="left"><p>
+会参考 /etc/mail/local-host-names 来决定哪些domain-name是local-host。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.feature.usectfile"><img src="/docbook/includes/images/callouts/11.png" alt="11" border="0"></a> </td>
+<td valign="top" align="left"><p>
+会参考 /etc/mail/trust-users 文件，来决定哪些用户可以以其它身份发信而不产生警告。Majordomo 用户需要属于 trust-users。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.unresolv.domain"><img src="/docbook/includes/images/callouts/12.png" alt="12" border="0"></a> </td>
+<td valign="top" align="left"><p>
+发件人的地址如果不能解析，也能发送成功。避免由于域名解析受限制而拒收邮件。
+</p></td>
+</tr>
+</table></div>
+<p>
+修改该配置如下：
+</p>
+<pre class="screen">
+dnl Dmworldhello.net
+dnl Dwmail
+dnl define(`confDOMAIN_NAME', `$w.$m')dnl                    <a name="co.domainname"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+... ...
+FEATURE(`domaintable',`hash -o /etc/mail/domaintable')       <a name="co.domaintable"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+... ...
+FEATURE(`genericstable',`hash -o /etc/mail/genericstable')   <a name="co.genericstable"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+... ...
+GENERICS_DOMAIN_FILE(`/etc/mail/genericsdomain')             <a name="co.genericsdomain"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+... ...
+<span class="emphasis"><em>dnl</em></span>  DAEMON_OPTIONS(`Port=smtp,Addr=127.0.0.1, Name=MTA')     <a name="co.pubservice"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+... ...
+FEATURE(`accept_unqualified_senders')dnl                     <a name="co.unqual.sender"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+... ...
+define(confMAX_HOP,30)                                       <a name="co.mc.maxhop"></a><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0">
+... ...
+Cwlocalhost.localdomain <span class="emphasis"><em>your_real_domain</em></span>                      <a name="co.cw"></a><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0">
+... ...
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.domainname"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+如果sendmail不能正确判断本机域名，使用由变量 $w 和 $m 确定的域名。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.domaintable"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加配置，提供地址重写方式
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.genericstable"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加配置，提供地址重写方式
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.genericsdomain"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+添加配置，提供地址重写方式
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.pubservice"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+注释掉本语句的目的是侦听所有网卡，为整个网络提供服务
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.unqual.sender"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+允许未加域名的发件人发送邮件，默认禁止。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mc.maxhop"><img src="/docbook/includes/images/callouts/7.png" alt="7" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置转发的地址不能超过30个。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.cw"><img src="/docbook/includes/images/callouts/8.png" alt="8" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+定义类$w，在此处或者外部文件中定义。用于设置服务器提供服务的域名，即本地主机名。
+</p>
+<p>
+外部文件通常为 sendmail.cw，新版本为 local-host-names。但也有可能是其他名称，用如下命令查看：
+</p>
+<pre class="screen">
+
+$ grep "^Fw" sendmail.cf 
+Fw/etc/mail/local-host-names
+
+</pre>
+</td>
+</tr>
+</table></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="sendmail.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="sendmail.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s01s02.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">1. Sendmail </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 1.2. mail relay 规则详解
+
+</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

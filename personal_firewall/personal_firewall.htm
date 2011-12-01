@@ -1,0 +1,1195 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>网络安全的最后一道屏障</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="作为防火墙开发人员，我们在关注着为企业客户构建安全的网络环境的同时，往往对我们自己的开发环境的网络安全关心不够。在内部环境日趋复杂以及更多的来自于内部的攻击，使得我们的防火墙开发小组觉得有责任将个人防火墙这一网络安全的终极保镖一一作以介绍，希望对大家有所帮助。 再此介绍三个平台Windows、Linux、BSD下的几款个人防护墙。 （编译自版本: 35692ad，最后更新时间: 2007-06-19）">
+<link rel="start" href="#index" title="网络安全的最后一道屏障">
+<link rel="next" href="#linux" title="2. Linux平台的安全性">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>网络安全的最后一道屏障</h1></div>
+<div><h3 class="subtitle"><i>配置个人防火墙</i></h3></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">　鑫</span>
+</h3></div></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">钱</span> <span class="firstname">晓斌</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 0.4</td>
+<td align="left">2002/11/18</td>
+<td align="left">蒋　鑫</td>
+</tr>
+<tr><td align="left" colspan="3">
+补充关于“连接告警”的描述，删除禁止外到内的策略，而靠系统默认的禁止一切策略。
+</td></tr>
+<tr>
+<td align="left">修订 0.3</td>
+<td align="left">2002/11/1</td>
+<td align="left">钱晓斌</td>
+</tr>
+<tr><td align="left" colspan="3">
+补充 Openbsd 平台 ipfilter 的配置
+</td></tr>
+<tr>
+<td align="left">修订 0.2</td>
+<td align="left">2002/10/31</td>
+<td align="left"></td>
+</tr>
+<tr><td align="left" colspan="3">
+补充Linux平台 Netfilter 的配置
+</td></tr>
+<tr>
+<td align="left">修订 0.1</td>
+<td align="left">2002/10/30</td>
+<td align="left">蒋鑫</td>
+</tr>
+<tr><td align="left" colspan="3">
+Windows平台的个人防火墙软件综述
+</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+作为防火墙开发人员，我们在关注着为企业客户构建安全的网络环境的同时，往往对我们自己的开发环境的网络安全关心不够。在内部环境日趋复杂以及更多的来自于内部的攻击，使得我们的防火墙开发小组觉得有责任将个人防火墙这一网络安全的终极保镖一一作以介绍，希望对大家有所帮助。
+</p>
+<p>
+再此介绍三个平台Windows、Linux、BSD下的几款个人防护墙。
+</p>
+<p>
+（编译自版本: 35692ad，最后更新时间: 2007-06-19）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#windows">1. Windows平台的个人防火墙</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#windows-overview">1.1. Windows平台个人防火墙综述</a></span></dt>
+<dt><span class="sect2"><a href="#nis">1.2. NIS 配置</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#nis-alert">1.2.1. 关于连接告警</a></span></dt>
+<dt><span class="sect3"><a href="#nis-common">1.2.2. 基本配置</a></span></dt>
+<dt><span class="sect3"><a href="#nis-advance">1.2.3. 高级配置：对外提供服务</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#zonealarm">1.3. ZoneAlarm 配置</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#linux">2. Linux平台的安全性</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#kernel">2.1. 内核NetFilter选项编译过程</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4542880">2.1.1. 内核代码的位置</a></span></dt>
+<dt><span class="sect3"><a href="#idp4548544">2.1.2. 内核代码选项介绍</a></span></dt>
+<dt><span class="sect3"><a href="#idp4564272">2.1.3. 内核代码的编译和安装</a></span></dt>
+<dt><span class="sect3"><a href="#idp4571312">2.1.4. 系统使用新编译的内核重新启动</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#iptables">2.2. Iptables工具的安装和编译</a></span></dt>
+<dt><span class="sect2"><a href="#idp4583904">2.3. NetFilter框架和Iptables使用方法概述</a></span></dt>
+<dt><span class="sect2"><a href="#idp4593728">2.4. 使用Iptables增强主机的安全性How-To</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#bsd">3. Building Secure OpenBSD Network</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#idp4620160">3.1. 安全设计</a></span></dt>
+<dt><span class="sect2"><a href="#idp4636480">3.2. 网络配置</a></span></dt>
+<dt><span class="sect2"><a href="#idp4646960">3.3. ipfilter及其安装</a></span></dt>
+<dt><span class="sect2"><a href="#idp4682752">3.4. 配置安全策略</a></span></dt>
+<dt><span class="sect2"><a href="#idp4726272">3.5. 结语</a></span></dt>
+</dl></dd>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="windows"></a>1. Windows平台的个人防火墙</h2></div></div></div>
+<p>
+Windows 平台上的个人防火墙种类繁多，国外的如：Norton Internet Security，BlackIce Defender，ZoneAlarm。国内的如天网、瑞星等。在此仅介绍几种，抛砖引玉。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="windows-overview"></a>1.1. Windows平台个人防火墙综述</h3></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+个人防火墙的特点
+</p>
+<p>
+个人防火墙安装在个人PC机之上，而非网络边界设备，因此关心的不是此网到彼网的安全，而是本机和外部的安全策略。再由于木马等malware的存在，使得我们不能够对本机的应用程序盲目的信任，因此除了网络访问策略设置外，大部分个人防火墙软件都具有应用程序控制的选项。
+</p>
+</li>
+<li>
+<p>
+BlackIce Defender
+</p>
+<p>
+BlackIce Defender的实现有些特殊，并不对应用程序的网络访问进行控制，而是监测可疑的、恶意的数据包，从而实现最少的用户配置，智能的安全防护，用户也不会遇到象配置其它防火墙那样受到过多的弹出对话框的骚扰。
+</p>
+<p>
+它的配置实在太容易了，实在是没有我们过多干预的余地。
+</p>
+</li>
+<li>
+<p>
+Norton Internet Security 2002
+</p>
+<p>
+个人防火墙中功能最齐全的产品，集成了安全策略配置、应用程序控制、隐私控制（Cookie禁止）、禁止广告、父母控制的功能。
+</p>
+<p>
+利用访问策略配置、应用程序控制，建立个人防火墙，防止您的PC和数据遭受因好奇或蓄意破坏侵入的入侵者或黑客，以及不良网站的攻击。
+</p>
+<p>
+合理的配置隐私控制，当访问网站时，禁止cookie和参考者字段可降低泄露您隐私的风险。
+</p>
+<p>
+禁止广告可以禁止旗帜广告以及网页上其它分散注意力的内容。
+</p>
+</li>
+<li>
+<p>
+ZoneAlarm
+</p>
+<p>
+具有和 NIS 类似的功能。
+</p>
+<p>
+ZoneAlarm 对应用程序的控制要比 NIS 更安全。
+</p>
+</li>
+<li>
+<p>
+NIS 和 ZoneAlarm 配置的异同
+</p>
+<p>
+两者都具有网络访问控制配置和应用程序控制。NIS通过“配置系统范围的设置”进入网络访问控制，配置出站/入站的策略；ZoneAlerm通过“Firewall--&gt;custom”，配置策略；
+</p>
+<p>
+对于 NIS 来说，如果一个网络访问匹配了系统范围的策略配置，将不再进行应用程序扫描和检查，如果配置了非常宽松的访问策略，恶意应用程序入木马将不能被发现；
+</p>
+<p>
+对于 ZoneAlarm 来说，也是先检查系统范围的策略配置，如果被策略拒绝，可以选择弹出警告或者忽略，如果策略允许通过，也要检查应用程序设置，如果没有相应的
+应用程序访问控制，则弹出配置对话框。显然ZoneAlarm的这种工作模式更加安全，当然也需要更多次的交互。
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="nis"></a>1.2. NIS 配置</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="nis-alert"></a>1.2.1. 关于连接告警</h4></div></div></div>
+<p>
+如图，打开连接告警，则在发现策略中不存在的网络访问时，会打开对话框，询问策略。在建立控制策略阶段，便于策略调试。
+</p>
+<div class="mediaobject">
+<img src="images/nis-alert.gif"><div class="caption"><p>
+个人防火墙设置--&gt;自定义级别
+</p></div>
+</div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+在完成策略配置之后，关掉“连接告警”选项，则免受频繁打开的对话框的影响。但要注意选择默认禁止的策略——个人防火墙选项："高级:除非特别允许，否则全部禁止"。
+</p></td></tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="nis-common"></a>1.2.2. 基本配置</h4></div></div></div>
+<p>
+目标：能够让本机自由访问 Internet，拒绝来自外部的任何访问。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+选择系统范围设置，进入安全策略配置菜单
+</p>
+<div class="mediaobject">
+<img src="images/nis-basic1.jpg"><div class="caption"><p>
+选择系统范围设置，进入安全策略配置菜单
+</p></div>
+</div>
+</li>
+<li>
+<p>
+添加策略
+</p>
+<div class="mediaobject">
+<img src="images/nis-basic2.jpg"><div class="caption"><p>
+系统策略的初始值
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-p1.jpg"><div class="caption"><p>
+增加策略1: allow anytcp, anyudp out
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-p2.jpg"><div class="caption"><p>
+增加策略2: allow anyicmp out
+</p></div>
+</div>
+</li>
+<li>
+<p>
+增加 FTP Port模式的访问策略
+</p>
+<p>
+这是由于FTP的特殊性（动态协商端口）决定的，对于 port 和 passive模式有不同的设置。
+</p>
+<p>
+对于 passive 模式，则不需要再做配置，因为已经添加了全局设置： “all anytcp, anyudp out”。
+</p>
+<p>
+命令行的 ftp，由于默认使用 port 方式，因此需要单独对该应用添加设置。打开连接告警,以便在发现没有的访问策略,提示创建。（参见“<a href="#nis-alert" title="1.2.1. 关于连接告警">连接告警</a>”）
+</p>
+<p>
+先在命令行下运行 ftp，访问外部站点。输入合法用户名后，输入 debug 命令，看到使用 PORT 模式。当用命令 ls，查看列表时，触发外部ftp服务器以 20(ftp-data)端口连接本机的一个动态端口。这时命令行ftp挂起，NIS的“连接告警”激活。
+</p>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp1.jpg"><div class="caption"><p>
+运行 ls，ftp 程序挂起
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp2.jpg"><div class="caption"><p>
+NIS的“连接告警”激活。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp3.jpg"><div class="caption"><p>
+配置策略
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp4.jpg"><div class="caption"><p>
+ftp 得以正确运行
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp5.gif"><div class="caption"><p>
+配置了一条应用程序访问控制策略
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-basic-ftp6.jpg"><div class="caption"><p>
+IE 去掉“对FTP站点启用文件夹视图”选项，便以 passive方式访问 ftp 站点。
+</p></div>
+</div>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+当然也可以通过增加一条系统范围的配置：“允许远程20端口到本地1024-65535的TCP/UDP访问”，来解决ftp客户端以标准模式访问外部ftp服务器的问题。虽然减少了对每一个ftp客户端的单独配置，但是加大了系统风险。
+</p></td></tr>
+</table></div>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="nis-advance"></a>1.2.3. 高级配置：对外提供服务</h4></div></div></div>
+<p>
+目标：除了让本机自由访问 Internet，还提供某些网络提供服务，如 http，ftp服务。
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+选择系统范围设置，进入安全策略配置菜单
+</p></li>
+<li>
+<p>
+配置系统策略：
+</p>
+<div class="mediaobject">
+<img src="images/nis-adv-p1.jpg"><div class="caption"><p>
+添加由外部访问内部 21, 80 端口的策略。
+</p></div>
+</div>
+<p>
+但此时的FTP服务无法提供 passive 模式访问，因为 passive模式，客户端（远程主机）要访问服务器（本机）的动态端口。
+</p>
+</li>
+<li>
+<p>
+支持 passive 模式的 FTP 服务
+</p>
+<p>
+从远程（ftcmpl）测试本机（10.0.0.35）的80端口和21端口的访问。http服务（端口80）可以访问，普通ftp模式也通，但是passive 模式ftp不通，ftp命令挂起，NIS的“连接告警”激活。
+</p>
+<div class="mediaobject">
+<img src="images/nis-adv-test.jpg"><div class="caption"><p>
+从远程（ftcmpl）测试本机（10.0.0.35）的80端口和21端口的访问。passive 模式 ftp不通
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-adv-p2.jpg"><div class="caption"><p>
+远程 passive ftp 访问，激活NIS的“连接告警”。
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/nis-adv-p3.jpg"><div class="caption"><p>
+为 ftp 服务器程序：war ftp daemon，设置应用程序策略
+</p></div>
+</div>
+<p>
+然后，便可以提供 passive 模式 ftp 服务。
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="zonealarm"></a>1.3. ZoneAlarm 配置</h3></div></div></div>
+<p>
+配置目标：除了让本机自由访问 Internet，还象特定的网络提供服务，如 http，ftp服务。
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+ZoneAlarm的特色
+</p>
+<p>
+ZoneAlarm 对匹配了系统策略配置的数据包，仍然需要对应用程序进行单独控制，因此具有更高的安全性，不会象 NIS，由于设置了宽松的系统策略而失去了对应用程序的控制。
+</p>
+</li>
+<li>
+<p>
+宽松的系统策略配置
+</p>
+<div class="mediaobject">
+<img src="images/za-fw-1.jpg"><div class="caption"><p>
+选择 custom，进入系统策略配置
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/za-fw-2.jpg"><div class="caption"><p>
+宽松的系统策略配置，允许内到外的访问，只向外提供 ftp 和 http服务
+</p></div>
+</div>
+</li>
+<li>
+<p>
+严格而方便的应用程序配置
+</p>
+<div class="mediaobject">
+<img src="images/za-pc-1.jpg"><div class="caption"><p>
+安全的最后一道闸门
+</p></div>
+</div>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="linux"></a>2. Linux平台的安全性</h2></div></div></div>
+<p>
+Linux 内核2.4 版本中集成了NetFilter框架，该框架是Linux平台新的网络安全功能框架，实现了多种网络安全功能：数据包过滤、状态保持、NAT，以及抗攻击等等。我们熟知的Iptables，仅仅是NetFilter框架在用户空间的配置工具，负责从用户命令行界面接收命令，然后转化成内核认识的结构体，调用相应的内核操作函数，将规则插入到内核中去。
+</p>
+<p>
+Iptables的使用方法请参见本文的附件：《Iptables使用方法详解》。或者在Linux命令行界面中键入"man iptables"，查看手册页的情况。
+</p>
+<p>
+要使用Iptables，必须在编译Linux内核的时候（内核的版本必须大于2.4）选择与NetFilter相关的内核模块，否则即使安装了Iptables，也不能使用。别着急，看到NetFilter和Iptables，不要认为他们是两个东西，它们一个是内核空间的实现模块，称作NetFilter，一个是用户空间的控制命令解析器，称作Iptables。两者结合才能完成整体的工作。我们按以下的叙述顺序说明Iptables和NetFilter的使用方法，以及如何使用它们增强主机的安全性。
+</p>
+<p>
+将分如下章节讨论
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+内核NetFilter选项编译过程
+</p></li>
+<li><p>
+Iptables工具的安装和编译
+</p></li>
+<li><p>
+NetFilter框架和Iptables使用方式概述
+</p></li>
+<li><p>
+使用Iptables增强主机安全性How-To 
+</p></li>
+</ol></div>
+<p>
+好了，开始我们的Iptables之旅吧！注意本手册说明的过程都是在RedHat7.2 内核版本2.4.7，启动程序为LILO，Shell为bash 上进行操作的。在别的版本的内核或者操作环境请具体参考系统手册页man信息。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="kernel"></a>2.1. 内核NetFilter选项编译过程</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4542880"></a>2.1.1. 内核代码的位置</h4></div></div></div>
+<p>
+安装了Linux以后，内核部分的代码在系统目录 /usr/src/Linux-2.4/ 中。当然如果下载了新的内核代码包，例如名为linux-kernel-2.4.X.tag.gz（X表示次要版本号），可以在任何一个目录下解开该代码包，但是一般的规律是将代码包解压到/usr/src/目录下，使用的命令序列如下：
+</p>
+<pre class="screen">
+[test /root/]# <span><strong class="command">pwd</strong></span>
+/root
+[test /root/]#  <span><strong class="command">mv linux-kernel-2.4.7.tag.gz /usr/src/</strong></span>
+[test /root/]#  <span><strong class="command">cd /usr/src/</strong></span>
+[test /usr/src/]# <span><strong class="command">tar zxvf  linux-kernel-2.4.7.tar.gz</strong></span>
+[test /usr/src/]# <span><strong class="command">cd linux-kernel-2.4.7</strong></span>
+</pre>
+<p>
+好了，进入到了新的内核代码目录，我们现在开始对目录进行裁减和编译。注意：如果没有支持2.4版本的内核，可以从http://www.kernel.org 的网站上获得关于Linux内核的最新下载信息。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4548544"></a>2.1.2. 内核代码选项介绍</h4></div></div></div>
+<p>
+进入内核源代码所在的目录以后，在该目录下使用如下命令进入内核配置界面：
+</p>
+<p>
+<span><strong class="command">make menuconfig</strong></span>
+</p>
+<p>
+该命令会进入到一个ASCI的简单菜单界面，让用户对需要的内核选项进行选取，然后自动保存成一个内核配置文件。进入配置界面后如下图：
+</p>
+<div class="mediaobject">
+<img src="images/linux-mconfig1.jpg"><div class="caption"><p>
+选中"Networking options"，进入下一配置界面
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/linux-mconfig2.jpg"><div class="caption"><p>
+本界面是专门配置Linux主机网络特性的配置选项
+</p></div>
+</div>
+<div class="mediaobject">
+<img src="images/linux-mconfig3.jpg"><div class="caption"><p>
+本界面的内容包含了专门配置Netfilter选项
+</p></div>
+</div>
+<p>
+里面罗列的选项一般都需要使用Space键选中。注意在高亮光标停留在某个选项上时，使用Space键可以将该选项加入内核中。但是一个选项和内核有三种关系：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+模块化方式加入。（在选项前显示【M】）
+</p></li>
+<li><p>
+直接编译到内核中。（在选项前显示【*】）
+</p></li>
+<li><p>
+不加入内核（选项前显示为空【】）
+</p></li>
+</ul></div>
+<p>
+这两种方式都没有问题，一般推荐使用直接编译到内核中。Space键可以在"模块方式"、"直接编译方式"、"忽略模块"这三种方式之间进行切换。好了，选择完你需要的选项以后，直接使用Tab键将高亮光标移动到"Exit"上，然后一路退出，到下一个界面。保存刚才对内核选项的配置，然后回车退出。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4564272"></a>2.1.3. 内核代码的编译和安装</h4></div></div></div>
+<p>
+编译内核分为以下几步：
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+首先使用命令make dep命令编译内核模块之间的依赖关系。
+</p></li>
+<li><p>
+然后使用命令make bzImage 命令编译压缩的内核。
+</p></li>
+<li><p>
+最后连续使用make modules 和make modules_install命令将模块化的选项编译到内核中。
+</p></li>
+<li><p>
+好了，已经编译完成了内核，现在新内核的名字叫做bzImage，路径位置在（假设源代码在/usr/src/Linux-2.4中）/usr/src/Linux-2.4/arch/i386/boot/下，名称为bzImage。
+</p></li>
+<li><p>
+现在我们要使用这个新的内核启动系统。将bzImage拷贝到/boot/目录下，然后起个新的你喜欢的名字，我们假设为bzImage.nf。
+</p></li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4571312"></a>2.1.4. 系统使用新编译的内核重新启动</h4></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+修改/etc/lilo.conf（假设你用LILO启动系统），添加下列行：
+</p>
+<pre class="screen">
+image=/boot/bzImage.nf 
+label=linux-nf 
+read-only 
+root=/dev/hda5 （换成你系统的根所在的硬件路径）
+</pre>
+</li>
+<li><p>
+编辑完成以后，在shell中敲入命令lilo，安装新的内核到启动映像中。
+</p></li>
+<li><p>
+重新启动系统（使用命令reboot，或者halt -r）
+</p></li>
+<li><p>
+在系统启动以后，你会看到LILO提出的提示符，此时按TAB键，然后会出现可以使用的启动内核，应该有linux-nf，它对应的内核就是/boot/bzImage.nf。直接敲入linux-nf，然后回车，系统就会使用bzImage.nf启动。
+</p></li>
+</ol></div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="iptables"></a>2.2. Iptables工具的安装和编译</h3></div></div></div>
+<p>
+Iptables是Linux Netfilter框架的用户端程序，负责接收用户的命令，并且将用户命令添加到内核中。Iptables一般是一个*.tar.gz的软件包，下载以后使用如下命令序列将其展开：
+</p>
+<pre class="screen">
+[test /root]# <span><strong class="command">pwd</strong></span>
+/root
+[test /root]# <span><strong class="command">tar zxvf iptables-2.6.tar.gz</strong></span>
+[test /root]# <span><strong class="command">cd iptables-2.6</strong></span>
+[test /root]# <span><strong class="command">make</strong></span>
+[test /root]# <span><strong class="command">make install</strong></span>
+</pre>
+<p>
+好了，现在可以直接在命令行方式下使用该命令了。该命令的语法后面介绍。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4583904"></a>2.3. NetFilter框架和Iptables使用方法概述</h3></div></div></div>
+<p>
+Linux根据数据包在内核中的不同处理，将整个IP包在内核中的生存周期划分为三个：PREROUTING、FORWARD、POSTROUTING。其他还有两个LOCAL_INPUT和LOCAL_OUTPUT（一般简写成INPUT和OUTPUT），分别对应送入本机上层协议栈的数据包和本机发送出的数据包。如果想要保护本机的安全性，那么只需关注INPUT和OUTPUT方向的数据包就可以了。其他几个不需要关心。
+</p>
+<p>
+这五个方向对应着内核中五条不同的规则链和三个不同的规则表。
+</p>
+<p>
+Linux中规则链被组织在三个不同的规则表中:Filter 、NAT、Mangle。其中Filter针对过滤系统，NAT针对地址转换系统，Mangle针对策略路由和特殊应用。规则链分配如下：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+Filter：INPUT、FORWARD、OUTPUT
+</p></li>
+<li><p>
+NAT：PREROUTING、POSTROUTING
+</p></li>
+<li><p>
+Mangle：PREROUTING、POSTROUTING
+</p></li>
+</ul></div>
+<p>
+针对主机的安全性主要集中在Filter表中的INPUT和OUTPUT规则链，这两个关键字在添加规则的时候会使用到。
+</p>
+<p>
+在内核编译了NetFilter系统以后，系统会自动建立这五个规则链和三个规则表。
+</p>
+<p>
+我们在使用的时候主要要使用到的规则表是Filter表，规则链是INPUT和OUTPUT链。添加的主要规则都集中在这两个链上。用图示表示如下：
+</p>
+<div class="mediaobject"><img src="images/linux-netfilter.gif"></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4593728"></a>2.4. 使用Iptables增强主机的安全性How-To</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+取消不必要的服务监听端口
+</p>
+<p>
+使用Linux下的Setup命令，进入ASCI图形界面，限制主机提供的常用服务，例如FTP、Daytime、Echo、Telnet、WEB、syslog remote等等一系列不需要的服务。
+</p>
+<p>
+然后使用下列命令序列重启Xinetd：
+</p>
+<pre class="screen">
+[test /root]# <span><strong class="command">cd /etc/init.d</strong></span>
+[test /root]# <span><strong class="command">./xinted restart</strong></span>
+</pre>
+<p>
+使用netstat -na命令观察系统中是否有不期望的端口正在监听。如果自己需要什么服务，利用Setup工具打开服务，并且重启Xinetd就可以了。
+</p>
+<p>
+如果没有不期望的端口被打开，可以进入下一步。
+</p>
+</li>
+<li>
+<p>
+修改INPUT和OUTPUT规则链的默认策略
+</p>
+<p>
+使用下列命令序列：
+</p>
+<pre class="screen">
+[test /root]# <span><strong class="command">iptables -P INPUT DROP</strong></span>
+[test /root]# <span><strong class="command">iptables -P OUTPUT DROP</strong></span>
+</pre>
+<p>
+这样以来，任何未经同意的数据包都会被系统拒绝。
+</p>
+<p>
+添加如下命令控制访问主机：
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -A INPUT -p PROTO -state ESTABLISHED ,RELATED -j ACCEPT</strong></span>
+</pre>
+<p>
+本条命令的含义是凡是属于已经建立连接的数据包，或者关联性连接的数据包都允许通过。注意将命令行中的"PROTO"换成真正的协议名称tcp、 udp、 或者 icmp
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -A INPUT -s A.B.C.D/32 -p PROTO -dport PORT -j ACCEPT</strong></span>
+</pre>
+<p>
+这条命令的含义是允许从IP地址为A.B.C.D主机来的，协议为PROTO的IP包，访问本主机的PORT端口的数据包允许通过。例如可以将PORT换成80 ，表示WEB服务，换成22，表示SSH服务等等。注意将PROTO换成tcp或者udp。
+</p>
+<p>
+好了，只有经过上述命令添加的IP地址的主机，才能访问该主机。
+</p>
+<p>
+为了防止IP地址冒充，我们可以将IP地址和MAC地址进行绑定，使用如下命令：
+</p>
+<pre class="screen">
+<span><strong class="command">arp -s A.B.C.D aa:bb:cc:dd:ee:ff</strong></span>
+</pre>
+<p>
+表示A.B.C.DIP地址对应的MAC地址是aa:bb:cc:dd:ee:ff。
+</p>
+<p>
+上述命令完成以后，主机的安全访问就在NetFilter的控制之下了。
+</p>
+<p>
+例如，允许10.0.0.41的主机访问该服务器的SSH服务，使用如下命令：
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -A INPUT -s 10.0.0.41/32 -p tcp -dport 22 -j ACCEPT</strong></span>
+</pre>
+<p>
+允许10.0.0.0/24网段访问news服务：
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -A INPUT -s 10.0.0.0/24 -p tcp -dport 532 -j ACCEPT</strong></span>
+</pre>
+<p>
+同时绑定内部主机的MAC地址和IP地址的对应关系。
+</p>
+<p>
+最后可以使用下列命令观察一下是否所有需要的规则都被完全的加入了内核中：
+</p>
+<pre class="screen">
+<span><strong class="command">iptables -L</strong></span>
+</pre>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="bsd"></a>3. Building Secure OpenBSD Network</h2></div></div></div>
+<p>
+OpenBSD以安全、稳定著称。缺省安装时OpenBSD就禁止了所有非基本服务。它还在系统中内置了加密功能。另外一些具有EFS（文件加密系统）的操作系统，如Windows XP，其加密功能是在操作系统之上实现的，并不在操作系统中完成。在OpenBSD中，Kerberos IV和V认证协议的KDS'Heimdal算法是登录系统的核心部分，并且从1997年起OpenBSD就实现了带有互联网安全协议（IPSec）的TCP/IP协议堆栈。另外，OpenBSD的开发基地在加拿大，这样它就可以不受美国有关数据加密法律的约束。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4620160"></a>3.1. 安全设计</h3></div></div></div>
+<p>
+目标：尽可能地防范来自外部的攻击。
+</p>
+<p>
+假设：我们的网络节点只有一个对Internet的连接，有若干内部用户，还要提供一些对外的服务（DNS、WWW、MAIL、FTP、NEWS）。当然，如果想增加复杂性，我们还可以将网络规划成许多更小的网络来消除瓶颈现象，也可以增加更多的对外连接。
+</p>
+<p>
+作为防火墙的边界主机的三个网络接口设置如下： 
+</p>
+<p>
+接口A连接防火墙至外网（Internet）。接口地址由ISP分配（以x.x.x.x表示）。
+</p>
+<p>
+接口B连接防火墙至内网（192.168.1网段）。接口地址为192.168.1.1。
+</p>
+<p>
+接口C 连接防火墙至DMZ区（192.168.2网段）。接口地址为192.168.2.1。
+</p>
+<p>
+网络拓朴如下图：
+</p>
+<div class="mediaobject">
+<img src="images/net-topo.gif"><div class="caption"><p>
+安全的最后一道闸门
+</p></div>
+</div>
+<p>
+我们制订的安全策略如下： 
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+所有由内网至合法地址的数据包都可以无限制地通过防火墙。
+</p></li>
+<li><p>
+过滤所有由外到内的数据包，只对由内网发送的请求包的有效回应包放行。
+</p></li>
+<li><p>
+过滤所有由外网到DMZ的数据包，只对请求目前开放服务的数据包放行。此外，允许由DMZ 发送的请求包的有效回应包进入DMZ。 (如有必要，这个规则可以做更大的限制 ) 
+</p></li>
+<li><p>
+允许由内网到DMZ的请求包的有效回应包进入内网。 
+</p></li>
+<li><p>
+所有由DMZ至外网（不包括发送到DMZ上的）的数据包，可以无限制地通过防火墙。
+</p></li>
+<li><p>
+丢弃所有其它的数据包。
+</p></li>
+</ol></div>
+<p>
+按照上面的网络拓朴设计，我们的对外服务都运行在DMZ主机上。当然，这些服务也可以运行在边界主机上。只不过这会弱化我们的防火墙。最好的做法是运用ipfilter的NAT模块重定向网络连接到DMZ区，这样就可以把潜在的攻击目标从防火墙转移到DMZ区的服务器上。而攻击者要想对内网发起攻击，则还需侵入防火墙和剩下的网络，这样就增加了入侵的难度，延缓了侵入的速度，从而增加了整个网络的安全性。
+</p>
+<p>
+我们的设计考虑了出口地址由ISP分配的情况。防火墙后面的内网与DMZ主机的IP地址不会显示给外网。这也是目前普遍采用的一种重要安全手段。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4636480"></a>3.2. 网络配置</h3></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+/etc/hosts 
+</p>
+<p>
+此文件包含了内网和DMZ区所知的主机名及地址的映射表：
+</p>
+<pre class="screen">
+ 127.0.0.1 localhost
+ 192.168.1.1 fire.in_domain.com fire
+ 192.168.2.1 wall.dmz_domain.com wall
+</pre>
+<p>
+要保证此文件中的数据应与/etc/hostname.ifname保持一致。
+</p>
+</li>
+<li>
+<p>
+/etc/resolv.conf
+</p>
+<p>
+此配置文件可以这样：
+</p>
+<pre class="screen">
+ search in_domain.com
+ nameserver 192.168.1.2
+ lookup file bind
+ search dmz_domain.com
+ nameserver 192.168.2.2
+ lookup file bind
+</pre>
+</li>
+<li>
+<p>
+/etc/rc.conf
+</p>
+<p>
+在这个系统启动配置文件中作以下设置： 
+</p>
+<pre class="screen">
+ipfilter=YES
+ipnat=YES
+</pre>
+</li>
+<li><p>
+重启系统并检查网络接口状态。如果防火墙与内网的接口是串行接口，则需启用pppd 守护进程。这时接口的设备名为tun0，我们不需要给这个接口创建/etc/hostname.tun0这样的文件。
+</p></li>
+<li><p>
+将内网主机的网关设为192.168.1.1，并使用内网网段的地址（假设为192.168.1.2，192.168.1.3， 192.168.1.4等）。与此类似，DMZ区的主机以192.168.2.1为网关，并分配192.168.2网段的IP 地址。最后，命名每一台主机。
+</p></li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4646960"></a>3.3. ipfilter及其安装</h3></div></div></div>
+<p>
+我们的系统平台是OpenBSD 2.9/3.0，安全过滤系统选用Daren Reed的ipfilter（ipfilter 还支持FreeBSD、NetBSD，Solaris，SunOS，BSD/OS，Linux、IRIX，HP-UX与QNX等OS），因为它是OpenBSD的默认防火墙，语法明了，操作简单。我们后面要讲到的安全规则在形式上都是ipfilter的，但其设计原理也适用于其它防火墙软件。
+</p>
+<p>
+ipfilter可以检查incoming与outgoing的数据包，按照预设的规则决定对其放行或阻断，并自带简单的数据包重定向和地址翻译模块IPNAT。
+</p>
+<p>
+下载源代码后，ipfilter有两种安装方法，一种是普通方式，一种是"LKM"方式。
+</p>
+<p>
+以下是普通方式的安装步骤：
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+make openbsd
+</p></li>
+<li><p>
+make install-bsd
+</p></li>
+<li><p>
+编译新内核
+</p></li>
+<li>
+<p>
+创建有关设备：
+</p>
+<pre class="screen">
+<span><strong class="command">mknod /dev/ipl c 20 0</strong></span>
+<span><strong class="command">mknod /dev/ipnat c 20 1</strong></span>
+<span><strong class="command">mknod /dev/ipstate c 20 2</strong></span>
+<span><strong class="command">mknod /dev/ipauth c 20 3</strong></span>
+</pre>
+</li>
+<li><p>
+安装新内核并重新启动系统。
+</p></li>
+</ol></div>
+<p>
+以下为loadable kernel module方式的安装步骤：
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+在内核配置文件中加入<strong class="userinput"><code>option    LKM</code></strong>，并将
+<strong class="userinput"><code>option    IPFILTER</code></strong> 改为 <strong class="userinput"><code>option    IPFILTER_LKM</code></strong>
+重新编译内核。
+</p></li>
+<li><p>
+修改<code class="filename">/etc/rc.securelevel</code>文件，确认<strong class="userinput"><code>securelevel=-1</code></strong>。
+</p></li>
+<li><p>
+以新内核启动。
+</p></li>
+<li><p>
+cd /usr/src/ltfilter/OpenBSD/lkm
+</p></li>
+<li><p>
+make load
+</p></li>
+</ol></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4682752"></a>3.4. 配置安全策略</h3></div></div></div>
+<p>
+ipfilter有两个模块：网络地址翻译（network address translator，简称NAT）器与数据包过滤器（packet filter，简称IPF）。NAT用于地址伪装（隐藏单个外部IP地址后面的内部IP地址），还用于重定向主机和端口之间的数据包。包过滤器则按照规则集检查NAT或未NAT过的数据包，以决定丢弃或放行。
+</p>
+<p>
+由于NAT首先处理数据包，因此我们先配置NAT。网络地址翻译及数据包重定向的规则一律存放在/etc/ipnat.rules文件中。
+</p>
+<pre class="screen">
+# 内网NAT规则
+map tun0 192.168.1.0/24 -&gt; x.x.x.x/32 portmap tcp/udp 10000:20000
+map tun0 192.168.1.0/24 -&gt; x.x.x.x/32
+# DMZ NAT规则
+map tun0 192.168.2.0/24 -&gt; x.x.x.x/32 portmap tcp/udp 20001:30000
+map tun0 192.168.2.0/24 -&gt; x.x.x.x/32
+</pre>
+<p>
+这里"x.x.x.x"代表ISP分配外网接口的实际IP。tun0则是外网接口设备名。如果外部接口未使用串行端口，将tun0替换实际网络接口设备名即可。
+</p>
+<p>
+这些规则的作用是让NAT模块映像所有在端口为10000-20000，从内网到地址"x.x.x.x"的连接。并映射所有端口为20001-30000，从DMZ到地址"x.x.x.x"的连接。
+</p>
+<p>
+现在我们可以把内网和DMZ连接到Internet上了，但外网还不能访问DMZ中的服务。我们需要做一个重定向，下面仅仅是一个简单的重定向HTTP数据包的NAT规则：
+</p>
+<pre class="screen">
+# 重定向外网的HTTP服务请求
+rdr tun0 x.x.x.x/32 port 80 -&gt; 192.168.2.254 port 8080 tcp
+rdr tun0 x.x.x.x/32 port 80 -&gt; 192.168.2.254 port 8080 udp
+# 重定向内网的HTTP服务请求
+rdr fxp1 x.x.x.x/32 port 80 -&gt; 192.168.2.254 port 8080 tcp
+rdr fxp1 x.x.x.x/32 port 80 -&gt; 192.168.2.254 port 8080 udp
+# 重定向DMZ的HTTP服务请求
+rdr fxp2 x.x.x.x/32 port 80 -&gt; 192.168.2.254 port 8080 tcp
+rdr fxp2 x.x.x.x/32 port 80 -&gt; 192.168.2.254 port 8080 udp
+</pre>
+<p>
+这里192.168.2.254是DMZ区HTTP服务器的IP地址。出于安全考虑，服务器监听于一个高端口8080。这些规则的作用是将各个接口接收的数据包重定向到"x.x.x.x"的80端口上，那儿才是真正的目的地。
+</p>
+<p>
+其它服务的NAT规则以此类推，只要更改端口号与服务器的地址就行了。如邮件服务器的重定向规则如下：
+</p>
+<pre class="screen">
+# 重定向外网的SMTP服务请求
+rdr tun0 x.x.x.x/32 port 25 -&gt; 192.168.2.253 port 25 tcp
+rdr tun0 x.x.x.x/32 port 25 -&gt; 192.168.2.253 port 25 udp
+# 重定向内网的SMTP服务请求
+rdr fxp1 x.x.x.x/32 port 25 -&gt; 192.168.2.253 port 25 tcp
+rdr fxp1 x.x.x.x/32 port 25 -&gt; 192.168.2.253 port 25 udp
+# 重定向DMZ的SMTP服务请求
+rdr fxp2 x.x.x.x/32 port 25 -&gt; 192.168.2.253 port 25 tcp
+rdr fxp2 x.x.x.x/32 port 25 -&gt; 192.168.2.253 port 25 udp
+</pre>
+<p>
+照此将设置好所有服务的重定向NAT规则。
+</p>
+<p>
+下面可以开始考虑包过滤规则了。所有的包过滤规则都放在/etc/ipf.rules文件中。
+</p>
+<p>
+先考虑lo0接口：lo0 是软件环路接口，在这里阻挡数据包会浪费大量的处理器周期，pass all吧!
+</p>
+<pre class="screen">
+pass out quick on lo0 all
+pass in quick on lo0 all
+</pre>
+<p>
+关键字quick指示过滤核心一旦数据包匹配上本条规则，立刻中止规则匹配，这样可加快处理速度，并简化了规则的书写。
+</p>
+<p>
+接着考虑接口tun0。按照预先的设计，我们要在这里阻截所有目的地址不合法的数据包：
+</p>
+<pre class="screen">
+block out quick on tun0 from any to 192.168.0.0/16
+block out quick on tun0 from any to 172.16.0.0/12
+block out quick on tun0 from any to 127.0.0.0/8
+block out quick on tun0 from any to 10.0.0.0/8
+block out quick on tun0 from any to 0.0.0.0/8
+block out quick on tun0 from any to 169.254.0.0/16
+block out quick on tun0 from any to 192.0.2.0/24
+block out quick on tun0 from any to 204.152.64.0/23
+block out quick on tun0 from any to 224.0.0.0/3
+</pre>
+<p>
+这样就防止了有害数据包进入外网。
+</p>
+<p>
+下面来添加让合法的数据包输出的规则。下面这三条规则允许所有从内网合法地址发往外网的数据流：
+</p>
+<pre class="screen">
+pass out quick on tun0 proto tcp from 192.168.1.0/24 to any keep state
+pass out quick on tun0 proto udp from 192.168.1.0/24 to any keep state
+pass out quick on tun0 proto icmp from 192.168.1.0/24 to any keep state
+</pre>
+<p>
+关键字keep state指示ipfilter记住连接状态，这样可以使此连接的后续数据包不再进行规则检查。关键字proto定义规则所使用的协议。
+</p>
+<p>
+我们还需要将所有来自DMZ合法地址的数据包能顺利地发送到外网。这很容易做到：只需复制内网规则，更换一下网络地址即可（用192.168.2.0/24 代替192.168.1.0/24）：
+</p>
+<pre class="screen">
+pass out quick on tun0 proto tcp from 192.168.2.0/24 to any keep state
+pass out quick on tun0 proto udp from 192.168.2.0/24 to any keep state
+pass out quick on tun0 proto icmp from 192.168.2.0/24 to any keep state
+</pre>
+<p>
+所有其它想通过tun0出外网的数据包均应阻断：
+</p>
+<pre class="screen">
+block out quick on tun0 all
+</pre>
+<p>
+以上规则定义了什么样的数据包可以由我们的网络连接外网。下面我们将定义阻断那些想进入防火墙内部的不受欢迎的数据包：
+</p>
+<pre class="screen">
+block in     quick on tun0 from 192.168.0.0/16 to any
+block in     quick on tun0 from 172.16.0.0/12 to any
+block in     quick on tun0 from 10.0.0.0/8 to any
+block in     quick on tun0 from 127.0.0.0/8 to any
+block in     quick on tun0 from 0.0.0.0/8 to any
+block in     quick on tun0 from 169.254.0.0/16 to any
+block in     quick on tun0 from 192.0.2.0/24 to any
+block in     quick on tun0 from 204.152.64.0/23 to any
+block in     quick on tun0 from 224.0.0.0/3 to any
+block in log quick on tun0 from x.x.x.x/32 to any
+block in log quick on tun0 from any to x.x.x.0/32
+block in log quick on tun0 from any to x.x.x.255/32
+</pre>
+<p>
+关键字log将使ipfilter记录所有匹配本条规则的数据包。
+</p>
+<p>
+这样，所有非法数据包都将被丢弃。但去往DMZ的合法端口的数据包必须让行。以下规则过滤目的端口为80的数据包。
+</p>
+<pre class="screen">
+pass in quick on tun0 proto tcp/udp from any to x.x.x.x/32 port = 80 keep state
+pass in quick on tun0 proto tcp/udp from any to 192.168.2.254/32 port = 8080 keep state
+</pre>
+<p>
+注意ipf.rules中的地址/端口一定要与ipnat.rules一致。对其余服务如法炮制。
+</p>
+<p>
+丢弃所有其它外网接口上的数据包：
+</p>
+<pre class="screen">
+block in quick on tun0 all 
+</pre>
+<p>
+外网接口规则基本上差不多了。接着考虑内网与DMZ接口。
+</p>
+<p>
+假设内网接口为fxp1上，先丢弃所有想连接内网的数据包：
+</p>
+<pre class="screen">
+block out quick on fxp1 all
+</pre>
+<p>
+再限制对内网DNS的访问（即列在/etc/resolv.conf 文件中的DNS服务器）：
+</p>
+<pre class="screen">
+pass out quick on fxp1 proto tcp from 192.168.1.1 to 192.168.1.2/32 port = 53 keep state
+pass out quick on fxp1 proto udp from 192.168.1.1 to 192.168.1.2/32 port = 53 keep state
+</pre>
+<p>
+或者干脆用外部DNS服务器"y.y.y.y" 和 "z.z.z.z"来代替内部DNS服务器。在/etc/resolv.conf文件中：
+</p>
+<pre class="screen">
+lookup file bind
+nameserver y.y.y.y
+nameserver z.z.z.z
+</pre>
+<p>
+注意，关键字"out"定义了数据包的一种流向：从防火墙的上层协议进入底层协议，由接口输出（如流向外网的数据包）；"in"定义了数据包的另一种流向：由接口输入，并从防火墙的底层协议进入上层协议（如流向内网的数据包）。
+</p>
+<p>
+下列规则定义了什么样的数据包可以进入防火墙：
+</p>
+<pre class="screen">
+block in     quick on fxp1 from 172.16.0.0/12 to any
+block in     quick on fxp1 from 10.0.0.0/8 to any
+block in     quick on fxp1 from 127.0.0.0/8 to any
+block in     quick on fxp1 from 0.0.0.0/8 to any
+block in     quick on fxp1 from 169.254.0.0/16 to any
+block in     quick on fxp1 from 192.0.2.0/24 to any
+block in     quick on fxp1 from 204.152.64.0/23 to any
+block in     quick on fxp1 from 224.0.0.0/3 to any
+block in log quick on fxp1 from x.x.x.x/32 to any
+block in log quick on fxp1 from any to x.x.x.0/32
+block in log quick on fxp1 from any to x.x.x.255/32
+pass in quick on fxp1 proto tcp from 192.168.1.0/24 to any keep state
+pass in quick on fxp1 proto udp from 192.168.1.0/24 to any keep state
+pass in quick on fxp1 proto icmp from 192.168.1.0/24 to any keep state
+block in quick on fxp1 all
+</pre>
+<p>
+DMZ区与内网不同，它主要是一些对外开放的服务。首先，我们不限制内网到DMZ的通信：
+</p>
+<pre class="screen">
+pass out quick on fxp2 proto tcp from 192.168.1.0/24 to 192.168.2.0/24 keep state
+pass out quick on fxp2 proto udp from 192.168.1.0/24 to 192.168.2.0/24 keep state
+pass out quick on fxp2 proto icmp from 192.168.1.0/24 to 192.168.2.0/24 keep state
+</pre>
+<p>
+接下来，阻断所有其余的数据包：
+</p>
+<pre class="screen">
+block out quick on fxp2 from any to 192.168.0.0/16
+block out quick on fxp2 from any to 172.16.0.0/12
+block out quick on fxp2 from any to 127.0.0.0/8
+block out quick on fxp2 from any to 10.0.0.0/8
+block out quick on fxp2 from any to 0.0.0.0/8
+block out quick on fxp2 from any to 169.254.0.0/16
+block out quick on fxp2 from any to 192.0.2.0/24
+block out quick on fxp2 from any to 204.152.64.0/23
+block out quick on fxp2 from any to 224.0.0.0/3
+</pre>
+<p>
+然后，对来自外网的访问公开地址的数据包放行：
+</p>
+<pre class="screen">
+pass out quick on fxp2 proto tcp from any to 192.168.2.254/32 port = 8080 keep state
+pass out quick on fxp2 proto udp from any to 192.168.2.254/32 port = 8080 keep state
+pass out quick on fxp2 proto tcp from any to 192.168.2.253/32 port = 25 keep state
+pass out quick on fxp2 proto udp from any to 192.168.2.253/32 port = 25 keep state
+</pre>
+<p>
+最后，阻断其余的数据包：
+</p>
+<pre class="screen">
+block out quick on fxp2 all
+</pre>
+<p>
+到目前为止，我们还未设置由DMZ到外网的过滤规则，Internet上的数据包，我们将让所有从合法地址发送的数据包通过：
+</p>
+<pre class="screen">
+block in   quick on fxp2 from 172.16.0.0/12 to any
+block in     quick on fxp2 from 10.0.0.0/8 to any
+block in     quick on fxp2 from 127.0.0.0/8 to any
+block in     quick on fxp2 from 0.0.0.0/8 to any
+block in     quick on fxp2 from 169.254.0.0/16 to any
+block in     quick on fxp2 from 192.0.2.0/24 to any
+block in     quick on fxp2 from 204.152.64.0/23 to any
+block in     quick on fxp2 from 224.0.0.0/3 to any
+block in log quick on fxp2 from x.x.x.x/32 to any
+block in log quick on fxp2 from any to x.x.x.0/32
+block in log quick on fxp2 from any to x.x.x.255/32
+pass in quick on fxp2 proto tcp from 192.168.2.0/24 to any keep state
+pass in quick on fxp2 proto udp from 192.168.2.0/24 to any keep state
+pass in quick on fxp2 proto icmp from 192.168.2.0/24 to any keep state
+block in quick on fxp2 all
+</pre>
+<p>
+规则写完了，该加载生效了。
+</p>
+<p>
+ipfilter规则文件的加载方式是：
+</p>
+<pre class="screen">
+ipf -Fa -f /etc/ipf.rules
+ipnat -FC -f /etc/ipnat.rules
+</pre>
+<p>
+如果想清空规则，则请运行：
+</p>
+<pre class="screen">
+ipf -Fa
+ipnat -FC
+</pre>
+<p>
+还可以用ipfstat、ipftest等工具进行简单的调试。
+</p>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4726272"></a>3.5. 结语</h3></div></div></div>
+<p>
+最后，以下忠告可能对你有用：
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+只开放必需的服务。
+</p></li>
+<li>
+<p>
+尽量使用自己最了解的安全方案。
+</p>
+<p>
+谁都想使用功能最强大的技术，但任何技术都不是完美的。往往功能的强大就意味着管理的复杂。如果你不知道如何配置和管理这种技术，那还不如采用简单可靠的方案。
+</p>
+</li>
+<li><p>
+对于大部分服务器程序，应学会如何用chroot来运行，这样可以大大提升系统的安全性。
+</p></li>
+<li><p>
+尽量多了解网络安全知识。
+</p></li>
+<li><p>
+在任何安全方案中，安全管理与安全技术一样重要，必须精心部署。再强大的安全技术也不能代替细致周密的安全管理。
+</p></li>
+</ol></div>
+</div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

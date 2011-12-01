@@ -1,0 +1,144 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>8. FAQ</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="PGP/GPG Howto">
+<link rel="up" href="index.html" title="PGP/GPG Howto">
+<link rel="prev" href="pgpdisk.html" title="7. 用PGPDISK进行磁盘加密">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">8. FAQ</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="pgpdisk.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> </td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="faq"></a>8. FAQ</h2></div></div></div>
+<div class="qandaset">
+<dl>
+<dt>8.1. <a href="faq.html#idp4561264">
+
+PGP 7.03 GUI和 Win XP不兼容么？
+</a>
+</dt>
+<dt>8.2. <a href="faq.html#idp4564624">
+如何成功在 Win XP 安装 PGP 7.0.3 ?
+</a>
+</dt>
+</dl>
+<table border="0" summary="Q and A Set">
+<col align="left" width="1%">
+<tbody>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4561264"></a><a name="idp4561520"></a><b>8.1.</b>
+</td>
+<td align="left" valign="top"><p>
+<a name="faq-winxp"></a>
+PGP 7.03 GUI和 Win XP不兼容么？
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+I had the same problem after installing 7.03 on my XP machine. No need to 
+reinstall XP. Go to System Restore and click on "Restore my computer to an 
+earlier time". Choose a time and date that is earlier than the date when you 
+installed PGP 7.03, and then click Next. 
+</p>
+<p>
+Checked with Microsoft and it isn't compatible at all with WinXP. If you 
+installed the IPSEC functionality you have to back out to the previous good 
+configuration, uninstall won't cut it. 
+</p>
+</td>
+</tr>
+<tr class="question">
+<td align="left" valign="top">
+<a name="idp4564624"></a><a name="idp4564880"></a><b>8.2.</b>
+</td>
+<td align="left" valign="top"><p>
+如何成功在 Win XP 安装 PGP 7.0.3 ?
+</p></td>
+</tr>
+<tr class="answer">
+<td align="left" valign="top"></td>
+<td align="left" valign="top">
+<p>
+I appreciate the posts that you all have provided here... I was having the 
+same networking snafu that a few of you described: Here's how I've got PGP and 
+WinXP to work: 
+</p>
+<p>
+I upgraded from Win98 -&gt; WinXP. The first time I did, I already had PGP 7.0.3 
+installed on my box. When XP booted, I had the "cannot establish link to 
+pgpsdk service" message... couldn't for the life of me get rid of it. Tried to 
+remove/re-install PGP which proceeded to cut off my network connection. I had 
+to back all the way back to Win98 to restore my network connection. 
+</p>
+<p>
+Here's how I got it right: 
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+Uninstalled PGP FIRST, *before* upgrading to XP. 
+</p></li>
+<li><p>
+Upgraded to XP. 
+</p></li>
+<li><p>
+Installed PGP... but here's the key, UNCHECK the Personal Firewall/VPN/etc. 
+option in the setup. (I think it's the first one on the list of installable 
+options) I think that's the thing that caused me the most trouble... 
+</p></li>
+<li><p>
+Install as normal... I hope that helps some of you. 
+</p></li>
+</ol></div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="pgpdisk.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> </td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">7. 用PGPDISK进行磁盘加密 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> </td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

@@ -1,0 +1,607 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>4.11. 喂信（News Feeds）设置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="inside-inn.html" title="4. 深入 INN">
+<link rel="prev" href="ar01s04s10.html" title="4.10. 撤销和管理文章">
+<link rel="next" href="ar01s04s12.html" title="4.12. 存储方式">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">4.11. 喂信（News Feeds）设置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s04s10.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">4. 深入 INN</th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s04s12.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4761168"></a>4.11. 喂信（News Feeds）设置</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="ar01s04s11.html#idp4763440">4.11.1. 被动接收上游喂信</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s11.html#idp4770384">4.11.2. 主动去上游取信</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s11.html#idp4807520">4.11.3. 向外喂信</a></span></dt>
+</dl></div>
+<p>
+配置文件 <code class="filename">incoming.conf</code>，用来控制来自外部的喂信（incoming feed）；配置文件 <code class="filename">newsfeeds</code>，用来控制本服务器向外部的喂信（outgoing feed）。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4763440"></a>4.11.1. 被动接收上游喂信</h4></div></div></div>
+<p>
+配置接收外部新闻服务器喂信非常简单，只需要修改配置文件<code class="filename">incoming.conf</code>即可。注意其中的 peer ME 的设置，不正确的设置，导致不能收到文章。
+</p>
+<pre class="screen">
+
+streaming:              true   # streaming allowed by default
+max-connections:        8      # per feed
+
+peer ME {
+  hostname:         "localhost, 127.0.0.1"
+}
+
+</pre>
+<p>
+另外一个要注意的是，配置文件 <code class="filename">newsfeeds</code>中的 ME 项。其中的 distributions 域用于判断允许接收哪些文章，错误设置也可导致无法收到文章。
+</p>
+<pre class="screen">
+
+ME:!*/!local,!collabra-internal::
+
+</pre>
+<p>
+下面的配置，将限制主机 example.com，不能向本地主机发送 local.* 的文章。
+</p>
+<pre class="screen">
+
+    peer remote.example.com {
+        patterns: "*, @local.*"
+        hostname: "remote.example.com, news.example.com"
+    }
+
+</pre>
+<p>
+只设置了本地服务器的 incoming.conf，还不行，还需要通知上游站点，主动向本服务器喂信。
+</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4770384"></a>4.11.2. 主动去上游取信</h4></div></div></div>
+<p>
+如果无法通知上游向本地喂信，想要从其它服务器获取新闻消息，可以使用 suck 从上游取信。suck 可以认为是一个 news 客户端，负责从新闻组服务器获取新闻，并可以以各种格式存储，交给 innfeed，innxmit 等inn软件包的程序进一步处理（如投递到本地）。
+</p>
+<p>
+suck 的下载网址：<a href="http://www.sucknews.org/" target="_top">http://www.sucknews.org/</a>。
+</p>
+<p>
+中国的网络新闻组发展相对落后，不但和美国没法比，就是和台湾也比不了，比较一下 cn.comp.* 上的新闻数量和 comp.*, tw.* 的发贴数量就看出来了。还有一个问题是，国内的用户量比较大的新闻组，如：新帆、万千等都维护自己独立的新闻组，新闻组名称互不相同，而且不同的服务器之间更没有新闻互转。
+</p>
+<p>
+我用 suck 实现了将互不相通的新闻组的服务器的新闻收集，归类在本地统一配置的新闻组服务器中，但是没有实现将新闻向外同步，因为本地的一个组可能是外部好多的新闻组汇集而来。
+</p>
+<p>
+配置步骤
+</p>
+<div class="orderedlist"><ol type="1">
+<li><p>
+安装 suck
+</p></li>
+<li>
+<p>
+创建 suck 工作目录
+</p>
+<p>
+因为 suck 要到不同的新闻服务器取信（新闻服务器互不相通），要为每个服务器建立不同的目录。
+</p>
+<p>
+suck 工作根目录： /usr/local/news/suck，新帆新闻组的工作目录  /usr/local/news/suck/news.newsfan.net，希网网络新闻组的工作目录  /usr/local/news/suck/news.yaako.com，万千新闻组的工作目录  /usr/local/news/suck/news.webking.com.cn，...
+</p>
+<pre class="screen">
+$ mkdir -p /usr/local/news/suck/news.newsfan.net/Msgs
+$ mkdir -p /usr/local/news/suck/news.yaako.com/Msgs
+$ mkdir -p /usr/local/news/suck/news.webking.com.cn/Msgs
+</pre>
+</li>
+<li>
+<p>
+创建运行脚本 
+</p>
+<p>
+/usr/local/news/suck/suck.sh
+</p>
+<pre class="screen">
+#!/bin/sh
+
+basedir=/usr/local/news/suck/
+run=$basedir/get.news.inn
+
+for i in `ls $basedir`; do
+        if [ -d $basedir/$i ]; then
+                sh $run $i             <a name="co.suck.callname"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+        fi
+done
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list"><tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.suck.callname"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+/usr/local/news/suck 下的子母录名，作为参数传递给 get.news.inn 脚本。注意该子目录名即为服务器域名。
+</p></td>
+</tr></table></div>
+<p>
+脚本：/usr/local/news/suck/get.news.inn
+</p>
+<pre class="screen">
+#!/bin/sh
+
+#BEFORE USING - check to ensure all the paths defined below are correct!!
+
+#NOTE: this script probably needs to be run by root.  Most systems will
+# not let a normal user run ctlinnd 
+
+REMOTE_HOST=$1
+LOCAL_HOST=localhost
+
+SPOOLDIR=/usr/local/news/spool		# base directory for articles to be rposted
+NEWSDIR=/usr/local/news			# base directory for news binaries 
+BASEDIR=/usr/local/news/suck/$1/	# base directory for scripts and data files
+
+CTLINND=${NEWSDIR}/bin/ctlinnd		# location of binary
+SHLOCK=${NEWSDIR}/bin/shlock		# location of binary
+
+TMPDIR=${BASEDIR}			# location for suck.* files
+MSGDIR=${BASEDIR}/Msgs			# where to put MultiFile messages when getting them
+
+SITE=$1					# name of site from newsfeeds file
+
+OUTGOING=${SPOOLDIR}/outgoing/${SITE}	# location of the list of articles to upload
+OUTGOINGNEW=${OUTGOING}.new		# file to contain the list temporarily
+OUTGOINGFAIL=${OUTGOINGNEW}.fail	# file with failed xfers
+SCRIPT=${BASEDIR}/news.filter		# my filter for rpost
+OUTFILE=/tmp/tmp$$			# used by rpost as article after it is filtered
+LOCKFILE=${BASEDIR}/getnews.lock	# lock file to prevent multiple instances of script
+NEWSGROUP=news				# which group owns the file in out.going, typically either news or uucp.
+BATCHFILE=${BASEDIR}/suckbatch.xmit
+TRANSTAB=${BASEDIR}/transtab
+
+TESTHOST=/usr/local/bin/testhost
+RPOST=/usr/local/bin/rpost
+SUCK=/usr/local/bin/suck
+INNXMIT=/usr/local/bin/innxmit
+
+# if we are already running, abort 
+
+trap 'rm -f ${LOCKFILE} ; echo "Aborting" ; exit 1' EXIT 1 2 3 15	<a name="co.suck.trap"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+${SHLOCK} -p $$ -f ${LOCKFILE}
+if [ $? -ne 0 ]; then
+	echo "Already running, can't run two at one time"
+	exit
+fi
+
+# is the local host up and running so we can post messages we download?
+${TESTHOST} ${LOCAL_HOST} -s
+LOCAL_RESULT=$?
+
+# is the remote host up and running so we can download messages?
+${TESTHOST} ${REMOTE_HOST} -s
+REMOTE_RESULT=$?
+
+if [ ${REMOTE_RESULT} -ne 0 ]; then
+	echo "remote server cannot be connected!"
+	exit 1
+fi
+if [ ${LOCAL_RESULT} -ne 0 ]; then
+	echo "local server cannot be connected!"
+	exit 1
+fi
+
+if [ -f "${BASEDIR}/shutdown" ]; then
+	echo "not update, due to shutdown file exist"
+	exit 0
+fi
+
+
+# now upload messages
+while [ -s $BATCHFILE ] ; do	 <a name="co.suck.resend"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+	echo "warning: batchfile - $BATCHFILE already exist!"
+	${INNXMIT} ${LOCAL_HOST} ${BATCHFILE}
+	sleep 10
+done
+
+# download messages
+${SUCK} ${REMOTE_HOST} -c -bi ${BATCHFILE} -dt ${TMPDIR} -dm ${MSGDIR} -dd ${BASEDIR} -HF /usr/local/news/db/history	 <a name="co.suck.suck"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+SUCK_STATUS=$?
+
+if [ ${SUCK_STATUS} -eq 0 ]; then
+	echo "Downloaded Articles"
+elif [ ${SUCK_STATUS} -eq 1 ]; then
+	echo "No articles to download"
+elif [ ${SUCK_STATUS} -eq 2 ]; then
+	echo "Unexpected answer from remote server to an issued command"
+elif [ ${SUCK_STATUS} -eq 4 ]; then
+	echo "Can't do NNTP authorization"
+elif [ ${SUCK_STATUS} -eq -1 ]; then
+	echo "General failure"
+fi
+
+# filter messages
+if [ -f ${TRANSTAB} ]; then	 <a name="co.suck.filter"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+	for x in `ls ${MSGDIR}`; do
+		x="${MSGDIR}/${x}"
+		header="`grep -m 1 "^Newsgroups:" $x | sed -e 's/^Newsgroups:[ ]*//' -e 's/,/ /g' `"
+		newheader=""
+		if [ -z "$header" ]; then
+			rm -f $x
+			continue
+		fi
+		for y in $header; do
+			value=`grep -m 1 "$y:" $TRANSTAB | awk -F : '{ print $2; }'`
+			if [ "x$value" != "x" ]; then
+				newheader="${newheader},${value}"
+			fi
+		done
+		newheader=${newheader#,}
+		if [ "x$newheader" != "x" ]; then
+			tmpfile=`mktemp /tmp/suck.XXXXXX`
+			sed -e "s/^Newsgroups:.*$/Newsgroups: $newheader/" $x &gt; $tmpfile
+			mv -f $tmpfile $x
+		else
+			rm -f $x
+		fi
+	done
+fi
+
+
+# now upload messages
+${INNXMIT} ${LOCAL_HOST} ${BATCHFILE}	 <a name="co.suck.innxmit"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+if [ ! -f $BATCHFILE ] ; then
+	cd $MSGDIR
+	echo "clear cache"
+	rm -f *
+fi
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.suck.trap"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+脚本退出，删除文件锁
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.suck.resend"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+检查是否有上次遗留的文章没有发送，通过 innxmit 发送到本机
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.suck.suck"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+运行 suck 命令，将服务器  ${REMOTE_HOST} 的新文章放到临时目录 ${TMPDIR} 中，并生成供 innxmit 调用的脚本 ${BATCHFILE}。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.suck.suck"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+运行 suck 命令，将服务器  ${REMOTE_HOST} 的新文章放到临时目录 ${TMPDIR} 中，并生成供 innxmit 调用的脚本 ${BATCHFILE}。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.suck.filter"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+如果存在文件 transtab，则对临时目录中的文章进行修改，替换 header 中的 Newsgroups ，将远程新闻组名替换为本地统一的新闻组名称。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.suck.innxmit"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+运行 innxmit ，将刚刚抓来并已经经过 filter 过滤的新闻发送到本地。
+</p></td>
+</tr>
+</table></div>
+</li>
+<li>
+<p>
+在每个新闻组服务器的工作目录下，创建配置文件 sucknewsrc
+</p>
+<p>
+sucknewsrc 示例: 示例：/usr/local/news/suck/news.newsfan.net/sucknewsrc
+</p>
+<pre class="screen">
+计算机.软件.编程 -100		<a name="co.suck.rc1"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+计算机.软件.编程.API -50
+计算机.软件.编程.C语言 1		<a name="co.suck.rc2"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+计算机.软件.编程.C语言.BCB 2584
+计算机.软件.编程.C语言.C++ 10494
+计算机.软件.编程.Perl 1550
+计算机.软件.编程.Vc 24864
+计算机.软件.病毒 10292
+计算机.软件.操作系统 5110
+计算机.软件.操作系统.FreeBSD 709
+计算机.软件.操作系统.Linux 25333
+计算机.软件.操作系统.Linux.常见问题 554
+计算机.软件.操作系统.MACOS 473
+计算机.软件.操作系统.Unix 1790
+计算机.软件.软件工程 1712
+计算机.网络.网络安全 11222
+计算机.网络.协议.TCPIP 3783
+精华信区.计算机 61
+精华信区.计算机.软件 43
+精华信区.计算机.软件.办公软件 2
+精华信区.计算机.软件.编程 27
+精华信区.计算机.软件.编程.ASP 38
+精华信区.计算机.软件.编程.C语言 14
+精华信区.计算机.软件.操作系统 50
+精华信区.计算机.软件.数据库 2
+精华信区.计算机.软件.图形图像 3
+精华信区.计算机.软件.主页制作 8
+精华信区.计算机.网络 64
+精华信区.计算机.网络.网络安全 61
+精华信区.计算机.网络.硬件 8
+精华信区.计算机.硬件 150
+精华信区.计算机.硬件.故障维修 13
+精华信区.精华推荐 292
+精华信区.休闲娱乐.讽刺与幽默 116
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.suck.rc1"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+-100 含义是取回最新的100篇文章。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.suck.rc2"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+1 的含义是从第一篇文章开始取回全部的文章。
+</p></td>
+</tr>
+</table></div>
+<p>
+该文件一次创建，以后 suck 自动维护该文件
+</p>
+</li>
+<li>
+<p>
+在每个新闻组服务器的工作目录下，创建配置文件 transtab 
+</p>
+<p>
+transtab 示例：/usr/local/news/suck/news.newsfan.net/transtab
+</p>
+<pre class="screen">
+计算机.软件.编程:cn.comp.lang
+计算机.软件.编程.API:cn.comp.lang
+计算机.软件.编程.C语言:cn.comp.lang.c
+计算机.软件.编程.C语言.BCB:cn.comp.lang.c
+计算机.软件.编程.C语言.C++:cn.comp.lang.c
+计算机.软件.编程.Perl:cn.comp.lang.perl
+计算机.软件.编程.Vc:cn.comp.lang.vc
+计算机.软件.病毒:cn.comp.security.virus
+计算机.软件.操作系统:cn.comp.os
+计算机.软件.操作系统.FreeBSD:cn.comp.os.freebsd
+计算机.软件.操作系统.Linux:cn.comp.os.linux
+计算机.软件.操作系统.Linux.常见问题:cn.comp.os.linux
+计算机.软件.操作系统.MACOS:cn.comp.os.macos
+计算机.软件.操作系统.Unix:cn.comp.os.unix
+计算机.软件.软件工程:cn.comp.softeng
+计算机.网络.网络安全:cn.comp.security
+计算机.网络.协议.TCPIP:cn.comp.network
+精华信区.休闲娱乐.讽刺与幽默:休闲娱乐.讽刺与幽默
+</pre>
+<p>
+用冒号分隔的新闻组名称对应表，前面是该新闻组实际名称，后面是欲替换的名称。
+</p>
+</li>
+<li>
+<p>
+在 crontab 中加入如下内容，每小时自动同步一次：
+</p>
+<pre class="screen">
+40      *       *       *       *       /bin/sh /usr/local/news/suck/suck.sh
+</pre>
+</li>
+</ol></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4807520"></a>4.11.3. 向外喂信</h4></div></div></div>
+<p>
+由配置文件<code class="filename">newsfeeds</code>控制。newsfeeds档案的设定, 算是INN News Server最重要的工作, 也是困难度最高的部份。 innd 靠 newsfeeds 来决定要丢哪些 newsgroups 的 articles 给哪些 site 负责的程序 (nntplink) 或产生批处理, 让其它的程序来转送。
+</p>
+<p>
+INN newsfeeds档案至少必须定义自己（ME）以及一个喂送下游 Server。
+</p>
+<p>
+该文件由一系列 feed 项构成。每一个配置项由四个部分构成，用冒号分开。
+</p>
+<pre class="screen">
+sitename[/exclude,exclude,...]\                   <a name="co.newsfeeds.name"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+     :pattern,pattern...[/distrib,distrib...]\    <a name="co.newsfeeds.pattern"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+     :flag,flag...\                               <a name="co.newsfeeds.flag"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+     :param                                       <a name="co.newsfeeds.param"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.newsfeeds.name"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+第一个部分格式为：唯一地址名和排除列表
+</p>
+<p>
+唯一地址名一般配置成远程的主机名，从而保障了名字的唯一性。名称之后的排除列表是可选项，可以在地址名后面跟一个斜线和逗号分隔的排除列表。如果该地址名出现在文章头信息的 PATH 部分，则文章将不被传递。同样，如果文章的PATH部分包含排除列表中的名称，则该文章也不再需要处理。
+</p>
+<p>
+要确定 sitename 和 排除列表很容易，只要分析远程主机的新闻的文件头即可。合理配置，可以有效防止文章的重复粘贴。
+</p>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.newsfeeds.pattern"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+此部分定义需要处理的新闻组列表，可以看做是该地址订阅的新闻组列表。其中的 distribution-list 是可选项，可以用来进一步和文章头部的 Distribution 项匹配，但并不常用。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.newsfeeds.flag"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+标志位。常见的标志位有：
+</p>
+<p>
+T? 用于定义传送方式。传送新闻基本上都牵涉两类程式在配合。
+a) innd 整理 (根据 newsfeeds) 往外丢的资讯, 以 file, channel, log, funnel, program 等几种型式呈现. ( innd 有时也整理提供一些 local, 不外传的资讯, 如 overchan, ..);
+b) 不同的传送程式, 撷取不同的资讯, 将 news articles 往外传。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Tf
+</p>
+<p>
+File mode: 前者写一个 batch file (per site), 後者事後再根据这一个 batch file, 取出必要的资讯, 往外传 articles. 如 nntpsend/innxmit。最后一个域param，为文件名。
+</p>
+</li>
+<li>
+<p>
+Tl
+</p>
+<p>
+Log entry: innd 每收到一篇 article, 都会有一笔 log (/var/log/news/news), 其中记有哪一些 site (all), 要这一篇  articles, 然後对应的程式, 可以到这个 log, 取出所要的资讯. 目前最常见的程式 nntplink (log mode), 假设可能有□N 个下游站(但所要的 newsgroups, 不见得相同), 用这个方式, 就会有 N 个程式被跑起来, 都根据同一个 log file, 来传送.
+</p>
+</li>
+<li>
+<p>
+Tm
+</p>
+<p>
+Funnel mode: 漏斗方式。是前两者的折衷. 如果下游站多, 待外传的 articles 量多, 使用 file mode 使 disk I/O 太多,(每一个 site 个别运作. ) 使用 log mode 可能又效率不高. funnel mode 通常都需配合 exploder 程式来运作。
+</p>
+<p>
+funnel(漏斗) file: 把好几个 out.going 的资讯, 汇集成一个 file.
+</p>
+<p>
+exploder 程式, 将 funnel file, "展开", 取出必要的资讯,往各别站传.
+</p>
+</li>
+<li>
+<p>
+Tc
+</p>
+<p>
+前面三种, (a) 和 (b) 是分开 run 的程式。 channel(通道) mode, 则是 两者同时在跑. OS 上列的 concurrent processes, (想像一下, Unix 上 pipeline 程式组的运作方式)。目前比较常见的, 就是 innd (channel mode) 配 nntplink (stdin).
+</p>
+</li>
+<li>
+<p>
+Tp
+</p>
+<p>
+程序模式。类似于 Channel 模式, 不过是 one-shot mode. 理论上 channel mode, (a) 和 (b) 一直跑. 但 program mode, 只有在一篇 articles 进来时, innd 才会去 fork 一个 (b) 的程式来处里, 之後, (b) 自动结束, 就 exit.
+</p>
+</li>
+</ul></div>
+<p>
+W？
+</p>
+<p>
+通过文件、通道等喂信，这个标记用来确定写入什么信息。
+</p>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.newsfeeds.param"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+第四部分作为参数传递，根据第三部分的选项，而有不同意义。如：对于 文件方式的feed（file feeds，Tf），本部分为相应的文件名；对于漏洞方式（funnel feeds，Tm）方式，则为某一已经定义的 feed 配置项；对于 channel feeds (Tc)，本部分则是要运行的相应的处理程序。
+</p></td>
+</tr>
+</table></div>
+<pre class="screen">
+ME:!*/!local,!collabra-internal::
+</pre>
+<p>
+配置项 ME，是必不可少的一个配置项，有着特殊作用。其 newsgroup pattern 部分（本例为“!*”），将加到所有其它的配置项的 newsgroup pattern 的前面，定义了确省的向外喂信的新闻组列表。亦即定义所有 site, 共同的 pre-subscription list。
+</p>
+<p>
+而其 distribution pattern 则通过匹配文章头部的 Distribution 域，确定允许接收哪些文章。不过distribution 作为一个限制流传的功能, 很少有人用，已几乎名存实亡。
+</p>
+<pre class="screen">
+
+remote.example.com/news.example.com\
+    :&lt;newsgroups&gt;\
+    :Tf,Wnm:
+
+</pre>
+<p>
+这条配置项，将对匹配的文章的 Message-ID, storage token 写入文件 ~news/spool/outgoing/remote.example.com。crontab 中的配置将会定期根据文件外发数据。
+</p>
+<pre class="screen">
+
+    innfeed!\
+        :!*\
+        :Tc,Wnm*:/usr/local/news/bin/startinnfeed -y
+
+    remote.example.com/news.example.com\
+        :&lt;newsgroups&gt;\
+        :Tm:innfeed!
+
+</pre>
+<p>
+funnel feed 示例，注意 innfeed 后面的感叹号。
+</p>
+<p>
+上例采用 innfeed 向外部服务器 remote.example.com 喂信。正确运行 innfeed 还需要配置文件 innfeed.conf。
+</p>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s04s10.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="inside-inn.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s04s12.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">4.10. 撤销和管理文章 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 4.12. 存储方式</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

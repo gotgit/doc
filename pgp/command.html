@@ -1,0 +1,144 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>6. 命令参考</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="PGP/GPG Howto">
+<link rel="up" href="index.html" title="PGP/GPG Howto">
+<link rel="prev" href="ar01s05s02.html" title="5.2. GPG (WIN2K+CYGWIN)">
+<link rel="next" href="pgpdisk.html" title="7. 用PGPDISK进行磁盘加密">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">6. 命令参考</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s05s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="pgpdisk.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="command"></a>6. 命令参考</h2></div></div></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+管理KEY
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+创建key
+</p>
+<pre class="screen">
+pgp -kg &lt;userid&gt;
+gpg --gen-key &lt;userid&gt;
+</pre>
+</li>
+<li>
+<p>
+维护key
+</p>
+<pre class="screen">
+pgp -ke &lt;userid&gt;
+gpg --edit-key &lt;userid&gt;
+gpg --delete-key &lt;userid&gt;
+gpg --delete-secret-key &lt;userid&gt;
+gpg -keyserver ldap://keyserver.pgp.com -send-key &lt;userid&gt;
+gpg --s2k-cipher-algo CAST5 --s2k-digest-algo SHA1 --compress-algo 1 --edit-key &lt;userid&gt;
+gpg --sign-key &lt; UID &gt; 
+gpg --sign-key &lt; UID &gt; 
+</pre>
+</li>
+<li>
+<p>
+查看key属性
+</p>
+<pre class="screen">
+pgp -kv  &lt;userid&gt;
+pgp -kvv &lt;userid&gt;
+pgp -kvc &lt;userid&gt;
+gpg --list-keys
+gpg --list-sigs
+gpg --fingerprint
+gpg --list-secret-keys
+</pre>
+</li>
+<li>
+<p>
+导入导出key
+</p>
+<pre class="screen">
+pgp -ka &lt;keyfile&gt;
+pgp -kx &lt;userid&gt; &lt;keyfile&gt; &lt;keyring&gt;
+gpg --import [--allow-secret-key-import] &lt;keyfile&gt;
+gpg --export &lt;userid&gt;
+gpg --export-secret-keys -a &lt;userid&gt;
+</pre>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+签名和验证
+</p>
+<pre class="screen">
+pgp -sba &lt;file&gt; [-u yourid]
+pgp &lt;file.asc&gt;
+gpg -sba [--force-v3-sigs] &lt;file&gt;  [-u yourid]
+gpg &lt;file.asc&gt;
+</pre>
+</li>
+<li>
+<p>
+加密和解密
+</p>
+<pre class="screen">
+pgp -ew  &lt;file&gt; &lt;userid ...&gt;	# 加密并删除原文
+pgp -esa &lt;file&gt; &lt;userid ...&gt;	# 加密并签名
+pgp &lt;file.asc&gt; [-o output_file]
+gpg -ea &lt;file&gt; -r &lt;userid ...&gt;
+gpg --compress-algo 1 --cipher-algo cast5 -e &lt;file&gt; -r &lt;userid ...&gt;
+gpg --armor [-u sender] [--recipient userid ...] [--sign] [--output outputfile] --encrypt &lt;file&gt; 
+gpg [-d] &lt;file.asc&gt; [-o output_file]
+</pre>
+</li>
+</ol></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s05s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="pgpdisk.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">5.2. GPG (WIN2K+CYGWIN) </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 7. 用PGPDISK进行磁盘加密</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

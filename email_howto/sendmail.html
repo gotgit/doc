@@ -1,0 +1,184 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>1. Sendmail</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="index.html" title="知识管理">
+<link rel="prev" href="index.html" title="知识管理">
+<link rel="next" href="ar01s01s01.html" title="1.1. M4 和 sendmail.cf">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">1. Sendmail</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="index.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="ar01s01s01.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="sendmail"></a>1. Sendmail</h2></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect2"><a href="ar01s01s01.html">1.1. M4 和 sendmail.cf</a></span></dt>
+<dt><span class="sect2"><a href="ar01s01s02.html">1.2. mail relay 规则详解
+
+</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="ar01s01s02.html#idp4506432">1.2.1. 配置允许本地用户RELAY</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s02.html#idp4538000">1.2.2. 口令验证下的 open relay
+
+</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s02.html#idp4570304">1.2.3. 提高安全性：SMTP over SSL</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="ar01s01s03.html">1.3. 别名 aliases 和 .forward 文件</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="ar01s01s03.html#idp4572576">1.3.1. /etc/mail/aliases</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s03.html#idp4585952">1.3.2. ~/.forward</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="ar01s01s04.html">1.4. 用 virtusertable 管理虚拟域</a></span></dt>
+<dt><span class="sect2"><a href="ar01s01s05.html">1.5. 其它配置文件</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="ar01s01s05.html#idp4609696">1.5.1. /etc/mail/domaintable</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s05.html#idp4616016">1.5.2. genericstable和genericsdomain</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s05.html#idp4619664">1.5.3. /etc/mail/mailertable</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="ar01s01s06.html">1.6. 地址伪装</a></span></dt>
+<dt><span class="sect2"><a href="ar01s01s07.html">1.7. DNS 和 Email</a></span></dt>
+<dt><span class="sect2"><a href="configpop3.html">1.8. 配置pop3
+
+</a></span></dt>
+<dt><span class="sect2"><a href="ar01s01s09.html">1.9. 从头安装 Sendmail</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4654480">1.9.1. 下载软件包</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4660944">1.9.2. 安装 SASL，以支持SMTP认证
+<sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
+</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#smtpoverssl">1.9.3. 支持SMTP over SSL
+
+</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4685312">1.9.4. 安装 sendmail</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4686560">1.9.5. 配置 sendmail — 支持 SMTP 认证
+<sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
+</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4688976">1.9.6. 配置 sendmail — 支持 SMTP over SSL
+<sup>[<a href="#ftn.fn.starttls">4</a>]</sup>
+</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4696448">1.9.7. 配置 sendmail — 证书管理
+
+</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4712320">1.9.8. 配置pop3</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4713952">1.9.9. 关于权限</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4715488">1.9.10. 启动 sendmail</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="ar01s01s10.html">1.10. 邮件分拣</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="ar01s01s10.html#idp4720400">1.10.1. vacation 自动回信
+</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s10.html#procmail">1.10.2. procmail</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="ar01s01s11.html">1.11. FAQ</a></span></dt>
+</dl></div>
+<p>
+可以通过命令 <span><strong class="command">telnet &lt;email_server&gt; 25</strong></span> , 或者命令 <span><strong class="command">sendmail -dt -d0*</strong></span> , 来查看sendmail版本号。如果需要配置 smtp over ssl，则最好使用 8.12版本以上的 sendmail。
+</p>
+<p>
+由于 Sendmail 有着长期的安全漏洞历史，更需要着重注意 sendmail 的版本更新。
+</p>
+<div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+Recent Sendmail Vulnerabilities:
+</p>
+<div class="orderedlist"><ol type="1"><li>
+<p>
+2003.3.3, Sendmail 检查接收邮件标题字段的代码中，发现了缓冲区溢出的安全漏洞。
+</p>
+<p>
+美国CERT/CC、美国Internet Security Systems（ISS）以及美国Sendmail.org等公司
+于美国当地时间3月3日发出警告，在具有代表性的邮件服务器软件“Sendmail”中发现
+了严重的安全漏洞。影响版本涉及 5.79 至 8.12.7。请立即升级至 8.12.8。
+</p>
+</li></ol></div>
+</td></tr>
+</table></div>
+<p>
+Sendmail 作为 Linux, BSD 和其它 Unix 平台的“标配”，被广泛使用。再加上众多的相关软件支持，Sendmail 配置应该算得上是系统管理员的基本技能。Sendmail 主要的配置文件如下：
+</p>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+/etc/sendmail.cf
+</p>
+<p>
+Sendmail 核心配置文件
+</p>
+</li>
+<li>
+<p>
+/etc/aliases
+</p>
+<p>
+邮件别名文件
+</p>
+</li>
+<li>
+<p>
+/etc/mail/relay-domains
+</p>
+<p>
+设定可RELAY的域名
+</p>
+</li>
+<li>
+<p>
+/etc/mail/access
+</p>
+<p>
+设定处理来信的方式：RELAY等
+</p>
+</li>
+</ol></div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="index.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="ar01s01s01.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">知识管理 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 1.1. M4 和 sendmail.cf</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

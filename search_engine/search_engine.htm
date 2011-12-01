@@ -1,0 +1,1437 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>知识管理</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<meta name="description" content="没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个企业内部的 GOOGLE，将内部资源一网打尽。首先介绍使用 MHonArc 将企业的news、maillist、email转换为网页，再介绍搜索引擎的配置。 （编译自版本: 58d659b，最后更新时间: 2007-06-19）">
+<link rel="start" href="#index" title="知识管理">
+<link rel="next" href="#search-engine" title="2. 建立搜索引擎">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="article" lang="zh-cn">
+<div class="titlepage">
+<div>
+<div><h1 class="title">
+<a name="index"></a>知识管理</h1></div>
+<div><h3 class="subtitle"><i>搜索引擎 Howto</i></h3></div>
+<div><div class="author"><h3 class="author">
+<span class="surname">蒋</span> <span class="firstname">鑫</span>
+</h3></div></div>
+<div><div class="revhistory"><table border="1" width="100%" summary="Revision history">
+<tr><th align="left" valign="top" colspan="3"><b>修订历史</b></th></tr>
+<tr>
+<td align="left">修订 1.1</td>
+<td align="left">2003/11/7</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3"><a href="#mhonarc-custom" title="1.3. 定制 MHonArc">完善 MHonArc 模板</a></td></tr>
+<tr>
+<td align="left">修订 1.0</td>
+<td align="left">2003/06/08</td>
+<td align="left">jiangxin</td>
+</tr>
+<tr><td align="left" colspan="3">新闻到网页的转换和搜索引擎。</td></tr>
+</table></div></div>
+<div><div class="abstract">
+<p class="title"><b>摘要</b></p>
+<p>
+没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个企业内部的 GOOGLE，将内部资源一网打尽。首先介绍使用 MHonArc 将企业的news、maillist、email转换为网页，再介绍搜索引擎的配置。
+</p>
+<p>
+（编译自版本: 58d659b，最后更新时间: 2007-06-19）
+</p>
+</div></div>
+</div>
+<hr>
+</div>
+<div class="toc">
+<p><b>目录</b></p>
+<dl>
+<dt><span class="sect1"><a href="#webarchive">1. Web 存档</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#mhonarc-install">1.1. MHonArc 的安装配置</a></span></dt>
+<dt><span class="sect2"><a href="#mhonarc-paradigm">1.2. MHonArc 应用示例</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4458464">1.2.1. 任务1: 将邮件存档转换为网页</a></span></dt>
+<dt><span class="sect3"><a href="#idp4473952">1.2.2. 任务2: 新邮件直接转换为网页——别名</a></span></dt>
+<dt><span class="sect3"><a href="#idp4481648">1.2.3. 任务3: 新邮件直接转换为网页——procmail</a></span></dt>
+<dt><span class="sect3"><a href="#idp4491376">1.2.4. 任务4: 新闻转换为网页</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#mhonarc-custom">1.3. 定制 MHonArc</a></span></dt>
+</dl></dd>
+<dt><span class="sect1"><a href="#search-engine">2. 建立搜索引擎</a></span></dt>
+<dd><dl>
+<dt><span class="sect2"><a href="#aspseek-install">2.1. 安装 ASPSeek</a></span></dt>
+<dt><span class="sect2"><a href="#aspseek-index">2.2. 数据库维护</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4581536">2.2.1. 配置文件: aspseek.conf</a></span></dt>
+<dt><span class="sect3"><a href="#idp4593584">2.2.2. 用 index 程序定期更新搜索引擎数据库</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#aspseek-searchd">2.3. searchd 后台数据库检索</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="#idp4601488">2.3.1. searchd.conf</a></span></dt>
+<dt><span class="sect3"><a href="#idp4610256">2.3.2. 运行 searchd</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="#aspseek-s.cgi">2.4. s.cgi: 具有类似GOOGLE查询界面的cgi程序</a></span></dt>
+<dt><span class="sect2"><a href="#idp4638224">2.5. ASPseek对中文的支持</a></span></dt>
+</dl></dd>
+</dl>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="webarchive"></a>1. Web 存档</h2></div></div></div>
+<p>
+在使用搜索引擎之前，最好能将资源尽可能的整合到 Web 页面，这样才能使搜索引擎实至名归。本节介绍将 News，Maillist，Email 进行 Web 存档的过程，谨供参考。
+</p>
+<p>
+先介绍一下 <a href="http://www.mhonarc.org/" target="_top">MHonarc</a>，一个强大的邮件归档工具。
+</p>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="mhonarc-install"></a>1.1. MHonArc 的安装配置</h3></div></div></div>
+<p>
+下载 MHonArc：<a href="http://www.mhonarc.org" target="_top">http://www.mhonarc.org</a>...
+</p>
+<p>
+MHonArc 是通过一组 Perl 脚本实现的将邮件（注意不是新闻），转换为网页，并为网页建立基于时间和线索的索引。
+用户还可以通过模块定制转换后的网页格式。总之 MHonArc 是非常强大，并且是非常胜任这一工作的。
+</p>
+<p>
+MHonArc 安装过程是非常简单的：
+</p>
+<pre class="screen">
+prompt&gt; wget 'http://www.mhonarc.org/release/MHonArc/MHonArcX.X.X.tgz'
+prompt&gt; tar -zxvf MHonArcX.X.X.tgz
+prompt&gt; cd MHonArcX.X.X
+prompt&gt; perl install.me
+# 添加用户 mhonarc
+prompt&gt; adduser mhonarc <a name="co.mh.addusr"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list"><tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.addusr"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+之所以添加用户，是为了使用 procmail 处理邮件，将新闻转换为网页。
+</p>
+<p>
+新闻通过 news2mail 发给用户 mhonarc，通过用户 mhonarc 主目录下的 .procmailrc 文件，交由 procmail，在传递给mhonarc 程序处理。
+</p>
+</td>
+</tr></table></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="mhonarc-paradigm"></a>1.2. MHonArc 应用示例</h3></div></div></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4458464"></a>1.2.1. 任务1: 将邮件存档转换为网页</h4></div></div></div>
+<p>
+mbox 格式是Unix上存储邮件的最常见的格式，一个 mobx 文件可能包含零个到多个邮件。MHonArc 支持将 mbox 格式的文件批量转换为网页。
+</p>
+<pre class="screen">
+prompt&gt; mhonarc path/mbox <a name="co.mh.mbox"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+prompt&gt; mhonarc -outdir /home/johnson/archive /home/johnson/mail/inbox <a name="co.mh.outdir"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.mbox"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+将 mbox 中的邮件批量转换为网页存储在当前目录下。将会生成如下文件：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+maillist.html
+</p>
+<p>
+主要的索引文件，文件列表将按照时间排序。
+</p>
+</li>
+<li>
+<p>
+threads.html
+</p>
+<p>
+索引文件，按照线索显示列表
+</p>
+</li>
+<li>
+<p>
+msg*.html
+</p>
+<p>
+转换为网页的邮件。* 从 0 开始，顺次加一。
+</p>
+</li>
+<li>
+<p>
+.mhonarc.db
+</p>
+<p>
+MHonArc 维护的数据库，便于今后的目录更新。
+</p>
+</li>
+</ul></div>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.outdir"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+通过 -outdir 参数，指定转换后的网页的存储路径，确省是在当前路径。
+</p></td>
+</tr>
+</table></div>
+<p>
+可能大多数人和我一样使用 Outlook 处理邮件。SourceForge.net 上面有几个开放源码，可以将 Outlook 的文件夹格式转换为 mbox 格式，之后的过程就和前面一样了。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+<a href="http://sourceforge.net/projects/ol2mbox" target="_top">ol2mbox</a>
+</p>
+<p>
+Outlook to unix mail converter. 可以将 Outlook 的 PST 格式转换为 mailbox 格式。
+</p>
+</li>
+<li>
+<p>
+<a href="http://sourceforge.net/projects/mbx2mbox" target="_top">mbx2mbox</a>
+</p>
+<p>
+Converts Outlook .mbx and .dbx files into standard RFC822 mail files.
+</p>
+</li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4473952"></a>1.2.2. 任务2: 新邮件直接转换为网页——别名</h4></div></div></div>
+<p>
+利用邮件别名，实现将新邮件直接用 MHonArc 转换为网页。这项功能对于将 Mail-List 内容转换为网页非常适合。
+</p>
+<p>
+例如在别名文件 <code class="filename">/etc/aliases</code> 中加入如下条目：
+</p>
+<pre class="screen">
+
+maillist2html: "|/usr/local/bin/mhonarc -add -quiet -umask 022 -idxfname index.html -rcfile /home/mhonarc/.mhonarc.mrc -outdir '/home/mhonarc/public_html/maillist1' -title 'Maillist 1 Archive'"
+
+</pre>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+上面的示例中，参数: -idxfname index.html，的作用是将主索引的文件名设置为 index.html 而不是 maillist.html；
+</p></li>
+<li><p>
+参数: -rcfile /home/mhonarc/.mhonarc.mrc ，的作用是使用文件 /home/mhonarc/.mhonarc.mrc 作为确省的模板文件，用以定制转换的网页的界面；
+</p></li>
+<li><p>
+参数: -outdir '/home/mhonarc/public_html/maillist1'，用来设置转换后的网页的储存路径；
+</p></li>
+<li><p>
+参数: -title 'Maillist 1 Archive'"，用来设置索引页的标题。
+</p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4481648"></a>1.2.3. 任务3: 新邮件直接转换为网页——procmail</h4></div></div></div>
+<p>
+在上面描述的任务中，通过使用邮件别名将邮件转换为网页固然可以完成任务，但是如果想对订阅的大量的邮件列表进行 html 存档，就需要建立大量的对应的 aliases 条目，显然笨拙了一些。
+</p>
+<p>
+procmail 是一个用于过滤用户接收到的电子邮件，并能对其自动分类、处理的一个应用软件。可以用来分检来自不同邮件列表的邮件。
+</p>
+<p>
+在用户 mhonarc 的主目录下创建一个文件： /home/mhonarc/.procmailrc ，来实现将多个邮件组的邮件分检。如下：
+</p>
+<pre class="screen">
+VERBOSE=no
+MAILDIR=$HOME/mail
+WWWROOT=$HOME/public_html
+LOGFILE=$HOME/var/log.procmail
+
+MHONARC='/usr/local/bin/mhonarc -add -quiet -umask 022 -idxfname index.html'
+
+:0
+* ^Subject: [\/[^\]]+ <a name="co.mh.procmail.pattern"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+{
+        ##Directory needs to be created seperately, as Mhonarc is unable to
+        ##create the required directory.
+
+        :0c
+        | /bin/mkdir -m 755 -p $WWWROOT/$MATCH <a name="co.mh.procmail.mkdir"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+
+        :0 : $HOME/var/mhonarc.lock
+        | $MHONARC -rcfile $HOME/.mhonarc.mrc -outdir $WWWROOT/$MATCH -title "Maillist [$MATCH] Archive" <a name="co.mh.procmail.mh"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+
+}
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.procmail.pattern"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+匹配邮件标题，对于格式为："[邮件列表名称] 邮件标题..." 的邮件标题的邮件进行处理，将“邮件标题列表”部分存储在变量 $MATCH 中。
+</p>
+<p>
+例如邮件标题为： “[docbook] RE: how to ...” 的邮件，匹配条件继续处理，并且将变量 $MATCH 设置为 docbook。
+</p>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.procmail.mkdir"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+创建目录 $WWWROOT/$MATCH，目录名利用了刚刚获取的变量 $MATCH，该目录作为 MHonArc 的输出目录，即完成了邮件的分检。
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.mh.procmail.mh"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+交由 MHonArc 处理。即将邮件转换为网页。
+</p></td>
+</tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4491376"></a>1.2.4. 任务4: 新闻转换为网页</h4></div></div></div>
+<p>
+新闻组固然会给沟通带来便利之处，但是不足之处：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+无法通过 URL 定位到具体的文章，只能笼统的说在某某版在几月几号有关于这个问题的一篇文章；
+</p></li>
+<li><p>
+当某一板块有过多文章时，客户端下载会给服务器带来过多的负荷；
+</p></li>
+<li><p>
+不能进行检索。没有检索就不能叫做成功的知识管理系统，建立新闻组到网页的存档为建立全文检索准备了条件。
+</p></li>
+</ul></div>
+<p>
+如果能够将新闻转换为 WEB 页面，上述问题迎刃而解。首先配置 inn 的 newsfeed 文件，将新闻以邮件形式发送给用户（如上例的用户 mhonarc）。
+</p>
+<p>
+newsfeed 文件中相应条目：
+</p>
+<pre class="screen">
+
+n2m!:!*:Tc,Ac,Wn*:/usr/lib/news/bin/news2mail
+mail-archive@sample.com:worldhello.*,本站站务.*,!local.test:Tm:n2m!
+
+</pre>
+<p>
+对应的配置文件 news2mail.cf 的相关条目：
+</p>
+<pre class="screen">
+mail-archive@sample.com  mhonarc
+</pre>
+<p>
+重新启动 news，新来的新闻就可以出发 news2mail 将新闻以邮件形式发送给用户（mhonarc）。还要注意 news2mail （perl 脚本）是如何重组邮件标题的，后面使用 procmail 分检邮件需要依赖邮件标题的格式。
+</p>
+<p>
+接下来就是设置用户(mhonarc)的 .procmailrc，以实现分检邮件。照搬前一个例子即可。
+</p>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="mhonarc-custom"></a>1.3. 定制 MHonArc</h3></div></div></div>
+<p>
+上面的步骤提及了 MHonArc 的模板配置文件 $HOME/.mhonarc.mrc。下面是我定制的一个模板。至于详细内容参考 MHonArc 的帮助。
+</p>
+<pre class="screen">
+
+&lt;!--The MHonARC documentation on the web provides a good introduction to all the below --&gt;
+
+&lt;SORT&gt;		# List messages by date in main index
+&lt;REVERSE&gt;	# Sort messages in the reverse order
+&lt;TSORT&gt;		# Want thread index
+&lt;TREVERSE&gt;	# Sort thread index in the reverse order
+&lt;MULTIPG&gt;	# Split index page into multiple pages, each page contain $IDXSIZE$ articles
+&lt;IDXSIZE&gt;
+100
+&lt;/IDXSIZE&gt;
+
+
+&lt;LOCALDATEFMT&gt;
+%y/%m/%d %H:%M:%S
+&lt;/LOCALDATEFMT&gt;
+
+&lt;MSGLOCALDATEFMT&gt;
+%y/%m/%d %H:%M:%S
+&lt;/MSGLOCALDATEFMT&gt;
+
+&lt;GMTDateFmt&gt;
+%y/%m/%d %H:%M:%S GMT
+&lt;/GMTDateFmt&gt;
+
+&lt;TTITLE&gt;
+$IDXTITLE$(线索)
+&lt;/TTITLE&gt;
+
+
+&lt;CharsetConverters override&gt;
+plain;    mhonarc::htmlize
+default;  mhonarc::htmlize 
+&lt;/CharsetConverters&gt;
+
+
+&lt;!--
+ ***************************************************************
+ Define a custom resource variable representing our link. 
+ ***************************************************************
+--&gt;
+
+&lt;DefineVar&gt;
+HOME-LINK
+[&lt;a href="/"&gt;HOME&lt;/a&gt;]
+&lt;/DefineVar&gt;
+
+&lt;IDXFNAME&gt;
+index.html
+&lt;/IDXFNAME&gt;
+
+&lt;IDXPREFIX&gt;
+index
+&lt;/IDXPREFIX&gt;
+
+&lt;TIDXFNAME&gt;
+threads.html
+&lt;/TIDXFNAME&gt;
+
+&lt;TIDXPREFIX&gt;
+threads
+&lt;/TIDXPREFIX&gt;
+
+&lt;TIDXLABEL&gt;
+&lt;a href='threads.html'&gt;依线索排序&lt;/a&gt;
+&lt;/TIDXLABEL&gt;
+
+&lt;IDXLABEL&gt;
+&lt;a href='index.html'&gt;依日期排序&lt;/a&gt;
+&lt;/IDXLABEL&gt;
+
+
+&lt;!--
+ ***************************************************************
+ Main Index Page
+ ================
+	IDXPGSSMARKUP
+	IDXPGBEGIN
+	    LISTBEGIN
+		(AUTHORBEGIN |
+		 DAYBEGIN |
+		 SUBJECTBEGIN)?
+		LITEMPLATE+
+		(AUTHOREND |
+		 DAYEND |
+		 SUBJECTEND)?
+	     LISTEND
+	    DOC?
+	IDXPGEND
+ ***************************************************************
+--&gt;
+
+&lt;IdxPgBegin&gt;
+&lt;!doctype html public "-//W3C//DTD HTML//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta http-equiv="Content-Language" content="zh-cn"&gt;
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=gb2312"&gt;
+  &lt;link rel="STYLESHEET" type="text/css" href="/inc/css/main.css"/&gt;
+  &lt;title&gt;$IDXTITLE$ - $PAGENUM$/$NUMOFPAGES$&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;
+&lt;script language="javascript" src="/inc/jscript/header.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;table border=0 width=90%&gt;
+  &lt;tr&gt;&lt;td&gt;
+&lt;table border=0 width=100%&gt;
+  &lt;tr&gt;
+   &lt;td class="idxtitle"&gt;
+     $IDXTITLE$
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="homelink"&gt;
+      $HOME-LINK$
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;/IdxPgBegin&gt;
+
+
+&lt;IdxPgEnd&gt;
+  &lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;script language="javascript" src="/inc/jscript/footer.js" type="text/javascript"&gt;
+write_footer("Page $PAGENUM$/$NUMOFPAGES$");
+&lt;/script&gt;
+&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;/IdxPgEnd&gt;
+
+
+&lt;ListBegin&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+&lt;ul&gt;
+  &lt;li&gt;更新日期: $LOCALDATE$，Articles: $NUMOFIDXMSG$/$NUMOFMSG$, Page: $PAGENUM$/$NUMOFPAGES$&lt;/li&gt;
+  &lt;li&gt;$TIDXLABEL$&lt;/li&gt;
+  &lt;li&gt;$PGLINK(PREV)$ | [&lt;a href="$PG(FIRST)$"&gt;First Page&lt;/a&gt;] | [&lt;a href="$PG(LAST)$"&gt;Last Page&lt;/a&gt;] | $PGLINK(NEXT)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+  &lt;tr&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle" width=2%&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle" width=68%&gt;&lt;strong&gt;&lt;U&gt;标题&lt;/U&gt;&lt;/strong&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle" width=10%&gt;[&lt;strong&gt;&lt;U&gt;作者&lt;/U&gt;&lt;/strong&gt;]&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle" width=20%&gt;[&lt;strong&gt;&lt;U&gt;日期&lt;/U&gt;&lt;/strong&gt;]&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;!-- Blank Row left out intentionally --&gt;
+  &lt;tr&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle"&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle"&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle"&gt;&lt;/td&gt;
+    &lt;td ALIGN=LEFT VALIGN="middle"&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/ListBegin&gt;
+
+
+&lt;LISTEND&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+&lt;ul&gt;
+  &lt;li&gt;更新日期: $LOCALDATE$，Articles: $NUMOFIDXMSG$/$NUMOFMSG$, Page: $PAGENUM$/$NUMOFPAGES$&lt;/li&gt;
+  &lt;li&gt;$TIDXLABEL$&lt;/li&gt;
+  &lt;li&gt;$PGLINK(PREV)$ | [&lt;a href="$PG(FIRST)$"&gt;First Page&lt;/a&gt;] | [&lt;a href="$PG(LAST)$"&gt;Last Page&lt;/a&gt;] | $PGLINK(NEXT)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/table&gt;
+&lt;/LISTEND&gt;
+
+
+&lt;LiTemplate&gt; #this defoines the LI's of every list on the main index page
+&lt;tr&gt;
+  &lt;td ALIGN=LEFT VALIGN="top"&gt;
+    &lt;strong&gt;#&lt;/strong&gt;&lt;/td&gt;
+  &lt;td ALIGN=LEFT VALIGN="top"&gt;
+    &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;&lt;/td&gt;
+  &lt;td ALIGN=LEFT VALIGN="top"&gt;
+    [&lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;]&lt;/td&gt;
+  &lt;td ALIGN=LEFT VALIGN="top"&gt;
+    [&lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/LiTemplate&gt;
+
+
+&lt;!--
+ ***************************************************************
+ Thread Index Page
+ =================
+	TIDXPGSSMARKUP
+	TIDXPGBEGIN
+	    THEAD
+		((TTOPBEGIN
+		    TSUBLISTBEG
+			((TLITXT
+			    [possible subthread listing]
+			  TLIEND)|
+			(TLINONE
+			    [possible subthread listing]
+			 TLINONEEND))+
+		    (TSUBJECTBEG
+			((TLITXT
+			    [possible subthread listing]
+			  TLIEND)|
+			(TLINONE
+			    [possible subthread listing]
+			 TLINONEEND))+
+		     TSUBJECTEND)?
+		    TSUBLISTEND
+		  TTOPEND)
+		 |
+		 TSINGLETXT)* [message w/o references or follow-ups]
+	    TFOOT
+	    DOC?
+	TIDXPGEND
+ ***************************************************************
+--&gt;
+
+&lt;TIdxPgBegin&gt; #Every index page will have this at the begining
+&lt;!doctype html public "-//W3C//DTD HTML//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta http-equiv="Content-Language" content="zh-cn"&gt;
+  &lt;meta http-equiv="Content-Type" content="text/html; charset=gb2312"&gt;
+  &lt;link rel="STYLESHEET" type="text/css" href="/inc/css/main.css"/&gt;
+  &lt;title&gt;$TIDXTITLE$ - $PAGENUM$/$NUMOFPAGES$&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;center&gt;
+&lt;script language="javascript" src="/inc/jscript/header.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;table border=0 width=90%&gt;
+  &lt;tr&gt;&lt;td&gt;
+&lt;table border=0 width=100%&gt;
+  &lt;tr&gt;
+   &lt;td class="idxtitle"&gt;
+     $TIDXTITLE$
+   &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td class="homelink"&gt;
+      $HOME-LINK$
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;/TIdxPgBegin&gt;
+
+
+&lt;TIdxPgEnd&gt;
+  &lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
+&lt;script language="javascript" src="/inc/jscript/footer.js" type="text/javascript"&gt;
+write_footer("Page $PAGENUM$/$NUMOFPAGES$");
+&lt;/script&gt;
+&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;/TIdxPgEnd&gt;
+
+
+&lt;THead&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+&lt;ul&gt;
+  &lt;li&gt;更新日期: $LOCALDATE$，Articles: $NUMOFIDXMSG$/$NUMOFMSG$, Page: $PAGENUM$/$NUMOFPAGES$&lt;/li&gt;
+  &lt;li&gt;$IDXLABEL$&lt;/li&gt;
+  &lt;li&gt;$PGLINK(TPREV)$ | [&lt;a href="$PG(TFIRST)$"&gt;First Page&lt;/a&gt;] | [&lt;a href="$PG(TLAST)$"&gt;Last Page&lt;/a&gt;] | $PGLINK(TNEXT)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;/THead&gt;
+
+
+&lt;TFoot&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;table border=0 width=100%&gt;
+&lt;ul&gt;
+  &lt;li&gt;更新日期: $LOCALDATE$，Articles: $NUMOFIDXMSG$/$NUMOFMSG$, Page: $PAGENUM$/$NUMOFPAGES$&lt;/li&gt;
+  &lt;li&gt;$IDXLABEL$&lt;/li&gt;
+  &lt;li&gt;$PGLINK(TPREV)$ | [&lt;a href="$PG(TFIRST)$"&gt;First Page&lt;/a&gt;] | [&lt;a href="$PG(TLAST)$"&gt;Last Page&lt;/a&gt;] | $PGLINK(TNEXT)$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/table&gt;
+&lt;/TFoot&gt;
+
+
+&lt;TTopBegin&gt;
+&lt;li&gt;
+  &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;,
+  &lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;,
+  &lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;
+&lt;/TTopBegin&gt;
+
+
+&lt;TTopEnd&gt;
+&lt;/li&gt;
+&lt;/TTopEnd&gt;
+
+
+&lt;TContBegin&gt;
+&lt;li&gt;
+  &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;, &lt;EM&gt;(continued)&lt;/EM&gt;,
+  &lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;,
+  &lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;
+&lt;/TContBegin&gt;
+
+
+&lt;TContEnd&gt;
+&lt;/li&gt;
+&lt;/TContEnd&gt;
+
+
+&lt;TSubListBeg&gt;
+&lt;ul&gt;
+&lt;/TSubListBeg&gt;
+
+
+&lt;TSubListEnd&gt;
+&lt;/ul&gt;
+&lt;/TSubListEnd&gt;
+
+
+&lt;TLiTxt&gt;
+&lt;li&gt;
+  &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;,
+  &lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;,
+  &lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;
+&lt;/TLiTxt&gt;
+
+
+&lt;TLiEnd&gt;
+&lt;/li&gt;
+&lt;/TLiEnd&gt;
+
+
+&lt;TLiNone&gt;
+&lt;li&gt;&lt;em&gt;Message not available&lt;/em&gt;
+&lt;/TLiNone&gt;
+
+
+&lt;TLiNoneEnd&gt;
+&lt;/li&gt;
+&lt;/TLiNoneEnd&gt;
+
+
+&lt;TSubjectBeg&gt;
+&lt;li&gt;&amp;lt;Possible follow-up(s)&amp;gt;&lt;/li&gt;
+&lt;/TSubjectBeg&gt;
+
+
+&lt;TSUBJECTEND&gt;
+&lt;/TSUBJECTEND&gt;
+
+
+&lt;TSingleTxt&gt;
+&lt;li&gt;
+  &lt;font class="msgtitle"&gt;$SUBJECT:65$&lt;/font&gt;,
+  &lt;font class="msgauthor"&gt;$FROMNAME:10$&lt;/font&gt;,
+  &lt;font class="msgdate"&gt;$MSGLOCALDATE$&lt;/font&gt;
+&lt;/TSingleTxt&gt;
+
+
+&lt;!--
+ ***************************************************************
+ Message Page
+ ============
+ The message page contains a single message converted to HTML and archive navigational links.
+	MSGPGSSMARKUP
+	MSGPGBEGIN
+	    MSGHEAD
+	    TOPLINKS
+	    SUBJECTHEADER
+	    Converted message header
+	    HEADBODYSEP
+	    Converted message body
+	    MSGBODYEND
+	    (FOLUPBEGIN
+		FOLUPLITXT+
+	     FOLUPEND)?
+	    (REFSBEGIN
+		REFSLITXT+
+	     REFSEND)?
+	    BOTLINKS
+	    MSGFOOT
+	MSGPGEND
+ ***************************************************************
+--&gt;
+&lt;MsgPgBegin&gt;
+&lt;!doctype html public "-//W3C//DTD HTML//EN"&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Language" content="zh-cn"&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=gb2312"&gt;
+&lt;link rel="STYLESHEET" type="text/css" href="/inc/css/main.css"/&gt;
+&lt;title&gt;$SUBJECTNA:20$&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+  &lt;center&gt;
+  &lt;script language="javascript" src="/inc/jscript/header.js" type="text/javascript"&gt;&lt;/script&gt;
+
+  &lt;table border=0 width=90%&gt;
+    &lt;tr&gt;&lt;td&gt;
+  &lt;table border=0 width=100%&gt;
+    &lt;tr&gt;
+      &lt;td class="idxtitle"&gt;
+        $SUBJECTNA$
+      &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class="homelink"&gt;
+        $HOME-LINK$
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;br&gt;
+&lt;/MsgPgBegin&gt;
+
+
+&lt;MsgPgEnd&gt;
+    &lt;/td&gt;&lt;/tr&gt;
+  &lt;/table&gt;
+  &lt;script language="javascript" src="/inc/jscript/footer.js" type="text/javascript"&gt;
+    write_footer("$LOCALDATE$");
+  &lt;/script&gt;
+  &lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;/MsgPgEnd&gt;
+
+
+&lt;MSGHEAD&gt;
+&lt;/MSGHEAD&gt;
+
+
+&lt;MSGFOOT&gt;
+&lt;/MSGFOOT&gt;
+
+
+&lt;TopLinks&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+  &lt;li&gt;$BUTTON(PREV)$$BUTTON(NEXT)$$BUTTON(TPREV)$$BUTTON(TNEXT)&lt;/li&gt;
+  &lt;li&gt;$[&lt;a href="$IDXFNAME$#$MSGNUM$"&gt;Date Index&lt;/a&gt;][&lt;a href="$TIDXFNAME$#$MSGNUM$"&gt;Thread Index&lt;/a&gt;]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/TopLinks&gt;
+
+
+&lt;SubjectHeader&gt;
+&lt;h1&gt;$SUBJECTNA$&lt;/h1&gt;
+&lt;/SubjectHeader&gt;
+
+
+&lt;HEADBODYSEP&gt;
+&lt;hr&gt;
+&lt;/HEADBODYSEP&gt;
+
+
+&lt;MSGBODYEND&gt;
+&lt;hr&gt;
+&lt;/MSGBODYEND&gt;
+
+
+&lt;FOLUPBEGIN&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;跟帖&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;/FOLUPBEGIN&gt;
+
+
+&lt;FOLUPLITXT&gt;
+&lt;li&gt;&lt;strong&gt;$SUBJECT$&lt;/strong&gt;
+&lt;ul&gt;&lt;li&gt;&lt;em&gt;From:&lt;/em&gt; $FROM$&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+&lt;/FOLUPLITXT&gt;
+
+
+&lt;FOLUPEND&gt;
+&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/FOLUPEND&gt;
+
+
+&lt;REFSBEGIN&gt;
+&lt;ul&gt;&lt;li&gt;&lt;strong&gt;参考&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;/REFSBEGIN&gt;
+
+
+&lt;REFSLITXT&gt;
+&lt;li&gt;&lt;strong&gt;$SUBJECT$&lt;/strong&gt;
+&lt;ul&gt;&lt;li&gt;&lt;em&gt;From:&lt;/em&gt; $FROM$&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+&lt;/REFSLITXT&gt;
+
+
+&lt;REFSEND&gt;
+&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;/REFSEND&gt;
+
+
+&lt;BotLinks&gt;
+&lt;ul&gt;
+  $LINK(PREV)$$LINK(NEXT)$
+  $LINK(TPREV)$$LINK(TNEXT)$
+  &lt;li&gt;Index(es):
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href="$IDXFNAME$#$MSGNUM$"&gt;
+      &lt;strong&gt;日期排序&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;a href="$TIDXFNAME$#$MSGNUM$"&gt;
+      &lt;strong&gt;线索排序&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;/BotLinks&gt;
+
+
+</pre>
+<p>
+与该模板对应的 css 文件
+</p>
+<pre class="screen">
+
+p {font-size:9pt}
+h1 {font-size:18pt;line-height:130%;font-weight:"bold";align:"center";color:"red";}
+
+td,li,select,input {font-size:9pt}
+.sect1 {font-size:9pt;line-height:150%;color:#333333;background-color:#E1E1E1;font-weight:bolder;}
+.datetime {font-size:9pt;color:"red"}
+.star  {font-size:9pt;color:"red"}
+.gray {font-size:9pt;color:"gray"}
+.cvskw {font-size:9pt}
+.footer           {font-size:9pt;font-weight:bolder}
+.footer A:link    {font-size:9pt;font-weight:bolder}
+.footer A:active  {font-size:9pt;font-weight:bolder}
+.footer A:visited {font-size:9pt;font-weight:bolder}
+.footer A:hover   {font-size:9pt;font-weight:bolder}
+A:link {color: #000000;}
+A:visited {color: #000000;}
+A:active,A:hover {color : #000000}
+HTML BODY { LINE-HEIGHT: 1.2; MARGIN: 0 0 2em 0 }
+UL { list-style-image: url("/images/dot.gif") }
+
+.em           {font-size:"9pt";color:"red";font-weight:"bolder";font-style:"normal";letter-spacing:"2px";}
+.em A:link    {color: "red";letter-spacing:"4px";}
+.em A:active  {color: "red";letter-spacing:"4px";}
+.em A:visited {color: "red";letter-spacing:"4px";}
+.em A:hover   {color: "red";letter-spacing:"4px";font-size:"12pt";}
+
+.idxtitle {text-align:"center";text-valign:"middle";background-color:"#006666";font-size:"12pt";font-weight:"bold";color:"#FFFFFF";}
+.homelink {text-align:"right";text-valign:"middle";font-size:"9pt";color:"#AB0000";}
+
+hr		{border:dashed; color:blue; height:1px;}
+
+.msgtitle	{font-size:"9pt";color:"black";font-weight:"bolder";font-style:"normal";}
+.msgauthor	{font-size:"9pt";color:"black";font-weight:"normal";font-style:"italic";}
+.msgdate	{font-size:"9pt";color:"gray"; font-weight:"normal";font-style:"normal";}
+
+
+</pre>
+</div>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="search-engine"></a>2. 建立搜索引擎</h2></div></div></div>
+<p>
+没有全文检索，企业内部的知识管理系统就不能成为成功的系统。构建一个类似 GOOGLE 的全文检索系统的是否要花费巨大呢？看看 <a href="http://dir.google.com/alpha/Top/Computers/Software/Internet/Servers/Search/" target="_top">Google 的搜索引擎软件目录</a>吧。
+</p>
+<p>
+我对其中的两个开放源码的搜索引擎进行了测试。htdig 是一个不错的搜索引擎软件，可惜不支持中文的检索；ASPseek 接着走入我的视线，这个软件对中文的支持非常之好，就连CGI的界面、CGI传递参数都和 GOOGLE 非常类似。
+</p>
+<p>
+ASPseek 由三个部分组成：前端的 cgi 程序 s.cgi 提供查询界面和返回查询结果；后端的守护程序 searchd 接收cgi程序的查询请求，执行数据库查询，返回结果；后台数据库的维护则由程序 index 完成。
+</p>
+<p>
+相关链接：
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+Google的搜索引擎软件目录
+</p>
+<p>
+参见：<a href="http://dir.google.com/alpha/Top/Computers/Software/Internet/Servers/Search/" target="_top">http://dir.google.com/alpha/Top/Computers/Software/Internet/Servers/Search/</a>
+</p>
+</li>
+<li>
+<p>
+另一个搜索引擎软件目录：
+</p>
+<p>
+Search Tools for Web Sites and Intranets ：<a href="http://www.searchtools.com/tools/tools.html" target="_top">http://www.searchtools.com/tools/tools.html</a>
+</p>
+</li>
+<li>
+<p>
+ASPseek 网站
+</p>
+<p>
+ASPseek.org：<a href="http://www.aspseek.org/" target="_top">http://www.aspseek.org/</a>
+</p>
+</li>
+<li>
+<p>
+ASPseek论坛
+</p>
+<p>
+关于ASPseek的求助信息，可以访问ASPseek论坛：<a href="http://forum.aspseek.org/" target="_top">http://forum.aspseek.org/</a>。
+</p>
+</li>
+</ul></div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="aspseek-install"></a>2.1. 安装 ASPSeek</h3></div></div></div>
+<p>
+ASPseek 安装过程比较简单，需要注意的是 ASPseek 的安装和运行需要先安装和配置 MySQL。下面是一般的安装过程（假设MySQL已经正确的安装在路径 /usr/local/mysql/ 下）：
+</p>
+<pre class="screen">
+root&gt; tar zxvf aspseek-1.2.10.tar.gz
+root&gt; cd aspseek-1.2.10
+root&gt; ./configure --with-mysql=/usr/local/mysql --prefix=/usr/local/aspseek <a name="co.aspseek.configure"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+root&gt; make &amp;&amp; make install
+root&gt; /usr/local/aspseek/sbin/aspseek-mysql-postinstall <a name="co.aspseek.create.db"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+root&gt; cp /usr/local/aspseek/bin/s.cgi &lt;WWWROOT&gt;/cgi-bin/ <a name="co.aspseek.cgibin"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+root&gt; useadd aspseek <a name="co.aspseek.create.usr"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+root&gt; su - aspseek
+aspseek&gt; /usr/local/aspseek/sbin/index  <a name="co.aspseek.index"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+aspseek&gt; /usr/local/aspseek/sbin/searchd -D  <a name="co.aspseek.searchd"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.configure"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+指出 mysql 的安装路径和设置 ASPseek 的安装路径
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.create.db"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+初始化 ASPseek 数据库设置。创建数据库 aspseek12，访问该数据库的用户名和口令保存在配置文件 <code class="filename">/usr/local/aspseek/etc/db.conf</code> 中
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.searchd"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+将cgi程序 s.cgi 程序拷贝到WEB服务器的cgi-bin目录中
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.create.usr"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+为确保系统安全，创建用户 aspseek，并使用该用户的身份，进行数据索引的维护和启动搜索引擎服务程序
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.index"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+以 aspseek 用户的身份，进行数据索引的维护
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.searchd"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left"><p>
+以 aspseek 用户的身份，启动搜索引擎服务程序
+</p></td>
+</tr>
+</table></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="aspseek-index"></a>2.2. 数据库维护</h3></div></div></div>
+<p>
+index 程序完成的功能包括网站爬虫、网页下载、解析、数据库维护。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4581536"></a>2.2.1. 配置文件: aspseek.conf</h4></div></div></div>
+<p>
+aspseek.conf 是 index 程序的配置文件，告诉 index 程序为哪个网址建立索引，如果建立索引等等。
+</p>
+<pre class="screen">
+Include db.conf <a name="co.aspseek.db"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+UtfStorage yes <a name="co.aspseek.utf"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+Include ucharset.conf  <a name="co.aspseek.charset"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+Period 1d <a name="co.aspseek.period"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+Server	URL <a name="co.aspseek.server"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.db"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+包含 db.conf 配置文件，设置连接 MySQL 数据库的用户名、口令等。例如：DBAddr mysql://aspseek12:PASSWOR-IS-HERE@localhost/aspseek12/
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.period"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设定网页重建索引的间隔，作用域到下一个 Period 命令或者文件结尾。对作用域内的 Server 指定的网站有效，因此可以对不同的网站设置不同的更新频率
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.utf"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+以 UTF-8 格式存储 MySQL 数据库中信息
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.charset"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+配置字符集。若需要能够对中文进行检索，需要打开 CharsetTableU2 和 Dictionary2 的配置
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.server"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+最重要的设置。告诉 index 为哪些网站建立索引，可通过多个 Server 配置设置多个服务器。注意：如果在URL中包含路径并不能将索引限制在该目录下，仍然会对整个网站建立索引。如果想限制某些路径，使用 Disallow 配置，例如下面的配置将对网站的索引限制在 url: http://members.aol.com/midlandsda 下。
+</p>
+<pre class="screen">
+Server http://www.aol.com/ 
+Allow ^http://members.aol.com/midlandsda 
+Disallow ^http://www.aol.com/ 
+</pre>
+</td>
+</tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4593584"></a>2.2.2. 用 index 程序定期更新搜索引擎数据库</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+index -a
+</p>
+<p>
+为所有网页重新建立索引。不使用该参数，则参考配置中的 Period 参数，只对早于这个时间的网页重建索引。
+</p>
+</li>
+<li>
+<p>
+index -S
+</p>
+<p>
+显示数据库的统计信息
+</p>
+</li>
+<li>
+<p>
+通过 crontab 设置定时启动 index 重建检索
+</p>
+<pre class="screen">
+0 0 * * * su -c '/usr/local/aspseek/sbin/index' aspseek 
+</pre>
+</li>
+</ul></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+注意要以 aspseek 用户身份执行。
+</p></td></tr>
+</table></div>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="aspseek-searchd"></a>2.3. searchd 后台数据库检索</h3></div></div></div>
+<p>
+searchd 是 ASPseek 的守护进程，用来接收 cgi 程序(s.cgi)的查询请求，执行查询动作（搜索由 index 程序创建的数据库），将结果反馈给 cgi 程序(s.cgi)。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4601488"></a>2.3.1. searchd.conf</h4></div></div></div>
+<p>
+searchd 程序的配置文件。
+</p>
+<pre class="screen">
+# Port 12345 <a name="co.searchd.conf.port"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+Include db.conf <a name="co.searchd.conf.db"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+UtfStorage yes <a name="co.searchd.utf"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+Include ucharset.conf  <a name="co.searchd.charset"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.searchd.conf.port"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设置 searchd 侦听的端口。确省为 12345
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.searchd.conf.db"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+包含 db.conf 配置文件，设置连接 MySQL 数据库的用户名、口令等。例如：DBAddr mysql://aspseek12:PASSWOR-IS-HERE@localhost/aspseek12/
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.searchd.utf"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+以 UTF-8 格式存储 MySQL 数据库中信息
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.searchd.charset"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+配置字符集。若需要能够对中文进行检索，需要打开 CharsetTableU2 和 Dictionary2 的配置
+</p></td>
+</tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4610256"></a>2.3.2. 运行 searchd</h4></div></div></div>
+<p>
+配置开机自动执行 searchd。
+</p>
+<pre class="screen">
+
+#!/bin/sh
+# FileName: /etc/rc.d/rc3.d/S99aspseek
+# Script to control aspseek
+#
+
+case "$1" in
+'start')
+        echo "starting aspseek server ...  "
+        su aspseek -c "/usr/local/aspseek/sbin/searchd -D -R"
+        echo done
+        ;;
+'stop')
+        echo "stopping news server ...  "
+        killall -9 searchd
+        echo done
+        ;;
+*)
+        echo "usage: news.sh {start | stop}"
+        ;;
+esac
+
+</pre>
+</div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="aspseek-s.cgi"></a>2.4. s.cgi: 具有类似GOOGLE查询界面的cgi程序</h3></div></div></div>
+<p>
+搜索引擎的界面是由 CGI 提供的。ASPseek 的CGI程序叫做 s.cgi，当然可以改成其它名字。配置则非常简单，除了要将 Apache 配置为支持 cgi 外，
+只需要将 s.cgi 从 /usr/local/aspseek/bin/ 目录下拷贝到 Apache 的 cgi-bin 目录下即可。
+配置 Apache 可能非常简单，也许一句 "ScriptAlias /cgi-bin/ /PATH/cgi-bin/" 就足够了。
+</p>
+<p>
+我感打赌，s.cgi 一下子就会抓住你的眼球，因为 s.cgi 程序提供的一流的查询界面，和伟大的 Google 太类似了，尤其是那一排字母 "e"。
+</p>
+<div class="mediaobject">
+<img src="images/aspseek.gif" alt="ASPseek 查询界面"><div class="caption"><p>
+ASPseek 查询界面
+</p></div>
+</div>
+<p>
+s.cgi 还提供了定制界面的方案：只需要修改模板文件 <code class="filename">/usr/local/aspseek/etc/s.htm</code> 即可。下面是 s.htm 定制的示例（只显示重要的改动）：
+</p>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+注意：如果将 s.cgi 改名，相应的模板也需要改名。例如 cgi 改名为 search.cgi，则相应的模板文件为 search.htm。
+</p></td></tr>
+</table></div>
+<pre class="screen">
+&lt;!--top--&gt;
+&lt;HTML&gt;
+&lt;HEAD&gt;
+  &lt;META http-equiv="Content-Type" content="text/html; charset=gb2312"&gt;  <a name="co.aspseek.tmpl.contenttype"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+  &lt;LINK REL="STYLESHEET" TYPE="text/css" HREF="/inc/css/main.css"/&gt; <a name="co.aspseek.tmpl.css"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+ &lt;title&gt;ASPseek: $Q&lt;/TITLE&gt;
+&lt;/HEAD&gt;
+&lt;BODY BGCOLOR="#FFFFFF"&gt;
+  &lt;SCRIPT language= "javascript" src="/inc/jscript/header.js" type=text/javascript&gt;&lt;/script&gt;  <a name="co.aspseek.tmpl.headerjs"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+
+&lt;FORM METHOD=GET ACTION="$A"&gt;
+&lt;TABLE width="100%" align="center" valign="center"&gt;
+&lt;TR&gt;
+  &lt;TD VALIGN=bottom&gt;&lt;IMG SRC="/img/aspseek-big.png" WIDTH="168" HEIGHT="66" ALT="ASPseek" BORDER="0" ALIGN="left" HSPACE="0"&gt;&lt;/TD&gt;
+  &lt;TD VALIGN=center ALIGN=center width="*"&gt;
+   &lt;INPUT TYPE="hidden" NAME="cs" VALUE="gb2312"&gt;  <a name="co.aspseek.tmpl.f.cs"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+   搜索 
+   &lt;INPUT TYPE="text" NAME="q" SIZE=30 VALUE=""&gt; <a name="co.aspseek.tmpl.f.q"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+   &lt;INPUT TYPE="submit" VALUE="查询知识库"&gt;
+  &lt;/TD&gt;
+  &lt;TD width="100"&gt;
+  &lt;/TD&gt;
+&lt;/TR&gt;
+&lt;/TABLE&gt;
+&lt;/FORM&gt;
+
+... ...
+... ...
+
+&lt;center&gt;
+&lt;script language= "javascript" src="/inc/jscript/footer.js" type=text/javascript&gt;&lt;/script&gt; <a name="co.aspseek.tmpl.footerjs"></a><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0">
+&lt;script language= "javascript"&gt; write_footer("Template: $Id$"); &lt;/script&gt; 
+&lt;/center&gt;
+
+&lt;DIV ALIGN=right&gt;
+&lt;A HREF="http://www.aspseek.org/"&gt;&lt;IMG SRC="http://www.aspseek.com/i/pow_aseek.png" WIDTH=88 HEIGHT=31 BORDER=0 ALT="Free search engine software: ASPseek $AV"&gt;&lt;/A&gt;
+&lt;/BODY&gt;
+&lt;/HTML&gt;
+&lt;!--/bottom--&gt;
+
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.contenttype"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+将cgi查询的输出界面（HTML）的语言编码设置为中文
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.css"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+引用外部的样式表文件，这样可以根据需要改变查询界面而尽量少的修改模板文件。一个简单的样式表示例：
+</p>
+<pre class="screen">
+p {font-size:9pt}
+h1 {font-size:20pt;line-height:130%;font-weight:"bold";align:"center";}
+td,li,select,input {font-size:9pt}
+.sect1 {font-size:9pt;line-height:150%;color:#333333;background-color:#E1E1E1;font-weight:bolder;}
+.datetime {font-size:9pt;color="red"}
+.star  {font-size:9pt;color="red"}
+.gray {font-size:9pt;color="gray"}
+.cvskw {font-size:9pt}
+.footer           {font-size:9pt;font-weight:bolder}
+.footer A:link    {font-size:9pt;font-weight:bolder}
+.footer A:active  {font-size:9pt;font-weight:bolder}
+.footer A:visited {font-size:9pt;font-weight:bolder}
+.footer A:hover   {font-size:9pt;font-weight:bolder}
+A:link {color: #000000;}
+A:visited {color: #000000;}
+A:active,A:hover {color : #000000}
+HTML BODY { LINE-HEIGHT: 1.2; MARGIN: 0 0 2em 0 }
+UL { list-style-image: url("/images/dot.gif") }
+
+.em           {font-size:"9pt";color="red";font-weight:"bolder";font-style:"normal";letter-spacing:"2px";}
+.em A:link    {color: "red";letter-spacing:"4px";}
+.em A:active  {color: "red";letter-spacing:"4px";}
+.em A:visited {color: "red";letter-spacing:"4px";}
+.em A:hover   {color: "red";letter-spacing:"4px";font-size:"12pt";}
+</pre>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.headerjs"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+引用外部 javascript，显示头部信息，避免过多对该模板的修改。一个 header.js 示例：
+</p>
+<pre class="screen">
+&lt;!--
+document.write("      &lt;table width=750 border=0 cellspacing=0 cellpadding=0&gt;");
+document.write("        &lt;tr valign=bottom&gt;");
+document.write("      	&lt;td width='*'&gt;");
+document.write("      	  &lt;table width='100%' height=50 border=0 cellspacing=0 cellpadding=0&gt;");
+document.write("            &lt;tr&gt;");
+document.write("              &lt;td align='center' valign='center'&gt;&lt;h1&gt;&lt;A HREF='/'&gt;Johnson's Homepage&lt;/A&gt;&lt;/h1&gt;&lt;/td&gt;");
+document.write("            &lt;/tr&gt;");
+document.write("      	  &lt;/table&gt;");
+document.write("        &lt;/td&gt;&lt;/tr&gt;");
+document.write("      &lt;/table&gt;");
+//--&gt;
+</pre>
+</td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.f.cs"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+通过设置cgi的cs字段，用以支持中文查询
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.f.q"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left"><p>
+q 是真正的查询字段。看看 GOOGLE 的查询网页，看看是不是非常类似？
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.tmpl.footerjs"><img src="/docbook/includes/images/callouts/6.png" alt="6" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+引用外部 javascript，显示脚注信息，避免过多对该模板的修改。一个 footer.js 示例：
+</p>
+<pre class="screen">
+&lt;!--
+function write_footer($str)
+{
+	document.write("      &lt;TABLE align='center' border='0' cellpadding='0' cellspacing='0' width='750'&gt;");
+	document.write("        &lt;TR&gt;");
+	document.write("          &lt;td align=center&gt;");
+	document.write("          &lt;hr&gt;");
+	if ($str)
+		document.write("&lt;font class='cvskw'&gt;" + $str + "&lt;/font&gt;&lt;br&gt;");
+	document.write("          &lt;font class='footer'&gt;CopyLeft 2003, &lt;a href='mailto:johnson.AT.worldhello.net'&gt;Johnson&lt;/a&gt;&lt;/font&gt;&lt;br&gt;");
+	document.write("          &lt;/td&gt;");
+	document.write("        &lt;/TR&gt;");
+	document.write("      &lt;/TABLE&gt;");
+}
+//--&gt;
+</pre>
+</td>
+</tr>
+</table></div>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4638224"></a>2.5. ASPseek对中文的支持</h3></div></div></div>
+<p>
+中文、日文、韩文等多字节文字不同于英文等单字节语言，是多字节语言。我们都知道英文是依靠空格和标点符号将单词分割开，搜索引擎只要依据空格和标点就可以分割出词表。对一些检索意义不大的单词，则将这些词列在所谓 stopwords 词表（又称为 badwords中），如: "a, an, and, the, ..."，避免因为对这些词建立检索而耗费过多的资源。这些 stopwords 保存在目录 /usr/local/aspseek/etc/stopwords/ 中。
+</p>
+<p>
+而中文则不能造此办理，没有空格开区分词和词组，因此需要建立相应的词表。这些词表保存在目录 /usr/local/aspseek/etc/tables/ 中。
+</p>
+<p>
+为能够对中文文档进行检索，需要检查是否在配置文件 aspseek.conf 和 searchd.conf 配置了 "CharsetTableU2" 和 "Dictionary2"选项。这两个选项是在配置文件 ucharset.conf 中定义的，用语句 "Include ucharset.conf" 包含入配置文件 aspseek.conf 和 searchd.conf。 ucharset.conf 中"CharsetTableU2" 和 "Dictionary2"的配置如下：
+</p>
+<pre class="screen">
+
+########################################################################
+# Unicode charset definition for multibyte charsets
+# (please comment all not needed charsets):
+# CharsetTableU2 &lt;charset&gt; &lt;lang&gt; &lt;table&gt; [&lt;lang_map&gt;]
+#
+CharsetTableU2 big5 ch tables/big5.txt
+CharsetTableU2 gb2312 ch tables/gb2312.txt
+
+########################################################################
+# Dictionary for tokenizing of text in Chinese, Japanese and Korean languages
+# Dictionary2 &lt;lang&gt; &lt;file&gt; [&lt;file encoding&gt;]
+# If file encoding is omitted, then file is assumed to be in unicode
+# Must be set after encoding definition (CharsetTableU2)
+# &lt;lang&gt; parameter must match &lt;lang&gt; in CharsetTableU2 directive.
+Dictionary2 ch tables/chinese.txt big5
+
+</pre>
+</div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

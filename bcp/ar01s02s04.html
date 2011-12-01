@@ -1,0 +1,96 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.4. 第三步，在远程服务器中进行设置</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="BCP (Basic)">
+<link rel="up" href="bcp-basic.html" title="2. SSH 之 无口令认证">
+<link rel="prev" href="ar01s02s03.html" title="2.3. 第二步，新生成的公钥拷贝到远程服务器">
+<link rel="next" href="mirror.html" title="3. 镜像，数据同步">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.4. 第三步，在远程服务器中进行设置</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s02s03.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. SSH 之 无口令认证</th>
+<td width="20%" align="right"> <a accesskey="n" href="mirror.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="idp4475280"></a>2.4. 第三步，在远程服务器中进行设置</h3></div></div></div>
+<p>
+经过第二步，远程服务器上已经有了信赖客户端、信赖用户的公钥，要将这些文件增加到远程服务器的信任列表中。
+</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+首先，服务器的管理员要确定该公钥是要登录服务器的哪个账号，如果是要无口令登录到服务器的 root 账号，可要小心行事。下面的示例，是用户要无口令登录服务器的 jiangxin 账号。
+</p></li>
+<li>
+<p>
+服务器管理员将客户端传来的公钥追加到用户的 .ssh 目录下的 authorized_keys 或 authorized_keys2 文件中。
+</p>
+<pre class="screen">
+服务器$ <span><strong class="command">cd ~jiangxin/.ssh</strong></span>
+服务器$ <span><strong class="command">cat ../identity.pub &gt;&gt; authorized_keys</strong></span>
+服务器$ <span><strong class="command">cat ../id_rsa.pub   &gt;&gt; authorized_keys2</strong></span>
+服务器$ <span><strong class="command">cat ../id_dsa.pub   &gt;&gt; authorized_keys2</strong></span>
+</pre>
+</li>
+</ul></div>
+<div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[提示]" src="/docbook/includes/images/docbook/tip.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top">
+<p>
+上述命令可以一次性完成：
+</p>
+<pre class="screen">
+本地主机$ <span><strong class="command">ssh root@remote "cat &gt;&gt; /root/.ssh/authorized_keys2" &lt; /root/.ssh/id_rsa.pub</strong></span>
+</pre>
+</td></tr>
+</table></div>
+<p>
+之后用户就可以在创建了公钥－私钥对的客户端，无口令认证的登录远程服务器了。执行命令: <span><strong class="command">客户端$ ssh jiangxin@remotehost</strong></span>
+</p>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s02s03.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="bcp-basic.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="mirror.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2.3. 第二步，新生成的公钥拷贝到远程服务器 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3. 镜像，数据同步</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

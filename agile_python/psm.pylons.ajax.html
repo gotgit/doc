@@ -1,0 +1,277 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>3.3. 用AJAX取代传统的form提交</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="敏捷 Web 开发实践">
+<link rel="up" href="psm.pylons.html" title="3. 华丽外衣——Pylons造">
+<link rel="prev" href="psm.pylons.controller.check.html" title="3.2. 控制器check的实现">
+<link rel="next" href="psm.pylons.controller.unittest.html" title="3.4. 控制器的单元测试">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">3.3. 用AJAX取代传统的form提交</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="psm.pylons.controller.check.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">3. 华丽外衣——Pylons造</th>
+<td width="20%" align="right"> <a accesskey="n" href="psm.pylons.controller.unittest.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="psm.pylons.ajax"></a>3.3. 用AJAX取代传统的form提交</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="psm.pylons.ajax.html#psm.pylons.ajax.framework">3.3.1. 启用Prototype的JavaScript框架</a></span></dt>
+<dt><span class="sect3"><a href="psm.pylons.ajax.html#psm.pylons.ajax.cgi">3.3.2. 改造CGI（controller）</a></span></dt>
+<dt><span class="sect3"><a href="psm.pylons.ajax.html#psm.pylons.ajax.webpage">3.3.3. 页面模板充分利用DOM 和JavaScript</a></span></dt>
+<dt><span class="sect3"><a href="psm.pylons.ajax.html#psm.pylons.ajax.sample1">3.3.4. 改造示例一：用Ajax.Updater直接进行区域更新</a></span></dt>
+<dt><span class="sect3"><a href="psm.pylons.ajax.html#psm.pylons.ajax.sample2">3.3.5. 改造示例二：用Ajax.Request获取并处理数据</a></span></dt>
+</dl></div>
+<div class="orderedlist"><ol type="1">
+<li>
+<p>
+          为什么用AJAX？
+        </p>
+<p>
+          使用AJAX，用户对Web的体验会更“敏捷”：数据提交页面不会闪屏；页面局部更新速度快；网络带宽占用低。
+        </p>
+</li>
+<li>
+<p>
+          AJAX开发相较传统模式的简单之处：
+        </p>
+<p>
+          传统模式下，表单提交则整个页面重绘，为了维持页面用户对表单的状态改变，要多些不少代码。
+          要在控制器和模板之间传递更多参数以保持页面状态。而AJAX不然，因为页面只是局部更新，
+          不关心也不会影响页面其他部分的内容。
+        </p>
+</li>
+<li>
+<p>
+          AJAX开发相较传统模式的难度：
+        </p>
+<p>
+          需要了解、精通JavaScript，而JavaScript存在调试麻烦、浏览器兼容性等很多障碍。
+        </p>
+</li>
+</ol></div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.framework"></a>3.3.1. 启用Prototype的JavaScript框架</h4></div></div></div>
+<p>Prototype是一个JavaScript框架，可以更加容易的使用AJAX实现动态Web。
+        Pylons内置了prototype脚本。如果想要启用Pylons自带prototype 
+        的JavaScript框架，只要在模板中嵌入如下WebHelpers语句：</p>
+<pre class="screen">
+&lt;html&gt;
+  &lt;head&gt;
+    ${h.javascript_include_tag(builtins=True)}
+</pre>
+<p>实际上会在页面中产生下面两个JavaScrip包含语句：</p>
+<pre class="screen">
+    &lt;script src="/javascripts/prototype.js" type="text/javascript"&gt;&lt;/script&gt; 
+    &lt;script src="/javascripts/scriptaculous.js" type="text/javascript"&gt;&lt;/script&gt;
+</pre>
+<div class="sidebar">
+<p class="title"><b></b></p>
+<p>最新版本的 Pylons 使用 0.6 版本的 <span class="package">WebHelpers</span>，
+          不建议使用 <span class="package">webhelpers.rails</span>，甚至在未来版本去掉
+          <span class="package">webhelpers.rails</span>。也不再自动 import 
+          <span class="package">webhelpers.rails</span>。对于要用到的 webhelpers 方法，
+          需要显示的声明。参见文件 <code class="filename">lib/helpers.py</code>。</p>
+<pre class="programlisting">
+from routes import url_for, redirect_to
+from webhelpers.html import escape, HTML, literal, url_escape
+from webhelpers.html.tags import *
+from webhelpers.rails.prototype import link_to_remote, form_remote_tag
+from webhelpers.rails.scriptaculous import visual_effect
+from webhelpers.rails.asset_tag import javascript_include_tag, stylesheet_link_tag
+</pre>
+<p>相关的 prototype 和 scriptaculous JavaScript 脚本，在新版的 Pylons
+           中也不提供，需要从相关站点下载，复制到 <code class="filename">public/javascripts/</code>
+           目录下。</p>
+<p>建议逐步将 webhelpers.rails 调用替换。建议使用 Fork JavaScript 框架
+           取代 Prototype 的 JavaScript 框架。</p>
+</div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.cgi"></a>3.3.2. 改造CGI（controller）</h4></div></div></div>
+<p>改造之后的CGI（controller的action）不再返回整个页面，
+        而是返回局部的需要动态更新的内容，或者是返回一段数据供页面中的
+        JavaScript解析使用。</p>
+<p>需要把原来返回一个整个页面的CGI(一个controller的一个方法)改造成多个CGI
+        （多个方法）以针对不同情况返回不同的动态内容。</p>
+<p>例如：pySvnManager的check控制器的submit方法实际上要处理两种情况：
+        一个是当选定一个版本库时要更新页面中的路径列表项（因为不同的版本库定义了不同的授权路径），
+        另外一个是按下“检查权限”按钮要进行的表单提交，显示用户授权信息。
+        将check控制器的submit方法改造为AJAX实现，就需要一分为二。</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.webpage"></a>3.3.3. 页面模板充分利用DOM 和JavaScript</h4></div></div></div>
+<p>页面要动态更新的内容封装在一个DOM容器中；</p>
+<p>页面提交修改为执行一个JavaScript函数，该函数调用Ajax.Updater或者Ajax.Request函数；</p>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.sample1"></a>3.3.4. 改造示例一：用Ajax.Updater直接进行区域更新</h4></div></div></div>
+<p>当点击权限检查（④）按钮，原来的实现是直接进行表单的提交，
+        修改之后为执行一段JavaScript代码。</p>
+<p>文件 check/index.mako 中用WebHelpers.rails的form_remote_tag
+        快速创建了一个Ajax Form。</p>
+<pre class="screen">
+## AJAX Form
+&lt;%
+  context.write( 
+      h.form_remote_tag(
+          html={'id':'main_form'}, 
+          url=h.url(action='access_map'), 
+          update=dict(success="acl_msg", failure="acl_error"), 
+          method='post', before='showNoticesPopup()',
+          complete='hideNoticesPopup();'+h.visual_effect("Highlight", "acl_msg", duration=1),
+      )
+  )
+%&gt;
+</pre>
+<p>出现在页面中，则是如下的代码：</p>
+<pre class="screen">
+&lt;form action="/check/access_map" id="main_form" method="POST" onsubmit="showNoticesPopup(); 
+      new Ajax.Updater({success:'acl_msg', failure:'acl_error'}, '/check/access_map', 
+        {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request) 
+          {hideNoticesPopup(); new Effect.Highlight(&amp;quot;acl_msg&amp;quot;,{duration:1}); }, 
+          parameters:Form.serialize(this)}); 
+      return false;"&gt;
+</pre>
+<p>说明</p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+            当Form提交会执行onSubmit部分的代码，而不去执行Form action，因为onSubmit返回false;
+          </p></li>
+<li><p>
+            Ajax.Updater的参数success，是成功执行后用返回信息填充的DOM容器；failure则相反；
+          </p></li>
+<li><p>
+            '/check/access_map'是Ajax要执行的服务器CGI，其返回结果将用于填充相应的DOM容器；
+          </p></li>
+<li><p>
+            onComplete是成功执行Ajax.Updater代码后要执行的JavaScript代码；
+          </p></li>
+<li><p>
+            showNoticesPopup()：弹出窗口，提示用户Ajax正在执行过程中，避免用户重复点击；
+          </p></li>
+<li><p>
+            hideNoticesPopup()：在Ajax执行完毕，关闭Ajax正在运行的提示窗口；
+          </p></li>
+<li><p>
+            Effect.Highlight()是 scriptaculous.js提供的特效，闪烁更新的区域以引起注意；
+          </p></li>
+<li><p>
+            parameters是用于传递参数，这里把整个表单的数据提交；
+          </p></li>
+</ul></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="psm.pylons.ajax.sample2"></a>3.3.5. 改造示例二：用Ajax.Request获取并处理数据</h4></div></div></div>
+<p>当从版本库下拉框(②)选择时，将触发更新授权路径的列表(③)。
+        原来的实现是提交整个表单并刷新整个页面，用AJAX改造后，
+        只更新授权路径的列表(③)部分。</p>
+<p>虽然也可以用Ajax.Updater来更新整个授权路径列表，但为了演示另外一种Ajax处理方式，
+        以及获得更少的带宽占用和更快的响应，使用Ajax.Request来实现。</p>
+<p>版本库下拉框(②)更新时，执行JavaScript函数：update_path()，而非提交表单：</p>
+<pre class="screen">
+&lt;input type="radio" name="reposinput" value="select" Checked onClick="update_path(this.form)"&gt;
+</pre>
+<p>函数update_path()，执行Ajax.Request，从"get_auth_path"这个action获取信息，
+        并用返回值(request.reponseText)为参数调用JavaScript函数ajax_update_path。</p>
+<pre class="screen">
+function update_path(form)
+{
+    var repos = "";
+    if (form.reposinput[0].checked) {
+        repos = form.reposselector.options[form.reposselector.selectedIndex].value;
+    } else {
+        repos = form.reposname.value;
+    }
+    var params = {repos:repos};
+    showNoticesPopup();
+    new Ajax.Request(
+        '${h.url_for(controller="check", action="get_auth_path")}', 
+        {asynchronous:true, evalScripts:true, method:'post',
+            onComplete:
+                function(request) 
+                { hideNoticesPopup();
+                  ajax_update_path(request.responseText);},
+            parameters:params
+        });
+}
+</pre>
+<p>函数ajax_update_path()，解析参数code，更新授权路径的下拉列表框。
+        本例非常简单，直接将参数(code)当作JavaScript代码并执行(eval函数)，
+        这是因为Ajax.Request获取到的内容是字符串格式的JavaScript代码。
+        最终这些JavaScript代码在函数ajax_update_path中被执行，
+        并用相应的数据更新了授权路径的列表(③)。</p>
+<pre class="screen">
+function ajax_update_path(code)
+{
+    var id = new Array();
+    var name = new Array();
+    var total = 0;
+    
+    pathselector = document.forms[0].pathselector;
+    lastselect = pathselector.value;
+    pathselector.options.length = 0;
+    
+    try {
+        eval(code);
+        for (var i=0; i &lt; total; i++)
+            {
+                pathselector.options[i] = new Option(name[i], id[i]);
+                if (id[i]==lastselect)
+                pathselector.options[i].selected = true;
+            }
+    }
+    catch(exception) {
+      alert(exception);
+    }
+}
+</pre>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="psm.pylons.controller.check.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="psm.pylons.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="psm.pylons.controller.unittest.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">3.2. 控制器check的实现 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 3.4. 控制器的单元测试</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

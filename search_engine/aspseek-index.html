@@ -1,0 +1,164 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>2.2. 数据库维护</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="知识管理">
+<link rel="up" href="search-engine.html" title="2. 建立搜索引擎">
+<link rel="prev" href="aspseek-install.html" title="2.1. 安装 ASPSeek">
+<link rel="next" href="aspseek-searchd.html" title="2.3. searchd 后台数据库检索">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">2.2. 数据库维护</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="aspseek-install.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center">2. 建立搜索引擎</th>
+<td width="20%" align="right"> <a accesskey="n" href="aspseek-searchd.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect2" lang="zh-cn">
+<div class="titlepage"><div><div><h3 class="title">
+<a name="aspseek-index"></a>2.2. 数据库维护</h3></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect3"><a href="aspseek-index.html#idp4581360">2.2.1. 配置文件: aspseek.conf</a></span></dt>
+<dt><span class="sect3"><a href="aspseek-index.html#idp4593408">2.2.2. 用 index 程序定期更新搜索引擎数据库</a></span></dt>
+</dl></div>
+<p>
+index 程序完成的功能包括网站爬虫、网页下载、解析、数据库维护。
+</p>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4581360"></a>2.2.1. 配置文件: aspseek.conf</h4></div></div></div>
+<p>
+aspseek.conf 是 index 程序的配置文件，告诉 index 程序为哪个网址建立索引，如果建立索引等等。
+</p>
+<pre class="screen">
+Include db.conf <a name="co.aspseek.db"></a><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0">
+UtfStorage yes <a name="co.aspseek.utf"></a><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0">
+Include ucharset.conf  <a name="co.aspseek.charset"></a><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0">
+Period 1d <a name="co.aspseek.period"></a><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0">
+Server	URL <a name="co.aspseek.server"></a><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0">
+</pre>
+<div class="calloutlist"><table border="0" summary="Callout list">
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.db"><img src="/docbook/includes/images/callouts/1.png" alt="1" border="0"></a> </td>
+<td valign="top" align="left"><p>
+包含 db.conf 配置文件，设置连接 MySQL 数据库的用户名、口令等。例如：DBAddr mysql://aspseek12:PASSWOR-IS-HERE@localhost/aspseek12/
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.period"><img src="/docbook/includes/images/callouts/4.png" alt="4" border="0"></a> </td>
+<td valign="top" align="left"><p>
+设定网页重建索引的间隔，作用域到下一个 Period 命令或者文件结尾。对作用域内的 Server 指定的网站有效，因此可以对不同的网站设置不同的更新频率
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.utf"><img src="/docbook/includes/images/callouts/2.png" alt="2" border="0"></a> </td>
+<td valign="top" align="left"><p>
+以 UTF-8 格式存储 MySQL 数据库中信息
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.charset"><img src="/docbook/includes/images/callouts/3.png" alt="3" border="0"></a> </td>
+<td valign="top" align="left"><p>
+配置字符集。若需要能够对中文进行检索，需要打开 CharsetTableU2 和 Dictionary2 的配置
+</p></td>
+</tr>
+<tr>
+<td width="5%" valign="top" align="left">
+<a href="#co.aspseek.server"><img src="/docbook/includes/images/callouts/5.png" alt="5" border="0"></a> </td>
+<td valign="top" align="left">
+<p>
+最重要的设置。告诉 index 为哪些网站建立索引，可通过多个 Server 配置设置多个服务器。注意：如果在URL中包含路径并不能将索引限制在该目录下，仍然会对整个网站建立索引。如果想限制某些路径，使用 Disallow 配置，例如下面的配置将对网站的索引限制在 url: http://members.aol.com/midlandsda 下。
+</p>
+<pre class="screen">
+Server http://www.aol.com/ 
+Allow ^http://members.aol.com/midlandsda 
+Disallow ^http://www.aol.com/ 
+</pre>
+</td>
+</tr>
+</table></div>
+</div>
+<div class="sect3" lang="zh-cn">
+<div class="titlepage"><div><div><h4 class="title">
+<a name="idp4593408"></a>2.2.2. 用 index 程序定期更新搜索引擎数据库</h4></div></div></div>
+<div class="itemizedlist"><ul type="disc">
+<li>
+<p>
+index -a
+</p>
+<p>
+为所有网页重新建立索引。不使用该参数，则参考配置中的 Period 参数，只对早于这个时间的网页重建索引。
+</p>
+</li>
+<li>
+<p>
+index -S
+</p>
+<p>
+显示数据库的统计信息
+</p>
+</li>
+<li>
+<p>
+通过 crontab 设置定时启动 index 重建检索
+</p>
+<pre class="screen">
+0 0 * * * su -c '/usr/local/aspseek/sbin/index' aspseek 
+</pre>
+</li>
+</ul></div>
+<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
+<tr>
+<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
+<th align="left"></th>
+</tr>
+<tr><td align="left" valign="top"><p>
+注意要以 aspseek 用户身份执行。
+</p></td></tr>
+</table></div>
+</div>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="aspseek-install.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"><a accesskey="u" href="search-engine.html"><img src="/docbook/includes/images/docbook/up.png" alt="上一级"></a></td>
+<td width="40%" align="right"> <a accesskey="n" href="aspseek-searchd.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">2.1. 安装 ASPSeek </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 2.3. searchd 后台数据库检索</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>

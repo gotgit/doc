@@ -1,0 +1,110 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>7. Starteam Howto</title>
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
+<link rel="start" href="index.html" title="软件配置管理 HOWTO">
+<link rel="up" href="index.html" title="软件配置管理 HOWTO">
+<link rel="prev" href="ar01s06s02.html" title="6.2. Starteam 中的文件和目录的共享">
+<link rel="next" href="serverconfig.html" title="7.1. Server Configuration">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/header.js"></script><script language="javascript"> write_header("/docbook"); </script><div class="navheader">
+<table width="100%" summary="Navigation header">
+<tr><th colspan="3" align="center">7. Starteam Howto</th></tr>
+<tr>
+<td width="20%" align="left">
+<a accesskey="p" href="ar01s06s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<th width="60%" align="center"> </th>
+<td width="20%" align="right"> <a accesskey="n" href="serverconfig.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+</table>
+<hr>
+</div>
+<div class="sect1" lang="zh-cn">
+<div class="titlepage"><div><div><h2 class="title" style="clear: both">
+<a name="steam-howto"></a>7. Starteam Howto</h2></div></div></div>
+<div class="toc"><dl>
+<dt><span class="sect2"><a href="serverconfig.html">7.1. Server Configuration</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="serverconfig.html#idp4970992">7.1.1. 用户角度</a></span></dt>
+<dt><span class="sect3"><a href="serverconfig.html#idp4978368">7.1.2. 管理员角度</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="project.html">7.2. Project</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="project.html#idp4991648">7.2.1. 用户角度</a></span></dt>
+<dt><span class="sect3"><a href="project.html#idp4993136">7.2.2. 管理员角度</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="view.html">7.3. View</a></span></dt>
+<dt><span class="sect2"><a href="branch.html">7.4. Branch</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="branch.html#idp5007360">7.4.1. STARTEAM和CVS的分支不同点</a></span></dt>
+<dt><span class="sect3"><a href="branch.html#idp5018704">7.4.2. 建立分支注意事项</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="label.html">7.5. Label</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="label.html#idp5041776">7.5.1. View Label</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5046128">7.5.2. Build label</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5049216">7.5.3. Promotion state</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5053504">7.5.4. Revision label</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="directory.html">7.6. 目录划分</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="directory.html#idp5069760">7.6.1. 源码的版本控制</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5077104">7.6.2. 文档的版本控制</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5078336">7.6.3. 缺陷控制</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5085744">7.6.4. ProjectManagement目录</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="delundel.html">7.7. 删除和反删除</a></span></dt>
+<dd><dl>
+<dt><span class="sect3"><a href="delundel.html#idp5093136">7.7.1. Starteam文件存放机理</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5097472">7.7.2. 删除</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5099104">7.7.3. 移动</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5101616">7.7.4. 反删除的步骤</a></span></dt>
+</dl></dd>
+<dt><span class="sect2"><a href="defect.html">7.8. 文件服务器和个人版本控制</a></span></dt>
+<dt><span class="sect2"><a href="workstation.html">7.9. 客户端设置</a></span></dt>
+<dt><span class="sect2"><a href="built.html">7.10. Nightly Build和测试</a></span></dt>
+<dt><span class="sect2"><a href="starteam-cli.html">7.11. Starteam CLI Wrapper</a></span></dt>
+<dt><span class="sect2"><a href="integration.html">7.12. StarTeam 与 常用开发工具整合</a></span></dt>
+</dl></div>
+<p>
+针对 STARTEAM，写了如下 HOWTO。原因是图形界面的操作固然尤其方便性，但也随处埋藏着地雷。
+</p>
+<p>
+例如：权限设置不当，任何人可以选择工程的根目录，按一下DEL键，只有一次确认机会，便会在不到一秒种的时间，删除整个工程所有文件。如果这时不知所措，重新再次重建整个工程，比如重新 checkin 整个工程的 5,000 个文件，则服务器中的文件个数翻倍。这些文件作为新文件，不但你为找不回Commit LOG 而头大，管理员总有一天为服务器存储空间头大。
+</p>
+</div>
+<table class="copyright" border="0" cellpadding="0" cellspacing="0" width="100%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
+<tr>
+<td></td>
+<td align="center" valign="center"></td>
+<td align="right" valign="center"><p class="copyright">
+      Copyright © 2006 <a href="http://www.worldhello.net/doc/"><b>WorldHello 开放文档之源</b> 计划</a></p></td>
+</tr>
+</table>
+<div class="navfooter">
+<hr>
+<table width="100%" summary="Navigation footer">
+<tr>
+<td width="40%" align="left">
+<a accesskey="p" href="ar01s06s02.html"><img src="/docbook/includes/images/docbook/prev.png" alt="上一页"></a> </td>
+<td width="20%" align="center"> </td>
+<td width="40%" align="right"> <a accesskey="n" href="serverconfig.html"><img src="/docbook/includes/images/docbook/next.png" alt="下一页"></a>
+</td>
+</tr>
+<tr>
+<td width="40%" align="left" valign="top">6.2. Starteam 中的文件和目录的共享 </td>
+<td width="20%" align="center"><a accesskey="h" href="index.html"><img src="/docbook/includes/images/docbook/home.png" alt="首页"></a></td>
+<td width="40%" align="right" valign="top"> 7.1. Server Configuration</td>
+</tr>
+</table>
+</div>
+<script language="javascript" type="text/javascript" src="/docbook/includes/js/footer.js"></script><script language="javascript"> write_footer("/docbook"); </script>
+</body>
+</html>
