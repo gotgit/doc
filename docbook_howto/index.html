@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>DocBook 助你完成传世之作</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="DocBook 是当前风行于开放源码世界的一种文档撰写格式，已经成为计算机文档撰写的事实上的规范。 DocBook 是基于SGML/XML的、面向结构的文档撰写模式。它打破了传统的、面向表现的、所见即所得文档撰写模式。 愈早使用 DocBook，愈早获得知识持续积累的快乐，享受完成传世之作的成就感。 （编译自版本: d23f613，最后更新时间: 2011-12-01）">
 <link rel="start" href="index.html" title="DocBook 助你完成传世之作">
@@ -97,16 +99,16 @@ DocBook 是基于SGML/XML的、面向结构的文档撰写模式。它打破了�
 <dt><span class="sect2"><a href="ar01s03s01.html">3.1. 撰写 Hello World</a></span></dt>
 <dt><span class="sect2"><a href="ar01s03s02.html">3.2. 搭建编译环境</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4712256">3.2.1. DocBook DTD</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4758688">3.2.2. 安装样式表</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4777696">3.2.3. OpenJade</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4803392">3.2.4. XSLTPROC</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4712144">3.2.1. DocBook DTD</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4758576">3.2.2. 安装样式表</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4777584">3.2.3. OpenJade</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4803280">3.2.4. XSLTPROC</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s03s03.html">3.3. 编译文档</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s03s03.html#idp4806912">3.3.1. 准备测试文档——《Hello World》</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s03.html#idp4824208">3.3.2. 用 OpenJade 进行格式转换</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s03.html#idp4875184">3.3.3. 还需进一步完善</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s03.html#idp4806800">3.3.1. 准备测试文档——《Hello World》</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s03.html#idp4824096">3.3.2. 用 OpenJade 进行格式转换</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s03.html#idp4875072">3.3.3. 还需进一步完善</a></span></dt>
 </dl></dd>
 </dl></dd>
 <dt><span class="sect1"><a href="sgml-primary.html">4. SGML/XML入门</a></span></dt>
@@ -114,36 +116,36 @@ DocBook 是基于SGML/XML的、面向结构的文档撰写模式。它打破了�
 <dt><span class="sect2"><a href="ar01s04s01.html">4.1. 基础概念</a></span></dt>
 <dt><span class="sect2"><a href="ar01s04s02.html">4.2. 关于标记语言</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s04s02.html#idp5089280">4.2.1. 什么是标记语言</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s02.html#idp5099136">4.2.2. 标记语言的历史</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s02.html#idp5089104">4.2.1. 什么是标记语言</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s02.html#idp5098960">4.2.2. 标记语言的历史</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s04s03.html">4.3. SGML/XML语法基础</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5112160">4.3.1. 标记</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5119216">4.3.2. 实体引用</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5121984">4.3.3. 注释</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5123728">4.3.4. 处理指令</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5126576">4.3.5. 文件类型声明</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5132416">4.3.6. CDATA片段</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5111984">4.3.1. 标记</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5119040">4.3.2. 实体引用</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5121808">4.3.3. 注释</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5123552">4.3.4. 处理指令</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5126400">4.3.5. 文件类型声明</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5132240">4.3.6. CDATA片段</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s04s04.html">4.4. 数据模型</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s04s04.html#idp5136784">4.4.1. 元素</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s04.html#idp5143360">4.4.2. 子元素和属性</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s04.html#idp5144384">4.4.3. 元素的定义</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s04.html#idp5162768">4.4.4. 外部DTD和内部DTD</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s04.html#idp5163792">4.4.5. 其它方式构造数据模型</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s04.html#idp5164816">4.4.6. DocBook的数据模型</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5136608">4.4.1. 元素</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5143184">4.4.2. 子元素和属性</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5144208">4.4.3. 元素的定义</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5162592">4.4.4. 外部DTD和内部DTD</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5163616">4.4.5. 其它方式构造数据模型</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s04.html#idp5164640">4.4.6. DocBook的数据模型</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s04s05.html">4.5. 用样式表进行格式化</a></span></dt>
 <dt><span class="sect2"><a href="ar01s04s06.html">4.6. DSSSL</a></span></dt>
-<dd><dl><dt><span class="sect3"><a href="ar01s04s06.html#idp5171312">4.6.1. Scheme语言入门</a></span></dt></dl></dd>
+<dd><dl><dt><span class="sect3"><a href="ar01s04s06.html#idp5171136">4.6.1. Scheme语言入门</a></span></dt></dl></dd>
 <dt><span class="sect2"><a href="ar01s04s07.html">4.7. 格式化</a></span></dt>
-<dd><dl><dt><span class="sect3"><a href="ar01s04s07.html#idp5270240">4.7.1. DTD: 我的收藏夹</a></span></dt></dl></dd>
+<dd><dl><dt><span class="sect3"><a href="ar01s04s07.html#idp5270064">4.7.1. DTD: 我的收藏夹</a></span></dt></dl></dd>
 <dt><span class="sect2"><a href="ar01s04s08.html">4.8. 公共标识符、系统标识符和目录文件</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s04s08.html#idp5273616">4.8.1. 公共标识符、系统标识符</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s08.html#idp5276256">4.8.2. 目录文件：DocBook的粘合剂</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s08.html#idp5273440">4.8.1. 公共标识符、系统标识符</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s08.html#idp5276080">4.8.2. 目录文件：DocBook的粘合剂</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s04s09.html">4.9. 好形、合法性——DocBook文档遵循的规范</a></span></dt>
 <dt><span class="sect2"><a href="ar01s04s10.html">4.10. 元素、实体和属性——DocBook文档的积木</a></span></dt>
@@ -158,16 +160,16 @@ DocBook 是基于SGML/XML的、面向结构的文档撰写模式。它打破了�
 <dt><span class="sect2"><a href="ar01s05s04.html">5.4. DocBook文档的逻辑分割</a></span></dt>
 <dt><span class="sect2"><a href="ar01s05s05.html">5.5. DocBook示例</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5565008">5.5.1. Book,Chapter,Article</a></span></dt>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5566032">5.5.2. 章节</a></span></dt>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5567056">5.5.3. anchor，link, ulink</a></span></dt>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5568080">5.5.4. 文章头部信息</a></span></dt>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5569104">5.5.5. 列表</a></span></dt>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5570128">5.5.6. 表格</a></span></dt>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5571152">5.5.7. 嵌入图片</a></span></dt>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5572176">5.5.8. Screen, programlist, co</a></span></dt>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5573200">5.5.9. emphsis, phrase, quote, system, filename, ...</a></span></dt>
-<dt><span class="sect3"><a href="ar01s05s05.html#idp5574224">5.5.10. faq</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5564832">5.5.1. Book,Chapter,Article</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5565856">5.5.2. 章节</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5566880">5.5.3. anchor，link, ulink</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5567904">5.5.4. 文章头部信息</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5568928">5.5.5. 列表</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5569952">5.5.6. 表格</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5570976">5.5.7. 嵌入图片</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5572000">5.5.8. Screen, programlist, co</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5573024">5.5.9. emphsis, phrase, quote, system, filename, ...</a></span></dt>
+<dt><span class="sect3"><a href="ar01s05s05.html#idp5574048">5.5.10. faq</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s05s06.html">5.6. DTD 与 DSSSL</a></span></dt>
 </dl></dd>
@@ -192,8 +194,8 @@ DocBook 是基于SGML/XML的、面向结构的文档撰写模式。它打破了�
 <dt><span class="sect2"><a href="ar01s09s02.html">9.2. 目录结构和Web发布</a></span></dt>
 <dt><span class="sect2"><a href="ar01s09s03.html">9.3. Nightly Build</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s09s03.html#idp5664528">9.3.1. 自动化编译</a></span></dt>
-<dt><span class="sect3"><a href="ar01s09s03.html#idp5665552">9.3.2. 计划任务</a></span></dt>
+<dt><span class="sect3"><a href="ar01s09s03.html#idp5664352">9.3.1. 自动化编译</a></span></dt>
+<dt><span class="sect3"><a href="ar01s09s03.html#idp5665376">9.3.2. 计划任务</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s09s04.html">9.4. 文档检索</a></span></dt>
 </dl></dd>

@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>4.3. SGML/XML语法基础</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="DocBook 助你完成传世之作">
 <link rel="up" href="sgml-primary.html" title="4. SGML/XML入门">
@@ -25,14 +27,14 @@
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp5106048"></a>4.3. SGML/XML语法基础</h3></div></div></div>
+<a name="idp5105872"></a>4.3. SGML/XML语法基础</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5112160">4.3.1. 标记</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5119216">4.3.2. 实体引用</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5121984">4.3.3. 注释</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5123728">4.3.4. 处理指令</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5126576">4.3.5. 文件类型声明</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s03.html#idp5132416">4.3.6. CDATA片段</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5111984">4.3.1. 标记</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5119040">4.3.2. 实体引用</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5121808">4.3.3. 注释</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5123552">4.3.4. 处理指令</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5126400">4.3.5. 文件类型声明</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s03.html#idp5132240">4.3.6. CDATA片段</a></span></dt>
 </dl></div>
 <p>
 SGML/XML文件由字符数据和标记组成，下面就是SGML/XML所支持的几种不同的标记：
@@ -59,7 +61,7 @@ SGML/XML文件由字符数据和标记组成，下面就是SGML/XML所支持的�
 </ul></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5112160"></a>4.3.1. 标记</h4></div></div></div>
+<a name="idp5111984"></a>4.3.1. 标记</h4></div></div></div>
 <p>
 标记（Tag）用来描述元素，是语法中最显而易见的组成部分。例如：在DocBook中段落元素由标记&lt;para&gt;和标记&lt;/para&gt;构成。
 </p>
@@ -90,7 +92,7 @@ SGML允许存在不匹配的标签，而XML必须严格匹配
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5119216"></a>4.3.2. 实体引用</h4></div></div></div>
+<a name="idp5119040"></a>4.3.2. 实体引用</h4></div></div></div>
 <p>
 实体（Entities），就是一个被命名了的标记数据块，可以是一个字符串，也可以是一个完整的文件。实体可以包含已析（parsed）数据或未析（unparsed）数据。已析数据由字符组成，其中一些字符组成字符数据，另一些字符组成标记。未析数据则是那些不进行语法解析的数据，如图形文件等。
 </p>
@@ -100,7 +102,7 @@ SGML允许存在不匹配的标签，而XML必须严格匹配
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5121984"></a>4.3.3. 注释</h4></div></div></div>
+<a name="idp5121808"></a>4.3.3. 注释</h4></div></div></div>
 <p>
 注释为文件和数据提供说明，并且被处理程序所忽略。SGML/XML的注释格式和HTML一样，都是以 &lt;!-- 开始，以 --&gt; 结束。对注释的唯一限制就是注释不能嵌套。示例如下：
 </p>
@@ -112,7 +114,7 @@ SGML允许存在不匹配的标签，而XML必须严格匹配
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5123728"></a>4.3.4. 处理指令</h4></div></div></div>
+<a name="idp5123552"></a>4.3.4. 处理指令</h4></div></div></div>
 <p>
 处理指令是向SGML/XML处理程序传递的特殊指令。例如：xml处理指令，必须作为XML文件的第一行存在。
 </p>
@@ -127,7 +129,7 @@ SGML允许存在不匹配的标签，而XML必须严格匹配
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5126576"></a>4.3.5. 文件类型声明</h4></div></div></div>
+<a name="idp5126400"></a>4.3.5. 文件类型声明</h4></div></div></div>
 <p>
 文件类型声明位于SGML/XML文件头部，主要有如下作用：
 </p>
@@ -170,7 +172,7 @@ SGML允许存在不匹配的标签，而XML必须严格匹配
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5132416"></a>4.3.6. CDATA片段</h4></div></div></div>
+<a name="idp5132240"></a>4.3.6. CDATA片段</h4></div></div></div>
 <p>
 CDATA片段，即是未解析字符数据片段。扩在CDATA片段中的内容，将不被XML解析器处理，而直接提供给应用程序。
 </p>

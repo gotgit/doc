@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>开发规范参考</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="编程风格分强制和建议两种。 强制风格，意为一定需要遵守，推荐风格，意为希望程序员在编码时按照这样的风格。 （编译自版本: 9cc8997，最后更新时间: 2007-06-19）">
 <link rel="start" href="#index" title="开发规范参考">
@@ -66,13 +68,13 @@
 <dt><span class="sect2"><a href="#naming-version">2.1. 版本号命名</a></span></dt>
 <dt><span class="sect2"><a href="#naming-variable">2.2. 变量命名</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4485808">2.2.1. 规则</a></span></dt>
-<dt><span class="sect3"><a href="#idp4512704">2.2.2. 实例</a></span></dt>
+<dt><span class="sect3"><a href="#idp4485776">2.2.1. 规则</a></span></dt>
+<dt><span class="sect3"><a href="#idp4512672">2.2.2. 实例</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="#naming-function">2.3. 函数命名</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4515488">2.3.1. 规则</a></span></dt>
-<dt><span class="sect3"><a href="#idp4518608">2.3.2. 实例</a></span></dt>
+<dt><span class="sect3"><a href="#idp4515456">2.3.1. 规则</a></span></dt>
+<dt><span class="sect3"><a href="#idp4518576">2.3.2. 实例</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="#naming-tag">2.4. 版本控制系统的TAG/Label命名</a></span></dt>
 </dl></dd>
@@ -80,15 +82,15 @@
 <dd><dl>
 <dt><span class="sect2"><a href="#general">3.1. 一般格式原则</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4575040">3.1.1. 规则</a></span></dt>
-<dt><span class="sect3"><a href="#idp4580688">3.1.2. 实例</a></span></dt>
+<dt><span class="sect3"><a href="#idp4575008">3.1.1. 规则</a></span></dt>
+<dt><span class="sect3"><a href="#idp4580656">3.1.2. 实例</a></span></dt>
 </dl></dd>
-<dt><span class="sect2"><a href="#idp4582240">3.2. 变量</a></span></dt>
-<dt><span class="sect2"><a href="#idp4586768">3.3. 函数</a></span></dt>
+<dt><span class="sect2"><a href="#idp4582208">3.2. 变量</a></span></dt>
+<dt><span class="sect2"><a href="#idp4586736">3.3. 函数</a></span></dt>
 <dt><span class="sect2"><a href="#comment">3.4. 注释</a></span></dt>
 <dt><span class="sect2"><a href="#indent">3.5. 用 indent 进行代码格式化</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4615264">3.5.1. introduce indent</a></span></dt>
+<dt><span class="sect3"><a href="#idp4615232">3.5.1. introduce indent</a></span></dt>
 <dt><span class="sect3"><a href="#indent-opt">3.5.2. Indent参数规范</a></span></dt>
 </dl></dd>
 </dl></dd>
@@ -175,7 +177,7 @@ Windows 下的开发，则可能受到资源文件中 FILEVERSION，PRODUCTVERSI
 <a name="naming-variable"></a>2.2. 变量命名</h3></div></div></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4485808"></a>2.2.1. 规则</h4></div></div></div>
+<a name="idp4485776"></a>2.2.1. 规则</h4></div></div></div>
 <p>
 变量（还包括宏）的命名规则，比较系统和彻底的有 Windows 编程中用到的匈牙利命名法。匈牙利命名法通过在变量名前面加上相应的小写字母的符号标识作为前缀，标识出变量的作用域，类型等。这些符号可以多个同时使用，顺序是先m_（成员变量），再指针，再简单数据类型，再其他。例如：m_lpszStr, 表示指向一个以0字符结尾的字符串的长指针成员变量。
 
@@ -345,7 +347,7 @@ Windows 下的开发，则可能受到资源文件中 FILEVERSION，PRODUCTVERSI
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4512704"></a>2.2.2. 实例</h4></div></div></div>
+<a name="idp4512672"></a>2.2.2. 实例</h4></div></div></div>
 <p>
 略...
 </p>
@@ -356,7 +358,7 @@ Windows 下的开发，则可能受到资源文件中 FILEVERSION，PRODUCTVERSI
 <a name="naming-function"></a>2.3. 函数命名</h3></div></div></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4515488"></a>2.3.1. 规则</h4></div></div></div>
+<a name="idp4515456"></a>2.3.1. 规则</h4></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li><p>
 属于某一模块的函数，加上前缀，前缀为模块缩写；
@@ -368,7 +370,7 @@ Windows 下的开发，则可能受到资源文件中 FILEVERSION，PRODUCTVERSI
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4518608"></a>2.3.2. 实例</h4></div></div></div>
+<a name="idp4518576"></a>2.3.2. 实例</h4></div></div></div>
 <p>
 略...
 </p>
@@ -409,7 +411,7 @@ TAG/LABEL 要包含一个模块/工程前缀，如果只是简单的 V1，V2，�
 <a name="general"></a>3.1. 一般格式原则</h3></div></div></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4575040"></a>3.1.1. 规则</h4></div></div></div>
+<a name="idp4575008"></a>3.1.1. 规则</h4></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li><p>缩进用tab，不用空格；
 </p></li>
@@ -425,7 +427,7 @@ TAG/LABEL 要包含一个模块/工程前缀，如果只是简单的 V1，V2，�
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4580688"></a>3.1.2. 实例</h4></div></div></div>
+<a name="idp4580656"></a>3.1.2. 实例</h4></div></div></div>
 <p>
 略...
 </p>
@@ -433,7 +435,7 @@ TAG/LABEL 要包含一个模块/工程前缀，如果只是简单的 V1，V2，�
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4582240"></a>3.2. 变量</h3></div></div></div>
+<a name="idp4582208"></a>3.2. 变量</h3></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li><p>当出现变量和常量比较和判断时，常量放在左边，以防止"= ="错误输入为"="，时可以由编译器检验；（强制）
 </p></li>
@@ -445,7 +447,7 @@ TAG/LABEL 要包含一个模块/工程前缀，如果只是简单的 V1，V2，�
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4586768"></a>3.3. 函数</h3></div></div></div>
+<a name="idp4586736"></a>3.3. 函数</h3></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li><p>所有调用函数在".h"头文件中声名，对于只是在本模块中调用的函数，用static关键字限制；
 </p></li>
@@ -557,7 +559,7 @@ You can easily uncoment the whole block by changing the /* to //, and vice versa
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4615264"></a>3.5.1. introduce indent</h4></div></div></div>
+<a name="idp4615232"></a>3.5.1. introduce indent</h4></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>What is Indent
@@ -599,7 +601,7 @@ ftp.gnu.org/gnu/indent/indent-2.2.7.tar.gz</a>
 <p>indent配置说明
 </p>
 <div class="table">
-<a name="idp4628368"></a><p class="title"><b>表 1. Indent代码格式化说明</b></p>
+<a name="idp4628336"></a><p class="title"><b>表 1. Indent代码格式化说明</b></p>
 <div class="table-contents"><table summary="Indent代码格式化说明" border="1">
 <colgroup>
 <col>
@@ -961,7 +963,7 @@ FreeBSD Porter's Handbook</a>
 <p>通过indent参数分析，比较自定义风格和GNU，KR，BSD编程风格。
 </p>
 <div class="table">
-<a name="idp4906256"></a><p class="title"><b>表 A.1. 自定义风格和GNU，KR，BSD风格比较</b></p>
+<a name="idp4906224"></a><p class="title"><b>表 A.1. 自定义风格和GNU，KR，BSD风格比较</b></p>
 <div class="table-contents"><table summary="自定义风格和GNU，KR，BSD风格比较" border="1">
 <colgroup>
 <col>

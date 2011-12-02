@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>3.2. unison 命令</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="BCP (Basic)">
 <link rel="up" href="mirror.html" title="3. 镜像，数据同步">
@@ -27,19 +29,19 @@
 <div class="titlepage"><div><div><h3 class="title">
 <a name="unison"></a>3.2. unison 命令</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="unison.html#idp4501472">3.2.1. unison 命令行</a></span></dt>
-<dt><span class="sect3"><a href="unison.html#idp4510416">3.2.2. 常用参数</a></span></dt>
-<dt><span class="sect3"><a href="unison.html#idp4529760">3.2.3. 模式匹配</a></span></dt>
-<dt><span class="sect3"><a href="unison.html#idp4547968">3.2.4. 应用举例</a></span></dt>
-<dt><span class="sect3"><a href="unison.html#idp4559184">3.2.5. unison 配置文件</a></span></dt>
-<dt><span class="sect3"><a href="unison.html#idp4579152">3.2.6. FAQ</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4501440">3.2.1. unison 命令行</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4510384">3.2.2. 常用参数</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4529728">3.2.3. 模式匹配</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4547936">3.2.4. 应用举例</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4559056">3.2.5. unison 配置文件</a></span></dt>
+<dt><span class="sect3"><a href="unison.html#idp4579024">3.2.6. FAQ</a></span></dt>
 </dl></div>
 <p>
 Unison 是一个文件同步工具，采用 rsync 类似的算法，但是提高了一步，双向同步以及一个统一的版本控制系统。
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4501472"></a>3.2.1. unison 命令行</h4></div></div></div>
+<a name="idp4501440"></a>3.2.1. unison 命令行</h4></div></div></div>
 <p>
 可以用如下格式调用 unison
 </p>
@@ -88,7 +90,7 @@ root1, root2 路径的格式可以是本地目录，也可以是远程服务器�
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4510416"></a>3.2.2. 常用参数</h4></div></div></div>
+<a name="idp4510384"></a>3.2.2. 常用参数</h4></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -213,7 +215,7 @@ ignore = Name {a.out}
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4529760"></a>3.2.3. 模式匹配</h4></div></div></div>
+<a name="idp4529728"></a>3.2.3. 模式匹配</h4></div></div></div>
 <p>
 如下参数 ignore/ignorenot, follow, sortfirst/sortlast, backup, merge 定义各自的匹配模式。
 例如: ignore = pattern
@@ -324,7 +326,7 @@ ignore = Regex a/b/.*\.ml
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4547968"></a>3.2.4. 应用举例</h4></div></div></div>
+<a name="idp4547936"></a>3.2.4. 应用举例</h4></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -390,10 +392,10 @@ unison /home/username ssh://remotehost//home/username \
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4559184"></a>3.2.5. unison 配置文件</h4></div></div></div>
+<a name="idp4559056"></a>3.2.5. unison 配置文件</h4></div></div></div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp4559696"></a>3.2.5.1. .unison 目录</h5></div></div></div>
+<a name="idp4559568"></a>3.2.5.1. .unison 目录</h5></div></div></div>
 <p>
 ~/.unison 目录保存用户配置文件以及 Archive 文件。
 </p>
@@ -425,7 +427,7 @@ Archive 虽然自动由 unison 维护，但是特殊情况下（如本机的地�
 </div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp4566416"></a>3.2.5.2. *.prf 配置文件</h5></div></div></div>
+<a name="idp4566288"></a>3.2.5.2. *.prf 配置文件</h5></div></div></div>
 <p>
 如果 unison 只带一个参数执行，如
 </p>
@@ -441,7 +443,7 @@ unison &lt;name&gt;
 </div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp4569136"></a>3.2.5.3.  .prf 文件示例</h5></div></div></div>
+<a name="idp4569008"></a>3.2.5.3.  .prf 文件示例</h5></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -537,10 +539,10 @@ ignore = Name *.tmp
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4579152"></a>3.2.6. FAQ</h4></div></div></div>
+<a name="idp4579024"></a>3.2.6. FAQ</h4></div></div></div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp4579664"></a>3.2.6.1. ssh 超时问题</h5></div></div></div>
+<a name="idp4579536"></a>3.2.6.1. ssh 超时问题</h5></div></div></div>
 <p>
 和远程服务器同步大量数据，上传一部分数据后，超时：
 </p>

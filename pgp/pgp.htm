@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>PGP/GPG Howto</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="PGP/GPG 是不对称加密、数字签名的经典和标准，不但可以为个人的数字传输提供信用保障， 用于保护个人之间通讯的隐私，保护敏感数据，而且可以在更大的范围内，如公司范围内的 数据加密，电子产品（软件）的数字签名，知识产权保护等。 本文介绍PGP/GPG软件的使用技巧等。 （编译自版本: dc50d4f，最后更新时间: 2007-06-19）">
 <link rel="start" href="#index" title="PGP/GPG Howto">
@@ -90,14 +92,14 @@ PGP/GPG 是不对称加密、数字签名的经典和标准，不但可以为个
 <dt><span class="sect1"><a href="#key-mangement">3. PGP 公钥管理</a></span></dt>
 <dt><span class="sect1"><a href="#mixup-pgp-gpg">4. PGP GUI, PGP CLI, GPG共存</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4484752">4.1. PGP GUI和CLI共存</a></span></dt>
-<dt><span class="sect2"><a href="#idp4494784">4.2. PGP移植到GPG</a></span></dt>
-<dt><span class="sect2"><a href="#idp4506960">4.3. GPG移植到PGP</a></span></dt>
+<dt><span class="sect2"><a href="#idp4484736">4.1. PGP GUI和CLI共存</a></span></dt>
+<dt><span class="sect2"><a href="#idp4494768">4.2. PGP移植到GPG</a></span></dt>
+<dt><span class="sect2"><a href="#idp4506944">4.3. GPG移植到PGP</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#env">5. 环境配置</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4520032">5.1. PGP (WIN2K+CYGWIN)</a></span></dt>
-<dt><span class="sect2"><a href="#idp4526688">5.2. GPG (WIN2K+CYGWIN)</a></span></dt>
+<dt><span class="sect2"><a href="#idp4520016">5.1. PGP (WIN2K+CYGWIN)</a></span></dt>
+<dt><span class="sect2"><a href="#idp4526672">5.2. GPG (WIN2K+CYGWIN)</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#command">6. 命令参考</a></span></dt>
 <dt><span class="sect1"><a href="#pgpdisk">7. 用PGPDISK进行磁盘加密</a></span></dt>
@@ -264,7 +266,7 @@ PGP 的公钥，一般是保存在 Certserver 中，当 PGP 在需要时，会�
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4484752"></a>4.1. PGP GUI和CLI共存</h3></div></div></div>
+<a name="idp4484736"></a>4.1. PGP GUI和CLI共存</h3></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -335,7 +337,7 @@ GPG配置文件和PGP不相同，切勿照此办理，后果自负。
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4494784"></a>4.2. PGP移植到GPG</h3></div></div></div>
+<a name="idp4494768"></a>4.2. PGP移植到GPG</h3></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -411,7 +413,7 @@ $ echo 'hello world' | pgp -er &lt;userid&gt; | gpg --decrypt
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4506960"></a>4.3. GPG移植到PGP</h3></div></div></div>
+<a name="idp4506944"></a>4.3. GPG移植到PGP</h3></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -501,7 +503,7 @@ $ pgp -ke &lt;userid&gt;
 <a name="env"></a>5. 环境配置</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4520032"></a>5.1. PGP (WIN2K+CYGWIN)</h3></div></div></div>
+<a name="idp4520016"></a>5.1. PGP (WIN2K+CYGWIN)</h3></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -544,7 +546,7 @@ KEYSERVER_URL = ldap://keyserver.pgp.com
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4526688"></a>5.2. GPG (WIN2K+CYGWIN)</h3></div></div></div>
+<a name="idp4526672"></a>5.2. GPG (WIN2K+CYGWIN)</h3></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -852,12 +854,12 @@ PGPDISK加密磁盘文件的口令保护
 <a name="faq"></a>8. FAQ</h2></div></div></div>
 <div class="qandaset">
 <dl>
-<dt>8.1. <a href="#idp4562192">
+<dt>8.1. <a href="#idp4560176">
 
 PGP 7.03 GUI和 Win XP不兼容么？
 </a>
 </dt>
-<dt>8.2. <a href="#idp4565552">
+<dt>8.2. <a href="#idp4563536">
 如何成功在 Win XP 安装 PGP 7.0.3 ?
 </a>
 </dt>
@@ -867,7 +869,7 @@ PGP 7.03 GUI和 Win XP不兼容么？
 <tbody>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4562192"></a><a name="idp4562448"></a><b>8.1.</b>
+<a name="idp4560176"></a><a name="idp4560432"></a><b>8.1.</b>
 </td>
 <td align="left" valign="top"><p>
 <a name="faq-winxp"></a>
@@ -892,7 +894,7 @@ configuration, uninstall won't cut it.
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4565552"></a><a name="idp4565808"></a><b>8.2.</b>
+<a name="idp4563536"></a><a name="idp4563792"></a><b>8.2.</b>
 </td>
 <td align="left" valign="top"><p>
 如何成功在 Win XP 安装 PGP 7.0.3 ?

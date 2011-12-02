@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>7.7. 删除和反删除</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="软件配置管理 HOWTO">
 <link rel="up" href="steam-howto.html" title="7. Starteam Howto">
@@ -27,10 +29,10 @@
 <div class="titlepage"><div><div><h3 class="title">
 <a name="delundel"></a>7.7. 删除和反删除</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="delundel.html#idp5093136">7.7.1. Starteam文件存放机理</a></span></dt>
-<dt><span class="sect3"><a href="delundel.html#idp5097472">7.7.2. 删除</a></span></dt>
-<dt><span class="sect3"><a href="delundel.html#idp5099104">7.7.3. 移动</a></span></dt>
-<dt><span class="sect3"><a href="delundel.html#idp5101616">7.7.4. 反删除的步骤</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5093984">7.7.1. Starteam文件存放机理</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5098320">7.7.2. 删除</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5099952">7.7.3. 移动</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5102464">7.7.4. 反删除的步骤</a></span></dt>
 </dl></div>
 <p>
 删除和反删除文件是 Starteam 和 CVS 最大的不同点之一。如果处理不好，虽然
@@ -62,7 +64,7 @@
 </ul></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5093136"></a>7.7.1. Starteam文件存放机理</h4></div></div></div>
+<a name="idp5093984"></a>7.7.1. Starteam文件存放机理</h4></div></div></div>
 <p>
 STARTEAM以数据库为核心，是面向工程的管理方式。版本控制文件的文件名
 由数据库管理，文件名不过是"指针"。方便文件在一个工程甚至同一个
@@ -86,7 +88,7 @@ Starteam 一旦对文件进行版本控制，就丢入 Repository 目录中，�
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5097472"></a>7.7.2. 删除</h4></div></div></div>
+<a name="idp5098320"></a>7.7.2. 删除</h4></div></div></div>
 <p>
 无论文件从哪个视图（根view，子view）添加目录和文件到starteam，在
 该view下显示的文件夹和文件只不过是Vault/Archive目录下文件（以流水号作为
@@ -98,7 +100,7 @@ Starteam 一旦对文件进行版本控制，就丢入 Repository 目录中，�
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5099104"></a>7.7.3. 移动</h4></div></div></div>
+<a name="idp5099952"></a>7.7.3. 移动</h4></div></div></div>
 <p>
 文件在同一个视图中移动时，历史被保留；但当文件在不同视图中移动（注意不是删除）
 时，原视图即使在历史中也找不到该文件，该文件从该视图中彻底消失了。如果将
@@ -113,7 +115,7 @@ Starteam 一旦对文件进行版本控制，就丢入 Repository 目录中，�
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5101616"></a>7.7.4. 反删除的步骤</h4></div></div></div>
+<a name="idp5102464"></a>7.7.4. 反删除的步骤</h4></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>同时打开当前视图和删除文件之前的视图，拷贝历史视图的文件到当前视图。

@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>软件配置管理 HOWTO</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="本网站还可以提供 版本控制系统（CVS）等的用户培训 以及 CVS 服务器配置 等收费服务，咨询电话参见 本网站联系方式。 （编译自版本: 9b62cff，最后更新时间: 2007-06-19）">
 <link rel="start" href="index.html" title="软件配置管理 HOWTO">
@@ -176,9 +178,9 @@
 <dd><dl>
 <dt><span class="sect2"><a href="ar01s02s01.html">2.1. CVS服务器设置</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s02s01.html#idp4510976">2.1.1. 运行 CVS</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s01.html#idp4511104">2.1.1. 运行 CVS</a></span></dt>
 <dt><span class="sect3"><a href="ar01s02s01.html#cvs-account">2.1.2. 添加帐号和设置权限</a></span></dt>
-<dt><span class="sect3"><a href="ar01s02s01.html#idp4544320">2.1.3. 创建工程</a></span></dt>
+<dt><span class="sect3"><a href="ar01s02s01.html#idp4544448">2.1.3. 创建工程</a></span></dt>
 <dt><span class="sect3"><a href="ar01s02s01.html#cvs-admin-files">2.1.4. 用CVS管理文件进行功能扩充</a></span></dt>
 <dt><span class="sect3"><a href="ar01s02s01.html#linux-acl">2.1.5. 基于 Linux ACL 的权限控制</a></span></dt>
 </dl></dd>
@@ -212,40 +214,40 @@
 <dd><dl>
 <dt><span class="sect2"><a href="serverconfig.html">7.1. Server Configuration</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="serverconfig.html#idp4970992">7.1.1. 用户角度</a></span></dt>
-<dt><span class="sect3"><a href="serverconfig.html#idp4978368">7.1.2. 管理员角度</a></span></dt>
+<dt><span class="sect3"><a href="serverconfig.html#idp4971840">7.1.1. 用户角度</a></span></dt>
+<dt><span class="sect3"><a href="serverconfig.html#idp4979216">7.1.2. 管理员角度</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="project.html">7.2. Project</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="project.html#idp4991648">7.2.1. 用户角度</a></span></dt>
-<dt><span class="sect3"><a href="project.html#idp4993136">7.2.2. 管理员角度</a></span></dt>
+<dt><span class="sect3"><a href="project.html#idp4992496">7.2.1. 用户角度</a></span></dt>
+<dt><span class="sect3"><a href="project.html#idp4993984">7.2.2. 管理员角度</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="view.html">7.3. View</a></span></dt>
 <dt><span class="sect2"><a href="branch.html">7.4. Branch</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="branch.html#idp5007360">7.4.1. STARTEAM和CVS的分支不同点</a></span></dt>
-<dt><span class="sect3"><a href="branch.html#idp5018704">7.4.2. 建立分支注意事项</a></span></dt>
+<dt><span class="sect3"><a href="branch.html#idp5008208">7.4.1. STARTEAM和CVS的分支不同点</a></span></dt>
+<dt><span class="sect3"><a href="branch.html#idp5019552">7.4.2. 建立分支注意事项</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="label.html">7.5. Label</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="label.html#idp5041776">7.5.1. View Label</a></span></dt>
-<dt><span class="sect3"><a href="label.html#idp5046128">7.5.2. Build label</a></span></dt>
-<dt><span class="sect3"><a href="label.html#idp5049216">7.5.3. Promotion state</a></span></dt>
-<dt><span class="sect3"><a href="label.html#idp5053504">7.5.4. Revision label</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5042624">7.5.1. View Label</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5046976">7.5.2. Build label</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5050064">7.5.3. Promotion state</a></span></dt>
+<dt><span class="sect3"><a href="label.html#idp5054352">7.5.4. Revision label</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="directory.html">7.6. 目录划分</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="directory.html#idp5069760">7.6.1. 源码的版本控制</a></span></dt>
-<dt><span class="sect3"><a href="directory.html#idp5077104">7.6.2. 文档的版本控制</a></span></dt>
-<dt><span class="sect3"><a href="directory.html#idp5078336">7.6.3. 缺陷控制</a></span></dt>
-<dt><span class="sect3"><a href="directory.html#idp5085744">7.6.4. ProjectManagement目录</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5070608">7.6.1. 源码的版本控制</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5077952">7.6.2. 文档的版本控制</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5079184">7.6.3. 缺陷控制</a></span></dt>
+<dt><span class="sect3"><a href="directory.html#idp5086592">7.6.4. ProjectManagement目录</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="delundel.html">7.7. 删除和反删除</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="delundel.html#idp5093136">7.7.1. Starteam文件存放机理</a></span></dt>
-<dt><span class="sect3"><a href="delundel.html#idp5097472">7.7.2. 删除</a></span></dt>
-<dt><span class="sect3"><a href="delundel.html#idp5099104">7.7.3. 移动</a></span></dt>
-<dt><span class="sect3"><a href="delundel.html#idp5101616">7.7.4. 反删除的步骤</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5093984">7.7.1. Starteam文件存放机理</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5098320">7.7.2. 删除</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5099952">7.7.3. 移动</a></span></dt>
+<dt><span class="sect3"><a href="delundel.html#idp5102464">7.7.4. 反删除的步骤</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="defect.html">7.8. 文件服务器和个人版本控制</a></span></dt>
 <dt><span class="sect2"><a href="workstation.html">7.9. 客户端设置</a></span></dt>

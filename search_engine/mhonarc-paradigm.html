@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>1.2. MHonArc 应用示例</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="知识管理">
 <link rel="up" href="webarchive.html" title="1. Web 存档">
@@ -27,14 +29,14 @@
 <div class="titlepage"><div><div><h3 class="title">
 <a name="mhonarc-paradigm"></a>1.2. MHonArc 应用示例</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4458736">1.2.1. 任务1: 将邮件存档转换为网页</a></span></dt>
-<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4474224">1.2.2. 任务2: 新邮件直接转换为网页——别名</a></span></dt>
-<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4481920">1.2.3. 任务3: 新邮件直接转换为网页——procmail</a></span></dt>
-<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4491648">1.2.4. 任务4: 新闻转换为网页</a></span></dt>
+<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4458752">1.2.1. 任务1: 将邮件存档转换为网页</a></span></dt>
+<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4474240">1.2.2. 任务2: 新邮件直接转换为网页——别名</a></span></dt>
+<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4481936">1.2.3. 任务3: 新邮件直接转换为网页——procmail</a></span></dt>
+<dt><span class="sect3"><a href="mhonarc-paradigm.html#idp4491664">1.2.4. 任务4: 新闻转换为网页</a></span></dt>
 </dl></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4458736"></a>1.2.1. 任务1: 将邮件存档转换为网页</h4></div></div></div>
+<a name="idp4458752"></a>1.2.1. 任务1: 将邮件存档转换为网页</h4></div></div></div>
 <p>
 mbox 格式是Unix上存储邮件的最常见的格式，一个 mobx 文件可能包含零个到多个邮件。MHonArc 支持将 mbox 格式的文件批量转换为网页。
 </p>
@@ -118,7 +120,7 @@ Converts Outlook .mbx and .dbx files into standard RFC822 mail files.
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4474224"></a>1.2.2. 任务2: 新邮件直接转换为网页——别名</h4></div></div></div>
+<a name="idp4474240"></a>1.2.2. 任务2: 新邮件直接转换为网页——别名</h4></div></div></div>
 <p>
 利用邮件别名，实现将新邮件直接用 MHonArc 转换为网页。这项功能对于将 Mail-List 内容转换为网页非常适合。
 </p>
@@ -147,7 +149,7 @@ maillist2html: "|/usr/local/bin/mhonarc -add -quiet -umask 022 -idxfname index.h
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4481920"></a>1.2.3. 任务3: 新邮件直接转换为网页——procmail</h4></div></div></div>
+<a name="idp4481936"></a>1.2.3. 任务3: 新邮件直接转换为网页——procmail</h4></div></div></div>
 <p>
 在上面描述的任务中，通过使用邮件别名将邮件转换为网页固然可以完成任务，但是如果想对订阅的大量的邮件列表进行 html 存档，就需要建立大量的对应的 aliases 条目，显然笨拙了一些。
 </p>
@@ -210,7 +212,7 @@ MHONARC='/usr/local/bin/mhonarc -add -quiet -umask 022 -idxfname index.html'
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4491648"></a>1.2.4. 任务4: 新闻转换为网页</h4></div></div></div>
+<a name="idp4491664"></a>1.2.4. 任务4: 新闻转换为网页</h4></div></div></div>
 <p>
 新闻组固然会给沟通带来便利之处，但是不足之处：
 </p>

@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>2.3. searchd 后台数据库检索</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="知识管理">
 <link rel="up" href="search-engine.html" title="2. 建立搜索引擎">
@@ -27,15 +29,15 @@
 <div class="titlepage"><div><div><h3 class="title">
 <a name="aspseek-searchd"></a>2.3. searchd 后台数据库检索</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="aspseek-searchd.html#idp4601312">2.3.1. searchd.conf</a></span></dt>
-<dt><span class="sect3"><a href="aspseek-searchd.html#idp4610080">2.3.2. 运行 searchd</a></span></dt>
+<dt><span class="sect3"><a href="aspseek-searchd.html#idp4600896">2.3.1. searchd.conf</a></span></dt>
+<dt><span class="sect3"><a href="aspseek-searchd.html#idp4609664">2.3.2. 运行 searchd</a></span></dt>
 </dl></div>
 <p>
 searchd 是 ASPseek 的守护进程，用来接收 cgi 程序(s.cgi)的查询请求，执行查询动作（搜索由 index 程序创建的数据库），将结果反馈给 cgi 程序(s.cgi)。
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4601312"></a>2.3.1. searchd.conf</h4></div></div></div>
+<a name="idp4600896"></a>2.3.1. searchd.conf</h4></div></div></div>
 <p>
 searchd 程序的配置文件。
 </p>
@@ -78,7 +80,7 @@ Include ucharset.conf  <a name="co.searchd.charset"></a><img src="/docbook/inclu
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4610080"></a>2.3.2. 运行 searchd</h4></div></div></div>
+<a name="idp4609664"></a>2.3.2. 运行 searchd</h4></div></div></div>
 <p>
 配置开机自动执行 searchd。
 </p>

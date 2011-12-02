@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>4.6. DSSSL</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="DocBook 助你完成传世之作">
 <link rel="up" href="sgml-primary.html" title="4. SGML/XML入门">
@@ -25,8 +27,8 @@
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp5167760"></a>4.6. DSSSL</h3></div></div></div>
-<div class="toc"><dl><dt><span class="sect3"><a href="ar01s04s06.html#idp5171312">4.6.1. Scheme语言入门</a></span></dt></dl></div>
+<a name="idp5167584"></a>4.6. DSSSL</h3></div></div></div>
+<div class="toc"><dl><dt><span class="sect3"><a href="ar01s04s06.html#idp5171136">4.6.1. Scheme语言入门</a></span></dt></dl></div>
 <p>
 DSSSL? 不要被这个缩略语吓坏，它是（Document Style Semantics and Specification Language）的缩写。DSSSL和SGML的关系，就如同CSS和HTML的关系一样。对于DTD来说，只关心元素之间的结构关系，并不关心元素的意义和具体的表现形式，而这正好是DSSSL的天下。一个DocBook文档，通过各种元素将文档内容结构化，但是看起来并不直观，不能提供诸如Word、PDF、网页一样的表现。DSSSL提供了一个将SGML文档到其他输出格式的标准方法。
 </p>
@@ -64,7 +66,7 @@ DSSSL? 不要被这个缩略语吓坏，它是（Document Style Semantics and Sp
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp5171312"></a>4.6.1. Scheme语言入门</h4></div></div></div>
+<a name="idp5171136"></a>4.6.1. Scheme语言入门</h4></div></div></div>
 <p>
 最早听说 LISP，是 Stallman 的 GNU Emacs 中将 LISP 作为嵌入语言，定制和增强 Emacs。GNU Emacs 是一个文本编辑器，文本就是一种符号，而 Lisp 正好就是针对符号计算发明的，因此在GNU Emacs 中使用 Lisp 是顺理成章的事情。
 </p>
@@ -82,7 +84,7 @@ DSSSL需要完成的工作是解析文档，它的设计就采用了Scheme语言
 </p>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp5176080"></a>4.6.1.1. Scheme特点</h5></div></div></div>
+<a name="idp5175904"></a>4.6.1.1. Scheme特点</h5></div></div></div>
 <p>
 Scheme语言具有它独特的魅力，看看Scheme的语法特点：
 </p>
@@ -142,7 +144,7 @@ Scheme开发的程序有很好的可移植性，这是由于Scheme是一种解�
 </div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp5186704"></a>4.6.1.2. 数据结构</h5></div></div></div>
+<a name="idp5186528"></a>4.6.1.2. 数据结构</h5></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -215,10 +217,10 @@ Scheme开发的程序有很好的可移植性，这是由于Scheme是一种解�
 </div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp5198624"></a>4.6.1.3. 表达式和函数</h5></div></div></div>
+<a name="idp5198448"></a>4.6.1.3. 表达式和函数</h5></div></div></div>
 <div class="sect5" lang="zh-cn">
 <div class="titlepage"><div><div><h6 class="title">
-<a name="idp5199136"></a>4.6.1.3.1. 注释</h6></div></div></div>
+<a name="idp5198960"></a>4.6.1.3.1. 注释</h6></div></div></div>
 <p>
 分号开始一段注释。如：
 </p>
@@ -228,7 +230,7 @@ Scheme开发的程序有很好的可移植性，这是由于Scheme是一种解�
 </div>
 <div class="sect5" lang="zh-cn">
 <div class="titlepage"><div><div><h6 class="title">
-<a name="idp5200848"></a>4.6.1.3.2. 常量表达式</h6></div></div></div>
+<a name="idp5200672"></a>4.6.1.3.2. 常量表达式</h6></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -261,7 +263,7 @@ Scheme开发的程序有很好的可移植性，这是由于Scheme是一种解�
 </div>
 <div class="sect5" lang="zh-cn">
 <div class="titlepage"><div><div><h6 class="title">
-<a name="idp5206432"></a>4.6.1.3.3. 表达式记法</h6></div></div></div>
+<a name="idp5206256"></a>4.6.1.3.3. 表达式记法</h6></div></div></div>
 <p>
 Scheme的表达式的写法有些特别，表达式用括号括起来。括号里面的第一个出线的是函数名或者操作符，其它是参数。Scheme的这种表达式写法可以叫做前置式。下面是一些Scheme的表达式的例子以及其对应的C语言的写法。
 </p>
@@ -279,7 +281,7 @@ Scheme的表达式的写法有些特别，表达式用括号括起来。括号�
 </div>
 <div class="sect5" lang="zh-cn">
 <div class="titlepage"><div><div><h6 class="title">
-<a name="idp5208656"></a>4.6.1.3.4. 赋值和函数定义</h6></div></div></div>
+<a name="idp5208480"></a>4.6.1.3.4. 赋值和函数定义</h6></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -439,7 +441,7 @@ Scheme语言中，函数作为一种数据类型，通过赋值语句，将lambd
 </div>
 <div class="sect5" lang="zh-cn">
 <div class="titlepage"><div><div><h6 class="title">
-<a name="idp5234672"></a>4.6.1.3.5. 顺序计算表达式</h6></div></div></div>
+<a name="idp5234496"></a>4.6.1.3.5. 顺序计算表达式</h6></div></div></div>
 <p>
 语法：(begin exp1 exp2 ...) 
 </p>
@@ -461,7 +463,7 @@ Scheme语言中，函数作为一种数据类型，通过赋值语句，将lambd
 </div>
 <div class="sect5" lang="zh-cn">
 <div class="titlepage"><div><div><h6 class="title">
-<a name="idp5238176"></a>4.6.1.3.6. 条件表达式</h6></div></div></div>
+<a name="idp5238000"></a>4.6.1.3.6. 条件表达式</h6></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -584,7 +586,7 @@ clause 的语法结构为：((key1 ...) exp1 ...)
 </div>
 <div class="sect5" lang="zh-cn">
 <div class="titlepage"><div><div><h6 class="title">
-<a name="idp5254064"></a>4.6.1.3.7. 循环</h6></div></div></div>
+<a name="idp5253888"></a>4.6.1.3.7. 循环</h6></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>

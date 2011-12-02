@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Whodo 计划 Howto</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="IT 技术文档，几乎都源自英文。中文技术文档也多源自于翻译。可以预见两种可能，一、中文文献始终滞后于英文文献；二、干脆不再翻译，缴械投降，中文进一步被弱化。 Whodo 项目的宗旨是中文用户自己的开放文档计划。随着越来越多华人开发者对开源项目的参与甚至是华人主导的开源项目，华人开发者不应该沦为英译汉的配角，用我们自己的文字，书写我们署名的传世之作！ （版本号: 0.3.F-66.455fe17，最后更新时间: 2011-12-01）">
 <link rel="start" href="#index" title="Whodo 计划 Howto">
@@ -45,26 +47,26 @@ Whodo 项目的宗旨是中文用户自己的开放文档计划。随着越来�
 <dl>
 <dt><span class="sect1"><a href="#whatiswhodo">1. Whodo 是什么？</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4446400">1.1. Whodo = Freemind + DocBook + Wiki + Subversion</a></span></dt>
+<dt><span class="sect2"><a href="#idp4446368">1.1. Whodo = Freemind + DocBook + Wiki + Subversion</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4452608">1.1.1. FreeMind 的特点</a></span></dt>
-<dt><span class="sect3"><a href="#idp4456512">1.1.2. DocBook 的特色</a></span></dt>
+<dt><span class="sect3"><a href="#idp4452576">1.1.1. FreeMind 的特点</a></span></dt>
+<dt><span class="sect3"><a href="#idp4456480">1.1.2. DocBook 的特色</a></span></dt>
 </dl></dd>
-<dt><span class="sect2"><a href="#idp4459392">1.2. Whodo 文档的几种存在模式</a></span></dt>
-<dt><span class="sect2"><a href="#idp4464720">1.3. Whodo 文档的版本控制</a></span></dt>
-<dt><span class="sect2"><a href="#idp4468400">1.4. 群英汇-开源速递</a></span></dt>
+<dt><span class="sect2"><a href="#idp4459360">1.2. Whodo 文档的几种存在模式</a></span></dt>
+<dt><span class="sect2"><a href="#idp4464688">1.3. Whodo 文档的版本控制</a></span></dt>
+<dt><span class="sect2"><a href="#idp4468368">1.4. 群英汇-开源速递</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#whynotwiki">2. Wiki 难道不够么？</a></span></dt>
 <dt><span class="sect1"><a href="#whodosubsystem">3. Whodo 子系统</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4487904">3.1. 账号管理子系统</a></span></dt>
-<dt><span class="sect2"><a href="#idp4489936">3.2. 维客</a></span></dt>
-<dt><span class="sect2"><a href="#idp4491952">3.3. 论坛</a></span></dt>
-<dt><span class="sect2"><a href="#idp4493744">3.4. 问题追踪系统</a></span></dt>
-<dt><span class="sect2"><a href="#idp4495792">3.5. Subversion 版本控制系统</a></span></dt>
-<dt><span class="sect2"><a href="#idp4497952">3.6. FreeMind 编辑、编译系统</a></span></dt>
-<dt><span class="sect2"><a href="#idp4500080">3.7. DocBook 编译系统</a></span></dt>
-<dt><span class="sect2"><a href="#idp4502464">3.8. 邮件列表</a></span></dt>
+<dt><span class="sect2"><a href="#idp4487872">3.1. 账号管理子系统</a></span></dt>
+<dt><span class="sect2"><a href="#idp4489904">3.2. 维客</a></span></dt>
+<dt><span class="sect2"><a href="#idp4491920">3.3. 论坛</a></span></dt>
+<dt><span class="sect2"><a href="#idp4493712">3.4. 问题追踪系统</a></span></dt>
+<dt><span class="sect2"><a href="#idp4495760">3.5. Subversion 版本控制系统</a></span></dt>
+<dt><span class="sect2"><a href="#idp4497920">3.6. FreeMind 编辑、编译系统</a></span></dt>
+<dt><span class="sect2"><a href="#idp4500048">3.7. DocBook 编译系统</a></span></dt>
+<dt><span class="sect2"><a href="#idp4502432">3.8. 邮件列表</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#whodoprocess">4. Whodo 工作流程</a></span></dt>
 <dt><span class="sect1"><a href="#whodo.roles">5. 如何参与 Whodo？</a></span></dt>
@@ -78,18 +80,18 @@ Whodo 项目的宗旨是中文用户自己的开放文档计划。随着越来�
 <dt><span class="sect1"><a href="#contributors">8. Whodo 贡献者列表</a></span></dt>
 <dt><span class="sect1"><a href="#restriction">9. 题外话： Whodo 安全</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4834528">9.1. 文档质量标准</a></span></dt>
-<dt><span class="sect2"><a href="#idp4836784">9.2. 禁止滥用</a></span></dt>
+<dt><span class="sect2"><a href="#idp4835200">9.1. 文档质量标准</a></span></dt>
+<dt><span class="sect2"><a href="#idp4837456">9.2. 禁止滥用</a></span></dt>
 </dl></dd>
 <dt><span class="appendix"><a href="#worldhello">A. Whodo 前传</a></span></dt>
 <dt><span class="appendix"><a href="#freemind">B. 关于 FreeMind</a></span></dt>
 <dt><span class="appendix"><a href="#docbook">C. 关于 DocBook</a></span></dt>
 <dt><span class="appendix"><a href="#svn">D. 访问 Whodo Subversion 版本库</a></span></dt>
 <dd><dl>
-<dt><span class="sect1"><a href="#idp4863536">D.1. Whodo Subversion 版本库目录结构</a></span></dt>
-<dt><span class="sect1"><a href="#idp4871984">D.2. 新增文件的属性设置</a></span></dt>
-<dt><span class="sect1"><a href="#idp4883024">D.3. 撰写 Commit Log</a></span></dt>
-<dt><span class="sect1"><a href="#idp4884448">D.4. SVN 客户端</a></span></dt>
+<dt><span class="sect1"><a href="#idp4864208">D.1. Whodo Subversion 版本库目录结构</a></span></dt>
+<dt><span class="sect1"><a href="#idp4872656">D.2. 新增文件的属性设置</a></span></dt>
+<dt><span class="sect1"><a href="#idp4883696">D.3. 撰写 Commit Log</a></span></dt>
+<dt><span class="sect1"><a href="#idp4885120">D.4. SVN 客户端</a></span></dt>
 </dl></dd>
 </dl>
 </div>
@@ -104,7 +106,7 @@ Whodo 是“WorldHello Open Document Origin ”，即 “WorldHello 开放文档
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4446400"></a>1.1. Whodo = Freemind + DocBook + Wiki + Subversion</h3></div></div></div>
+<a name="idp4446368"></a>1.1. Whodo = Freemind + DocBook + Wiki + Subversion</h3></div></div></div>
 <p>
 很多人都知道大名鼎鼎的 <a href="http://www.tldp.org" target="_top">TLDP</a>。就像 TLDP 项目采用 DocBook 作为协同著作的文本格式，Whodo 项目除了采用 DocBook 格式之外，还使用 FreeMind 的文档格式。即：Whodo = Freemind + DocBook + Wiki + Subversion.
 </p>
@@ -136,7 +138,7 @@ Subversion 版本控制系统，是 Whodo 数据交换的中心，是帮助实�
 </ul></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4452608"></a>1.1.1. FreeMind 的特点</h4></div></div></div>
+<a name="idp4452576"></a>1.1.1. FreeMind 的特点</h4></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -156,7 +158,7 @@ Subversion 版本控制系统，是 Whodo 数据交换的中心，是帮助实�
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4456512"></a>1.1.2. DocBook 的特色</h4></div></div></div>
+<a name="idp4456480"></a>1.1.2. DocBook 的特色</h4></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li><p>
 DocBook 的输出格式多样；
@@ -169,7 +171,7 @@ DocBook 的输出格式多样；
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4459392"></a>1.2. Whodo 文档的几种存在模式</h3></div></div></div>
+<a name="idp4459360"></a>1.2. Whodo 文档的几种存在模式</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -202,7 +204,7 @@ FreeMind 和 DocBook 互为补充，FreeMind 作纲梳理结构，DocBook 完善
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4464720"></a>1.3. Whodo 文档的版本控制</h3></div></div></div>
+<a name="idp4464688"></a>1.3. Whodo 文档的版本控制</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -219,7 +221,7 @@ FreeMind 和 DocBook 互为补充，FreeMind 作纲梳理结构，DocBook 完善
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4468400"></a>1.4. 群英汇-开源速递</h3></div></div></div>
+<a name="idp4468368"></a>1.4. 群英汇-开源速递</h3></div></div></div>
 <p>
 Whodo 是 “<a href="http://www.OpenSourceXpress.com" target="_top">北京群英汇信息技术有限公司</a>” 支持的项目。也是“群英汇”的“知识管理系统”的展示平台。
 </p>
@@ -297,7 +299,7 @@ Whodo 主要包括 账号管理子系统、邮件列表、维客、论坛、问�
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4487904"></a>3.1. 账号管理子系统</h3></div></div></div>
+<a name="idp4487872"></a>3.1. 账号管理子系统</h3></div></div></div>
 <p>
 WHODO 用户账号统一使用 LDAP 管理，将 Wiki, 论坛, Bug Tracking， Subversion 账号整合在一起。
 </p>
@@ -307,7 +309,7 @@ WHODO 用户账号统一使用 LDAP 管理，将 Wiki, 论坛, Bug Tracking， S
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4489936"></a>3.2. 维客</h3></div></div></div>
+<a name="idp4489904"></a>3.2. 维客</h3></div></div></div>
 <p>
 如前所述，用 Wiki 用来构建文档的索引、链接、归类，便于搜索引擎的检索。
 </p>
@@ -317,7 +319,7 @@ WHODO 用户账号统一使用 LDAP 管理，将 Wiki, 论坛, Bug Tracking， S
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4491952"></a>3.3. 论坛</h3></div></div></div>
+<a name="idp4491920"></a>3.3. 论坛</h3></div></div></div>
 <p>
 论坛是 Whodo 的沟通系统。
 </p>
@@ -327,7 +329,7 @@ WHODO 用户账号统一使用 LDAP 管理，将 Wiki, 论坛, Bug Tracking， S
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4493744"></a>3.4. 问题追踪系统</h3></div></div></div>
+<a name="idp4493712"></a>3.4. 问题追踪系统</h3></div></div></div>
 <p>
 基于 Mantis 的问题追踪系统，可以用于对 Whodo 系统以及文档的疏漏和建议进行汇总和追踪。
 </p>
@@ -337,7 +339,7 @@ WHODO 用户账号统一使用 LDAP 管理，将 Wiki, 论坛, Bug Tracking， S
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4495792"></a>3.5. Subversion 版本控制系统</h3></div></div></div>
+<a name="idp4495760"></a>3.5. Subversion 版本控制系统</h3></div></div></div>
 <p>
 SVN 版本控制系统，是 WHODO 作者修改和提交文章的支撑系统。
 新注册用户拥有只读权限，作者/贡献者拥有 /trunk/doc 目录的完全权限。
@@ -348,7 +350,7 @@ SVN 版本控制系统，是 WHODO 作者修改和提交文章的支撑系统。
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4497952"></a>3.6. FreeMind 编辑、编译系统</h3></div></div></div>
+<a name="idp4497920"></a>3.6. FreeMind 编辑、编译系统</h3></div></div></div>
 <p>
 本网站的 FreeMind 文档使用增强版的 FreeMind 编辑的。原因参见 <a href="http://whodo.worldhello.net/wiki/FreeMind" target="_top">http://whodo.worldhello.net/wiki/FreeMind</a>。
 </p>
@@ -358,7 +360,7 @@ FreeMind 的编译系统，指的是将 *.mm 文件转换为 *.html 文档。
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4500080"></a>3.7. DocBook 编译系统</h3></div></div></div>
+<a name="idp4500048"></a>3.7. DocBook 编译系统</h3></div></div></div>
 <p>
 包括 Whodo 定制的 DocBook XSL。
 </p>
@@ -371,7 +373,7 @@ FreeMind 的编译系统，指的是将 *.mm 文件转换为 *.html 文档。
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4502464"></a>3.8. 邮件列表</h3></div></div></div>
+<a name="idp4502432"></a>3.8. 邮件列表</h3></div></div></div>
 <p>
 之所以先提及邮件列表，是因为通过邮件列表，您可以更迅捷的获得  Whodo 的响应。
 </p>
@@ -769,7 +771,7 @@ id 和 type 属性
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4834528"></a>9.1. 文档质量标准</h3></div></div></div>
+<a name="idp4835200"></a>9.1. 文档质量标准</h3></div></div></div>
 <p>
 适合多人协作的文档。提交到 Whodo 上，就蕴含请大家补充和指正的意思。
 </p>
@@ -782,7 +784,7 @@ id 和 type 属性
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4836784"></a>9.2. 禁止滥用</h3></div></div></div>
+<a name="idp4837456"></a>9.2. 禁止滥用</h3></div></div></div>
 <p>
 Whodo 的各个子系统都和邮件列表联动，能够使得垃圾数据的提交会被及早发现。
 </p>
@@ -880,7 +882,7 @@ Whodo 增强版的 FreeMind 可以从 <a href="http://update.ossxp.com/public" t
 <a name="svn"></a>D. 访问 Whodo Subversion 版本库</h2></div></div></div>
 <div class="sect1" lang="zh-cn">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="idp4863536"></a>D.1. Whodo Subversion 版本库目录结构</h2></div></div></div>
+<a name="idp4864208"></a>D.1. Whodo Subversion 版本库目录结构</h2></div></div></div>
 <p>
 Whodo Subversion 版本库地址: <a href="http://svn.worldhello.net/svn/whodo" target="_top">http://svn.worldhello.net/svn/whodo</a>，目录格局如下：
 </p>
@@ -927,7 +929,7 @@ jiangxin.worldhello.net
 </div>
 <div class="sect1" lang="zh-cn">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="idp4871984"></a>D.2. 新增文件的属性设置</h2></div></div></div>
+<a name="idp4872656"></a>D.2. 新增文件的属性设置</h2></div></div></div>
 <p>
 Whodo SVN 的 Hooks 脚本会检查新增文件的属性，没有设置 svn:mime-type 和/或 svn:eol-style 属性，禁止提交。
 </p>
@@ -1055,14 +1057,14 @@ $ svn proplist -v *
 </div>
 <div class="sect1" lang="zh-cn">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="idp4883024"></a>D.3. 撰写 Commit Log</h2></div></div></div>
+<a name="idp4883696"></a>D.3. 撰写 Commit Log</h2></div></div></div>
 <p>
 Whodo SVN 要求提交对书写 Commit Log。目前的检查，仅仅限于长度检查。Commit Log 的长度要大于 5 个字节，否则会触发 subversion hooks，导致提交被退回。
 </p>
 </div>
 <div class="sect1" lang="zh-cn">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="idp4884448"></a>D.4. SVN 客户端</h2></div></div></div>
+<a name="idp4885120"></a>D.4. SVN 客户端</h2></div></div></div>
 <p>
 对于 Windows 平台，我们推荐使用 TortoiseSVN。我们还推荐安装 Cygwin，不过 Cygwin 提供的 svn 命令行客户端对中文支持不好，可以使用官方发行的 Windows 下的 subversion 命令行。
 </p>

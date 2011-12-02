@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>配置管理规范</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="Windows 平台的编译系统解决方案。 （编译自版本: 7f6b461，最后更新时间: 2007-06-19）">
 <link rel="start" href="#index" title="配置管理规范">
@@ -62,25 +64,25 @@ Windows 平台的编译系统解决方案。
 <dl>
 <dt><span class="sect1"><a href="#prerequisite">1. 引言</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4448640">1.1. 名词解释</a></span></dt>
-<dt><span class="sect2"><a href="#idp4466192">1.2. 建立系统的命令行编译过程</a></span></dt>
-<dt><span class="sect2"><a href="#idp4469120">1.3. 关于版本号自增</a></span></dt>
-<dt><span class="sect2"><a href="#idp4472336">1.4. 关于代码更新检查</a></span></dt>
-<dt><span class="sect2"><a href="#idp4475664">1.5. 关于软件包签名和下载</a></span></dt>
+<dt><span class="sect2"><a href="#idp4448608">1.1. 名词解释</a></span></dt>
+<dt><span class="sect2"><a href="#idp4466160">1.2. 建立系统的命令行编译过程</a></span></dt>
+<dt><span class="sect2"><a href="#idp4469088">1.3. 关于版本号自增</a></span></dt>
+<dt><span class="sect2"><a href="#idp4472304">1.4. 关于代码更新检查</a></span></dt>
+<dt><span class="sect2"><a href="#idp4475632">1.5. 关于软件包签名和下载</a></span></dt>
 <dt><span class="sect2"><a href="#nightlybuild-promotion">1.6. 软件开发周期和版本号演进示意图</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#flowchart">2. 自动编译系统流程图</a></span></dt>
 <dt><span class="sect1"><a href="#config">3. 自动编译系统的配置</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4525472">3.1. 目录结构</a></span></dt>
-<dt><span class="sect2"><a href="#idp4532368">3.2. 配置文件</a></span></dt>
+<dt><span class="sect2"><a href="#idp4525440">3.1. 目录结构</a></span></dt>
+<dt><span class="sect2"><a href="#idp4532336">3.2. 配置文件</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4532880">3.2.1. NBDHOMEDIR/build.ini</a></span></dt>
-<dt><span class="sect3"><a href="#idp4537360">3.2.2. NBDHOMEDIR/LABEL</a></span></dt>
-<dt><span class="sect3"><a href="#idp4541712">3.2.3. NBDHOMEDIR/BRANCH</a></span></dt>
-<dt><span class="sect3"><a href="#idp4544032">3.2.4. NBDHOMEDIR/nightly.sh</a></span></dt>
-<dt><span class="sect3"><a href="#idp4545568">3.2.5. NBDSRCCTL/VERSION</a></span></dt>
-<dt><span class="sect3"><a href="#idp4557776">3.2.6. NBDSRCCTL/PROMOTION</a></span></dt>
+<dt><span class="sect3"><a href="#idp4532848">3.2.1. NBDHOMEDIR/build.ini</a></span></dt>
+<dt><span class="sect3"><a href="#idp4537328">3.2.2. NBDHOMEDIR/LABEL</a></span></dt>
+<dt><span class="sect3"><a href="#idp4541680">3.2.3. NBDHOMEDIR/BRANCH</a></span></dt>
+<dt><span class="sect3"><a href="#idp4544000">3.2.4. NBDHOMEDIR/nightly.sh</a></span></dt>
+<dt><span class="sect3"><a href="#idp4545536">3.2.5. NBDSRCCTL/VERSION</a></span></dt>
+<dt><span class="sect3"><a href="#idp4557744">3.2.6. NBDSRCCTL/PROMOTION</a></span></dt>
 </dl></dd>
 </dl></dd>
 <dt><span class="appendix"><a href="#nbcmdline">A. Nightly Build命令行</a></span></dt>
@@ -101,7 +103,7 @@ Windows 平台的编译系统解决方案。
 <a name="prerequisite"></a>1. 引言</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4448640"></a>1.1. 名词解释</h3></div></div></div>
+<a name="idp4448608"></a>1.1. 名词解释</h3></div></div></div>
 <p>
 先了解一些名词，有的是我自创的：
 </p>
@@ -186,7 +188,7 @@ Starteam 的 PROMOTION 请参见我的一篇文章《Starteam Howto》。
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4466192"></a>1.2. 建立系统的命令行编译过程</h3></div></div></div>
+<a name="idp4466160"></a>1.2. 建立系统的命令行编译过程</h3></div></div></div>
 <p>
 如果没有命令行的编译过程，想要构建自动化的编译系统，简直是天方夜谭。
 </p>
@@ -199,7 +201,7 @@ Starteam 的 PROMOTION 请参见我的一篇文章《Starteam Howto》。
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4469120"></a>1.3. 关于版本号自增</h3></div></div></div>
+<a name="idp4469088"></a>1.3. 关于版本号自增</h3></div></div></div>
 <p>
 实现 BUILD 号自增，其实只要将版本号写入文件，并版本控制。每次编译成功后，版本号+1，再重新 Checkin 即可。
 </p>
@@ -212,7 +214,7 @@ Starteam 的 PROMOTION 请参见我的一篇文章《Starteam Howto》。
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4472336"></a>1.4. 关于代码更新检查</h3></div></div></div>
+<a name="idp4472304"></a>1.4. 关于代码更新检查</h3></div></div></div>
 <p>
 如果代码没有更改，自动编译系统还要去编译，去使版本号递增，实在太傻，浪费时间，也会使开发、测试陷入混乱。
 </p>
@@ -225,7 +227,7 @@ $ <span><strong class="command">cvs -q diff --brief -D "上一次编译日期"</
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4475664"></a>1.5. 关于软件包签名和下载</h3></div></div></div>
+<a name="idp4475632"></a>1.5. 关于软件包签名和下载</h3></div></div></div>
 <p>
 认为编译完成就完事大吉，是错误的。如果不进行进一步的处理，下次编译将会冲掉上次编译的结果。因此需要把生成的软件包，按照规则重新命名，例如加上版本号和编译日期。
 </p>
@@ -240,7 +242,7 @@ $ <span><strong class="command">cvs -q diff --brief -D "上一次编译日期"</
 <div class="titlepage"><div><div><h3 class="title">
 <a name="nightlybuild-promotion"></a>1.6. 软件开发周期和版本号演进示意图</h3></div></div></div>
 <div class="table">
-<a name="idp4479216"></a><p class="title"><b>表 1. 软件开发周期和版本号演进</b></p>
+<a name="idp4479184"></a><p class="title"><b>表 1. 软件开发周期和版本号演进</b></p>
 <div class="table-contents"><table summary="软件开发周期和版本号演进" border="1">
 <colgroup>
 <col align="left">
@@ -399,7 +401,7 @@ $ <span><strong class="command">cvs -q diff --brief -D "上一次编译日期"</
 <a name="config"></a>3. 自动编译系统的配置</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4525472"></a>3.1. 目录结构</h3></div></div></div>
+<a name="idp4525440"></a>3.1. 目录结构</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -437,10 +439,10 @@ Nightly Build启动目录 (NBDHOMEDIR)
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4532368"></a>3.2. 配置文件</h3></div></div></div>
+<a name="idp4532336"></a>3.2. 配置文件</h3></div></div></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4532880"></a>3.2.1. NBDHOMEDIR/build.ini</h4></div></div></div>
+<a name="idp4532848"></a>3.2.1. NBDHOMEDIR/build.ini</h4></div></div></div>
 <p>
 用于指定源代码、脚本的路径。
 </p>
@@ -467,7 +469,7 @@ NBDSOURCE=/home/Administrator/work/jiangxin/src/dlltest/ <a name="co.nbdsource">
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4537360"></a>3.2.2. NBDHOMEDIR/LABEL</h4></div></div></div>
+<a name="idp4537328"></a>3.2.2. NBDHOMEDIR/LABEL</h4></div></div></div>
 <p>
 决定编译的版本：nightly, milestone, 还是 sticky 版本。
 </p>
@@ -485,7 +487,7 @@ NBDSOURCE=/home/Administrator/work/jiangxin/src/dlltest/ <a name="co.nbdsource">
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4541712"></a>3.2.3. NBDHOMEDIR/BRANCH</h4></div></div></div>
+<a name="idp4541680"></a>3.2.3. NBDHOMEDIR/BRANCH</h4></div></div></div>
 <p>
 如果是空文件，或者内容为 main，意味着当前代码处于主线。
 </p>
@@ -498,7 +500,7 @@ NBDSOURCE=/home/Administrator/work/jiangxin/src/dlltest/ <a name="co.nbdsource">
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4544032"></a>3.2.4. NBDHOMEDIR/nightly.sh</h4></div></div></div>
+<a name="idp4544000"></a>3.2.4. NBDHOMEDIR/nightly.sh</h4></div></div></div>
 <p>
 调用真正的脚本的钩子脚本。
 </p>
@@ -533,7 +535,7 @@ sh nightlybuild.sh "$@"
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4545568"></a>3.2.5. NBDSRCCTL/VERSION</h4></div></div></div>
+<a name="idp4545536"></a>3.2.5. NBDSRCCTL/VERSION</h4></div></div></div>
 <p>
 记录版本号、编译日期
 </p>
@@ -609,7 +611,7 @@ buildtime=2003-04-01 20:44:48
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4557776"></a>3.2.6. NBDSRCCTL/PROMOTION</h4></div></div></div>
+<a name="idp4557744"></a>3.2.6. NBDSRCCTL/PROMOTION</h4></div></div></div>
 <p>
 记录里程碑版本号。例如：
 </p>

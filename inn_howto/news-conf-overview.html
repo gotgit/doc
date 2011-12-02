@@ -3,6 +3,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>4.5. overview 维护</title>
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
+<link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="知识管理">
 <link rel="up" href="inside-inn.html" title="4. 深入 INN">
@@ -27,12 +29,12 @@
 <div class="titlepage"><div><div><h3 class="title">
 <a name="news-conf-overview"></a>4.5. overview 维护</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="news-conf-overview.html#idp4657728">4.5.1. overview的概念</a></span></dt>
-<dt><span class="sect3"><a href="news-conf-overview.html#idp4686496">4.5.2. 维护</a></span></dt>
+<dt><span class="sect3"><a href="news-conf-overview.html#idp4657120">4.5.1. overview的概念</a></span></dt>
+<dt><span class="sect3"><a href="news-conf-overview.html#idp4685808">4.5.2. 维护</a></span></dt>
 </dl></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4657728"></a>4.5.1. overview的概念</h4></div></div></div>
+<a name="idp4657120"></a>4.5.1. overview的概念</h4></div></div></div>
 <p>
 "News Overview" 顾名思义, overview 就是先大略看看 article 的相关资讯。
 </p>
@@ -89,7 +91,7 @@
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4686496"></a>4.5.2. 维护</h4></div></div></div>
+<a name="idp4685808"></a>4.5.2. 维护</h4></div></div></div>
 <p>
 文章过期，NOV 会自动更新。但是如果文章被 cancel，NOV不会被更新。这样当文章过期后，文章在 spool 中不存在，而 NOV 中仍存在。这就需要用如下命令定期清理（可以把该命令加入到 crontab 中）：
 </p>
