@@ -3,8 +3,14 @@ layout: master
 title: WorldHello
 ---
 
-文档（使用 DocBook, FreeMind 等撰写）
-======================================
+## 书
+
+* [Git权威指南——勘误](/gotgit/)，蒋鑫，ISBN 978-7-111-34967-9
+* [GotGitHub](/gotgithub/)，蒋鑫，以 Creative Commons 协议发布的电子书
+
+## 文档
+
+使用 DocBook, FreeMind 等格式撰写。
 
 * [敏捷Python开发实战 —— pySvnManager](agile_python)
 * [业务连续性的保证 —— BCP](bcp)
