@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>4.11. 喂信（News Feeds）设置</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="知识管理">
 <link rel="up" href="inside-inn.html" title="4. 深入 INN">
@@ -27,18 +27,18 @@
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4760544"></a>4.11. 喂信（News Feeds）设置</h3></div></div></div>
+<a name="idp4762320"></a>4.11. 喂信（News Feeds）设置</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="ar01s04s11.html#idp4762816">4.11.1. 被动接收上游喂信</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s11.html#idp4769760">4.11.2. 主动去上游取信</a></span></dt>
-<dt><span class="sect3"><a href="ar01s04s11.html#idp4806896">4.11.3. 向外喂信</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s11.html#idp4764592">4.11.1. 被动接收上游喂信</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s11.html#idp4771536">4.11.2. 主动去上游取信</a></span></dt>
+<dt><span class="sect3"><a href="ar01s04s11.html#idp4808672">4.11.3. 向外喂信</a></span></dt>
 </dl></div>
 <p>
 配置文件 <code class="filename">incoming.conf</code>，用来控制来自外部的喂信（incoming feed）；配置文件 <code class="filename">newsfeeds</code>，用来控制本服务器向外部的喂信（outgoing feed）。
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4762816"></a>4.11.1. 被动接收上游喂信</h4></div></div></div>
+<a name="idp4764592"></a>4.11.1. 被动接收上游喂信</h4></div></div></div>
 <p>
 配置接收外部新闻服务器喂信非常简单，只需要修改配置文件<code class="filename">incoming.conf</code>即可。注意其中的 peer ME 的设置，不正确的设置，导致不能收到文章。
 </p>
@@ -77,7 +77,7 @@ ME:!*/!local,!collabra-internal::
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4769760"></a>4.11.2. 主动去上游取信</h4></div></div></div>
+<a name="idp4771536"></a>4.11.2. 主动去上游取信</h4></div></div></div>
 <p>
 如果无法通知上游向本地喂信，想要从其它服务器获取新闻消息，可以使用 suck 从上游取信。suck 可以认为是一个 news 客户端，负责从新闻组服务器获取新闻，并可以以各种格式存储，交给 innfeed，innxmit 等inn软件包的程序进一步处理（如投递到本地）。
 </p>
@@ -423,7 +423,7 @@ transtab 示例：/usr/local/news/suck/news.newsfan.net/transtab
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4806896"></a>4.11.3. 向外喂信</h4></div></div></div>
+<a name="idp4808672"></a>4.11.3. 向外喂信</h4></div></div></div>
 <p>
 由配置文件<code class="filename">newsfeeds</code>控制。newsfeeds档案的设定, 算是INN News Server最重要的工作, 也是困难度最高的部份。 innd 靠 newsfeeds 来决定要丢哪些 newsgroups 的 articles 给哪些 site 负责的程序 (nntplink) 或产生批处理, 让其它的程序来转送。
 </p>

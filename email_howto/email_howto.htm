@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>知识管理</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="工作需要，不得不配置一个自己的 Mail Server。发现 sendmail 并不想以前感觉那样难配置。从网上东拼西凑出一个个人心得，有机会就不断完善。对本文档有任何补充或建议，欢迎联系作者 Johnson。 （编译自版本: 30b6c89，最后更新时间: 2007-07-31）">
 <link rel="start" href="#index" title="知识管理">
@@ -59,64 +59,64 @@
 <dl>
 <dt><span class="sect1"><a href="#sendmail">1. Sendmail</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4461136">1.1. M4 和 sendmail.cf</a></span></dt>
-<dt><span class="sect2"><a href="#idp4502800">1.2. mail relay 规则详解
+<dt><span class="sect2"><a href="#idp4461200">1.1. M4 和 sendmail.cf</a></span></dt>
+<dt><span class="sect2"><a href="#idp4502768">1.2. mail relay 规则详解
 
 </a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4505552">1.2.1. 配置允许本地用户RELAY</a></span></dt>
-<dt><span class="sect3"><a href="#idp4537120">1.2.2. 口令验证下的 open relay
+<dt><span class="sect3"><a href="#idp4505520">1.2.1. 配置允许本地用户RELAY</a></span></dt>
+<dt><span class="sect3"><a href="#idp4537088">1.2.2. 口令验证下的 open relay
 
 </a></span></dt>
-<dt><span class="sect3"><a href="#idp4569424">1.2.3. 提高安全性：SMTP over SSL</a></span></dt>
+<dt><span class="sect3"><a href="#idp4569392">1.2.3. 提高安全性：SMTP over SSL</a></span></dt>
 </dl></dd>
-<dt><span class="sect2"><a href="#idp4571184">1.3. 别名 aliases 和 .forward 文件</a></span></dt>
+<dt><span class="sect2"><a href="#idp4571152">1.3. 别名 aliases 和 .forward 文件</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4571696">1.3.1. /etc/mail/aliases</a></span></dt>
-<dt><span class="sect3"><a href="#idp4585072">1.3.2. ~/.forward</a></span></dt>
+<dt><span class="sect3"><a href="#idp4571664">1.3.1. /etc/mail/aliases</a></span></dt>
+<dt><span class="sect3"><a href="#idp4585040">1.3.2. ~/.forward</a></span></dt>
 </dl></dd>
-<dt><span class="sect2"><a href="#idp4591936">1.4. 用 virtusertable 管理虚拟域</a></span></dt>
-<dt><span class="sect2"><a href="#idp4607328">1.5. 其它配置文件</a></span></dt>
+<dt><span class="sect2"><a href="#idp4591904">1.4. 用 virtusertable 管理虚拟域</a></span></dt>
+<dt><span class="sect2"><a href="#idp4607296">1.5. 其它配置文件</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4608816">1.5.1. /etc/mail/domaintable</a></span></dt>
-<dt><span class="sect3"><a href="#idp4615136">1.5.2. genericstable和genericsdomain</a></span></dt>
-<dt><span class="sect3"><a href="#idp4618784">1.5.3. /etc/mail/mailertable</a></span></dt>
+<dt><span class="sect3"><a href="#idp4608784">1.5.1. /etc/mail/domaintable</a></span></dt>
+<dt><span class="sect3"><a href="#idp4615104">1.5.2. genericstable和genericsdomain</a></span></dt>
+<dt><span class="sect3"><a href="#idp4618752">1.5.3. /etc/mail/mailertable</a></span></dt>
 </dl></dd>
-<dt><span class="sect2"><a href="#idp4622208">1.6. 地址伪装</a></span></dt>
-<dt><span class="sect2"><a href="#idp4646288">1.7. DNS 和 Email</a></span></dt>
+<dt><span class="sect2"><a href="#idp4622176">1.6. 地址伪装</a></span></dt>
+<dt><span class="sect2"><a href="#idp4646256">1.7. DNS 和 Email</a></span></dt>
 <dt><span class="sect2"><a href="#configpop3">1.8. 配置pop3
 
 </a></span></dt>
-<dt><span class="sect2"><a href="#idp4652480">1.9. 从头安装 Sendmail</a></span></dt>
+<dt><span class="sect2"><a href="#idp4652448">1.9. 从头安装 Sendmail</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4653600">1.9.1. 下载软件包</a></span></dt>
-<dt><span class="sect3"><a href="#idp4660064">1.9.2. 安装 SASL，以支持SMTP认证
+<dt><span class="sect3"><a href="#idp4653568">1.9.1. 下载软件包</a></span></dt>
+<dt><span class="sect3"><a href="#idp4660032">1.9.2. 安装 SASL，以支持SMTP认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </a></span></dt>
 <dt><span class="sect3"><a href="#smtpoverssl">1.9.3. 支持SMTP over SSL
 
 </a></span></dt>
-<dt><span class="sect3"><a href="#idp4684464">1.9.4. 安装 sendmail</a></span></dt>
-<dt><span class="sect3"><a href="#idp4685712">1.9.5. 配置 sendmail — 支持 SMTP 认证
+<dt><span class="sect3"><a href="#idp4684400">1.9.4. 安装 sendmail</a></span></dt>
+<dt><span class="sect3"><a href="#idp4685648">1.9.5. 配置 sendmail — 支持 SMTP 认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </a></span></dt>
-<dt><span class="sect3"><a href="#idp4688128">1.9.6. 配置 sendmail — 支持 SMTP over SSL
+<dt><span class="sect3"><a href="#idp4688064">1.9.6. 配置 sendmail — 支持 SMTP over SSL
 <sup>[<a href="#ftn.fn.starttls">4</a>]</sup>
 </a></span></dt>
-<dt><span class="sect3"><a href="#idp4695600">1.9.7. 配置 sendmail — 证书管理
+<dt><span class="sect3"><a href="#idp4695536">1.9.7. 配置 sendmail — 证书管理
 
 </a></span></dt>
-<dt><span class="sect3"><a href="#idp4711472">1.9.8. 配置pop3</a></span></dt>
-<dt><span class="sect3"><a href="#idp4713104">1.9.9. 关于权限</a></span></dt>
-<dt><span class="sect3"><a href="#idp4714640">1.9.10. 启动 sendmail</a></span></dt>
+<dt><span class="sect3"><a href="#idp4711408">1.9.8. 配置pop3</a></span></dt>
+<dt><span class="sect3"><a href="#idp4713040">1.9.9. 关于权限</a></span></dt>
+<dt><span class="sect3"><a href="#idp4714576">1.9.10. 启动 sendmail</a></span></dt>
 </dl></dd>
-<dt><span class="sect2"><a href="#idp4717136">1.10. 邮件分拣</a></span></dt>
+<dt><span class="sect2"><a href="#idp4717072">1.10. 邮件分拣</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4719552">1.10.1. vacation 自动回信
+<dt><span class="sect3"><a href="#idp4719488">1.10.1. vacation 自动回信
 </a></span></dt>
 <dt><span class="sect3"><a href="#procmail">1.10.2. procmail</a></span></dt>
 </dl></dd>
-<dt><span class="sect2"><a href="#idp4756944">1.11. FAQ</a></span></dt>
+<dt><span class="sect2"><a href="#idp4756880">1.11. FAQ</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#qmail">2. qmail</a></span></dt>
 <dt><span class="sect1"><a href="#mailarchive">3. Mail Archive</a></span></dt>
@@ -196,7 +196,7 @@ Sendmail 核心配置文件
 </ol></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4461136"></a>1.1. M4 和 sendmail.cf</h3></div></div></div>
+<a name="idp4461200"></a>1.1. M4 和 sendmail.cf</h3></div></div></div>
 <p>
 Sendmail的配置文件 sendmail.cf 算得上“臭名昭著”，看看这个文件一定会让你头大，几乎没有人从头来写这个文件。关于 sendmail.cf 的详细内容，参见：<a href="http://www.sendmail.org/~ca/email/doc8.12/op-sh-5.html" target="_top">Sendmail Installation and Operation Guide --- THE WHOLE SCOOP ON THE CONFIGURATION FILE</a>。
 </p>
@@ -462,7 +462,7 @@ Fw/etc/mail/local-host-names
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4502800"></a>1.2. mail relay 规则详解
+<a name="idp4502768"></a>1.2. mail relay 规则详解
 <sup>[<a name="fn.relay" href="#ftn.fn.relay">1</a>]</sup>
 </h3></div></div></div>
 <p>
@@ -470,7 +470,7 @@ Fw/etc/mail/local-host-names
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4505552"></a>1.2.1. 配置允许本地用户RELAY</h4></div></div></div>
+<a name="idp4505520"></a>1.2.1. 配置允许本地用户RELAY</h4></div></div></div>
 <p>
 对于内部的邮件服务器或者相对简单的网络环境，允许发送邮件的用户的IP地址相对固定或者完全是内部IP地址，则配置非常简单。
 </p>
@@ -602,7 +602,7 @@ DISCARD
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4537120"></a>1.2.2. 口令验证下的 open relay
+<a name="idp4537088"></a>1.2.2. 口令验证下的 open relay
 <sup>[<a name="fn.sasl" href="#ftn.fn.sasl">2</a>]</sup>
 </h4></div></div></div>
 <p>
@@ -739,7 +739,7 @@ pwcheck_method:pam
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4569424"></a>1.2.3. 提高安全性：SMTP over SSL</h4></div></div></div>
+<a name="idp4569392"></a>1.2.3. 提高安全性：SMTP over SSL</h4></div></div></div>
 <p>
 参见<a href="#smtpoverssl" title="1.9.3. 支持SMTP over SSL">从头安装 sendmail</a>
 </p>
@@ -747,10 +747,10 @@ pwcheck_method:pam
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4571184"></a>1.3. 别名 aliases 和 .forward 文件</h3></div></div></div>
+<a name="idp4571152"></a>1.3. 别名 aliases 和 .forward 文件</h3></div></div></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4571696"></a>1.3.1. /etc/mail/aliases</h4></div></div></div>
+<a name="idp4571664"></a>1.3.1. /etc/mail/aliases</h4></div></div></div>
 <p>
 一个重要的邮件重写规则。root 用户可以通过对该文件的配置，建立邮件组、重定向本地用户等等。别名文件会循环检查，直到影射到的邮件地址不在本机接收之列（参见配置文件<a href="#a.local-host-names"><code class="filename">/etc/mail/local-host-names</code></a>）。
 </p>
@@ -811,7 +811,7 @@ owner-aliasname : address
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4585072"></a>1.3.2. ~/.forward</h4></div></div></div>
+<a name="idp4585040"></a>1.3.2. ~/.forward</h4></div></div></div>
 <p>
 别名文件一般由root用户管理，而普通用户则可以通过用户主目录下的 .forward 文件，实现邮件别名、转发等一系列处理功能。
 </p>
@@ -839,7 +839,7 @@ jiangxin,"|/usr/ucb/vacation johnson",\johnson
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4591936"></a>1.4. 用 virtusertable 管理虚拟域</h3></div></div></div>
+<a name="idp4591904"></a>1.4. 用 virtusertable 管理虚拟域</h3></div></div></div>
 <p>
 如同Apache一样，sendmail也允许使用虚拟主机功能，这是通过FEATURE(virtusertable)功能实现的，而虚拟主机的文件缺省是/etc/mail/virtusertable。这个文件的形式类似于aliases文件，即：左地址 右地址 ，中间用Tab键分开。<span class="emphasis"><em>还需要注意的是，虚拟域（左地址的域名），应该属于本机接收之列</em></span>。
 </p>
@@ -896,7 +896,7 @@ aliases 文件同样可以将本地用户，映射到其它地址，那么和 vi
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4607328"></a>1.5. 其它配置文件</h3></div></div></div>
+<a name="idp4607296"></a>1.5. 其它配置文件</h3></div></div></div>
 <p>
 优先级：domaintable &gt; virtusertable &gt; local-host-names &gt; mailertable &gt; DNS MX记录
 </p>
@@ -905,7 +905,7 @@ aliases 文件同样可以将本地用户，映射到其它地址，那么和 vi
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4608816"></a>1.5.1. /etc/mail/domaintable</h4></div></div></div>
+<a name="idp4608784"></a>1.5.1. /etc/mail/domaintable</h4></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -935,7 +935,7 @@ abd.com  abc.com
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4615136"></a>1.5.2. genericstable和genericsdomain</h4></div></div></div>
+<a name="idp4615104"></a>1.5.2. genericstable和genericsdomain</h4></div></div></div>
 <p>
 若文件/etc/mail/genericstable 的内容为：
 </p>
@@ -954,7 +954,7 @@ test.com
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4618784"></a>1.5.3. /etc/mail/mailertable</h4></div></div></div>
+<a name="idp4618752"></a>1.5.3. /etc/mail/mailertable</h4></div></div></div>
 <p>
 跨越DNS的MX的记录,优先于MX记录,可以与MX记录指定的主机设定不同. mailertable的运用不需要接收者邮件地址的域部分在/etc/mail/local-host-names中存在.
 </p>
@@ -972,7 +972,7 @@ bj.abc.com smtp:mail.bj.abc.com
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4622208"></a>1.6. 地址伪装</h3></div></div></div>
+<a name="idp4622176"></a>1.6. 地址伪装</h3></div></div></div>
 <p>
 我遇到的一个需要地址伪装的例子是，一个应用软件需要频繁在用户之间发送邮件，公司的邮件服务器要求身份认证，而该软件不支持，于是配置了一个内部邮件服务器作为该软件要求的SMTP服务器。但是问题又来了，如果发件人地址属于公司的邮件地址，则邮件回被退回，仍旧报告发件人需要身份验证。于是想到了将发件人地址伪装。
 </p>
@@ -1082,7 +1082,7 @@ FEATURE(masquerade_envelope)               <a name="co.mas.env"></a><img src="/d
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4646288"></a>1.7. DNS 和 Email</h3></div></div></div>
+<a name="idp4646256"></a>1.7. DNS 和 Email</h3></div></div></div>
 <p>
 sendmail 使用类$w列出主机名。对于DNS中的A记录，必须在$w类中列出，但对于CNAME别名记录，DNS会自动检索出来。
 </p>
@@ -1107,13 +1107,13 @@ DNS的设置参见：<a href="http://www.worldhello.net/doc/dns_howto/" target="
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4652480"></a>1.9. 从头安装 Sendmail</h3></div></div></div>
+<a name="idp4652448"></a>1.9. 从头安装 Sendmail</h3></div></div></div>
 <p>
 如果系统中没有安装 sendmail，或者功能达不到需要而需要升级，就需要重新安装。
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4653600"></a>1.9.1. 下载软件包</h4></div></div></div>
+<a name="idp4653568"></a>1.9.1. 下载软件包</h4></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -1143,7 +1143,7 @@ sasl
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4660064"></a>1.9.2. 安装 SASL，以支持SMTP认证
+<a name="idp4660032"></a>1.9.2. 安装 SASL，以支持SMTP认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </h4></div></div></div>
 <p>
@@ -1186,7 +1186,7 @@ APPENDDEF(`conf_sendmail_LIBS', `-lsasl -lssl -lcrypto')
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4684464"></a>1.9.4. 安装 sendmail</h4></div></div></div>
+<a name="idp4684400"></a>1.9.4. 安装 sendmail</h4></div></div></div>
 <pre class="screen">
 $ sh Build
 $ sh Build install
@@ -1194,7 +1194,7 @@ $ sh Build install
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4685712"></a>1.9.5. 配置 sendmail — 支持 SMTP 认证
+<a name="idp4685648"></a>1.9.5. 配置 sendmail — 支持 SMTP 认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </h4></div></div></div>
 <p>
@@ -1210,7 +1210,7 @@ DAEMON_OPTIONS(`Port=25, Name=MSA, M=Ea')dnl
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4688128"></a>1.9.6. 配置 sendmail — 支持 SMTP over SSL
+<a name="idp4688064"></a>1.9.6. 配置 sendmail — 支持 SMTP over SSL
 <sup>[<a href="#ftn.fn.starttls">4</a>]</sup>
 </h4></div></div></div>
 <p>
@@ -1252,7 +1252,7 @@ key.pem : x.509 private key
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4695600"></a>1.9.7. 配置 sendmail — 证书管理
+<a name="idp4695536"></a>1.9.7. 配置 sendmail — 证书管理
 <sup>[<a name="fn.cert" href="#ftn.fn.cert">5</a>]</sup>
 </h4></div></div></div>
 <div class="orderedlist"><ol type="1">
@@ -1343,14 +1343,14 @@ Make sure that the CN of the CA certificate and CN of the server certificate are
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4711472"></a>1.9.8. 配置pop3</h4></div></div></div>
+<a name="idp4711408"></a>1.9.8. 配置pop3</h4></div></div></div>
 <p>
 参见: <a href="#configpop3" title="1.8. 配置pop3">前面章节的描述。</a>
 </p>
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4713104"></a>1.9.9. 关于权限</h4></div></div></div>
+<a name="idp4713040"></a>1.9.9. 关于权限</h4></div></div></div>
 <pre class="screen">
     -r-xr-sr-x  root   smmsp    ... /PATH/TO/sendmail
     drwxrwx---  smmsp  smmsp    ... /var/spool/clientmqueue
@@ -1361,7 +1361,7 @@ Make sure that the CN of the CA certificate and CN of the server certificate are
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4714640"></a>1.9.10. 启动 sendmail</h4></div></div></div>
+<a name="idp4714576"></a>1.9.10. 启动 sendmail</h4></div></div></div>
 <pre class="screen">
 $ sendmail -bd -q1h 
 </pre>
@@ -1375,7 +1375,7 @@ $ sendmail -bd -q1h
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4717136"></a>1.10. 邮件分拣</h3></div></div></div>
+<a name="idp4717072"></a>1.10. 邮件分拣</h3></div></div></div>
 <p>
 .forward 配置文件，可以调用外部程序处理邮件，包括邮件杀毒、自动回复、邮件转发、备份、丢弃等等。
 </p>
@@ -1384,7 +1384,7 @@ sendmail 如果配置了 smrsh，则对调用外部程序有所限制，需要�
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4719552"></a>1.10.1. vacation 自动回信<sup>[<a name="fn.vacation" href="#ftn.fn.vacation">6</a>]</sup>
+<a name="idp4719488"></a>1.10.1. vacation 自动回信<sup>[<a name="fn.vacation" href="#ftn.fn.vacation">6</a>]</sup>
 </h4></div></div></div>
 <p>
 在 .forward 文件中设置使用 vacation 处理邮件：
@@ -1622,38 +1622,38 @@ Procmail 的FAQ，参见：<a href="http://www.uwasa.fi/~ts/info/proctips.html" 
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4756944"></a>1.11. FAQ</h3></div></div></div>
+<a name="idp4756880"></a>1.11. FAQ</h3></div></div></div>
 <div class="qandaset">
 <dl>
-<dt>1.11.1. <a href="#idp4757936">
+<dt>1.11.1. <a href="#idp4757872">
 安装 majordomo，aliases 文件中有：majordomo:  "|/usr/local/majordomo/wrapper majordomo"。majordomo运行时报错：smrsh: "wrapper" not available for sendmail programs (stat failed)。为什么？
 </a>
 </dt>
-<dt>1.11.2. <a href="#idp4764256">
+<dt>1.11.2. <a href="#idp4764192">
 尤其是在和其它软件配合使用时，Sendmail经常会因为文件或者目录的权限问题——组写权限，而报错。怎么办？
 </a>
 </dt>
-<dt>1.11.3. <a href="#idp4768544">
+<dt>1.11.3. <a href="#idp4768480">
 如何让sendmail具有泛email支持？即无需设置本机账号的邮件账户？
 </a>
 </dt>
-<dt>1.11.4. <a href="#idp4772720">
+<dt>1.11.4. <a href="#idp4772656">
 一个用户离开了公司,但仍然收到许多关于他/她的邮件,我怎么让别人知道此人已经使用新的邮件地址？
 </a>
 </dt>
-<dt>1.11.5. <a href="#idp4777184">
+<dt>1.11.5. <a href="#idp4777120">
 为什么我更改了上面各种配置文件后仍然不起作用? 
 </a>
 </dt>
-<dt>1.11.6. <a href="#idp4783760">
+<dt>1.11.6. <a href="#idp4783696">
 怎么检查一封邮件的发封过程? 
 </a>
 </dt>
-<dt>1.11.7. <a href="#idp4786800">
+<dt>1.11.7. <a href="#idp4786736">
 如果用 POP3 命令，直接在服务器上操作邮件？
 </a>
 </dt>
-<dt>1.11.8. <a href="#idp4796272">
+<dt>1.11.8. <a href="#idp4796208">
 如何用 SMTP 命令，远程登录到服务器上发送邮件？
 </a>
 </dt>
@@ -1663,7 +1663,7 @@ Procmail 的FAQ，参见：<a href="http://www.uwasa.fi/~ts/info/proctips.html" 
 <tbody>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4757936"></a><a name="faq.smrsh"></a><b>1.11.1.</b>
+<a name="idp4757872"></a><a name="faq.smrsh"></a><b>1.11.1.</b>
 </td>
 <td align="left" valign="top"><p>
 安装 majordomo，aliases 文件中有：<span><strong class="command">majordomo:  "|/usr/local/majordomo/wrapper majordomo"</strong></span>。majordomo运行时报错：smrsh: "wrapper" not available for sendmail programs (stat failed)。为什么？
@@ -1692,7 +1692,7 @@ $ /usr/sbin/smrsh -c /usr/bin/vim
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4764256"></a><a name="faq.dontblamesendmail"></a><b>1.11.2.</b>
+<a name="idp4764192"></a><a name="faq.dontblamesendmail"></a><b>1.11.2.</b>
 </td>
 <td align="left" valign="top"><p>
 尤其是在和其它软件配合使用时，Sendmail经常会因为文件或者目录的权限问题——组写权限，而报错。怎么办？
@@ -1718,7 +1718,7 @@ define(`confDONT_BLAME_SENDMAIL', `IncludeFileInUnsafeDirPath')
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4768544"></a><a name="idp4769648"></a><b>1.11.3.</b>
+<a name="idp4768480"></a><a name="idp4769584"></a><b>1.11.3.</b>
 </td>
 <td align="left" valign="top"><p>
 如何让sendmail具有泛email支持？即无需设置本机账号的邮件账户？
@@ -1739,7 +1739,7 @@ define(`LUSER_RELAY', `local:root')
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4772720"></a><a name="idp4772976"></a><b>1.11.4.</b>
+<a name="idp4772656"></a><a name="idp4772912"></a><b>1.11.4.</b>
 </td>
 <td align="left" valign="top"><p>
 一个用户离开了公司,但仍然收到许多关于他/她的邮件,我怎么让别人知道此人已经使用新的邮件地址？
@@ -1767,7 +1767,7 @@ olduser: him@new.address.REDIRECT
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4777184"></a><a name="idp4777440"></a><b>1.11.5.</b>
+<a name="idp4777120"></a><a name="idp4777376"></a><b>1.11.5.</b>
 </td>
 <td align="left" valign="top"><p>
 为什么我更改了上面各种配置文件后仍然不起作用? 
@@ -1813,7 +1813,7 @@ newaliases
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4783760"></a><a name="idp4784016"></a><b>1.11.6.</b>
+<a name="idp4783696"></a><a name="idp4783952"></a><b>1.11.6.</b>
 </td>
 <td align="left" valign="top"><p>
 怎么检查一封邮件的发封过程? 
@@ -1834,7 +1834,7 @@ newaliases
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4786800"></a><a name="idp4787056"></a><b>1.11.7.</b>
+<a name="idp4786736"></a><a name="idp4786992"></a><b>1.11.7.</b>
 </td>
 <td align="left" valign="top"><p>
 如果用 POP3 命令，直接在服务器上操作邮件？
@@ -1879,7 +1879,7 @@ QUIT
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4796272"></a><a name="idp4796528"></a><b>1.11.8.</b>
+<a name="idp4796208"></a><a name="idp4796464"></a><b>1.11.8.</b>
 </td>
 <td align="left" valign="top"><p>
 如何用 SMTP 命令，远程登录到服务器上发送邮件？

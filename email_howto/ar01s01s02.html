@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>1.2. mail relay 规则详解</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="知识管理">
 <link rel="up" href="sendmail.html" title="1. Sendmail">
@@ -29,22 +29,22 @@
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4504160"></a>1.2. mail relay 规则详解
+<a name="idp4503232"></a>1.2. mail relay 规则详解
 <sup>[<a name="fn.relay" href="#ftn.fn.relay">1</a>]</sup>
 </h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="ar01s01s02.html#idp4506912">1.2.1. 配置允许本地用户RELAY</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s02.html#idp4538480">1.2.2. 口令验证下的 open relay
+<dt><span class="sect3"><a href="ar01s01s02.html#idp4505984">1.2.1. 配置允许本地用户RELAY</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s02.html#idp4537552">1.2.2. 口令验证下的 open relay
 
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s02.html#idp4570784">1.2.3. 提高安全性：SMTP over SSL</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s02.html#idp4569856">1.2.3. 提高安全性：SMTP over SSL</a></span></dt>
 </dl></div>
 <p>
 在默认情况下,也就是安装完系统(Sendmail服务器)不做任何设置的情况下,则只能在本机上收发邮件,网络上(局域网或Internet)的任何其它主机不能向该SMTP服务器发送邮件。这往往并不能满足需要。
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4506912"></a>1.2.1. 配置允许本地用户RELAY</h4></div></div></div>
+<a name="idp4505984"></a>1.2.1. 配置允许本地用户RELAY</h4></div></div></div>
 <p>
 对于内部的邮件服务器或者相对简单的网络环境，允许发送邮件的用户的IP地址相对固定或者完全是内部IP地址，则配置非常简单。
 </p>
@@ -176,7 +176,7 @@ DISCARD
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4538480"></a>1.2.2. 口令验证下的 open relay
+<a name="idp4537552"></a>1.2.2. 口令验证下的 open relay
 <sup>[<a name="fn.sasl" href="#ftn.fn.sasl">2</a>]</sup>
 </h4></div></div></div>
 <p>
@@ -313,7 +313,7 @@ pwcheck_method:pam
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4570784"></a>1.2.3. 提高安全性：SMTP over SSL</h4></div></div></div>
+<a name="idp4569856"></a>1.2.3. 提高安全性：SMTP over SSL</h4></div></div></div>
 <p>
 参见<a href="ar01s01s09.html#smtpoverssl" title="1.9.3. 支持SMTP over SSL">从头安装 sendmail</a>
 </p>

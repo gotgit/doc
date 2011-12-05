@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>1.9. 从头安装 Sendmail</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="知识管理">
 <link rel="up" href="sendmail.html" title="1. Sendmail">
@@ -27,35 +27,35 @@
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4653840"></a>1.9. 从头安装 Sendmail</h3></div></div></div>
+<a name="idp4652912"></a>1.9. 从头安装 Sendmail</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4654960">1.9.1. 下载软件包</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4661424">1.9.2. 安装 SASL，以支持SMTP认证
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4654032">1.9.1. 下载软件包</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4660496">1.9.2. 安装 SASL，以支持SMTP认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </a></span></dt>
 <dt><span class="sect3"><a href="ar01s01s09.html#smtpoverssl">1.9.3. 支持SMTP over SSL
 
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4685792">1.9.4. 安装 sendmail</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4687040">1.9.5. 配置 sendmail — 支持 SMTP 认证
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4684864">1.9.4. 安装 sendmail</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4686112">1.9.5. 配置 sendmail — 支持 SMTP 认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4689456">1.9.6. 配置 sendmail — 支持 SMTP over SSL
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4688528">1.9.6. 配置 sendmail — 支持 SMTP over SSL
 <sup>[<a href="#ftn.fn.starttls">4</a>]</sup>
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4696928">1.9.7. 配置 sendmail — 证书管理
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4696000">1.9.7. 配置 sendmail — 证书管理
 
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4712800">1.9.8. 配置pop3</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4714432">1.9.9. 关于权限</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4715968">1.9.10. 启动 sendmail</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4711872">1.9.8. 配置pop3</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4713504">1.9.9. 关于权限</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4715040">1.9.10. 启动 sendmail</a></span></dt>
 </dl></div>
 <p>
 如果系统中没有安装 sendmail，或者功能达不到需要而需要升级，就需要重新安装。
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4654960"></a>1.9.1. 下载软件包</h4></div></div></div>
+<a name="idp4654032"></a>1.9.1. 下载软件包</h4></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -85,7 +85,7 @@ sasl
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4661424"></a>1.9.2. 安装 SASL，以支持SMTP认证
+<a name="idp4660496"></a>1.9.2. 安装 SASL，以支持SMTP认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </h4></div></div></div>
 <p>
@@ -128,7 +128,7 @@ APPENDDEF(`conf_sendmail_LIBS', `-lsasl -lssl -lcrypto')
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4685792"></a>1.9.4. 安装 sendmail</h4></div></div></div>
+<a name="idp4684864"></a>1.9.4. 安装 sendmail</h4></div></div></div>
 <pre class="screen">
 $ sh Build
 $ sh Build install
@@ -136,7 +136,7 @@ $ sh Build install
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4687040"></a>1.9.5. 配置 sendmail — 支持 SMTP 认证
+<a name="idp4686112"></a>1.9.5. 配置 sendmail — 支持 SMTP 认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </h4></div></div></div>
 <p>
@@ -152,7 +152,7 @@ DAEMON_OPTIONS(`Port=25, Name=MSA, M=Ea')dnl
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4689456"></a>1.9.6. 配置 sendmail — 支持 SMTP over SSL
+<a name="idp4688528"></a>1.9.6. 配置 sendmail — 支持 SMTP over SSL
 <sup>[<a href="#ftn.fn.starttls">4</a>]</sup>
 </h4></div></div></div>
 <p>
@@ -194,7 +194,7 @@ key.pem : x.509 private key
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4696928"></a>1.9.7. 配置 sendmail — 证书管理
+<a name="idp4696000"></a>1.9.7. 配置 sendmail — 证书管理
 <sup>[<a name="fn.cert" href="#ftn.fn.cert">5</a>]</sup>
 </h4></div></div></div>
 <div class="orderedlist"><ol type="1">
@@ -285,14 +285,14 @@ Make sure that the CN of the CA certificate and CN of the server certificate are
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4712800"></a>1.9.8. 配置pop3</h4></div></div></div>
+<a name="idp4711872"></a>1.9.8. 配置pop3</h4></div></div></div>
 <p>
 参见: <a href="configpop3.html" title="1.8. 配置pop3">前面章节的描述。</a>
 </p>
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4714432"></a>1.9.9. 关于权限</h4></div></div></div>
+<a name="idp4713504"></a>1.9.9. 关于权限</h4></div></div></div>
 <pre class="screen">
     -r-xr-sr-x  root   smmsp    ... /PATH/TO/sendmail
     drwxrwx---  smmsp  smmsp    ... /var/spool/clientmqueue
@@ -303,7 +303,7 @@ Make sure that the CN of the CA certificate and CN of the server certificate are
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4715968"></a>1.9.10. 启动 sendmail</h4></div></div></div>
+<a name="idp4715040"></a>1.9.10. 启动 sendmail</h4></div></div></div>
 <pre class="screen">
 $ sendmail -bd -q1h 
 </pre>

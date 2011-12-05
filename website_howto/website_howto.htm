@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Website Construction Howto</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="本文当基于以前的一个文档《用Apache, Php, MySQL, Oracle 构建电子商务网》，希望对网站开发和维护人员有所帮助。 （编译自版本: cf8c05d，最后更新时间: 2007-06-19）">
 <link rel="start" href="#index" title="Website Construction Howto">
@@ -71,19 +71,19 @@ eastmd portal configuration
 <dl>
 <dt><span class="sect1"><a href="#cvs">1. CVS进行版本控制和网站更新流程</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4449936">1.1. CVS进行版本控制</a></span></dt>
-<dt><span class="sect2"><a href="#idp4453952">1.2. 网站更新流程</a></span></dt>
+<dt><span class="sect2"><a href="#idp4450000">1.1. CVS进行版本控制</a></span></dt>
+<dt><span class="sect2"><a href="#idp4454016">1.2. 网站更新流程</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#dev-product">2. 开发平台和生产平台</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4466256">2.1. APACHE 配置的差异</a></span></dt>
-<dt><span class="sect2"><a href="#idp4470416">2.2. PHP 配置的差异</a></span></dt>
+<dt><span class="sect2"><a href="#idp4466320">2.1. APACHE 配置的差异</a></span></dt>
+<dt><span class="sect2"><a href="#idp4470480">2.2. PHP 配置的差异</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#db-oop">3. 数据库设计和 PHP 中间件开发</a></span></dt>
 <dt><span class="sect1"><a href="#ssi">4. 使用SSI (Server Side Include)技术</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4484336">4.1. 配置Apache，支持SSI</a></span></dt>
-<dt><span class="sect2"><a href="#idp4485728">4.2. SSI语法</a></span></dt>
+<dt><span class="sect2"><a href="#idp4484400">4.1. 配置Apache，支持SSI</a></span></dt>
+<dt><span class="sect2"><a href="#idp4485792">4.2. SSI语法</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#webtest">5. 网页测试</a></span></dt>
 <dt><span class="appendix"><a href="#append-mysql">A. MySQL 安装和使用经验</a></span></dt>
@@ -92,9 +92,9 @@ eastmd portal configuration
 <dt><span class="sect1"><a href="#mysql-conf">A.2. 配置</a></span></dt>
 <dt><span class="sect1"><a href="#mysql-usage">A.3. 用法</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4516832">A.3.1. 常用语法</a></span></dt>
-<dt><span class="sect2"><a href="#idp4520992">A.3.2. SQL JOIN</a></span></dt>
-<dt><span class="sect2"><a href="#idp4524768">A.3.3. Others</a></span></dt>
+<dt><span class="sect2"><a href="#idp4516896">A.3.1. 常用语法</a></span></dt>
+<dt><span class="sect2"><a href="#idp4521056">A.3.2. SQL JOIN</a></span></dt>
+<dt><span class="sect2"><a href="#idp4524832">A.3.3. Others</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#mysql-security">A.4. Security</a></span></dt>
 </dl></dd>
@@ -127,7 +127,7 @@ eastmd portal configuration
 <a name="cvs"></a>1. CVS进行版本控制和网站更新流程</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4449936"></a>1.1. CVS进行版本控制</h3></div></div></div>
+<a name="idp4450000"></a>1.1. CVS进行版本控制</h3></div></div></div>
 <div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
 <tr>
 <td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
@@ -149,7 +149,7 @@ eastmd portal configuration
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4453952"></a>1.2. 网站更新流程</h3></div></div></div>
+<a name="idp4454016"></a>1.2. 网站更新流程</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -214,7 +214,7 @@ CVS可以利用文件来实现里程碑的概念。在工程的根目录下存�
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4466256"></a>2.1. APACHE 配置的差异</h3></div></div></div>
+<a name="idp4466320"></a>2.1. APACHE 配置的差异</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -243,7 +243,7 @@ CVS可以利用文件来实现里程碑的概念。在工程的根目录下存�
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4470416"></a>2.2. PHP 配置的差异</h3></div></div></div>
+<a name="idp4470480"></a>2.2. PHP 配置的差异</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -337,7 +337,7 @@ without having to serve the entire page via a CGI program, or other dynamic tech
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4484336"></a>4.1. 配置Apache，支持SSI</h3></div></div></div>
+<a name="idp4484400"></a>4.1. 配置Apache，支持SSI</h3></div></div></div>
 <pre class="screen">
 # This tells Apache that you want to permit files to be parsed for SSI directives.
 Options +Includes -IncludesNOEXEC
@@ -349,7 +349,7 @@ AddHandler server-parsed .shtml
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4485728"></a>4.2. SSI语法</h3></div></div></div>
+<a name="idp4485792"></a>4.2. SSI语法</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -543,7 +543,7 @@ Location: <code class="filename">/etc/my.cnf</code>, <code class="filename">DATA
 <a name="mysql-usage"></a>A.3. 用法</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4516832"></a>A.3.1. 常用语法</h3></div></div></div>
+<a name="idp4516896"></a>A.3.1. 常用语法</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -729,7 +729,7 @@ OR     mysqldump [OPTIONS] --all-databases [OPTIONS]
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4520992"></a>A.3.2. SQL JOIN</h3></div></div></div>
+<a name="idp4521056"></a>A.3.2. SQL JOIN</h3></div></div></div>
 <div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
 <tr>
 <td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
@@ -745,7 +745,7 @@ Cartesian join, Inner join, Outer join(Left join, Right join), Self join.
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4524768"></a>A.3.3. Others</h3></div></div></div>
+<a name="idp4524832"></a>A.3.3. Others</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>

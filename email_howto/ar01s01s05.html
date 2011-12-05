@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>1.5. 其它配置文件</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="知识管理">
 <link rel="up" href="sendmail.html" title="1. Sendmail">
@@ -27,11 +27,11 @@
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4608688"></a>1.5. 其它配置文件</h3></div></div></div>
+<a name="idp4607760"></a>1.5. 其它配置文件</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="ar01s01s05.html#idp4610176">1.5.1. /etc/mail/domaintable</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s05.html#idp4616496">1.5.2. genericstable和genericsdomain</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s05.html#idp4620144">1.5.3. /etc/mail/mailertable</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s05.html#idp4609248">1.5.1. /etc/mail/domaintable</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s05.html#idp4615568">1.5.2. genericstable和genericsdomain</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s05.html#idp4619216">1.5.3. /etc/mail/mailertable</a></span></dt>
 </dl></div>
 <p>
 优先级：domaintable &gt; virtusertable &gt; local-host-names &gt; mailertable &gt; DNS MX记录
@@ -41,7 +41,7 @@
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4610176"></a>1.5.1. /etc/mail/domaintable</h4></div></div></div>
+<a name="idp4609248"></a>1.5.1. /etc/mail/domaintable</h4></div></div></div>
 <div class="orderedlist"><ol type="1">
 <li>
 <p>
@@ -71,7 +71,7 @@ abd.com  abc.com
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4616496"></a>1.5.2. genericstable和genericsdomain</h4></div></div></div>
+<a name="idp4615568"></a>1.5.2. genericstable和genericsdomain</h4></div></div></div>
 <p>
 若文件/etc/mail/genericstable 的内容为：
 </p>
@@ -90,7 +90,7 @@ test.com
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4620144"></a>1.5.3. /etc/mail/mailertable</h4></div></div></div>
+<a name="idp4619216"></a>1.5.3. /etc/mail/mailertable</h4></div></div></div>
 <p>
 跨越DNS的MX的记录,优先于MX记录,可以与MX记录指定的主机设定不同. mailertable的运用不需要接收者邮件地址的域部分在/etc/mail/local-host-names中存在.
 </p>

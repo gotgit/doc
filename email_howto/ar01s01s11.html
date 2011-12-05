@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>1.11. FAQ</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="知识管理">
 <link rel="up" href="sendmail.html" title="1. Sendmail">
@@ -27,38 +27,38 @@
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4758272"></a>1.11. FAQ</h3></div></div></div>
+<a name="idp4757344"></a>1.11. FAQ</h3></div></div></div>
 <div class="qandaset">
 <dl>
-<dt>1.11.1. <a href="ar01s01s11.html#idp4759264">
+<dt>1.11.1. <a href="ar01s01s11.html#idp4758336">
 安装 majordomo，aliases 文件中有：majordomo:  "|/usr/local/majordomo/wrapper majordomo"。majordomo运行时报错：smrsh: "wrapper" not available for sendmail programs (stat failed)。为什么？
 </a>
 </dt>
-<dt>1.11.2. <a href="ar01s01s11.html#idp4765584">
+<dt>1.11.2. <a href="ar01s01s11.html#idp4764656">
 尤其是在和其它软件配合使用时，Sendmail经常会因为文件或者目录的权限问题——组写权限，而报错。怎么办？
 </a>
 </dt>
-<dt>1.11.3. <a href="ar01s01s11.html#idp4769872">
+<dt>1.11.3. <a href="ar01s01s11.html#idp4768944">
 如何让sendmail具有泛email支持？即无需设置本机账号的邮件账户？
 </a>
 </dt>
-<dt>1.11.4. <a href="ar01s01s11.html#idp4774048">
+<dt>1.11.4. <a href="ar01s01s11.html#idp4773120">
 一个用户离开了公司,但仍然收到许多关于他/她的邮件,我怎么让别人知道此人已经使用新的邮件地址？
 </a>
 </dt>
-<dt>1.11.5. <a href="ar01s01s11.html#idp4778512">
+<dt>1.11.5. <a href="ar01s01s11.html#idp4777584">
 为什么我更改了上面各种配置文件后仍然不起作用? 
 </a>
 </dt>
-<dt>1.11.6. <a href="ar01s01s11.html#idp4785088">
+<dt>1.11.6. <a href="ar01s01s11.html#idp4784160">
 怎么检查一封邮件的发封过程? 
 </a>
 </dt>
-<dt>1.11.7. <a href="ar01s01s11.html#idp4788128">
+<dt>1.11.7. <a href="ar01s01s11.html#idp4787200">
 如果用 POP3 命令，直接在服务器上操作邮件？
 </a>
 </dt>
-<dt>1.11.8. <a href="ar01s01s11.html#idp4797600">
+<dt>1.11.8. <a href="ar01s01s11.html#idp4796672">
 如何用 SMTP 命令，远程登录到服务器上发送邮件？
 </a>
 </dt>
@@ -68,7 +68,7 @@
 <tbody>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4759264"></a><a name="faq.smrsh"></a><b>1.11.1.</b>
+<a name="idp4758336"></a><a name="faq.smrsh"></a><b>1.11.1.</b>
 </td>
 <td align="left" valign="top"><p>
 安装 majordomo，aliases 文件中有：<span><strong class="command">majordomo:  "|/usr/local/majordomo/wrapper majordomo"</strong></span>。majordomo运行时报错：smrsh: "wrapper" not available for sendmail programs (stat failed)。为什么？
@@ -97,7 +97,7 @@ $ /usr/sbin/smrsh -c /usr/bin/vim
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4765584"></a><a name="faq.dontblamesendmail"></a><b>1.11.2.</b>
+<a name="idp4764656"></a><a name="faq.dontblamesendmail"></a><b>1.11.2.</b>
 </td>
 <td align="left" valign="top"><p>
 尤其是在和其它软件配合使用时，Sendmail经常会因为文件或者目录的权限问题——组写权限，而报错。怎么办？
@@ -123,7 +123,7 @@ define(`confDONT_BLAME_SENDMAIL', `IncludeFileInUnsafeDirPath')
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4769872"></a><a name="idp4770976"></a><b>1.11.3.</b>
+<a name="idp4768944"></a><a name="idp4770048"></a><b>1.11.3.</b>
 </td>
 <td align="left" valign="top"><p>
 如何让sendmail具有泛email支持？即无需设置本机账号的邮件账户？
@@ -144,7 +144,7 @@ define(`LUSER_RELAY', `local:root')
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4774048"></a><a name="idp4774304"></a><b>1.11.4.</b>
+<a name="idp4773120"></a><a name="idp4773376"></a><b>1.11.4.</b>
 </td>
 <td align="left" valign="top"><p>
 一个用户离开了公司,但仍然收到许多关于他/她的邮件,我怎么让别人知道此人已经使用新的邮件地址？
@@ -172,7 +172,7 @@ olduser: him@new.address.REDIRECT
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4778512"></a><a name="idp4778768"></a><b>1.11.5.</b>
+<a name="idp4777584"></a><a name="idp4777840"></a><b>1.11.5.</b>
 </td>
 <td align="left" valign="top"><p>
 为什么我更改了上面各种配置文件后仍然不起作用? 
@@ -218,7 +218,7 @@ newaliases
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4785088"></a><a name="idp4785344"></a><b>1.11.6.</b>
+<a name="idp4784160"></a><a name="idp4784416"></a><b>1.11.6.</b>
 </td>
 <td align="left" valign="top"><p>
 怎么检查一封邮件的发封过程? 
@@ -239,7 +239,7 @@ newaliases
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4788128"></a><a name="idp4788384"></a><b>1.11.7.</b>
+<a name="idp4787200"></a><a name="idp4787456"></a><b>1.11.7.</b>
 </td>
 <td align="left" valign="top"><p>
 如果用 POP3 命令，直接在服务器上操作邮件？
@@ -284,7 +284,7 @@ QUIT
 </tr>
 <tr class="question">
 <td align="left" valign="top">
-<a name="idp4797600"></a><a name="idp4797856"></a><b>1.11.8.</b>
+<a name="idp4796672"></a><a name="idp4796928"></a><b>1.11.8.</b>
 </td>
 <td align="left" valign="top"><p>
 如何用 SMTP 命令，远程登录到服务器上发送邮件？

@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>3.2. 配置文件</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="配置管理规范">
 <link rel="up" href="config.html" title="3. 自动编译系统的配置">
@@ -27,18 +27,18 @@
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4532656"></a>3.2. 配置文件</h3></div></div></div>
+<a name="idp4532672"></a>3.2. 配置文件</h3></div></div></div>
 <div class="toc"><dl>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4533168">3.2.1. NBDHOMEDIR/build.ini</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4537648">3.2.2. NBDHOMEDIR/LABEL</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4542000">3.2.3. NBDHOMEDIR/BRANCH</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4544320">3.2.4. NBDHOMEDIR/nightly.sh</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4545856">3.2.5. NBDSRCCTL/VERSION</a></span></dt>
-<dt><span class="sect3"><a href="ar01s03s02.html#idp4558928">3.2.6. NBDSRCCTL/PROMOTION</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4533184">3.2.1. NBDHOMEDIR/build.ini</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4537664">3.2.2. NBDHOMEDIR/LABEL</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4542016">3.2.3. NBDHOMEDIR/BRANCH</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4544336">3.2.4. NBDHOMEDIR/nightly.sh</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4545872">3.2.5. NBDSRCCTL/VERSION</a></span></dt>
+<dt><span class="sect3"><a href="ar01s03s02.html#idp4558080">3.2.6. NBDSRCCTL/PROMOTION</a></span></dt>
 </dl></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4533168"></a>3.2.1. NBDHOMEDIR/build.ini</h4></div></div></div>
+<a name="idp4533184"></a>3.2.1. NBDHOMEDIR/build.ini</h4></div></div></div>
 <p>
 用于指定源代码、脚本的路径。
 </p>
@@ -65,7 +65,7 @@ NBDSOURCE=/home/Administrator/work/jiangxin/src/dlltest/ <a name="co.nbdsource">
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4537648"></a>3.2.2. NBDHOMEDIR/LABEL</h4></div></div></div>
+<a name="idp4537664"></a>3.2.2. NBDHOMEDIR/LABEL</h4></div></div></div>
 <p>
 决定编译的版本：nightly, milestone, 还是 sticky 版本。
 </p>
@@ -83,7 +83,7 @@ NBDSOURCE=/home/Administrator/work/jiangxin/src/dlltest/ <a name="co.nbdsource">
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4542000"></a>3.2.3. NBDHOMEDIR/BRANCH</h4></div></div></div>
+<a name="idp4542016"></a>3.2.3. NBDHOMEDIR/BRANCH</h4></div></div></div>
 <p>
 如果是空文件，或者内容为 main，意味着当前代码处于主线。
 </p>
@@ -96,7 +96,7 @@ NBDSOURCE=/home/Administrator/work/jiangxin/src/dlltest/ <a name="co.nbdsource">
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4544320"></a>3.2.4. NBDHOMEDIR/nightly.sh</h4></div></div></div>
+<a name="idp4544336"></a>3.2.4. NBDHOMEDIR/nightly.sh</h4></div></div></div>
 <p>
 调用真正的脚本的钩子脚本。
 </p>
@@ -131,7 +131,7 @@ sh nightlybuild.sh "$@"
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4545856"></a>3.2.5. NBDSRCCTL/VERSION</h4></div></div></div>
+<a name="idp4545872"></a>3.2.5. NBDSRCCTL/VERSION</h4></div></div></div>
 <p>
 记录版本号、编译日期
 </p>
@@ -207,7 +207,7 @@ buildtime=2003-04-01 20:44:48
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4558928"></a>3.2.6. NBDSRCCTL/PROMOTION</h4></div></div></div>
+<a name="idp4558080"></a>3.2.6. NBDSRCCTL/PROMOTION</h4></div></div></div>
 <p>
 记录里程碑版本号。例如：
 </p>

@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>知识管理</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="工作需要，不得不配置一个自己的 Mail Server。发现 sendmail 并不想以前感觉那样难配置。从网上东拼西凑出一个个人心得，有机会就不断完善。对本文档有任何补充或建议，欢迎联系作者 Johnson。 （编译自版本: 30b6c89，最后更新时间: 2007-07-31）">
 <link rel="start" href="index.html" title="知识管理">
@@ -76,23 +76,23 @@
 
 </a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s01s02.html#idp4506912">1.2.1. 配置允许本地用户RELAY</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s02.html#idp4538480">1.2.2. 口令验证下的 open relay
+<dt><span class="sect3"><a href="ar01s01s02.html#idp4505984">1.2.1. 配置允许本地用户RELAY</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s02.html#idp4537552">1.2.2. 口令验证下的 open relay
 
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s02.html#idp4570784">1.2.3. 提高安全性：SMTP over SSL</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s02.html#idp4569856">1.2.3. 提高安全性：SMTP over SSL</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s01s03.html">1.3. 别名 aliases 和 .forward 文件</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s01s03.html#idp4573056">1.3.1. /etc/mail/aliases</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s03.html#idp4586432">1.3.2. ~/.forward</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s03.html#idp4572128">1.3.1. /etc/mail/aliases</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s03.html#idp4585504">1.3.2. ~/.forward</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s01s04.html">1.4. 用 virtusertable 管理虚拟域</a></span></dt>
 <dt><span class="sect2"><a href="ar01s01s05.html">1.5. 其它配置文件</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s01s05.html#idp4610176">1.5.1. /etc/mail/domaintable</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s05.html#idp4616496">1.5.2. genericstable和genericsdomain</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s05.html#idp4620144">1.5.3. /etc/mail/mailertable</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s05.html#idp4609248">1.5.1. /etc/mail/domaintable</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s05.html#idp4615568">1.5.2. genericstable和genericsdomain</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s05.html#idp4619216">1.5.3. /etc/mail/mailertable</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s01s06.html">1.6. 地址伪装</a></span></dt>
 <dt><span class="sect2"><a href="ar01s01s07.html">1.7. DNS 和 Email</a></span></dt>
@@ -101,30 +101,30 @@
 </a></span></dt>
 <dt><span class="sect2"><a href="ar01s01s09.html">1.9. 从头安装 Sendmail</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4654960">1.9.1. 下载软件包</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4661424">1.9.2. 安装 SASL，以支持SMTP认证
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4654032">1.9.1. 下载软件包</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4660496">1.9.2. 安装 SASL，以支持SMTP认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </a></span></dt>
 <dt><span class="sect3"><a href="ar01s01s09.html#smtpoverssl">1.9.3. 支持SMTP over SSL
 
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4685792">1.9.4. 安装 sendmail</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4687040">1.9.5. 配置 sendmail — 支持 SMTP 认证
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4684864">1.9.4. 安装 sendmail</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4686112">1.9.5. 配置 sendmail — 支持 SMTP 认证
 <sup>[<a href="#ftn.fn.sasl">2</a>]</sup>
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4689456">1.9.6. 配置 sendmail — 支持 SMTP over SSL
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4688528">1.9.6. 配置 sendmail — 支持 SMTP over SSL
 <sup>[<a href="#ftn.fn.starttls">4</a>]</sup>
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4696928">1.9.7. 配置 sendmail — 证书管理
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4696000">1.9.7. 配置 sendmail — 证书管理
 
 </a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4712800">1.9.8. 配置pop3</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4714432">1.9.9. 关于权限</a></span></dt>
-<dt><span class="sect3"><a href="ar01s01s09.html#idp4715968">1.9.10. 启动 sendmail</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4711872">1.9.8. 配置pop3</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4713504">1.9.9. 关于权限</a></span></dt>
+<dt><span class="sect3"><a href="ar01s01s09.html#idp4715040">1.9.10. 启动 sendmail</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="ar01s01s10.html">1.10. 邮件分拣</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="ar01s01s10.html#idp4720880">1.10.1. vacation 自动回信
+<dt><span class="sect3"><a href="ar01s01s10.html#idp4719952">1.10.1. vacation 自动回信
 </a></span></dt>
 <dt><span class="sect3"><a href="ar01s01s10.html#procmail">1.10.2. procmail</a></span></dt>
 </dl></dd>

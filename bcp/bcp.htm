@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>BCP (Basic)</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="BCP 不过是我在 2002 年听到的一个让人好奇的名字而已，本文主要涉及数据备份以及数据恢复等技术。拿出来与大家分享，一方面希望对大家有用，另外一方面看看大家是如何做备份的。 （编译自版本: fd1d52f，最后更新时间: 2011-12-01）">
 <link rel="start" href="#index" title="BCP (Basic)">
@@ -54,37 +54,37 @@ BCP 不过是我在 2002 年听到的一个让人好奇的名字而已，本文�
 <dt><span class="sect1"><a href="#preface">1. 前言</a></span></dt>
 <dt><span class="sect1"><a href="#bcp-basic">2. SSH 之 无口令认证</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4453232">2.1. 无口令认证 SSH 如何实现的呢？</a></span></dt>
-<dt><span class="sect2"><a href="#idp4455888">2.2. 第一步：在客户端创建自己的公钥－私钥对</a></span></dt>
-<dt><span class="sect2"><a href="#idp4466592">2.3. 第二步，新生成的公钥拷贝到远程服务器</a></span></dt>
-<dt><span class="sect2"><a href="#idp4475616">2.4. 第三步，在远程服务器中进行设置</a></span></dt>
+<dt><span class="sect2"><a href="#idp4453280">2.1. 无口令认证 SSH 如何实现的呢？</a></span></dt>
+<dt><span class="sect2"><a href="#idp4455936">2.2. 第一步：在客户端创建自己的公钥－私钥对</a></span></dt>
+<dt><span class="sect2"><a href="#idp4466640">2.3. 第二步，新生成的公钥拷贝到远程服务器</a></span></dt>
+<dt><span class="sect2"><a href="#idp4475664">2.4. 第三步，在远程服务器中进行设置</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#mirror">3. 镜像，数据同步</a></span></dt>
 <dd><dl>
 <dt><span class="sect2"><a href="#rsync">3.1. sync 命令</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4489552">3.1.1. 介绍</a></span></dt>
-<dt><span class="sect3"><a href="#idp4491168">3.1.2. A Simple Example</a></span></dt>
-<dt><span class="sect3"><a href="#idp4495664">3.1.3. Rsync over SSH</a></span></dt>
+<dt><span class="sect3"><a href="#idp4489600">3.1.1. 介绍</a></span></dt>
+<dt><span class="sect3"><a href="#idp4491216">3.1.2. A Simple Example</a></span></dt>
+<dt><span class="sect3"><a href="#idp4495712">3.1.3. Rsync over SSH</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="#unison">3.2. unison 命令</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4501808">3.2.1. unison 命令行</a></span></dt>
-<dt><span class="sect3"><a href="#idp4510752">3.2.2. 常用参数</a></span></dt>
-<dt><span class="sect3"><a href="#idp4530096">3.2.3. 模式匹配</a></span></dt>
-<dt><span class="sect3"><a href="#idp4548304">3.2.4. 应用举例</a></span></dt>
-<dt><span class="sect3"><a href="#idp4560016">3.2.5. unison 配置文件</a></span></dt>
-<dt><span class="sect3"><a href="#idp4579984">3.2.6. FAQ</a></span></dt>
+<dt><span class="sect3"><a href="#idp4501856">3.2.1. unison 命令行</a></span></dt>
+<dt><span class="sect3"><a href="#idp4510800">3.2.2. 常用参数</a></span></dt>
+<dt><span class="sect3"><a href="#idp4530144">3.2.3. 模式匹配</a></span></dt>
+<dt><span class="sect3"><a href="#idp4548352">3.2.4. 应用举例</a></span></dt>
+<dt><span class="sect3"><a href="#idp4559056">3.2.5. unison 配置文件</a></span></dt>
+<dt><span class="sect3"><a href="#idp4579024">3.2.6. FAQ</a></span></dt>
 </dl></dd>
 </dl></dd>
 <dt><span class="sect1"><a href="#batch">4. 自动任务</a></span></dt>
 <dd><dl>
 <dt><span class="sect2"><a href="#crontab">4.1. Crontab</a></span></dt>
-<dt><span class="sect2"><a href="#idp4589664">4.2. Windows计划任务</a></span></dt>
+<dt><span class="sect2"><a href="#idp4588704">4.2. Windows计划任务</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#cygwin">5. 吉祥三宝——Cygwin 版</a></span></dt>
-<dt><span class="sect1"><a href="#idp4597152">6. 建立个人的版本控制</a></span></dt>
-<dt><span class="sect1"><a href="#idp4598640">7. 一键恢复：电脑的保护神</a></span></dt>
+<dt><span class="sect1"><a href="#idp4596192">6. 建立个人的版本控制</a></span></dt>
+<dt><span class="sect1"><a href="#idp4597680">7. 一键恢复：电脑的保护神</a></span></dt>
 </dl>
 </div>
 <div class="sect1" lang="zh-cn">
@@ -120,7 +120,7 @@ BCP 对于个人也是大有裨益的。
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4453232"></a>2.1. 无口令认证 SSH 如何实现的呢？</h3></div></div></div>
+<a name="idp4453280"></a>2.1. 无口令认证 SSH 如何实现的呢？</h3></div></div></div>
 <p>
 实际上，无口令认证绝对不是清空口令，或者取消身份认证，而是采用“公钥－私钥”进行密钥交换，实现认证，具体可以参见 <a href="http://www.worldhello.net/doc/pgp" target="_top">《PGP Howto》</a> 文档中关于非对称加密的算法介绍。
 </p>
@@ -130,7 +130,7 @@ BCP 对于个人也是大有裨益的。
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4455888"></a>2.2. 第一步：在客户端创建自己的公钥－私钥对</h3></div></div></div>
+<a name="idp4455936"></a>2.2. 第一步：在客户端创建自己的公钥－私钥对</h3></div></div></div>
 <p>
 下面的命令的演示是在 Unix 系统中实现的，但是并不是说 Windows 不能用，参见后面的“<a href="#cygwin" title="5. 吉祥三宝——Cygwin 版">吉祥三宝——Cygwin版</a>”，看看 Windows 中是如何使用的。
 </p>
@@ -188,7 +188,7 @@ localshell$ <span><strong class="command">ssh-keygen -t rsa</strong></span>
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4466592"></a>2.3. 第二步，新生成的公钥拷贝到远程服务器</h3></div></div></div>
+<a name="idp4466640"></a>2.3. 第二步，新生成的公钥拷贝到远程服务器</h3></div></div></div>
 <p>
 有几点要注意：
 </p>
@@ -230,7 +230,7 @@ localshell$ <span><strong class="command">scp ~/.ssh/*.pub username@remotehost:~
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4475616"></a>2.4. 第三步，在远程服务器中进行设置</h3></div></div></div>
+<a name="idp4475664"></a>2.4. 第三步，在远程服务器中进行设置</h3></div></div></div>
 <p>
 经过第二步，远程服务器上已经有了信赖客户端、信赖用户的公钥，要将这些文件增加到远程服务器的信任列表中。
 </p>
@@ -289,7 +289,7 @@ localshell$ <span><strong class="command">scp ~/.ssh/*.pub username@remotehost:~
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4489552"></a>3.1.1. 介绍</h4></div></div></div>
+<a name="idp4489600"></a>3.1.1. 介绍</h4></div></div></div>
 <p>
 Rsync is a tool for archiving and file transfer that employs a clever algorithm to minimize data transfers. 
 If two files are almost identical, only the differences will be transported over the network.
@@ -300,7 +300,7 @@ Rsync 适合进行双机备份。
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4491168"></a>3.1.2. A Simple Example</h4></div></div></div>
+<a name="idp4491216"></a>3.1.2. A Simple Example</h4></div></div></div>
 <p>
 The following command, will sync local directory, public-html, to the remote server 10.0.0.x.
 i.e., copy date from local client to remote server.
@@ -321,7 +321,7 @@ $ <span><strong class="command">rsync -a 10.0.0.x:public_html/ public_html</stro
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4495664"></a>3.1.3. Rsync over SSH</h4></div></div></div>
+<a name="idp4495712"></a>3.1.3. Rsync over SSH</h4></div></div></div>
 <p>
 One of the best feature of rsync is that it works over multiple transport protocols.
 By default, rsync uses rsh to do its work, but since rsh is deprecated in the Queen's Physics Department, 
@@ -353,7 +353,7 @@ Unison 是一个文件同步工具，采用 rsync 类似的算法，但是提高
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4501808"></a>3.2.1. unison 命令行</h4></div></div></div>
+<a name="idp4501856"></a>3.2.1. unison 命令行</h4></div></div></div>
 <p>
 可以用如下格式调用 unison
 </p>
@@ -402,7 +402,7 @@ root1, root2 路径的格式可以是本地目录，也可以是远程服务器�
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4510752"></a>3.2.2. 常用参数</h4></div></div></div>
+<a name="idp4510800"></a>3.2.2. 常用参数</h4></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -527,7 +527,7 @@ ignore = Name {a.out}
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4530096"></a>3.2.3. 模式匹配</h4></div></div></div>
+<a name="idp4530144"></a>3.2.3. 模式匹配</h4></div></div></div>
 <p>
 如下参数 ignore/ignorenot, follow, sortfirst/sortlast, backup, merge 定义各自的匹配模式。
 例如: ignore = pattern
@@ -638,7 +638,7 @@ ignore = Regex a/b/.*\.ml
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4548304"></a>3.2.4. 应用举例</h4></div></div></div>
+<a name="idp4548352"></a>3.2.4. 应用举例</h4></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -704,10 +704,10 @@ unison /home/username ssh://remotehost//home/username \
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4560016"></a>3.2.5. unison 配置文件</h4></div></div></div>
+<a name="idp4559056"></a>3.2.5. unison 配置文件</h4></div></div></div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp4560528"></a>3.2.5.1. .unison 目录</h5></div></div></div>
+<a name="idp4559568"></a>3.2.5.1. .unison 目录</h5></div></div></div>
 <p>
 ~/.unison 目录保存用户配置文件以及 Archive 文件。
 </p>
@@ -739,7 +739,7 @@ Archive 虽然自动由 unison 维护，但是特殊情况下（如本机的地�
 </div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp4567248"></a>3.2.5.2. *.prf 配置文件</h5></div></div></div>
+<a name="idp4566288"></a>3.2.5.2. *.prf 配置文件</h5></div></div></div>
 <p>
 如果 unison 只带一个参数执行，如
 </p>
@@ -755,7 +755,7 @@ unison &lt;name&gt;
 </div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp4569968"></a>3.2.5.3.  .prf 文件示例</h5></div></div></div>
+<a name="idp4569008"></a>3.2.5.3.  .prf 文件示例</h5></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -851,10 +851,10 @@ ignore = Name *.tmp
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4579984"></a>3.2.6. FAQ</h4></div></div></div>
+<a name="idp4579024"></a>3.2.6. FAQ</h4></div></div></div>
 <div class="sect4" lang="zh-cn">
 <div class="titlepage"><div><div><h5 class="title">
-<a name="idp4580496"></a>3.2.6.1. ssh 超时问题</h5></div></div></div>
+<a name="idp4579536"></a>3.2.6.1. ssh 超时问题</h5></div></div></div>
 <p>
 和远程服务器同步大量数据，上传一部分数据后，超时：
 </p>
@@ -965,7 +965,7 @@ Use crontab or windows schedule manager to accomplish batch work automatic.
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4589664"></a>4.2. Windows计划任务</h3></div></div></div>
+<a name="idp4588704"></a>4.2. Windows计划任务</h3></div></div></div>
 <p>
 可以用 at 命令提交计划任务。
 </p>
@@ -1004,14 +1004,14 @@ Cygwin 的网站：<a href="http://www.cygwin.com/" target="_top">http://www.cyg
 </div>
 <div class="sect1" lang="zh-cn">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="idp4597152"></a>6. 建立个人的版本控制</h2></div></div></div>
+<a name="idp4596192"></a>6. 建立个人的版本控制</h2></div></div></div>
 <p>
 CVS，SVN 是开源软件的版本控制系统，为开源软件的成功立下汗马功劳。它们服务器端都既可以安装在 Unix 平台上，也可以安装在 Windows 平台上，这么好的东西赶快用吧。
 </p>
 </div>
 <div class="sect1" lang="zh-cn">
 <div class="titlepage"><div><div><h2 class="title" style="clear: both">
-<a name="idp4598640"></a>7. 一键恢复：电脑的保护神</h2></div></div></div>
+<a name="idp4597680"></a>7. 一键恢复：电脑的保护神</h2></div></div></div>
 <p>
 最早见过一键恢复，是我的 IBM 笔记本，开机按 IBM 的恢复键，就可以将机器恢复到出厂状态。不过那时候磁盘空间紧张，还是选择了空间，牺牲了安全。
 </p>

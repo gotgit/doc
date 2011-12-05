@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>2.3. NetFilter框架和Iptables使用方法概述</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <link rel="start" href="index.html" title="网络安全的最后一道屏障">
 <link rel="up" href="linux.html" title="2. Linux平台的安全性">
@@ -27,7 +27,7 @@
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4585040"></a>2.3. NetFilter框架和Iptables使用方法概述</h3></div></div></div>
+<a name="idp4585584"></a>2.3. NetFilter框架和Iptables使用方法概述</h3></div></div></div>
 <p>
 Linux根据数据包在内核中的不同处理，将整个IP包在内核中的生存周期划分为三个：PREROUTING、FORWARD、POSTROUTING。其他还有两个LOCAL_INPUT和LOCAL_OUTPUT（一般简写成INPUT和OUTPUT），分别对应送入本机上层协议栈的数据包和本机发送出的数据包。如果想要保护本机的安全性，那么只需关注INPUT和OUTPUT方向的数据包就可以了。其他几个不需要关心。
 </p>

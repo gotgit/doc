@@ -2,9 +2,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>知识管理</title>
-<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/master.css" type="text/css">
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
+<link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
 <meta name="description" content="目前介绍软件工程和项目管理的书是越来越多了。遍历各家之说，体会最深的是两个字：“沟通”。没有沟通，开发人员单枪匹马，重复着“前辈们”走过的路，缓慢的成长着。没有沟通，测试和开发团队就在没完没了的争吵中迎接项目的延期。没有沟通，部门之间的鸿沟足可以吓退客户。没有沟通，公司的决策人还在期盼着项目的成功的那一天，而不知道危险已经临近。作为 IT 从业人员，如果我们在不断为别人提供软件产品来提高工作效率，而自己却不能利用软件来改进项目的沟通，实在是一种悲哀。 本文先探讨通过建立新闻组服务器作为项目的沟通管理工具的途径和方法。 （编译自版本: 3038a6f，最后更新时间: 2007-07-31）">
 <link rel="start" href="#index" title="知识管理">
@@ -73,55 +73,55 @@
 <dl>
 <dt><span class="sect1"><a href="#why-inn">1. 为什么要使用新闻组？</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4455856">1.1. 企业内部使用NEWS服务的优势</a></span></dt>
-<dt><span class="sect2"><a href="#idp4468144">1.2. 企业内部新闻服务的用途</a></span></dt>
+<dt><span class="sect2"><a href="#idp4455920">1.1. 企业内部使用NEWS服务的优势</a></span></dt>
+<dt><span class="sect2"><a href="#idp4468208">1.2. 企业内部新闻服务的用途</a></span></dt>
 <dt><span class="sect2"><a href="#history">1.3. 发展历史</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#tools">2. 相关工具及资料</a></span></dt>
 <dt><span class="sect1"><a href="#install-inn">3. INN 安装配置初步</a></span></dt>
 <dt><span class="sect1"><a href="#inside-inn">4. 深入 INN</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4601840">4.1. 新闻组体系结构</a></span></dt>
-<dt><span class="sect2"><a href="#idp4609424">4.2. 新闻组文章结构</a></span></dt>
+<dt><span class="sect2"><a href="#idp4600256">4.1. 新闻组体系结构</a></span></dt>
+<dt><span class="sect2"><a href="#idp4607840">4.2. 新闻组文章结构</a></span></dt>
 <dt><span class="sect2"><a href="#news-conf-active">4.3. active 文件格式</a></span></dt>
 <dt><span class="sect2"><a href="#news-conf-history">4.4. history 文件维护</a></span></dt>
 <dt><span class="sect2"><a href="#news-conf-overview">4.5. overview 维护</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4658720">4.5.1. overview的概念</a></span></dt>
-<dt><span class="sect3"><a href="#idp4687392">4.5.2. 维护</a></span></dt>
+<dt><span class="sect3"><a href="#idp4657136">4.5.1. overview的概念</a></span></dt>
+<dt><span class="sect3"><a href="#idp4685824">4.5.2. 维护</a></span></dt>
 </dl></dd>
 <dt><span class="sect2"><a href="#help-cmd-news-daily">4.6. 命令参考: news.daily</a></span></dt>
-<dt><span class="sect2"><a href="#idp4707648">4.7. inn.conf</a></span></dt>
+<dt><span class="sect2"><a href="#idp4706080">4.7. inn.conf</a></span></dt>
 <dt><span class="sect2"><a href="#innd-acl">4.8. 权限控制</a></span></dt>
-<dt><span class="sect2"><a href="#idp4752960">4.9. 受控新闻组</a></span></dt>
-<dt><span class="sect2"><a href="#idp4756576">4.10. 撤销和管理文章</a></span></dt>
-<dt><span class="sect2"><a href="#idp4762128">4.11. 喂信（News Feeds）设置</a></span></dt>
+<dt><span class="sect2"><a href="#idp4751392">4.9. 受控新闻组</a></span></dt>
+<dt><span class="sect2"><a href="#idp4755008">4.10. 撤销和管理文章</a></span></dt>
+<dt><span class="sect2"><a href="#idp4760560">4.11. 喂信（News Feeds）设置</a></span></dt>
 <dd><dl>
-<dt><span class="sect3"><a href="#idp4764400">4.11.1. 被动接收上游喂信</a></span></dt>
-<dt><span class="sect3"><a href="#idp4771344">4.11.2. 主动去上游取信</a></span></dt>
-<dt><span class="sect3"><a href="#idp4808480">4.11.3. 向外喂信</a></span></dt>
+<dt><span class="sect3"><a href="#idp4762832">4.11.1. 被动接收上游喂信</a></span></dt>
+<dt><span class="sect3"><a href="#idp4769776">4.11.2. 主动去上游取信</a></span></dt>
+<dt><span class="sect3"><a href="#idp4806912">4.11.3. 向外喂信</a></span></dt>
 </dl></dd>
-<dt><span class="sect2"><a href="#idp4839776">4.12. 存储方式</a></span></dt>
+<dt><span class="sect2"><a href="#idp4838208">4.12. 存储方式</a></span></dt>
 <dt><span class="sect2"><a href="#inn-expire">4.13. 文档的过期设置</a></span></dt>
-<dd><dl><dt><span class="sect3"><a href="#idp4865152">4.13.1. expire.ctl</a></span></dt></dl></dd>
+<dd><dl><dt><span class="sect3"><a href="#idp4863584">4.13.1. expire.ctl</a></span></dt></dl></dd>
 </dl></dd>
 <dt><span class="sect1"><a href="#maintain-inn">5. 维护新闻组</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4890944">5.1. inncheck</a></span></dt>
-<dt><span class="sect2"><a href="#idp4894320">5.2. 创建新闻组</a></span></dt>
-<dt><span class="sect2"><a href="#idp4897280">5.3. 删除新闻组</a></span></dt>
-<dt><span class="sect2"><a href="#idp4900240">5.4. 备份</a></span></dt>
+<dt><span class="sect2"><a href="#idp4889376">5.1. inncheck</a></span></dt>
+<dt><span class="sect2"><a href="#idp4892752">5.2. 创建新闻组</a></span></dt>
+<dt><span class="sect2"><a href="#idp4895712">5.3. 删除新闻组</a></span></dt>
+<dt><span class="sect2"><a href="#idp4898672">5.4. 备份</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#client">6. 访问新闻组</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4902128">6.1. 客户端</a></span></dt>
-<dt><span class="sect2"><a href="#idp4907648">6.2. 可用的新闻服务器</a></span></dt>
+<dt><span class="sect2"><a href="#idp4900560">6.1. 客户端</a></span></dt>
+<dt><span class="sect2"><a href="#idp4906080">6.2. 可用的新闻服务器</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#why-not-news">7. 还用新闻组么？</a></span></dt>
 <dt><span class="sect1"><a href="#mail-news-gw">8. Mail-News Gateway</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4930544">8.1. mailpost</a></span></dt>
-<dt><span class="sect2"><a href="#idp4940560">8.2. news2mail</a></span></dt>
+<dt><span class="sect2"><a href="#idp4928976">8.1. mailpost</a></span></dt>
+<dt><span class="sect2"><a href="#idp4938992">8.2. news2mail</a></span></dt>
 </dl></dd>
 </dl>
 </div>
@@ -130,7 +130,7 @@
 <a name="why-inn"></a>1. 为什么要使用新闻组？</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4455856"></a>1.1. 企业内部使用NEWS服务的优势</h3></div></div></div>
+<a name="idp4455920"></a>1.1. 企业内部使用NEWS服务的优势</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -198,7 +198,7 @@ News 可以提供分布式服务，知道大名鼎鼎的 USEnet 么？
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4468144"></a>1.2. 企业内部新闻服务的用途</h3></div></div></div>
+<a name="idp4468208"></a>1.2. 企业内部新闻服务的用途</h3></div></div></div>
 <p>
 四个字：知识管理。
 </p>
@@ -833,7 +833,7 @@ Connection closed by foreign host.
 <a name="inside-inn"></a>4. 深入 INN</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4601840"></a>4.1. 新闻组体系结构</h3></div></div></div>
+<a name="idp4600256"></a>4.1. 新闻组体系结构</h3></div></div></div>
 <p>
 INN帮助文档中经常提到 feeder（喂食者） 和 reader（读者），也有人将其翻译为上游和下游。但是根据新闻组的架构，往往难以分清这两个角色。
 </p>
@@ -885,7 +885,7 @@ News Server。 举个例子来说, 我们所需要的Newsgroups, 是我们的上
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4609424"></a>4.2. 新闻组文章结构</h3></div></div></div>
+<a name="idp4607840"></a>4.2. 新闻组文章结构</h3></div></div></div>
 <p>
 一个典型的新闻文章结构：头部信息、一个空行、正文部分。头部信息的每一行又是由关键字、冒号、空格和内容构成。
 </p>
@@ -1131,7 +1131,7 @@ article 无法 expire 掉 (有不用停 server 的方法, 已 post 在前)
 <a name="news-conf-overview"></a>4.5. overview 维护</h3></div></div></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4658720"></a>4.5.1. overview的概念</h4></div></div></div>
+<a name="idp4657136"></a>4.5.1. overview的概念</h4></div></div></div>
 <p>
 "News Overview" 顾名思义, overview 就是先大略看看 article 的相关资讯。
 </p>
@@ -1188,7 +1188,7 @@ article 无法 expire 掉 (有不用停 server 的方法, 已 post 在前)
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4687392"></a>4.5.2. 维护</h4></div></div></div>
+<a name="idp4685824"></a>4.5.2. 维护</h4></div></div></div>
 <p>
 文章过期，NOV 会自动更新。但是如果文章被 cancel，NOV不会被更新。这样当文章过期后，文章在 spool 中不存在，而 NOV 中仍存在。这就需要用如下命令定期清理（可以把该命令加入到 crontab 中）：
 </p>
@@ -1292,7 +1292,7 @@ lowmark
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4707648"></a>4.7. inn.conf</h3></div></div></div>
+<a name="idp4706080"></a>4.7. inn.conf</h3></div></div></div>
 <p>
 inn.conf - Configuration data for InterNetNews programs
 </p>
@@ -1681,7 +1681,7 @@ access "admin" {
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4752960"></a>4.9. 受控新闻组</h3></div></div></div>
+<a name="idp4751392"></a>4.9. 受控新闻组</h3></div></div></div>
 <p>
 受控新闻组（Moderated Groups）就如同受控邮件列表一样，不允许用户直接发表文章，而是转发到管理员，由管理员审核后，再次发布到新闻组中，从而实现受控新闻。
 </p>
@@ -1697,7 +1697,7 @@ access "admin" {
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4756576"></a>4.10. 撤销和管理文章</h3></div></div></div>
+<a name="idp4755008"></a>4.10. 撤销和管理文章</h3></div></div></div>
 <p>
 撤销和管理文章，实际上是再次发表带有控制信息的文章，服务器根据其包含的控制信息进行相应动作。
 </p>
@@ -1740,13 +1740,13 @@ rmgroup:*:*:mail
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4762128"></a>4.11. 喂信（News Feeds）设置</h3></div></div></div>
+<a name="idp4760560"></a>4.11. 喂信（News Feeds）设置</h3></div></div></div>
 <p>
 配置文件 <code class="filename">incoming.conf</code>，用来控制来自外部的喂信（incoming feed）；配置文件 <code class="filename">newsfeeds</code>，用来控制本服务器向外部的喂信（outgoing feed）。
 </p>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4764400"></a>4.11.1. 被动接收上游喂信</h4></div></div></div>
+<a name="idp4762832"></a>4.11.1. 被动接收上游喂信</h4></div></div></div>
 <p>
 配置接收外部新闻服务器喂信非常简单，只需要修改配置文件<code class="filename">incoming.conf</code>即可。注意其中的 peer ME 的设置，不正确的设置，导致不能收到文章。
 </p>
@@ -1785,7 +1785,7 @@ ME:!*/!local,!collabra-internal::
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4771344"></a>4.11.2. 主动去上游取信</h4></div></div></div>
+<a name="idp4769776"></a>4.11.2. 主动去上游取信</h4></div></div></div>
 <p>
 如果无法通知上游向本地喂信，想要从其它服务器获取新闻消息，可以使用 suck 从上游取信。suck 可以认为是一个 news 客户端，负责从新闻组服务器获取新闻，并可以以各种格式存储，交给 innfeed，innxmit 等inn软件包的程序进一步处理（如投递到本地）。
 </p>
@@ -2131,7 +2131,7 @@ transtab 示例：/usr/local/news/suck/news.newsfan.net/transtab
 </div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4808480"></a>4.11.3. 向外喂信</h4></div></div></div>
+<a name="idp4806912"></a>4.11.3. 向外喂信</h4></div></div></div>
 <p>
 由配置文件<code class="filename">newsfeeds</code>控制。newsfeeds档案的设定, 算是INN News Server最重要的工作, 也是困难度最高的部份。 innd 靠 newsfeeds 来决定要丢哪些 newsgroups 的 articles 给哪些 site 负责的程序 (nntplink) 或产生批处理, 让其它的程序来转送。
 </p>
@@ -2286,7 +2286,7 @@ funnel feed 示例，注意 innfeed 后面的感叹号。
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4839776"></a>4.12. 存储方式</h3></div></div></div>
+<a name="idp4838208"></a>4.12. 存储方式</h3></div></div></div>
 <p>
 对于如何管理文章的存储方式，有四种存储方法，可供选择。
 </p>
@@ -2407,7 +2407,7 @@ $ <span><strong class="command">touch spool/tradspool.map</strong></span>
 <a name="inn-expire"></a>4.13. 文档的过期设置</h3></div></div></div>
 <div class="sect3" lang="zh-cn">
 <div class="titlepage"><div><div><h4 class="title">
-<a name="idp4865152"></a>4.13.1. expire.ctl</h4></div></div></div>
+<a name="idp4863584"></a>4.13.1. expire.ctl</h4></div></div></div>
 <p>
 配置文件 <code class="filename">expire.ctl</code>，控制文章的过期设置
 </p>
@@ -2546,7 +2546,7 @@ mail result to user usenet.
 <a name="maintain-inn"></a>5. 维护新闻组</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4890944"></a>5.1. inncheck</h3></div></div></div>
+<a name="idp4889376"></a>5.1. inncheck</h3></div></div></div>
 <p>
 inncheck 检查的文件有：
 </p>
@@ -2583,7 +2583,7 @@ Looking at /usr/local/news/etc/readers.conf...
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4894320"></a>5.2. 创建新闻组</h3></div></div></div>
+<a name="idp4892752"></a>5.2. 创建新闻组</h3></div></div></div>
 <pre class="screen">
 $ ctlinnd newgroup local.announce        y johnson.AT.worldhello.net
 $ ctlinnd newgroup local.test            y johnson.AT.worldhello.net
@@ -2609,7 +2609,7 @@ $ ctlinnd go 'edit active'
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4897280"></a>5.3. 删除新闻组</h3></div></div></div>
+<a name="idp4895712"></a>5.3. 删除新闻组</h3></div></div></div>
 <p>
 如果只有一两个 newsgroups 要砍, 可直接执行 <span><strong class="command">ctlinnd rmgroup &lt;group-name&gt;</strong></span> 来砍, 如果一次有好几百个 newsgroups 要砍, 请依照以下步骤:
 </p>
@@ -2622,7 +2622,7 @@ $ ctlinnd go "removing idle newsgroups"
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4900240"></a>5.4. 备份</h3></div></div></div>
+<a name="idp4898672"></a>5.4. 备份</h3></div></div></div>
 <p>
 待续...
 </p>
@@ -2633,7 +2633,7 @@ $ ctlinnd go "removing idle newsgroups"
 <a name="client"></a>6. 访问新闻组</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4902128"></a>6.1. 客户端</h3></div></div></div>
+<a name="idp4900560"></a>6.1. 客户端</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -2661,7 +2661,7 @@ Forte Agent
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4907648"></a>6.2. 可用的新闻服务器</h3></div></div></div>
+<a name="idp4906080"></a>6.2. 可用的新闻服务器</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -2754,7 +2754,7 @@ Hong Kong LUG
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4930544"></a>8.1. mailpost</h3></div></div></div>
+<a name="idp4928976"></a>8.1. mailpost</h3></div></div></div>
 <p>
 inn 提供的 perl 脚本 —— mailpost，可以完成邮件到新闻组的转换。配置方法：
 </p>
@@ -2801,7 +2801,7 @@ mailpost 脚本通过 inews，执行 post 动作，因此运行 sendmail 的用�
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4940560"></a>8.2. news2mail</h3></div></div></div>
+<a name="idp4938992"></a>8.2. news2mail</h3></div></div></div>
 <p>
 inn 提供的 perl 脚本 —— news2mail，可以将新闻组文章以邮件方式转发。
 </p>
