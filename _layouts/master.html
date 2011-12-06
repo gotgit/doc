@@ -4,11 +4,15 @@
 <html>
   <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-    <title>World Hello - {{ page.title }}</title>
+    <title>{{ page.title }}</title>
     <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" media="screen" charset="utf-8"/>
     <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" media="screen" charset="utf-8"/>
-    <script src="/javascripts/jquery.js" type="text/javascript" charset="utf-8"></script>
-    <script src="/javascripts/jquery.github.js" type="text/javascript" charset="utf-8"></script>
+    {% for style in page.stylesheets %}
+    <link rel="stylesheet" href="{{ style }}" type="text/css" media="screen" charset="utf-8"/>
+    {% endfor %}
+    {% for script in page.javascripts %}
+    <script src="{{ script }}"></script>
+    {% endfor %}
   </head>
   <body>
     <div id='wrapper'>
@@ -26,6 +30,7 @@
           </ul>
         </div>
       </div>
+
       <div id='content'>
         <div class="home-box" style="width:100%; line-height:200%;">
           {{ content }}
