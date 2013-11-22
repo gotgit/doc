@@ -1,0 +1,324 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. 硬件设置 &mdash; raspi 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" />
+    <link rel="stylesheet" href="static/worldhello.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="raspi 0.1 documentation" href="index.html" />
+    <link rel="next" title="4. 多媒体" href="multimedia.html" />
+    <link rel="prev" title="2. Raspbian" href="raspbian.html" /> 
+  </head>
+  <body>
+    <div id='header'>
+      <h1><a href='/'>World Hello</a></h1>
+
+      <div id='menu'>
+        <ul>
+          <li><a href='/' id='home-link' title='Home'>首页</a></li>
+          <li><a href='/blog.html' id='blog-link' title='Blog'>博客</a></li>
+          <li><a href='/doc/' id='docs-link' title='Docs'>文章</a></li>
+          <li><a href='/about.html' id='about-link' title='About'>关于</a></li>
+          <li><a href='http://github.com/gotgit' target='_blank' title='GitHub' rel='me' id='github-link'>GitHub</a></li>
+          <li><a href='http://weibo.com/gotgit' title='微博' target='_blank' id='weibo-link'>微博</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="multimedia.html" title="4. 多媒体"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="raspbian.html" title="2. Raspbian"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">3. 硬件设置</a><ul>
+<li><a class="reference internal" href="#id2">3.1. 内置网卡</a></li>
+<li><a class="reference internal" href="#id3">3.2. 无线网卡</a></li>
+<li><a class="reference internal" href="#id4">3.3. 蓝牙</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="raspbian.html"
+                        title="previous chapter">2. Raspbian</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="multimedia.html"
+                        title="next chapter">4. 多媒体</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/hardware-settings.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>3. 硬件设置<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>3.1. 内置网卡<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>配置网卡地址，编辑文件<tt class="docutils literal"><span class="pre">/etc/network/interfaces</span></tt>。默认配置如下：</p>
+<div class="highlight-python"><pre>iface eth0 inet dhcp</pre>
+</div>
+<p>如果设置为固定IP，可参照帮助：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>man interfaces
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>3.2. 无线网卡<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>用<tt class="docutils literal"><span class="pre">dmesg</span></tt>诊断：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>dmesg | grep usb
+</pre></div>
+</div>
+<p>查看USB设备中的无线网卡：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>lsusb
+Bus 001 Device 007: ID 0bda:8178 Realtek Semiconductor Corp. RTL8192CU 802.11n WLAN Adapter
+...
+</pre></div>
+</div>
+<p>安装无线网卡相应的firmeware。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install firmware-realtek
+</pre></div>
+</div>
+<p>无线网卡正确驱动后，执行下面命令扫描可用的无线网络：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>iwlist scan | less
+</pre></div>
+</div>
+<p>编辑<tt class="docutils literal"><span class="pre">/etc/wpa_supplicant/wpa_supplicant.conf</span></tt>文件，在该文件中添加不同的无线网设置，以便自动适配。</p>
+<div class="highlight-python"><pre>ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+# WPA-Personal (PSK)
+network={
+    ssid="home"
+    scan_ssid=1
+    key_mgmt=WPA-PSK
+    psk="密钥"
+    id_str="home"
+}
+# work network; use EAP-TLS with WPA; allow only CCMP and TKIP ciphers
+network={
+    ssid="work"
+    scan_ssid=1
+    key_mgmt=WPA-EAP
+    pairwise=CCMP TKIP
+    group=CCMP TKIP
+    eap=TLS
+    identity="user@example.com"
+    ca_cert="/etc/cert/ca.pem"
+    client_cert="/etc/cert/user.pem"
+    private_key="/etc/cert/user.prv"
+    private_key_passwd="password"
+    id_str="work"
+}
+# non encrypted network
+network={
+    ssid="unsecure"
+    scan_ssid=1
+    key_mgmt=NONE
+    id_str="unsecure"
+}</pre>
+</div>
+<p>然后编辑<tt class="docutils literal"><span class="pre">/etc/network/interfaces</span></tt>配置文件。如果无线网卡自动设置IP地址，如下：</p>
+<div class="highlight-python"><pre>allow-hotplug wlan0
+iface wlan0 inet manual
+  wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
+iface default inet dhcp</pre>
+</div>
+<p>如果希望在不同环境下（id_str设定环境名），采用不同IP地址分配策略：</p>
+<div class="highlight-python"><pre>allow-hotplug wlan0
+iface wlan0 inet manual
+  wpa-roam /etc/wpa_supplicant/wpa_supplicant.conf
+
+
+# Leave this in to default to dhcp
+iface default inet dhcp
+
+
+# At home, we want to have a static IP 192.168.1.2/24 with default gw 192.168.1.1
+iface home inet static
+        address 192.168.1.2
+        network 255.255.255.0
+        gateway 192.168.1.1
+
+
+# At work, we want static IP 10.0.0.10/24 with default gw 10.0.0.1
+iface work inet static
+        address 10.0.0.20
+        network 255.255.255.0
+        gateway 10.0.0.1</pre>
+</div>
+<p>启动无线网：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo ifdown wlan0
+<span class="nv">$ </span>sudo ifup wlan0
+</pre></div>
+</div>
+<p>查看无线网卡：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo iwconfig
+</pre></div>
+</div>
+<p>查看无线网卡IP：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo ifconfig wlan0
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>3.3. 蓝牙<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>安装软件：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install bluetooth bluez-utils
+</pre></div>
+</div>
+<p>安装桌面下的蓝牙配置图形界面：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install blueman
+</pre></div>
+</div>
+<p>编辑配置文件<tt class="docutils literal"><span class="pre">/etc/default/bluetoolth</span></tt>：</p>
+<ol class="arabic">
+<li><p class="first">自动启动蓝牙：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">BLUETOOTH_ENABLED</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">启用蓝牙鼠标和键盘：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">HID2HCI_ENABLED</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>如果使用图形界面配置蓝牙，下面的步骤可以忽略。</p>
+<p>检查蓝牙服务状态：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>/etc/init.d/bluetooth status
+</pre></div>
+</div>
+<p>显示USB蓝牙模块，已确认正确安装：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>hcitool dev
+Devices:
+        hci0    00:1A:7D:DA:71:13
+</pre></div>
+</div>
+<p>扫描蓝牙设备：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>hcitool scan
+Scanning ...
+       00:0F:F6:82:D1:BB       Motorola Bluetooth Wireless Keyboard
+</pre></div>
+</div>
+<p>记录设备的MAC地址，用下面命令和蓝牙设备配对：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>bluez-simple-agent hci0 00:0F:F6:82:D1:BB
+RequestPinCode <span class="o">(</span>/org/bluez/3964/hci0/dev_00_0F_F6_82_D1_BB<span class="o">)</span>
+Enter PIN Code: Release
+New device <span class="o">(</span>/org/bluez/3964/hci0/dev_00_0F_F6_82_D1_BB<span class="o">)</span>
+</pre></div>
+</div>
+<p>信任设备以便下次自动连接：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>bluez-test-device trusted 00:0F:F6:82:D1:BB yes
+</pre></div>
+</div>
+<p>或者：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>bt-device --set 00:0F:F6:82:D1:BB Trusted 1
+</pre></div>
+</div>
+<p>查看蓝牙连接：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>hcitool con
+Connections:
+       &lt; ACL 00:0F:F6:82:D1:BB handle 41 state 1 lm MASTER AUTH ENCRYPT
+</pre></div>
+</div>
+<p>查看注册的蓝牙设备：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>bt-device -l
+</pre></div>
+</div>
+<p>蓝牙音频</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install pulseaudio pulseaudio-module-bluetooth bluez-audio pavucontrol bluez-firmware bluez-tools
+
+bt-audio -c 00:02:3C:38:AC:B9
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="multimedia.html" title="4. 多媒体"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="raspbian.html" title="2. Raspbian"
+             >previous</a> |</li>
+        <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>
+      <br />
+      全部内容以 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons 署名-非商业性使用-相同方式共享 3.0 协议发布</a>.
+      <br />
+        &copy; Copyright 2013, 蒋鑫。
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b3 创建。
+
+    </div>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Raspberry Pi memo &mdash; raspi 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" />
+    <link rel="stylesheet" href="static/worldhello.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="raspi 0.1 documentation" href="#" />
+    <link rel="next" title="1. 树莓派" href="about-raspi.html" /> 
+  </head>
+  <body>
+    <div id='header'>
+      <h1><a href='/'>World Hello</a></h1>
+
+      <div id='menu'>
+        <ul>
+          <li><a href='/' id='home-link' title='Home'>首页</a></li>
+          <li><a href='/blog.html' id='blog-link' title='Blog'>博客</a></li>
+          <li><a href='/doc/' id='docs-link' title='Docs'>文章</a></li>
+          <li><a href='/about.html' id='about-link' title='About'>关于</a></li>
+          <li><a href='http://github.com/gotgit' target='_blank' title='GitHub' rel='me' id='github-link'>GitHub</a></li>
+          <li><a href='http://weibo.com/gotgit' title='微博' target='_blank' id='weibo-link'>微博</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="about-raspi.html" title="1. 树莓派"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Raspberry Pi memo</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#id1">索引和表格</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="about-raspi.html"
+                        title="next chapter">1. 树莓派</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="raspberry-pi-memo">
+<h1>Raspberry Pi memo<a class="headerlink" href="#raspberry-pi-memo" title="Permalink to this headline">¶</a></h1>
+<p>目录：</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="about-raspi.html">1. 树莓派</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="about-raspi.html#id3">1.1. 树莓派外设</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#id4">1.1.1. 电源</a></li>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#sd">1.1.2. SD卡</a></li>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#id5">1.1.3. 读卡器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#id6">1.1.4. 键盘、鼠标</a></li>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#hdmi">1.1.5. HDMI线</a></li>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#id7">1.1.6. 外壳</a></li>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#usb-hub">1.1.7. USB Hub</a></li>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#id8">1.1.8. 无线网卡</a></li>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#id9">1.1.9. 蓝牙模块</a></li>
+<li class="toctree-l3"><a class="reference internal" href="about-raspi.html#gpio">1.1.10. GPIO转接板等</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="raspbian.html">2. Raspbian</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="raspbian.html#id1">2.1. 初始安装</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspbian.html#id2">2.2. 设置显卡内存占用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspbian.html#id3">2.3. 更新Raspbian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspbian.html#id4">2.4. 更新树莓派固件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspbian.html#locale">2.5. 设置中文locale</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspbian.html#id5">2.6. 安装中文支持</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspbian.html#id6">2.7. 控制台自动登录</a></li>
+<li class="toctree-l2"><a class="reference internal" href="raspbian.html#tmux">2.8. Tmux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hardware-settings.html">3. 硬件设置</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="hardware-settings.html#id2">3.1. 内置网卡</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hardware-settings.html#id3">3.2. 无线网卡</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hardware-settings.html#id4">3.3. 蓝牙</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="multimedia.html">4. 多媒体</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="multimedia.html#id2">4.1. 命令行下的多媒体</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="multimedia.html#moc">4.1.1. moc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multimedia.html#omxplayer">4.1.2. omxplayer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="multimedia.html#fbi">4.1.3. fbi</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="multimedia.html#xbmc">4.2. XBMC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multimedia.html#wayland-future-desktop">4.3. Wayland: future desktop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multimedia.html#a2dp">4.4. A2DP</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="games.html">5. 游戏</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="games.html#pingus">5.1. Pingus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="games.html#supertux">5.2. SuperTux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="games.html#ketm">5.3. KETM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="programming.html">6. 编程</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="programming.html#scratch">6.1. Scratch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programming.html#python">6.2. Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="programming.html#ruby">6.3. Ruby</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gpio.html">7. GPIO Hacking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#shellgpio">7.1. Shell向GPIO输出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#pythongpio">7.2. Python向GPIO输出</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gpio.html#rubygpio">7.3. Ruby向GPIO输出</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id1">
+<h1>索引和表格<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="about-raspi.html" title="1. 树莓派"
+             >next</a> |</li>
+        <li><a href="#">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>
+      <br />
+      全部内容以 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons 署名-非商业性使用-相同方式共享 3.0 协议发布</a>.
+      <br />
+        &copy; Copyright 2013, 蒋鑫。
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b3 创建。
+
+    </div>
+  </body>
+</html>

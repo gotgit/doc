@@ -1,0 +1,207 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7. GPIO Hacking &mdash; raspi 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" />
+    <link rel="stylesheet" href="static/worldhello.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="raspi 0.1 documentation" href="index.html" />
+    <link rel="prev" title="6. 编程" href="programming.html" /> 
+  </head>
+  <body>
+    <div id='header'>
+      <h1><a href='/'>World Hello</a></h1>
+
+      <div id='menu'>
+        <ul>
+          <li><a href='/' id='home-link' title='Home'>首页</a></li>
+          <li><a href='/blog.html' id='blog-link' title='Blog'>博客</a></li>
+          <li><a href='/doc/' id='docs-link' title='Docs'>文章</a></li>
+          <li><a href='/about.html' id='about-link' title='About'>关于</a></li>
+          <li><a href='http://github.com/gotgit' target='_blank' title='GitHub' rel='me' id='github-link'>GitHub</a></li>
+          <li><a href='http://weibo.com/gotgit' title='微博' target='_blank' id='weibo-link'>微博</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="programming.html" title="6. 编程"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">7. GPIO Hacking</a><ul>
+<li><a class="reference internal" href="#shellgpio">7.1. Shell向GPIO输出</a></li>
+<li><a class="reference internal" href="#pythongpio">7.2. Python向GPIO输出</a></li>
+<li><a class="reference internal" href="#rubygpio">7.3. Ruby向GPIO输出</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="programming.html"
+                        title="previous chapter">6. 编程</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/gpio.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="gpio-hacking">
+<h1>7. GPIO Hacking<a class="headerlink" href="#gpio-hacking" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="shellgpio">
+<h2>7.1. Shell向GPIO输出<a class="headerlink" href="#shellgpio" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-sh"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
+
+test_pin_out<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">pin</span><span class="o">=</span><span class="nv">$1</span>
+    <span class="nv">pin_path</span><span class="o">=</span><span class="s2">&quot;/sys/class/gpio/gpio${pin}&quot;</span>
+    <span class="k">if</span> <span class="o">[</span> ! -d <span class="nv">$pin_path</span> <span class="o">]</span>; <span class="k">then</span>
+<span class="k">        </span><span class="nb">echo</span> <span class="s2">&quot;$pin&quot;</span> &gt; /sys/class/gpio/export
+    <span class="k">fi</span>
+<span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;out&quot;</span> &gt; <span class="nv">$pin_path</span>/direction
+    <span class="nb">echo</span> <span class="s2">&quot;1&quot;</span> &gt; <span class="nv">$pin_path</span>/value
+    sleep 2
+    <span class="nb">echo</span> <span class="s2">&quot;0&quot;</span> &gt; <span class="nv">$pin_path</span>/value
+<span class="o">}</span>
+
+test_pin_out 17
+test_pin_out 18
+test_pin_out 27
+test_pin_out 22
+test_pin_out 23
+test_pin_out 24
+test_pin_out 25
+</pre></div>
+</div>
+</div>
+<div class="section" id="pythongpio">
+<h2>7.2. Python向GPIO输出<a class="headerlink" href="#pythongpio" title="Permalink to this headline">¶</a></h2>
+<p>设置GPIO端口为OUTPUT模式，依次设置为True，输出高电平（3.3v）。Python代码：</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
+
+<span class="kn">import</span> <span class="nn">RPi.GPIO</span> <span class="kn">as</span> <span class="nn">GPIO</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">time</span>
+
+<span class="c">## Mapping between GPIO.BOARD and GPIO.BCM:</span>
+<span class="c"># GPIO.BOARD (Pin): 11  12  13     15  16  18  22  07</span>
+<span class="c"># GPIO.BCM  (GPIO): 17  18  21/27  22  23  24  25  clock</span>
+<span class="c"># Extension Board : P0  P1  P2     P3  P4  P5  P6  P7</span>
+
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setmode</span><span class="p">(</span><span class="n">GPIO</span><span class="o">.</span><span class="n">BOARD</span><span class="p">)</span>
+
+<span class="c"># Do not warning if already setup for #pin.</span>
+<span class="n">GPIO</span><span class="o">.</span><span class="n">setwarnings</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">pin</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">22</span><span class="p">):</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="n">GPIO</span><span class="o">.</span><span class="n">OUT</span><span class="p">)</span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Test pin #</span><span class="si">%s</span><span class="s"> ...</span><span class="se">\t</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">pin</span><span class="p">),</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">GPIO</span><span class="o">.</span><span class="n">output</span><span class="p">(</span><span class="n">pin</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;done&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="rubygpio">
+<h2>7.3. Ruby向GPIO输出<a class="headerlink" href="#rubygpio" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/env ruby</span>
+
+<span class="n">require</span> <span class="s">&#39;pi_piper&#39;</span>
+
+<span class="p">[</span><span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span><span class="o">.</span><span class="n">each</span> <span class="n">do</span> <span class="o">|</span><span class="n">pin</span><span class="o">|</span>
+  <span class="k">print</span> <span class="s">&quot;Test pin ##{pin}...</span><span class="se">\t</span><span class="s">&quot;</span>
+  <span class="n">gpio</span> <span class="o">=</span> <span class="n">PiPiper</span><span class="p">::</span><span class="n">Pin</span><span class="o">.</span><span class="n">new</span><span class="p">(:</span><span class="n">pin</span> <span class="o">=&gt;</span> <span class="n">pin</span><span class="p">,</span> <span class="p">:</span><span class="n">direction</span> <span class="o">=&gt;</span> <span class="p">:</span><span class="n">out</span><span class="p">)</span>
+  <span class="n">gpio</span><span class="o">.</span><span class="n">on</span>
+  <span class="n">sleep</span> <span class="mi">2</span>
+  <span class="n">gpio</span><span class="o">.</span><span class="n">off</span>
+  <span class="n">puts</span> <span class="s">&quot;done&quot;</span>
+<span class="n">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="programming.html" title="6. 编程"
+             >previous</a> |</li>
+        <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>
+      <br />
+      全部内容以 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons 署名-非商业性使用-相同方式共享 3.0 协议发布</a>.
+      <br />
+        &copy; Copyright 2013, 蒋鑫。
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b3 创建。
+
+    </div>
+  </body>
+</html>

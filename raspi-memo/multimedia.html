@@ -1,0 +1,235 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. 多媒体 &mdash; raspi 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" />
+    <link rel="stylesheet" href="static/worldhello.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="raspi 0.1 documentation" href="index.html" />
+    <link rel="next" title="5. 游戏" href="games.html" />
+    <link rel="prev" title="3. 硬件设置" href="hardware-settings.html" /> 
+  </head>
+  <body>
+    <div id='header'>
+      <h1><a href='/'>World Hello</a></h1>
+
+      <div id='menu'>
+        <ul>
+          <li><a href='/' id='home-link' title='Home'>首页</a></li>
+          <li><a href='/blog.html' id='blog-link' title='Blog'>博客</a></li>
+          <li><a href='/doc/' id='docs-link' title='Docs'>文章</a></li>
+          <li><a href='/about.html' id='about-link' title='About'>关于</a></li>
+          <li><a href='http://github.com/gotgit' target='_blank' title='GitHub' rel='me' id='github-link'>GitHub</a></li>
+          <li><a href='http://weibo.com/gotgit' title='微博' target='_blank' id='weibo-link'>微博</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="games.html" title="5. 游戏"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="hardware-settings.html" title="3. 硬件设置"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">4. 多媒体</a><ul>
+<li><a class="reference internal" href="#id2">4.1. 命令行下的多媒体</a><ul>
+<li><a class="reference internal" href="#moc">4.1.1. moc</a></li>
+<li><a class="reference internal" href="#omxplayer">4.1.2. omxplayer</a></li>
+<li><a class="reference internal" href="#fbi">4.1.3. fbi</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#xbmc">4.2. XBMC</a></li>
+<li><a class="reference internal" href="#wayland-future-desktop">4.3. Wayland: future desktop</a></li>
+<li><a class="reference internal" href="#a2dp">4.4. A2DP</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="hardware-settings.html"
+                        title="previous chapter">3. 硬件设置</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="games.html"
+                        title="next chapter">5. 游戏</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/multimedia.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>4. 多媒体<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>4.1. 命令行下的多媒体<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="moc">
+<h3>4.1.1. moc<a class="headerlink" href="#moc" title="Permalink to this headline">¶</a></h3>
+<p>moc 是一款控制台下播放MP3的软件。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install moc
+<span class="nv">$ </span>mocp
+</pre></div>
+</div>
+<p>输入问号&#8221;?&#8221;显示快捷键：</p>
+<ul class="simple">
+<li>回车：进入目录或播放歌曲。</li>
+<li>空格：暂停</li>
+<li>s：停止播放</li>
+<li>q：退出界面，正在播放的歌曲仍然继续后台播放。</li>
+<li>S：乱序</li>
+<li>R：循环</li>
+<li>&lt;&gt;或,.：调节音量</li>
+<li>a/A：添加一个文件、目录到播放列表</li>
+<li>C：清空播放列表</li>
+<li>TAB：在文件列表和播放列表间切换</li>
+</ul>
+</div>
+<div class="section" id="omxplayer">
+<h3>4.1.2. omxplayer<a class="headerlink" href="#omxplayer" title="Permalink to this headline">¶</a></h3>
+<p>针对树莓派GPU优化的视频播放应用。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>omxplayer
+</pre></div>
+</div>
+</div>
+<div class="section" id="fbi">
+<h3>4.1.3. fbi<a class="headerlink" href="#fbi" title="Permalink to this headline">¶</a></h3>
+<p>控制台下浏览图片。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>fbi -a -t 5 *.jpg
+</pre></div>
+</div>
+<p>快捷键：</p>
+<ul class="simple">
+<li>H：显示帮助信息</li>
+<li>A：自动缩放</li>
+<li>PageUp/PageDown：前一张/下一张图片</li>
+</ul>
+</div>
+</div>
+<div class="section" id="xbmc">
+<h2>4.2. XBMC<a class="headerlink" href="#xbmc" title="Permalink to this headline">¶</a></h2>
+<p>XBMC是一个开源的家庭多媒体中心平台。树莓派有两个以XBMC为核心的操作系统发行版：RaspBMC和OpenELEC。</p>
+<p>在Raspbian中的XBMC软件包直接来自于Debian，不但版本老，而且安装会由于软件包版本冲突导致失败，可以使用第三方编译的Debian包。方法如下：</p>
+<ol class="arabic">
+<li><p class="first">添加新的APT源：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="c"># cat &gt; /etc/apt/sources.list.d/xbmc.list &lt;&lt;EOF</span>
+deb http://archive.mene.za.net/raspbian wheezy contrib
+EOF
+</pre></div>
+</div>
+</li>
+<li><p class="first">添加新的开发者公钥到APT公钥链中。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key 5243CDED
+</pre></div>
+</div>
+</li>
+<li><p class="first">更新APT源。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude update
+</pre></div>
+</div>
+</li>
+<li><p class="first">安装xbmc。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install xbmc
+</pre></div>
+</div>
+</li>
+</ol>
+<p>XBMC是独立于X Window的应用，在控制台下执行如下命令启动XBMC：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>xbmc-standalone
+</pre></div>
+</div>
+</div>
+<div class="section" id="wayland-future-desktop">
+<h2>4.3. Wayland: future desktop<a class="headerlink" href="#wayland-future-desktop" title="Permalink to this headline">¶</a></h2>
+<p>当前树莓派的桌面还是基于X.org，没有很好地利用GPU，性能不高，也缺乏桌面特效。总之使用树莓派运行X Window上的桌面应用非常牵强。</p>
+<p>不过好消息是Wayland作为下一代桌面引擎，很快就会到来，当前硬件配置的树莓派就可以在Wayland上很好的工作。拭目以待吧。</p>
+</div>
+<div class="section" id="a2dp">
+<h2>4.4. A2DP<a class="headerlink" href="#a2dp" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="games.html" title="5. 游戏"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="hardware-settings.html" title="3. 硬件设置"
+             >previous</a> |</li>
+        <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>
+      <br />
+      全部内容以 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons 署名-非商业性使用-相同方式共享 3.0 协议发布</a>.
+      <br />
+        &copy; Copyright 2013, 蒋鑫。
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b3 创建。
+
+    </div>
+  </body>
+</html>

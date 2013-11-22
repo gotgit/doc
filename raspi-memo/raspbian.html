@@ -1,0 +1,251 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Raspbian &mdash; raspi 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/master.css" type="text/css" />
+    <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css" />
+    <link rel="stylesheet" href="static/worldhello.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+    <link rel="top" title="raspi 0.1 documentation" href="index.html" />
+    <link rel="next" title="3. 硬件设置" href="hardware-settings.html" />
+    <link rel="prev" title="1. 树莓派" href="about-raspi.html" /> 
+  </head>
+  <body>
+    <div id='header'>
+      <h1><a href='/'>World Hello</a></h1>
+
+      <div id='menu'>
+        <ul>
+          <li><a href='/' id='home-link' title='Home'>首页</a></li>
+          <li><a href='/blog.html' id='blog-link' title='Blog'>博客</a></li>
+          <li><a href='/doc/' id='docs-link' title='Docs'>文章</a></li>
+          <li><a href='/about.html' id='about-link' title='About'>关于</a></li>
+          <li><a href='http://github.com/gotgit' target='_blank' title='GitHub' rel='me' id='github-link'>GitHub</a></li>
+          <li><a href='http://weibo.com/gotgit' title='微博' target='_blank' id='weibo-link'>微博</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="hardware-settings.html" title="3. 硬件设置"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="about-raspi.html" title="1. 树莓派"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. Raspbian</a><ul>
+<li><a class="reference internal" href="#id1">2.1. 初始安装</a></li>
+<li><a class="reference internal" href="#id2">2.2. 设置显卡内存占用</a></li>
+<li><a class="reference internal" href="#id3">2.3. 更新Raspbian</a></li>
+<li><a class="reference internal" href="#id4">2.4. 更新树莓派固件</a></li>
+<li><a class="reference internal" href="#locale">2.5. 设置中文locale</a></li>
+<li><a class="reference internal" href="#id5">2.6. 安装中文支持</a></li>
+<li><a class="reference internal" href="#id6">2.7. 控制台自动登录</a></li>
+<li><a class="reference internal" href="#tmux">2.8. Tmux</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="about-raspi.html"
+                        title="previous chapter">1. 树莓派</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="hardware-settings.html"
+                        title="next chapter">3. 硬件设置</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="sources/raspbian.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="raspbian">
+<h1>2. Raspbian<a class="headerlink" href="#raspbian" title="Permalink to this headline">¶</a></h1>
+<p>树莓派（Raspberry Pi）使用SD卡作为主存储，需要将操作系统刷到SD卡中。在官网（<a class="reference external" href="http://www.raspberrypi.org/downloads">http://www.raspberrypi.org/downloads</a>）上提供了不同的操作系统选择。官方推荐Rastbian。</p>
+<p>Raspbian = Raspberry pi - Debian</p>
+<p>即Rastbian是一款基于Debian，针对树莓派定制的Linux发行版。</p>
+<div class="section" id="id1">
+<h2>2.1. 初始安装<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>首先就是刷SD卡。下载Raspbin安装包，解开压缩包，使用<tt class="docutils literal"><span class="pre">dd</span></tt>命令将镜像写入SD卡。在写SD卡时的注意事项：</p>
+<ol class="arabic simple">
+<li>Raspbian安装镜像中包含两个分区（一个挂载到<tt class="docutils literal"><span class="pre">/boot</span></tt>卷，一个mount到根卷），因此在使用<tt class="docutils literal"><span class="pre">dd</span></tt>命令时，不要写入SD卡的分区中。即写入<tt class="docutils literal"><span class="pre">/dev/sdX</span></tt>、<tt class="docutils literal"><span class="pre">/dev/diskN</span></tt>，而非<tt class="docutils literal"><span class="pre">/dev/sdX1</span></tt>或<tt class="docutils literal"><span class="pre">/dev/diskNs1</span></tt>。</li>
+<li>Mac OS X，直接写入raw设备速度更快。即写入设备<tt class="docutils literal"><span class="pre">/dev/rdiskN</span></tt>。</li>
+</ol>
+<p>然后启动树莓派，用如下账号登录：</p>
+<blockquote>
+<div><ul class="simple">
+<li>用户名：pi</li>
+<li>口令：raspberry</li>
+</ul>
+</div></blockquote>
+<p>初次登录进入<tt class="docutils literal"><span class="pre">raspi-config</span></tt>配置界面。执行菜单项第一项“1 Expand Filesystem”以扩大根分区空间，否则只利用到SD卡的部分空间。</p>
+</div>
+<div class="section" id="id2">
+<h2>2.2. 设置显卡内存占用<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Raspberry Pi B型拥有512MB内存，以PoP工艺安装在ARM11（CPU）之上。内存的一部分还要划分给GPU（显卡）使用。建议如果有播放视频的需求，要为GPU划分64MB或更多。</p>
+<p>划分显卡内存也是使用<tt class="docutils literal"><span class="pre">raspi-config</span></tt>配置界面。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo raspi-config
+</pre></div>
+</div>
+<p>然后选择“Advanced Options”中的“Memory Split”，输入显卡占用内存大小，默认64MB。</p>
+</div>
+<div class="section" id="id3">
+<h2>2.3. 更新Raspbian<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>更改Raspbian的地址记录在APT源文件中。初始的源文件在文件<tt class="docutils literal"><span class="pre">/etc/apt/sources.list</span></tt>中：</p>
+<div class="highlight-python"><pre>deb http://mirrordirector.raspbian.org/raspbian/ wheezy main contrib non-free rpi</pre>
+</div>
+<p>将其更改为国内的镜像源，如下：</p>
+<div class="highlight-python"><pre>deb http://mirrors.sohu.com/raspbian/raspbian/ wheezy main contrib non-free rpi</pre>
+</div>
+<p>执行如下命令更新 Raspbian：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude udpate
+<span class="nv">$ </span>sudo aptitude upgrade
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>2.4. 更新树莓派固件<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>升级树莓派固件，使用命令：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo rpi-update
+</pre></div>
+</div>
+<p>如果没有找到该命令，则执行如下命令安装：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install rpi-update
+</pre></div>
+</div>
+<p>参见：<a class="reference external" href="https://github.com/Hexxeh/rpi-update">https://github.com/Hexxeh/rpi-update</a>。</p>
+</div>
+<div class="section" id="locale">
+<h2>2.5. 设置中文locale<a class="headerlink" href="#locale" title="Permalink to this headline">¶</a></h2>
+<p>在<tt class="docutils literal"><span class="pre">raspi-config</span></tt>应用的菜单中选择，或者执行下面命令添加中文locale。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo dpkg-reconfigure locales
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>2.6. 安装中文支持<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>安装<tt class="docutils literal"><span class="pre">zhcon</span></tt>，如下：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install zhcon
+<span class="nv">$ </span>zhcon --utf8 --drv<span class="o">=</span>vga
+</pre></div>
+</div>
+<p>然后就能在控制台下显示中文了。</p>
+<p>安装中文输入法：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install scim scim-tables-zh scim-pinyin
+</pre></div>
+</div>
+<p>安装中文字体：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install fonts-arphic-ukai fonts-arphic-uming <span class="se">\</span>
+  fonts-arphic-bkai00mp fonts-arphic-bsmi00lp fonts-arphic-gbsn00lp <span class="se">\</span>
+  fonts-arphic-gkai00mp ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>2.7. 控制台自动登录<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>编辑文件<tt class="docutils literal"><span class="pre">/etc/inittab</span></tt>，将下面一行：</p>
+<div class="highlight-python"><pre>1:2345:respawn:/sbin/getty --noclear 38400 tty1</pre>
+</div>
+<p>修改为：</p>
+<div class="highlight-python"><pre>1:2345:respawn:/sbin/getty -a &lt;YOUR_NAME&gt; --noclear 38400 tty1</pre>
+</div>
+</div>
+<div class="section" id="tmux">
+<h2>2.8. Tmux<a class="headerlink" href="#tmux" title="Permalink to this headline">¶</a></h2>
+<p>Tmux可以让控制台和远程登录共享session。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>sudo aptitude install tmux
+</pre></div>
+</div>
+<p>然后在<tt class="docutils literal"><span class="pre">~/.bashrc</span></tt>文件后追加如下内容：</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="k">if </span><span class="nb">test</span> -z <span class="s2">&quot;$TMUX&quot;</span>; <span class="k">then</span>
+<span class="k">    </span>tmux at <span class="o">||</span> tmux
+<span class="k">fi</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="hardware-settings.html" title="3. 硬件设置"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="about-raspi.html" title="1. 树莓派"
+             >previous</a> |</li>
+        <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="知识共享许可协议" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>
+      <br />
+      全部内容以 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons 署名-非商业性使用-相同方式共享 3.0 协议发布</a>.
+      <br />
+        &copy; Copyright 2013, 蒋鑫。
+      使用 <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b3 创建。
+
+    </div>
+  </body>
+</html>
