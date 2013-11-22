@@ -12,6 +12,7 @@ title: WorldHello
 
 使用 DocBook, FreeMind 等格式撰写。
 
+* [Raspberry Pi Memo](raspi-memo)
 * [敏捷Python开发实战 —— pySvnManager](agile_python)
 * [业务连续性的保证 —— BCP](bcp)
 * [缺陷追踪系统（Bug Tracking）HOWTO](bug_tracking)
