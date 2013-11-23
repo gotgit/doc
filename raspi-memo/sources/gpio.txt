@@ -1,8 +1,13 @@
 GPIO Hacking
 ============
 
-Shell向GPIO输出
-------------------
+GPIO输出
+-----------
+当GPIO端口设置为输出并置1，会向外输出3.3V电压。注意GPIO用于输出时内部电阻很小只有31欧姆（实测34欧姆），\
+所以在输出线路中要添加电阻，以使电流不超过16mA，否则损坏树莓派。
+
+Shell实现GPIO输出
++++++++++++++++++
 
 .. code-block:: sh
 
@@ -20,16 +25,12 @@ Shell向GPIO输出
       echo "0" > $pin_path/value
   }
 
-  test_pin_out 17
-  test_pin_out 18
-  test_pin_out 27
-  test_pin_out 22
-  test_pin_out 23
-  test_pin_out 24
-  test_pin_out 25
+  for pin in 17 18 27 22 23 24 25; do
+    test_pin_out $pin
+  done 
 
-Python向GPIO输出
--------------------
+Python实现GPIO输出
+++++++++++++++++++
 
 设置GPIO端口为OUTPUT模式，依次设置为True，输出高电平（3.3v）。Python代码：
 
@@ -60,8 +61,8 @@ Python向GPIO输出
       GPIO.output(pin, False)
       print("done")
 
-Ruby向GPIO输出
---------------------
+Ruby实现GPIO输出
+++++++++++++++++
 
 .. code-block:: python
 
@@ -76,4 +77,61 @@ Ruby向GPIO输出
     sleep 2
     gpio.off
     puts "done"
+  end
+
+GPIO输入
+-----------
+当GPIO端口处于输入模式时，测量电阻处于短路状态，所以可以无需在电路中添加电阻保护，直接将3.3V电压连接到对应GPIO端口上。\
+高电平（3V3）取值1，低电平（接地）取值0。
+
+Shell读取GPIO输入
++++++++++++++++++
+
+.. code-block:: sh
+
+  #!/bin/sh
+
+  test_pin_in() {
+      pin=$1
+      pin_path="/sys/class/gpio/gpio${pin}"
+      if [ ! -d $pin_path ]; then
+          echo "$pin" > /sys/class/gpio/export
+      fi
+      echo "in" > $pin_path/direction
+      echo "Value of GPIO #$pin is: $(cat $pin_path/value)."
+  }
+
+  for pin in 17 18 27 22 23 24 25; do
+    test_pin_in $pin
+  done 
+
+Python读取GPIO输入
+++++++++++++++++++
+
+设置GPIO端口为OUTPUT模式，依次设置为True，输出高电平（3.3v）。Python代码：
+
+.. code-block:: python
+
+  #!/usr/bin/env python
+
+  import RPi.GPIO as GPIO
+  import sys, time
+
+  GPIO.setmode(GPIO.BCM)
+  for pin in (17, 18, 27, 22, 23, 24, 25):
+      GPIO.setup(pin, GPIO.IN)
+      print("Value of GPIO #%s is: %s." % (pin,GPIO.input(pin)))
+
+Ruby读取GPIO输入
+++++++++++++++++
+
+.. code-block:: python
+
+  #!/usr/bin/env ruby
+
+  require 'pi_piper'
+
+  [17, 18, 27, 22, 23, 24, 25].each do |pin|
+    gpio = PiPiper::Pin.new(:pin => pin, :direction => :in)
+    puts "Value of GPIO ##{pin} is: #{gpio.value}."
   end
