@@ -18,6 +18,7 @@ Raspberry Pi memo
    hardware-settings
    multimedia
    games
+   nas
    programming
    gpio
 

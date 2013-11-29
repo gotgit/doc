@@ -210,10 +210,11 @@
 </div>
 <p>然后在<tt class="docutils literal"><span class="pre">~/.bashrc</span></tt>文件后追加如下内容：</p>
 <div class="highlight-sh"><div class="highlight"><pre><span class="k">if </span><span class="nb">test</span> -z <span class="s2">&quot;$TMUX&quot;</span>; <span class="k">then</span>
-<span class="k">    </span>tmux at <span class="o">||</span> tmux
+<span class="k">    </span>tmux attach -d <span class="o">||</span> tmux
 <span class="k">fi</span>
 </pre></div>
 </div>
+<p>说明：使用命令<tt class="docutils literal"><span class="pre">tmux</span> <span class="pre">at</span> <span class="pre">-d</span></tt>中的<tt class="docutils literal"><span class="pre">-d</span></tt>参数将其它关联的终端detach（脱离），目的是为了能够利用当前终端的全部窗口。</p>
 </div>
 </div>
 

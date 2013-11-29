@@ -143,5 +143,7 @@ Tmux可以让控制台和远程登录共享session。
 .. code-block:: sh
 
   if test -z "$TMUX"; then
-      tmux at || tmux
+      tmux attach -d || tmux
   fi
+
+说明：使用命令\ ``tmux at -d``\ 中的\ ``-d``\ 参数将其它关联的终端detach（脱离），目的是为了能够利用当前终端的全部窗口。

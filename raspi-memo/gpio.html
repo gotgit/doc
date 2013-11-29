@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7. GPIO Hacking &mdash; raspi 0.1 documentation</title>
+    <title>8. GPIO Hacking &mdash; raspi 0.1 documentation</title>
     
     <link rel="stylesheet" href="static/sphinxdoc.css" type="text/css" />
     <link rel="stylesheet" href="static/pygments.css" type="text/css" />
@@ -28,7 +28,7 @@
     <script type="text/javascript" src="static/underscore.js"></script>
     <script type="text/javascript" src="static/doctools.js"></script>
     <link rel="top" title="raspi 0.1 documentation" href="index.html" />
-    <link rel="prev" title="6. 编程" href="programming.html" /> 
+    <link rel="prev" title="7. 编程" href="programming.html" /> 
   </head>
   <body>
     <div id='header'>
@@ -53,7 +53,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="programming.html" title="6. 编程"
+          <a href="programming.html" title="7. 编程"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
       </ul>
@@ -62,17 +62,17 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">7. GPIO Hacking</a><ul>
-<li><a class="reference internal" href="#gpio">7.1. GPIO输出</a><ul>
-<li><a class="reference internal" href="#shellgpio">7.1.1. Shell实现GPIO输出</a></li>
-<li><a class="reference internal" href="#pythongpio">7.1.2. Python实现GPIO输出</a></li>
-<li><a class="reference internal" href="#rubygpio">7.1.3. Ruby实现GPIO输出</a></li>
+<li><a class="reference internal" href="#">8. GPIO Hacking</a><ul>
+<li><a class="reference internal" href="#gpio">8.1. GPIO输出</a><ul>
+<li><a class="reference internal" href="#shellgpio">8.1.1. Shell实现GPIO输出</a></li>
+<li><a class="reference internal" href="#pythongpio">8.1.2. Python实现GPIO输出</a></li>
+<li><a class="reference internal" href="#rubygpio">8.1.3. Ruby实现GPIO输出</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id1">7.2. GPIO输入</a><ul>
-<li><a class="reference internal" href="#id2">7.2.1. Shell读取GPIO输入</a></li>
-<li><a class="reference internal" href="#id3">7.2.2. Python读取GPIO输入</a></li>
-<li><a class="reference internal" href="#id4">7.2.3. Ruby读取GPIO输入</a></li>
+<li><a class="reference internal" href="#id1">8.2. GPIO输入</a><ul>
+<li><a class="reference internal" href="#id2">8.2.1. Shell读取GPIO输入</a></li>
+<li><a class="reference internal" href="#id3">8.2.2. Python读取GPIO输入</a></li>
+<li><a class="reference internal" href="#id4">8.2.3. Ruby读取GPIO输入</a></li>
 </ul>
 </li>
 </ul>
@@ -81,7 +81,7 @@
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="programming.html"
-                        title="previous chapter">6. 编程</a></p>
+                        title="previous chapter">7. 编程</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="sources/gpio.txt"
@@ -109,12 +109,12 @@
           <div class="body">
             
   <div class="section" id="gpio-hacking">
-<h1>7. GPIO Hacking<a class="headerlink" href="#gpio-hacking" title="Permalink to this headline">¶</a></h1>
+<h1>8. GPIO Hacking<a class="headerlink" href="#gpio-hacking" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="gpio">
-<h2>7.1. GPIO输出<a class="headerlink" href="#gpio" title="Permalink to this headline">¶</a></h2>
+<h2>8.1. GPIO输出<a class="headerlink" href="#gpio" title="Permalink to this headline">¶</a></h2>
 <p>当GPIO端口设置为输出并置1，会向外输出3.3V电压。注意GPIO用于输出时内部电阻很小只有31欧姆（实测34欧姆），所以在输出线路中要添加电阻，以使电流不超过16mA，否则损坏树莓派。</p>
 <div class="section" id="shellgpio">
-<h3>7.1.1. Shell实现GPIO输出<a class="headerlink" href="#shellgpio" title="Permalink to this headline">¶</a></h3>
+<h3>8.1.1. Shell实现GPIO输出<a class="headerlink" href="#shellgpio" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
 
 test_pin_out<span class="o">()</span> <span class="o">{</span>
@@ -136,7 +136,7 @@ test_pin_out<span class="o">()</span> <span class="o">{</span>
 </div>
 </div>
 <div class="section" id="pythongpio">
-<h3>7.1.2. Python实现GPIO输出<a class="headerlink" href="#pythongpio" title="Permalink to this headline">¶</a></h3>
+<h3>8.1.2. Python实现GPIO输出<a class="headerlink" href="#pythongpio" title="Permalink to this headline">¶</a></h3>
 <p>设置GPIO端口为OUTPUT模式，依次设置为True，输出高电平（3.3v）。Python代码：</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
 
@@ -166,7 +166,7 @@ test_pin_out<span class="o">()</span> <span class="o">{</span>
 </div>
 </div>
 <div class="section" id="rubygpio">
-<h3>7.1.3. Ruby实现GPIO输出<a class="headerlink" href="#rubygpio" title="Permalink to this headline">¶</a></h3>
+<h3>8.1.3. Ruby实现GPIO输出<a class="headerlink" href="#rubygpio" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/env ruby</span>
 
 <span class="n">require</span> <span class="s">&#39;pi_piper&#39;</span>
@@ -184,10 +184,10 @@ test_pin_out<span class="o">()</span> <span class="o">{</span>
 </div>
 </div>
 <div class="section" id="id1">
-<h2>7.2. GPIO输入<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>8.2. GPIO输入<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>当GPIO端口处于输入模式时，测量电阻处于短路状态，所以可以无需在电路中添加电阻保护，直接将3.3V电压连接到对应GPIO端口上。高电平（3V3）取值1，低电平（接地）取值0。</p>
 <div class="section" id="id2">
-<h3>7.2.1. Shell读取GPIO输入<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>8.2.1. Shell读取GPIO输入<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-sh"><div class="highlight"><pre><span class="c">#!/bin/sh</span>
 
 test_pin_in<span class="o">()</span> <span class="o">{</span>
@@ -207,7 +207,7 @@ test_pin_in<span class="o">()</span> <span class="o">{</span>
 </div>
 </div>
 <div class="section" id="id3">
-<h3>7.2.2. Python读取GPIO输入<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>8.2.2. Python读取GPIO输入<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>设置GPIO端口为OUTPUT模式，依次设置为True，输出高电平（3.3v）。Python代码：</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
 
@@ -222,7 +222,7 @@ test_pin_in<span class="o">()</span> <span class="o">{</span>
 </div>
 </div>
 <div class="section" id="id4">
-<h3>7.2.3. Ruby读取GPIO输入<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>8.2.3. Ruby读取GPIO输入<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre><span class="c">#!/usr/bin/env ruby</span>
 
 <span class="n">require</span> <span class="s">&#39;pi_piper&#39;</span>
@@ -250,7 +250,7 @@ test_pin_in<span class="o">()</span> <span class="o">{</span>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="programming.html" title="6. 编程"
+          <a href="programming.html" title="7. 编程"
              >previous</a> |</li>
         <li><a href="index.html">raspi 0.1 documentation</a> &raquo;</li> 
       </ul>
