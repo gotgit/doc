@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/stylesheets/syntax.css" type="text/css">
 <link rel="stylesheet" href="/docbook/includes/css/docbook.css" type="text/css">
 <meta name="generator" content="DocBook XSL Stylesheets V1.72.0">
-<meta name="description" content="本文当基于以前的一个文档《用Apache, Php, MySQL, Oracle 构建电子商务网》，希望对网站开发和维护人员有所帮助。 （编译自版本: cf8c05d，最后更新时间: 2007-06-19）">
+<meta name="description" content="本文当基于以前的一个文档《用Apache, Php, MySQL, Oracle 构建电子商务网》，希望对网站开发和维护人员有所帮助。 （编译自版本: cf4ee40，最后更新时间: 2015-08-29）">
 <link rel="start" href="#index" title="Website Construction Howto">
 <link rel="next" href="#dev-product" title="2. 开发平台和生产平台">
 </head>
@@ -60,7 +60,7 @@ eastmd portal configuration
 本文当基于以前的一个文档《用Apache, Php, MySQL, Oracle 构建电子商务网》，希望对网站开发和维护人员有所帮助。
 </p>
 <p>
-（编译自版本: cf8c05d，最后更新时间: 2007-06-19）
+（编译自版本: cf4ee40，最后更新时间: 2015-08-29）
 </p>
 </div></div>
 </div>
@@ -71,19 +71,19 @@ eastmd portal configuration
 <dl>
 <dt><span class="sect1"><a href="#cvs">1. CVS进行版本控制和网站更新流程</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4450000">1.1. CVS进行版本控制</a></span></dt>
-<dt><span class="sect2"><a href="#idp4454016">1.2. 网站更新流程</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479802976">1.1. CVS进行版本控制</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479798288">1.2. 网站更新流程</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#dev-product">2. 开发平台和生产平台</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4466320">2.1. APACHE 配置的差异</a></span></dt>
-<dt><span class="sect2"><a href="#idp4470480">2.2. PHP 配置的差异</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479785984">2.1. APACHE 配置的差异</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479781824">2.2. PHP 配置的差异</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#db-oop">3. 数据库设计和 PHP 中间件开发</a></span></dt>
 <dt><span class="sect1"><a href="#ssi">4. 使用SSI (Server Side Include)技术</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4484400">4.1. 配置Apache，支持SSI</a></span></dt>
-<dt><span class="sect2"><a href="#idp4485792">4.2. SSI语法</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479767904">4.1. 配置Apache，支持SSI</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479766512">4.2. SSI语法</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#webtest">5. 网页测试</a></span></dt>
 <dt><span class="appendix"><a href="#append-mysql">A. MySQL 安装和使用经验</a></span></dt>
@@ -92,9 +92,9 @@ eastmd portal configuration
 <dt><span class="sect1"><a href="#mysql-conf">A.2. 配置</a></span></dt>
 <dt><span class="sect1"><a href="#mysql-usage">A.3. 用法</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4516896">A.3.1. 常用语法</a></span></dt>
-<dt><span class="sect2"><a href="#idp4521056">A.3.2. SQL JOIN</a></span></dt>
-<dt><span class="sect2"><a href="#idp4524832">A.3.3. Others</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479735520">A.3.1. 常用语法</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479731360">A.3.2. SQL JOIN</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479727456">A.3.3. Others</a></span></dt>
 </dl></dd>
 <dt><span class="sect1"><a href="#mysql-security">A.4. Security</a></span></dt>
 </dl></dd>
@@ -105,9 +105,9 @@ eastmd portal configuration
 <dt><span class="sect1"><a href="#apache-win32">C.2. Windows平台上的安装</a></span></dt>
 <dt><span class="sect1"><a href="#apache-conf">C.3. 配置</a></span></dt>
 <dd><dl>
-<dt><span class="sect2"><a href="#idp4594592">C.3.1. HightlLight</a></span></dt>
-<dt><span class="sect2"><a href="#idp4599616">C.3.2. PHP 4.x Apache Directives Notes</a></span></dt>
-<dt><span class="sect2"><a href="#idp4603232">C.3.3. Virtual Host</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479660912">C.3.1. HightlLight</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479656160">C.3.2. PHP 4.x Apache Directives Notes</a></span></dt>
+<dt><span class="sect2"><a href="#idm347479652544">C.3.3. Virtual Host</a></span></dt>
 </dl></dd>
 </dl></dd>
 <dt><span class="appendix"><a href="#append-php">D. PHP开发规范和语法速查</a></span></dt>
@@ -127,15 +127,20 @@ eastmd portal configuration
 <a name="cvs"></a>1. CVS进行版本控制和网站更新流程</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4450000"></a>1.1. CVS进行版本控制</h3></div></div></div>
+<a name="idm347479802976"></a>1.1. CVS进行版本控制</h3></div></div></div>
 <div class="warning" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Warning">
 <tr>
 <td rowspan="2" align="center" valign="top" width="25"><img alt="[警告]" src="/docbook/includes/images/docbook/warning.png"></td>
 <th align="left"></th>
 </tr>
-<tr><td align="left" valign="top"><p>
+<tr><td align="left" valign="top">
+<p>
+CVS 已经过时，Git 是版本控制的最佳选择。（I wrote a book on Git at 2011, and becomes a Git contributor since then.）
+</p>
+<p>
 没有版本控制的软件开发，永远只能是作坊式的开发。成本高，风险大。
-</p></td></tr>
+</p>
+</td></tr>
 </table></div>
 <p>
 在网站开发和更新流程中，完全可以利用 CVS，来进行版本控制和版本提升。
@@ -149,7 +154,7 @@ eastmd portal configuration
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4454016"></a>1.2. 网站更新流程</h3></div></div></div>
+<a name="idm347479798288"></a>1.2. 网站更新流程</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -214,7 +219,7 @@ CVS可以利用文件来实现里程碑的概念。在工程的根目录下存�
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4466320"></a>2.1. APACHE 配置的差异</h3></div></div></div>
+<a name="idm347479785984"></a>2.1. APACHE 配置的差异</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -243,7 +248,7 @@ CVS可以利用文件来实现里程碑的概念。在工程的根目录下存�
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4470480"></a>2.2. PHP 配置的差异</h3></div></div></div>
+<a name="idm347479781824"></a>2.2. PHP 配置的差异</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -337,7 +342,7 @@ without having to serve the entire page via a CGI program, or other dynamic tech
 </p>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4484400"></a>4.1. 配置Apache，支持SSI</h3></div></div></div>
+<a name="idm347479767904"></a>4.1. 配置Apache，支持SSI</h3></div></div></div>
 <pre class="screen">
 # This tells Apache that you want to permit files to be parsed for SSI directives.
 Options +Includes -IncludesNOEXEC
@@ -349,7 +354,7 @@ AddHandler server-parsed .shtml
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4485792"></a>4.2. SSI语法</h3></div></div></div>
+<a name="idm347479766512"></a>4.2. SSI语法</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -543,7 +548,7 @@ Location: <code class="filename">/etc/my.cnf</code>, <code class="filename">DATA
 <a name="mysql-usage"></a>A.3. 用法</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4516896"></a>A.3.1. 常用语法</h3></div></div></div>
+<a name="idm347479735520"></a>A.3.1. 常用语法</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -729,23 +734,21 @@ OR     mysqldump [OPTIONS] --all-databases [OPTIONS]
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4521056"></a>A.3.2. SQL JOIN</h3></div></div></div>
-<div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note">
-<tr>
-<td rowspan="2" align="center" valign="top" width="25"><img alt="[注意]" src="/docbook/includes/images/docbook/note.png"></td>
-<th align="left"></th>
-</tr>
-<tr><td align="left" valign="top"><p>
-参见：<a href="http://www.webreview.com/dd/2000/02_25_00_2.shtml" target="_top">How to Join Multiple SQL Tables - Part 2: Types of Joins</a>, <a href="http://www.w3schools.com/sql/sql_join.asp" target="_top">SQL JOIN...</a>, <a href="http://www.peyo-home.sk/index.html?sql_tutorial/multiple_tables.htm~main" target="_top">Free SQL Tutorial</a>, <a href="http://www.cecs.csulb.edu/~jewett/dbdesign/dbprint.php?page=jointypes.php&amp;imgsize=medium" target="_top">SQL queries: join types</a>.
-</p></td></tr>
-</table></div>
-<p>
-Cartesian join, Inner join, Outer join(Left join, Right join), Self join.
+<a name="idm347479731360"></a>A.3.2. SQL JOIN</h3></div></div></div>
+<p>参考链接
 </p>
+<div class="itemizedlist"><ul type="disc">
+<li><p>
+<a href="https://blog.udemy.com/beginners-guide-to-sql/" target="_top">A Beginner’s Guide to SQL</a>
+</p></li>
+<li><p>
+<a href="http://www.w3schools.com/sql/sql_join.asp" target="_top">W3SCHOOLS: SQL JOIN</a>
+</p></li>
+</ul></div>
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4524832"></a>A.3.3. Others</h3></div></div></div>
+<a name="idm347479727456"></a>A.3.3. Others</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
@@ -1500,7 +1503,7 @@ Modify httpd.conf of Apache Server
 <a name="apache-conf"></a>C.3. 配置</h2></div></div></div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4594592"></a>C.3.1. HightlLight</h3></div></div></div>
+<a name="idm347479660912"></a>C.3.1. HightlLight</h3></div></div></div>
 <pre class="screen">
 # 增加对其他扩展名的支持
 	# php module support
@@ -1553,7 +1556,7 @@ Modify httpd.conf of Apache Server
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4599616"></a>C.3.2. PHP 4.x Apache Directives Notes</h3></div></div></div>
+<a name="idm347479656160"></a>C.3.2. PHP 4.x Apache Directives Notes</h3></div></div></div>
 <p>
 When using PHP as an Apache module, not cgi and cli version, you can also
 change the configuration settings using directives in Apache configuration 
@@ -1658,7 +1661,7 @@ php_admin_value include_path /home/htdocs/include
 </div>
 <div class="sect2" lang="zh-cn">
 <div class="titlepage"><div><div><h3 class="title">
-<a name="idp4603232"></a>C.3.3. Virtual Host</h3></div></div></div>
+<a name="idm347479652544"></a>C.3.3. Virtual Host</h3></div></div></div>
 <div class="itemizedlist"><ul type="disc">
 <li>
 <p>
